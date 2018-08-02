@@ -288,7 +288,7 @@ Recapping, our goal in training a neural network is to find weights and biases w
 
 Okay, let's suppose we're trying to minimize some function, $C(v)$. This could be any real-valued function of many variables, $v=v1,v2,\ldots$. Note that I've replaced the $w$ and $b$ notation by $v$ to emphasize that this could be any function --- we're not specifically thinking in the neural networks context any more. To minimize $C(v)$ it helps to imagine $C$ as a function of just two variables, which we'll call $v_1$ and $v_2$:
 \begin{center}
-	\includegraphics[width=0.65\linewidth]{./figures/ch1/valley}
+	\includegraphics[width=0.5\linewidth]{./figures/ch1/valley}
 \end{center}
 
 What we'd like is to find where $C$ achieves its global minimum. Now, of course, for the function plotted above, we can eyeball the graph and find the minimum. In that sense, I've perhaps shown slightly too simple a function! A general function, $C$, may be a complicated function of many variables, and it won't usually be possible to just eyeball the graph to find the minimum.
@@ -334,7 +334,7 @@ Then we'll use this update rule again, to make another move. If we keep doing th
 
 Summing up, the way the gradient descent algorithm works is to repeatedly compute the gradient $\nabla C$, and then to move in the opposite direction, ``falling down'' the slope of the valley. We can visualize it like this:
 \begin{center}
-	\includegraphics[width=0.8\linewidth]{./figures/ch1/valley_with_ball}
+	\includegraphics[width=0.65\linewidth]{./figures/ch1/valley_with_ball}
 \end{center}
 
 Notice that with this rule gradient descent doesn't reproduce real physical motion. In real life a ball has momentum, and that momentum may allow it to roll across the slope, or even (momentarily) roll uphill. It's only after the effects of friction set in that the ball is guaranteed to roll down into the valley. By contrast, our rule for choosing $\Delta v$ just says ``go down, right now''. That's still a pretty good rule for finding the minimum!
@@ -420,7 +420,7 @@ Let me conclude this section by discussing a point that sometimes bugs people ne
 \section{Implementing our network to classify digits}
 Alright, let's write a program that learns how to recognize handwritten digits, using stochastic gradient descent and the MNIST training data. We'll do this with a short Python (2.7) program, just 74 lines of code! The first thing we need is to get the MNIST data. If you're a git user then you can obtain the data by cloning the code repository for this book,
 
-\begin{lstlisting}
+\begin{lstlisting}
 git clone https://github.com/mnielsen/neural-networks-and-deep-learning.git
 \end{lstlisting}
 If you don't use git then you can download the data and code [link]here.
