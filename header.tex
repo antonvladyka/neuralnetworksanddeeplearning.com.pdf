@@ -1,0 +1,284 @@
+% PAGE DIMENSIONS
+% FOR A5 without scaling
+%\usepackage[inner=18mm, outer=10mm,top=20mm,headsep=10mm,bottom=10mm,paperwidth=148mm,paperheight=210mm]{geometry}
+% FOR 17x24cm
+\usepackage[inner=30mm, outer=20mm,top=24mm,headsep=10mm,bottom=20mm,paperwidth=170mm,paperheight=240mm]{geometry}
+% FOR A4
+%\usepackage[inner=50mm, outer=40mm,top=60mm,headsep=10mm,bottom=57mm,paperwidth=210mm,paperheight=297mm]{geometry}
+%\usepackage[inner=8.5mm, outer=12.5mm,top=10mm,headsep=5mm,bottom=10mm,paperwidth=141mm,paperheight=200mm]{geometry}
+%\usepackage[inner=30mm, outer=23mm,top=29mm,headsep=10mm,bottom=23mm,paperwidth=210mm,paperheight=297mm]{geometry}
+% FOR A5
+%\usepackage[inner=25mm, outer=17mm,top=8mm,headsep=8mm,bottom=17mm,paperwidth=148mm,paperheight=210mm,includehead]{geometry}
+% TABLES: full-width using X{10cm} column
+\usepackage{tabularx}
+% DRAWINGS (for chapter title)
+\usepackage{tikz}
+% TYPOGRAPHY: 
+\usepackage[protrusion=true,final,factor=1500]{microtype}
+
+% SOME extra math symbols
+\usepackage{amssymb}
+
+% TEXT on top of pictures
+% ABS or REL positioning
+% REL is better for scaled figures
+\usepackage[rel]{overpic}
+% CHEMICAL formulae like \ce{SiO2} and \ce{(NH4)2S2O8}
+\usepackage[version=4]{mhchem}
+
+
+
+% CAPTIONS of figures/table styling
+\usepackage[font={stretch=1.1,small},labelfont=bf]{caption} % order matters: stretch, then size
+%\usepackage[font={small,sf},labelfont=bf]{caption} % small sans-serif + bold
+
+% FONT  SIZES
+\usepackage{fix-cm} % FOR ANY font sizes, not predefined
+\renewcommand\footnotesize{\fontsize{7pt}{7pt}\selectfont}
+\renewcommand\small{\fontsize{6pt}{6pt}\selectfont}
+\renewcommand\normalsize{\fontsize{9pt}{9pt}\selectfont}
+\renewcommand\large{\fontsize{10pt}{10pt}\selectfont}
+\renewcommand\Large{\fontsize{11pt}{11pt}\selectfont}
+\renewcommand\Huge{\fontsize{24pt}{24pt}\selectfont}
+
+%\renewcommand\small{\fontsize{10pt}{10pt}\selectfont}
+%\renewcommand\normalsize{\fontsize{12pt}{12pt}\selectfont}
+%\renewcommand\large{\fontsize{14pt}{14pt}\selectfont}
+%\renewcommand\Large{\fontsize{16pt}{16pt}\selectfont}
+%\renewcommand\Huge{\fontsize{36pt}{36pt}\selectfont}
+
+% LINE spacing
+\renewcommand{\baselinestretch}{1.25}
+
+% FONTS for LaTeX/XeLaTeX
+\usepackage{ifxetex}
+\ifxetex
+			\usepackage{mathspec}
+			\usepackage{polyglossia}
+			\setdefaultlanguage[variant=uk]{english}
+			\defaultfontfeatures{Ligatures=TeX} % To support LaTeX quoting style
+			\setmainfont{Minion Pro} 
+			\setsansfont{Myriad Pro}
+			\setmathsfont(Digits,Greek,Latin)[Numbers={Proportional}]{Minion Pro}
+			\setmathrm{Minion Pro}
+			\usepackage[italic]{mathastext}
+			%\setmainfont[BoldFont={SwiftNeueLTW01-Bold},ItalicFont={SwiftNeueLTW01-Italic}]{SwiftNeueLTW01} 
+			%\setsansfont{UniversLTW01-55Roman}
+\else
+			%\usepackage[T1]{fontenc}
+			%\usepackage[utf8]{inputenc}
+			\usepackage[english]{babel}
+			%\usepackage{fouriernc} % UTOPIA + FOURIER
+			%\usepackage{mathpple} % palatino
+			%\usepackage[sc]{mathpazo}
+			\usepackage[charter]{mathdesign} %utopia, garamond
+			\usepackage[scaled]{helvet}
+			%\usepackage[light]{roboto}
+			%\renewcommand{\sfdefault}{ua1}
+\fi
+
+
+% HEADER/FOOTER
+\usepackage{fancyhdr}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyhf{}
+% REGULAR pages
+\fancyhead[RO]{
+	\makebox[2cm][l]{
+		\makebox[4cm][c]{\normalsize
+			\hskip0.25em\phantom{\thepage}\nouppercase\rightmark~~$\left|\vphantom{\int_a^b}\right.$~~\thepage\phantom{\nouppercase\rightmark}
+		}
+	}
+}
+\fancyhead[LE]{
+	\makebox[2cm][r]{
+		\makebox[4cm][c]{\normalsize
+			\hskip0.45em\phantom{\nouppercase\leftmark}\thepage~~$\left|\vphantom{\int_a^b}\right.$~~\nouppercase\leftmark\phantom{\thepage}
+		}
+	}
+}
+
+% MARGIN labels, except chapter=0 (intro; conclusion; bibliography etc.)
+% AND \setcouter{chapter}{0} has to be set explicitely in required chapters
+\fancyfoot[RO]{
+	\ifnum\value{chapter}>0
+	\begin{tikzpicture}[remember picture, overlay]
+	\node[rounded corners=2mm,inner sep=3mm,anchor=north east,black,fill=black!15,draw=black!75] at ([xshift=2mm,yshift=-\arabic{chapter}*1.3cm-1.1cm]current page.north east) {\fontsize{1cm}{1cm}\selectfont\thechapter};
+	\end{tikzpicture}
+	\fi
+}
+\fancyfoot[LE]{
+	\ifnum\value{chapter}>0
+	\begin{tikzpicture}[remember picture, overlay]
+	\node[rounded corners=2mm,inner sep=3mm,anchor=north west,black,fill=black!15,draw=black!75] at ([xshift=-2mm,yshift=-\arabic{chapter}*1.3cm-1.1cm]current page.north west) {\fontsize{1cm}{1cm}\selectfont\thechapter};
+	\end{tikzpicture}
+	\fi
+}
+
+
+
+\pagestyle{fancy}
+% HEADER contents - chapter name and section name
+%\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\, #1}{}}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\, #1}}
+
+
+% FLOATING objects
+\usepackage{float}
+% PICTURES
+\usepackage{graphicx}
+% NOT USED
+\usepackage{setspace}
+
+% SPACINGS in lists
+\usepackage{enumitem}
+% VERICAL: topsep partopsep parsep itemsep
+% HORIZONTAL: leftmargin rightmargin listparindent labelwidth labelsep itemindent
+% GLOBAL: \setlist[enumerate]{labelsep=*, leftmargin=1.5pc}
+\setlist{noitemsep}
+%\setlist{nosep}
+
+
+
+
+%% BIBLATEX
+%% BIBliography: if authors <= MAXBIBNAMES - show all, ELSE: show only MINBIBNAMES et al.
+%% TEXTCITE: if authors <= MAXCITENAMES - show all, ELSE: show only MINCITENAMES et al.
+%% SORTCITES = sort numbers in ascending order
+%% IGNORE/NOT IGNORE URL, DOI, EPRINT fields
+%% BIBstyle = ieee (available)/ nature / science etc. (requires *.bbx file)
+%% NICE: ieee+doi=true and phys+doi=false
+%\usepackage[maxbibnames=3,minbibnames=1,backend=bibtex,maxcitenames=2,mincitenames=1,bibstyle=ieee,citestyle=numeric-comp,sorting=none,sortcites,url=false,doi=true,eprint=false]{biblatex}
+%% REDUCE font size for bibliography (=useless waste of space)
+%%\renewcommand*{\bibfont}{\footnotesize} %too small
+%\renewcommand*{\bibfont}{\small}
+%% SUPPRESS 'in' nefore journal name
+%\renewbibmacro{in:}{}
+%% LIST of bib files
+%\addbibresource{library.bib}
+%% STYLE of URL/DOI: Serif font instead of monospaced (mono looks ugly)
+%\urlstyle{rm}
+%
+%% REdefine fullcite for personal publications list
+%\DeclareCiteCommand{\fullcite}
+%{\usebibmacro{prenote}}
+%{\usedriver
+%	{\defcounter{minnames}{6}%
+%		\defcounter{maxnames}{9}}
+%	{\thefield{entrytype}}.}
+%{\multicitedelim}
+%{\usebibmacro{postnote}}
+%
+%% FOOTnote on the chapter first page without footnotemark
+%% RESULTS of this chapter were published as a paper
+%\makeatletter
+%    \def\blfootnote{\gdef\@thefnmark{}\@footnotetext}
+%\makeatother
+
+
+% TABLES: nicer rulers
+% AND nicer spacing between lines in tables
+\usepackage{booktabs}
+\renewcommand{\arraystretch}{1.2}
+
+
+% TITLES styling
+\usepackage[toctitles,explicit,raggedright]{titlesec}
+\newcommand*\chapterlabel{}
+% CHAPTER in frontmatter|backmatter
+\titleformat{name=\chapter,numberless}[display]
+	{\normalfont\rmfamily\Huge\bfseries}{}{1ex}
+	{\flushright{\chapterlabel#1}}
+% CHAPTER in mainmatter
+\titleformat{\chapter}
+{\gdef\chapterlabel{}\normalfont\rmfamily\Huge\bfseries}
+{\gdef\chapterlabel{}}{-10em}
+{
+	\flushright{
+		\begin{tikzpicture}
+			%\draw[help lines,step=5mm] (0,-3) grid (-\linewidth,3);
+			\node[black!50,anchor=east,inner sep=0mm] (a) at (0,0) {\fontsize{7cm}{8cm}\selectfont\thechapter};
+			\begin{scope}[cm={1,0,-0.6,0.15,(0,0)}].
+					\node[transform shape,black!30,anchor=south,inner sep=0mm] at (a.south) {\fontsize{7cm}{8cm}\selectfont{}\thechapter};
+					%\node[transform shape,black!30,anchor=south east,inner sep=0mm] at (a.south) {\fontsize{3cm}{8cm}\selectfont{}\chaptername};
+			\end{scope}
+			\node[black!50,anchor=east,inner sep=0mm] (a) at (0,0) {\fontsize{7cm}{8cm}\selectfont\thechapter};
+			\node[black!35,anchor=east,inner sep=0.20mm,scale=0.98] at (0,0) {\fontsize{7cm}{8cm}\selectfont\thechapter};
+			\node[black!20,anchor=east,inner sep=0.40mm,scale=0.96] at (0,0) {\fontsize{7cm}{8cm}\selectfont\thechapter};
+			%\node[black!20,scale=0.97] at (a) {\fontsize{6cm}{8cm}\selectfont\thechapter};
+			%\node[anchor=east,black!45] at (0,-1) {\resizebox{\linewidth}{!}{\chaptername}};
+			%\node[anchor=north east,inner sep=0mm] at (a.north east) {\parbox{\linewidth}{\raggedleft\chapterlabel#1}};
+			\node[anchor=east,inner sep=0mm] at (0,0) {\parbox{\linewidth}{\raggedleft\chapterlabel#1}};
+		\end{tikzpicture}
+		%\chapterlabel#1
+	}
+}
+% SPACING: chapter by default uses \@makechapterhead with extra spacing before and after the chapter title
+\titlespacing*{\chapter}{0pt}{-25pt}{30pt}
+
+%\titleformat{\section}[block]{\Large}{\bfseries\thesection.\,\,#1}{1em}{}
+%\titleformat{\subsection}[block]{\large}{\bfseries\thesubsection.\,\,#1}{1em}{}
+%\titleformat{\subsection}{\no}{\itshape\thesubsection.\,#1}{1em}{}
+
+
+% GREEK letters in section/chapter titles AND in PDF bookmarks
+%\usepackage[artemisia]{textgreek}
+
+
+% PART page picture
+% DEFINE \partimage before the beginning of the part
+\makeatletter
+\newcommand{\partimage}[2][]{\gdef\@partimage{\includegraphics[#1]{#2}}}
+% REDEFINED amsbook part code to include the \@partimage insertion command - copypaste from SeX
+\def\@part[#1]#2{%
+	\ifnum \c@secnumdepth >-2\relax \refstepcounter{part}%
+	\addcontentsline{toc}{part}{\partname\ \thepart.
+		\protect\enspace\protect\noindent#1}%
+	\else
+	\addcontentsline{toc}{part}{#1}\fi
+	\begingroup\centering
+	\ifnum \c@secnumdepth >-2\relax
+	{\fontsize{\@xviipt}{22}\bfseries
+		\partname\ \thepart} \vskip 20\p@ \fi
+	\fontsize{\@xxpt}{25}\bfseries
+	#1\vfil\@partimage\vfil\endgroup \newpage\thispagestyle{empty}}
+\makeatother
+
+
+\usepackage{listings}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\usepackage{newtxtt}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+
+\lstset{ 
+	backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+	basicstyle=\small\ttfamily,        % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=b,                    % sets the caption-position to bottom
+	commentstyle=\color{mygreen},    % comment style
+	deletekeywords={...},            % if you want to delete keywords from the given language
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	frame=single,	                   % adds a frame around the code
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\color{blue},       % keyword style
+	language=Python,                 % the language of the code
+	morekeywords={*,...},            % if you want to add more keywords to the set
+	numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+	rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+	stringstyle=\color{mymauve},     % string literal style
+	tabsize=2,	                   % sets default tabsize to 2 spaces
+	title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
