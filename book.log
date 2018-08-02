@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6400 64-bit) (preloaded format=pdflatex 2017.8.8)  2 AUG 2018 22:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6400 64-bit) (preloaded format=pdflatex 2017.8.8)  3 AUG 2018 00:01
 entering extended mode
 **./book.tex
 (book.tex
@@ -2261,20 +2261,34 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[41 <./figures/ch2/tikz19.png>])
+[41 <./figures/ch2/tikz19.png>]
+Missing character: There is no â in font mdbchr7t!
+Missing character: There is no ˆ in font mdbchr7t!
+Missing character: There is no ’ in font mdbchr7t!
+Missing character: There is no â in font mdbchr7t!
+Missing character: There is no ˆ in font mdbchr7t!
+Missing character: There is no ’ in font mdbchr7t!
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 16.89995pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[42] (book.aux) ) 
+[42])
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 16.89995pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[43] (book.aux) ) 
 Here is how much of TeX's memory you used:
- 40828 strings out of 493318
- 925813 string characters out of 3138999
- 1519291 words of memory out of 3000000
- 43292 multiletter control sequences out of 15000+200000
- 636159 words of font info for 432 fonts, out of 3000000 for 9000
+ 40837 strings out of 493318
+ 925920 string characters out of 3138999
+ 1519288 words of memory out of 3000000
+ 43297 multiletter control sequences out of 15000+200000
+ 636386 words of font info for 435 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  71i,20n,103p,10363b,2359s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Anton\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jkna
@@ -2289,9 +2303,9 @@ am Files/MiKTeX 2.9/fonts/type1/mathdesign/mdbch/md-chr7m.pfb><C:/Program Files
 s/type1/mathdesign/mdbch/md-chr7y.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/
 mathdesign/mdbch/md-chr8t.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/mathdesi
 gn/mdbch/md-chri7m.pfb>
-Output written on book.pdf (48 pages, 868435 bytes).
+Output written on book.pdf (49 pages, 872249 bytes).
 PDF statistics:
- 381 PDF objects out of 1000 (max. 8388607)
+ 385 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  38071 words of extra memory for PDF output out of 42996 (max. 10000000)
 
