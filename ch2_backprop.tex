@@ -103,7 +103,7 @@ As per our usual conventions, we use $\delta{}l$ to denote the vector of errors 
 
 You might wonder why the demon is changing the weighted input $z^l_j$. Surely it'd be more natural to imagine the demon changing the output activation alj, with the result that we'd be using $\partial{}C\partial{}a^l_j$ as our measure of error. In fact, if you do this things work out quite similarly to the discussion below. But it turns out to make the presentation of backpropagation a little more algebraically complicated. So we'll stick with $\delta^l_j=\partial{}C\partial{}z^l_j$ as our measure of error\footnote{In classification problems like MNIST the term ``error'' is sometimes used to mean the classification failure rate. E.g., if the neural net correctly classifies 96.0 percent of the digits, then the error is 4.0 percent. Obviously, this has quite a different meaning from our $\delta$ vectors. In practice, you shouldn't have trouble telling which meaning is intended in any given usage.}.
 
-Plan of attack: Backpropagation is based around four fundamental equations. Together, those equations give us a way of computing both the error $\delta{}l$ and the gradient of the cost function. I state the four equations below. Be warned, though: you shouldn't expect to instantaneously assimilate the equations. Such an expectation will lead to disappointment. In fact, the backpropagation equations are so rich that understanding them well requires considerable time and patience as you gradually delve deeper into the equations. The good news is that such patience is repaid many times over. And so the discussion in this section is merely a beginning, helping you on the way to a thorough understanding of the equations.
+\textbf{Plan of attack}: Backpropagation is based around four fundamental equations. Together, those equations give us a way of computing both the error $\delta{}l$ and the gradient of the cost function. I state the four equations below. Be warned, though: you shouldn't expect to instantaneously assimilate the equations. Such an expectation will lead to disappointment. In fact, the backpropagation equations are so rich that understanding them well requires considerable time and patience as you gradually delve deeper into the equations. The good news is that such patience is repaid many times over. And so the discussion in this section is merely a beginning, helping you on the way to a thorough understanding of the equations.
 
 Here's a preview of the ways we'll delve more deeply into the equations later in the chapter: I'll give a short proof of the equations, which helps explain why they are true; we'll restate the equations in algorithmic form as pseudocode, and see how the pseudocode can be implemented as real, running Python code; and, in the final section of the chapter, we'll develop an intuitive picture of what the backpropagation equations mean, and how someone might discover them from scratch. Along the way we'll return repeatedly to the four fundamental equations, and as you deepen your understanding those equations will come to seem comfortable and, perhaps, even beautiful and natural.
 
@@ -118,7 +118,7 @@ This is a very natural expression. The first term on the right, $\partial{}C/\pa
 Notice that everything in Eq.~\ref{eq:BP1} is easily computed. In particular, we compute $z^L_j$ while computing the behaviour of the network, and it's only a small additional overhead to compute $\sigma'(z^L_j)$. The exact form of $\partial{}C/\partial{}a^L_j$ will, of course, depend on the form of the cost function. However, provided the cost function is known there should be little trouble computing $\partial{}C/\partial{}a^L_j$. For example, if we're using the quadratic cost function then $C=\frac12\sum_j(y_j-a^L_j)^2$, and so $\partial{}C/\partial{}a^L_j=(a^L_j-y_j)$, which obviously is easily computable.
 
 Equation \ref{eq:BP1} is a componentwise expression for $\delta^L$. It's a perfectly good expression, but not the matrix-based form we want for backpropagation. However, it's easy to rewrite the equation in a matrix-based form, as
-%δL=∇aC⊙$\sigma$′(zL).(BP1a)
+%$\delta^l$=∇aC⊙$\sigma$′(zL).(BP1a)
 \begin{equation}
 \delta^L = \nabla_a C \odot \sigma'(z^L).
 \tag{BP1a}
@@ -131,74 +131,125 @@ Here, $\nabla_a C$ is defined to be a vector whose components are the partial de
 \label{eq:30}
 \end{equation}
 As you can see, everything in this expression has a nice vector form, and is easily computed using a library such as Numpy.
-%
-%An equation for the error δl in terms of the error in the next layer, δl+1: In particular
-%δl=((wl+1)Tδl+1)⊙$\sigma$′(zl),(BP2)
-%where (wl+1)T is the transpose of the weight matrix wl+1 for the (l+1)th layer. This equation appears complicated, but each element has a nice interpretation. Suppose we know the error δl+1 at the l+1th layer. When we apply the transpose weight matrix, (wl+1)T, we can think intuitively of this as moving the error backward through the network, giving us some sort of measure of the error at the output of the lth layer. We then take the Hadamard product ⊙$\sigma$′(zl). This moves the error backward through the activation function in layer l, giving us the error δl in the weighted input to layer l.
-%
-%By combining (BP2) with (BP1) we can compute the error δl for any layer in the network. We start by using (BP1) to compute δL, then apply Equation (BP2) to compute δL-1, then Equation (BP2) again to compute δL-2, and so on, all the way back through the network.
-%
-%An equation for the rate of change of the cost with respect to any bias in the network: In particular:
-%\partial{}C\partial{}b^l_j=\delta^l_j.(BP3)
-%That is, the error \delta^l_j is exactly equal to the rate of change \partial{}C/\partial{}b^l_j. This is great news, since (BP1) and (BP2) have already told us how to compute \delta^l_j. We can rewrite (BP3) in shorthand as
-%\partial{}C\partial{}b=δ,(31)
-%where it is understood that δ is being evaluated at the same neuron as the bias b.
-%
-%An equation for the rate of change of the cost with respect to any weight in the network: In particular:
-%\partial{}C\partial{}w^l_{jk}=al-1k\delta^l_j.(BP4)
-%This tells us how to compute the partial derivatives \partial{}C/\partial{}w^l_{jk} in terms of the quantities δl and al-1, which we already know how to compute. The equation can be rewritten in a less index-heavy notation as
+
+\textbf{An equation for the error $\delta^l$ in terms of the error in the next layer}, $\delta^{l+1}$: In particular
+\begin{equation}
+	\delta^l = ((w^{l+1})^T \delta^{l+1}) \odot \sigma'(z^l),
+	\tag{BP2}
+	\label{eq:BP2}
+\end{equation}
+%$\delta^l$=(($w^{l+1}$)T$\delta^{l+1}$)⊙$\sigma$′(zl),(\ref{eq:BP2})
+where $(w^{l+1})^T$ is the transpose of the weight matrix $w^{l+1}$ for the ($l$+1)-th layer. This equation appears complicated, but each element has a nice interpretation. Suppose we know the error $\delta^{l+1}$ at the ($l$+1)-th layer. When we apply the transpose weight matrix, $(w^{l+1})^T$, we can think intuitively of this as moving the error \textit{backward} through the network, giving us some sort of measure of the error at the output of the $l$-th layer. We then take the Hadamard product $\odot \sigma'(z^l)$. This moves the error backward through the activation function in layer $l$, giving us the error $\delta^l$ in the weighted input to layer $l$.
+
+By combining (\ref{eq:BP2}) with (\ref{eq:BP1}) we can compute the error $\delta^l$ for any layer in the network. We start by using (\ref{eq:BP1}) to compute $\delta^L$, then apply Equation (\ref{eq:BP2}) to compute $\delta^{L-1}$, then Equation (\ref{eq:BP2}) again to compute $\delta^{L-2}$, and so on, all the way back through the network.
+
+\textbf{An equation for the rate of change of the cost with respect to any bias in the network:} In particular:
+%\partial{}C\partial{}b^l_j=\delta^l_j.(\ref{eq:BP3})
+\begin{equation}
+\frac{\partial C}{\partial b^l_j} = \delta^l_j.
+\tag{BP3}
+\label{eq:BP3}
+\end{equation}
+That is, the error $\delta^l_j$ is $exactly equal$ to the rate of change $\partial{}C/\partial{}b^l_j$. This is great news, since (\ref{eq:BP1}) and (\ref{eq:BP2}) have already told us how to compute $\delta^l_j$. We can rewrite (\ref{eq:BP3}) in shorthand as
+\begin{equation}
+\frac{\partial C}{\partial b} = \delta,\label{eq:31}
+\end{equation}
+where it is understood that $\delta$ is being evaluated at the same neuron as the bias $b$.
+
+\textbf{An equation for the rate of change of the cost with respect to any weight in the network:} In particular:
+%\partial{}C\partial{}w^l_{jk}=al-1k\delta^l_j.(\ref{eq:BP4})
+\begin{equation}
+\frac{\partial C}{\partial w^l_{jk}} = a^{l-1}_k \delta^l_j.
+\tag{BP4}
+\label{eq:BP4}
+\end{equation}
+This tells us how to compute the partial derivatives $\partial{}C/\partial{}w^l_{jk}$ in terms of the quantities $\delta^l$ and $a^{l-1}$, which we already know how to compute. The equation can be rewritten in a less index-heavy notation as
 %\partial{}C\partial{}w=ainδout,(32)
-%where it's understood that ain is the activation of the neuron input to the weight w, and δout is the error of the neuron output from the weight w. Zooming in to look at just the weight w, and the two neurons connected by that weight, we can depict this as:
+\begin{equation}
+frac{\partial C}{\partial w} = a_{\rm in} \delta_{\rm out},
+\label{eq:32}
+\end{equation}
+where it's understood that $a_\mathrm{in}$ is the activation of the neuron input to the weight $w$, and $\delta_\mathrm{out}$ is the error of the neuron output from the weight $w$. Zooming in to look at just the weight $w$, and the two neurons connected by that weight, we can depict this as:
+
+\begin{center}
+	\includegraphics[]{./figures/ch2/tikz20}
+\end{center}
+A nice consequence of Equation~\ref{eq:32} is that when the activation $a_\mathrm{in}$ is small, $a_\mathrm{in}\approx0$, the gradient term $\partial{}C/\partial{}w $will also tend to be small. In this case, we'll say the weight \textit{learns slowly}, meaning that it's not changing much during gradient descent. In other words, one consequence of (\ref{eq:BP4}) is that weights output from low-activation neurons learn slowly.
+
+There are other insights along these lines which can be obtained from (\ref{eq:BP1})-(\ref{eq:BP4}). Let's start by looking at the output layer. Consider the term $\sigma'(z^L_j)$ in (\ref{eq:BP1}). Recall from the graph of the sigmoid function in the last chapter that the $\sigma$ function becomes very flat when $\sigma(z^L_j)$ is approximately 0 or 1. When this occurs we will have $\sigma'(z^L_j)\approx0$. And so the lesson is that a weight in the final layer will learn slowly if the output neuron is either low activation ($\approx0$) or high activation ($\approx1$). In this case it's common to say the output neuron has \textit{saturated} and, as a result, the weight has stopped learning (or is learning slowly). Similar remarks hold also for the biases of output neuron.
+
+We can obtain similar insights for earlier layers. In particular, note the $\sigma'(z^l)$ term in (\ref{eq:BP2}). This means that $\delta^l_j$ is likely to get small if the neuron is near saturation. And this, in turn, means that any weights input to a saturated neuron will learn slowly\footnote{This reasoning won't hold if $w^{l+1}$T$\delta^{l+1}$ has large enough entries to compensate for the smallness of $\sigma'(z^l_j)$. But I'm speaking of the general tendency.}.
+
+Summing up, we've learnt that a weight will learn slowly if either the input neuron is low-activation, or if the output neuron has saturated, i.e., is either high- or low-activation.
+
+None of these observations is too greatly surprising. Still, they help improve our mental model of what's going on as a neural network learns. Furthermore, we can turn this type of reasoning around. The four fundamental equations turn out to hold for any activation function, not just the standard sigmoid function (that's because, as we'll see in a moment, the proofs don't use any special properties of $\sigma$). And so we can use these equations to design activation functions which have particular desired learning properties. As an example to give you the idea, suppose we were to choose a (non-sigmoid) activation function $\sigma$ so that $\sigma'$ is always positive, and never gets close to zero. That would prevent the slow-down of learning that occurs when ordinary sigmoid neurons saturate. Later in the book we'll see examples where this kind of modification is made to the activation function. Keeping the four equations (\ref{eq:BP1})-(\ref{eq:BP4}) in mind can help explain why such modifications are tried, and what impact they can have.
+\begin{center}
+	\includegraphics[width=0.75\linewidth]{figures/ch2/tikz21}
+\end{center}
+\subsection*{Problem}
+\begin{itemize}
+	\item \textbf{Alternate presentation of the equations of backpropagation:} I've stated the equations of backpropagation (notably (\ref{eq:BP1}) and (\ref{eq:BP2})) using the Hadamard product. This presentation may be disconcerting if you're unused to the Hadamard product. There's an alternative approach, based on conventional matrix multiplication, which some readers may find enlightening.
+	\begin{enumerate}
+		\item[(1)]  Show that (\ref{eq:BP1}) may be rewritten as
+		\begin{equation}
+			\delta^L = \Sigma'(z^L) \nabla_a C,
+			\label{eq:33}
+		\end{equation}
+		where $\sigma'(z^L)$ is a square matrix whose diagonal entries are the values $\sigma(z^L_j)$, and whose off-diagonal entries are zero. Note that this matrix acts on $\nabla_a C$ by conventional matrix multiplication.
+		\item[(2)] Show that (\ref{eq:BP2}) may be rewritten as
+		\begin{equation}
+			\delta^l = \Sigma'(z^l) (w^{l+1})^T \delta^{l+1}.
+			\label{eq:34}
+		\end{equation}
+		\item[(3)] By combining observations (1) and (2) show that
+		\begin{equation}
+			\delta^l = \Sigma'(z^l) (w^{l+1})^T \ldots \Sigma'(z^{L-1}) (w^L)^T \Sigma'(z^L) \nabla_a C
+			\label{eq:35}
+		\end{equation}
+		For readers comfortable with matrix multiplication this equation may be easier to understand than (\ref{eq:BP1}) and (\ref{eq:BP2}). The reason I've focused on (\ref{eq:BP1}) and (\ref{eq:BP2}) is because that approach turns out to be faster to implement numerically.
+	\end{enumerate}
+\end{itemize}
+\section{Proof of the four fundamental equations (optional)}
+We'll now prove the four fundamental equations (\ref{eq:BP1})-(\ref{eq:BP4}). All four are consequences of the chain rule from multivariable calculus. If you're comfortable with the chain rule, then I strongly encourage you to attempt the derivation yourself before reading on.
+
+Let's begin with Equation (\ref{eq:BP1}), which gives an expression for the output error, $\delta^l$. To prove this equation, recall that by definition
+%$\delta^l$j=\partial{}C\partial{}z^L_j.(36)
+\begin{equation}
+	\delta^L_j = \frac{\partial C}{\partial z^L_j}.
+	\label{eq:36}
+\end{equation}
+Applying the chain rule, we can re-express the partial derivative above in terms of partial derivatives with respect to the output activations,
+\begin{equation}
+	\delta^L_j = \sum_k \frac{\partial C}{\partial a^L_k} \frac{\partial a^L_k}{\partial z^L_j},
+	\label{eq:37}
+\end{equation}%$\delta^l$j=∑k\partial{}C\partial{}aLk\partial{}aLk\partial{}z^L_j,(37)
+where the sum is over all neurons $k$ in the output layer. Of course, the output activation $a^L_k$ of the $k$-th neuron depends only on the weighted input $z^L_j$ for the $j$-th neuron when $k=j$. And so $\partial{}a^L_k/\partial{}z^L_j$ vanishes when $k\ne{}j$. As a result we can simplify the previous equation to
+\begin{equation}
+	\delta^L_j = \frac{\partial C}{\partial a^L_j} \frac{\partial a^L_j}{\partial z^L_j}.
+	\label{eq:38}
+\end{equation}%$\delta^l$j=\partial{}C\partial{}a^L_j\partial{}a^L_j\partial{}z^L_j.(38)
+Recalling that $a^L_j=\sigma(z^L_j)$ the second term on the right can be written as $\sigma'(z^L_j)$, and the equation becomes
+%$\delta^l$j=\partial{}C\partial{}a^L_j$\sigma$′(z^L_j),(39)
+\begin{equation}
+	\delta^L_j = \frac{\partial C}{\partial a^L_j} \sigma'(z^L_j),
+	\label{eq:39}
+\end{equation}
+which is just (\ref{eq:BP1}), in component form.
 %
-%
-%A nice consequence of Equation (32) is that when the activation ain is small, ain≈0, the gradient term \partial{}C/\partial{}w will also tend to be small. In this case, we'll say the weight learns slowly, meaning that it's not changing much during gradient descent. In other words, one consequence of (BP4) is that weights output from low-activation neurons learn slowly.
-%
-%There are other insights along these lines which can be obtained from (BP1)-(BP4). Let's start by looking at the output layer. Consider the term $\sigma$′(z^L_j) in (BP1). Recall from the graph of the sigmoid function in the last chapter that the $\sigma$ function becomes very flat when $\sigma$(z^L_j) is approximately 0 or 1. When this occurs we will have $\sigma$′(z^L_j)≈0. And so the lesson is that a weight in the final layer will learn slowly if the output neuron is either low activation (≈0) or high activation (≈1). In this case it's common to say the output neuron has saturated and, as a result, the weight has stopped learning (or is learning slowly). Similar remarks hold also for the biases of output neuron.
-%
-%We can obtain similar insights for earlier layers. In particular, note the $\sigma$′(zl) term in (BP2). This means that \delta^l_j is likely to get small if the neuron is near saturation. And this, in turn, means that any weights input to a saturated neuron will learn slowly* *This reasoning won't hold if wl+1Tδl+1 has large enough entries to compensate for the smallness of $\sigma$′(z^l_j). But I'm speaking of the general tendency..
-%
-%Summing up, we've learnt that a weight will learn slowly if either the input neuron is low-activation, or if the output neuron has saturated, i.e., is either high- or low-activation.
-%
-%None of these observations is too greatly surprising. Still, they help improve our mental model of what's going on as a neural network learns. Furthermore, we can turn this type of reasoning around. The four fundamental equations turn out to hold for any activation function, not just the standard sigmoid function (that's because, as we'll see in a moment, the proofs don't use any special properties of $\sigma$). And so we can use these equations to design activation functions which have particular desired learning properties. As an example to give you the idea, suppose we were to choose a (non-sigmoid) activation function $\sigma$ so that $\sigma$′ is always positive, and never gets close to zero. That would prevent the slow-down of learning that occurs when ordinary sigmoid neurons saturate. Later in the book we'll see examples where this kind of modification is made to the activation function. Keeping the four equations (BP1)-(BP4) in mind can help explain why such modifications are tried, and what impact they can have.
-%
-%
-%
-%
-%Problem
-%Alternate presentation of the equations of backpropagation: I've stated the equations of backpropagation (notably (BP1) and (BP2)) using the Hadamard product. This presentation may be disconcerting if you're unused to the Hadamard product. There's an alternative approach, based on conventional matrix multiplication, which some readers may find enlightening. (1) Show that (BP1) may be rewritten as
-%δL=$\sigma$′(zL)∇aC,(33)
-%where $\sigma$′(zL) is a square matrix whose diagonal entries are the values $\sigma$′(z^L_j), and whose off-diagonal entries are zero. Note that this matrix acts on ∇aC by conventional matrix multiplication. (2) Show that (BP2) may be rewritten as
-%δl=$\sigma$′(zl)(wl+1)Tδl+1.(34)
-%(3) By combining observations (1) and (2) show that
-%δl=$\sigma$′(zl)(wl+1)T…$\sigma$′(zL-1)(wL)T$\sigma$′(zL)∇aC(35)
-%For readers comfortable with matrix multiplication this equation may be easier to understand than (BP1) and (BP2). The reason I've focused on (BP1) and (BP2) is because that approach turns out to be faster to implement numerically.
-%Proof of the four fundamental equations (optional)
-%We'll now prove the four fundamental equations (BP1)-(BP4). All four are consequences of the chain rule from multivariable calculus. If you're comfortable with the chain rule, then I strongly encourage you to attempt the derivation yourself before reading on.
-%
-%Let's begin with Equation (BP1), which gives an expression for the output error, δL. To prove this equation, recall that by definition
-%δLj=\partial{}C\partial{}z^L_j.(36)
-%Applying the chain rule, we can re-express the partial derivative above in terms of partial derivatives with respect to the output activations,
-%δLj=∑k\partial{}C\partial{}aLk\partial{}aLk\partial{}z^L_j,(37)
-%where the sum is over all neurons k in the output layer. Of course, the output activation aLk of the kth neuron depends only on the weighted input z^L_j for the jth neuron when k=j. And so \partial{}aLk/\partial{}z^L_j vanishes when k≠j. As a result we can simplify the previous equation to
-%δLj=\partial{}C\partial{}a^L_j\partial{}a^L_j\partial{}z^L_j.(38)
-%Recalling that a^L_j=$\sigma$(z^L_j) the second term on the right can be written as $\sigma$′(z^L_j), and the equation becomes
-%δLj=\partial{}C\partial{}a^L_j$\sigma$′(z^L_j),(39)
-%which is just (BP1), in component form.
-%
-%Next, we'll prove (BP2), which gives an equation for the error δl in terms of the error in the next layer, δl+1. To do this, we want to rewrite \delta^l_j=\partial{}C/\partial{}z^l_j in terms of δl+1k=\partial{}C/\partial{}zl+1k. We can do this using the chain rule,
-%\delta^l_j===\partial{}C\partial{}z^l_j∑k\partial{}C\partial{}zl+1k\partial{}zl+1k\partial{}z^l_j∑k\partial{}zl+1k\partial{}z^l_jδl+1k,(40)(41)(42)
-%where in the last line we have interchanged the two terms on the right-hand side, and substituted the definition of δl+1k. To evaluate the first term on the last line, note that
-%zl+1k=∑jwl+1kjalj+bl+1k=∑jwl+1kj$\sigma$(z^l_j)+bl+1k.(43)
+%Next, we'll prove (\ref{eq:BP2}), which gives an equation for the error $\delta^l$ in terms of the error in the next layer, $\delta^{l+1}$. To do this, we want to rewrite \delta^l_j=\partial{}C/\partial{}z^l_j in terms of $\delta^{l+1}$k=\partial{}C/\partial{}zl+1k. We can do this using the chain rule,
+%\delta^l_j===\partial{}C\partial{}z^l_j∑k\partial{}C\partial{}zl+1k\partial{}zl+1k\partial{}z^l_j∑k\partial{}zl+1k\partial{}z^l_j$\delta^{l+1}$k,(40)(41)(42)
+%where in the last line we have interchanged the two terms on the right-hand side, and substituted the definition of $\delta^{l+1}$k. To evaluate the first term on the last line, note that
+%zl+1k=∑j$w^{l+1}$kjalj+bl+1k=∑j$w^{l+1}$kj$\sigma$(z^l_j)+bl+1k.(43)
 %Differentiating, we obtain
-%\partial{}zl+1k\partial{}z^l_j=wl+1kj$\sigma$′(z^l_j).(44)
+%\partial{}zl+1k\partial{}z^l_j=$w^{l+1}$kj$\sigma$′(z^l_j).(44)
 %Substituting back into (42) we obtain
-%\delta^l_j=∑kwl+1kjδl+1k$\sigma$′(z^l_j).(45)
-%This is just (BP2) written in component form.
+%\delta^l_j=∑k$w^{l+1}$kj$\delta^{l+1}$k$\sigma$′(z^l_j).(45)
+%This is just (\ref{eq:BP2}) written in component form.
 %
-%The final two equations we want to prove are (BP3) and (BP4). These also follow from the chain rule, in a manner similar to the proofs of the two equations above. I leave them to you as an exercise.
+%The final two equations we want to prove are (\ref{eq:BP3}) and (\ref{eq:BP4}). These also follow from the chain rule, in a manner similar to the proofs of the two equations above. I leave them to you as an exercise.
 %
 %Exercise
-%Prove Equations (BP3) and (BP4).
+%Prove Equations (\ref{eq:BP3}) and (\ref{eq:BP4}).
 %That completes the proof of the four fundamental equations of backpropagation. The proof may seem complicated. But it's really just the outcome of carefully applying the chain rule. A little less succinctly, we can think of backpropagation as a way of computing the gradient of the cost function by systematically applying the chain rule from multi-variable calculus. That's all there really is to backpropagation - the rest is details.
 %
 %The backpropagation algorithm
@@ -206,10 +257,10 @@ As you can see, everything in this expression has a nice vector form, and is eas
 %
 %Input x: Set the corresponding activation a1 for the input layer.
 %Feedforward: For each l=2,3,…,L compute zl=wlal-1+bl and al=$\sigma$(zl).
-%Output error δL: Compute the vector δL=∇aC⊙$\sigma$′(zL).
-%Backpropagate the error: For each l=L-1,L-2,…,2 compute δl=((wl+1)Tδl+1)⊙$\sigma$′(zl).
+%Output error $\delta^l$: Compute the vector $\delta^l$=∇aC⊙$\sigma$′(zL).
+%Backpropagate the error: For each l=L-1,L-2,…,2 compute $\delta^l$=(($w^{l+1}$)T$\delta^{l+1}$)⊙$\sigma$′(zl).
 %Output: The gradient of the cost function is given by \partial{}C\partial{}w^l_{jk}=al-1k\delta^l_j and \partial{}C\partial{}b^l_j=\delta^l_j.
-%Examining the algorithm you can see why it's called backpropagation. We compute the error vectors δl backward, starting from the final layer. It may seem peculiar that we're going through the network backward. But if you think about the proof of backpropagation, the backward movement is a consequence of the fact that the cost is a function of outputs from the network. To understand how the cost varies with earlier weights and biases we need to repeatedly apply the chain rule, working backward through the layers to obtain usable expressions.
+%Examining the algorithm you can see why it's called backpropagation. We compute the error vectors $\delta^l$ backward, starting from the final layer. It may seem peculiar that we're going through the network backward. But if you think about the proof of backpropagation, the backward movement is a consequence of the fact that the cost is a function of outputs from the network. To understand how the cost varies with earlier weights and biases we need to repeatedly apply the chain rule, working backward through the layers to obtain usable expressions.
 %
 %Exercises
 %Backpropagation with a single modified neuron Suppose we modify a single neuron in a feedforward network so that the output from the neuron is given by f(∑jwjxj+b), where f is some function other than the sigmoid. How should we modify the backpropagation algorithm in this case?
@@ -220,7 +271,7 @@ As you can see, everything in this expression has a nice vector form, and is eas
 %For each training example x: Set the corresponding input activation ax,1, and perform the following steps:
 %Feedforward: For each l=2,3,…,L compute zx,l=wlax,l-1+bl and ax,l=$\sigma$(zx,l).
 %Output error δx,L: Compute the vector δx,L=∇aCx⊙$\sigma$′(zx,L).
-%Backpropagate the error: For each l=L-1,L-2,…,2 compute δx,l=((wl+1)Tδx,l+1)⊙$\sigma$′(zx,l).
+%Backpropagate the error: For each l=L-1,L-2,…,2 compute δx,l=(($w^{l+1}$)Tδx,l+1)⊙$\sigma$′(zx,l).
 %Gradient descent: For each l=L,L-1,…,2 update the weights according to the rule wl→wl-ηm∑xδx,l(ax,l-1)T, and the biases according to the rule bl→bl-ηm∑xδx,l.
 %Of course, to implement stochastic gradient descent in practice you also need an outer loop generating mini-batches of training examples, and an outer loop stepping through multiple epochs of training. I've omitted those for simplicity.
 %The code for backpropagation

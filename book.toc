@@ -1,4 +1,4 @@
-\select@language {english}
+\babel@toc {english}{}
 \contentsline {chapter}{\numberline {1}Using neural nets to recognize handwritten digits}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}Perceptrons}{2}{section.1.1}
 \contentsline {section}{\numberline {1.2}Sigmoid neurons}{7}{section.1.2}
@@ -12,3 +12,4 @@
 \contentsline {section}{\numberline {2.2}The two assumptions we need about the cost function}{40}{section.2.2}
 \contentsline {section}{\numberline {2.3}The Hadamard product, $s\odot {}t$}{41}{section.2.3}
 \contentsline {section}{\numberline {2.4}The four fundamental equations behind backpropagation}{41}{section.2.4}
+\contentsline {section}{\numberline {2.5}Proof of the four fundamental equations (optional)}{45}{section.2.5}
