@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6400 64-bit) (preloaded format=pdflatex 2017.8.8)  3 AUG 2018 00:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6400 64-bit) (preloaded format=pdflatex 2017.8.8)  3 AUG 2018 08:35
 entering extended mode
 **./book.tex
 (book.tex
@@ -998,22 +998,124 @@ LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\helvet.sty"
 Package: helvet 2005/04/12 PSNFSS-v9.2a (WaS) 
 )
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
+Package: hyperref 2017/03/14 v6.85a Hypertext links for LaTeX
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
+Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
+
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
+Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
+Package hobsub Info: Skipping package `infwarerr' (already loaded).
+Package hobsub Info: Skipping package `ltxcmds' (already loaded).
+Package hobsub Info: Skipping package `ifluatex' (already loaded).
+Package hobsub Info: Skipping package `ifvtex' (already loaded).
+Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
+Package hobsub Info: Skipping package `etexcmds' (already loaded).
+Package hobsub Info: Skipping package `kvsetkeys' (already loaded).
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2016/05/16 v1.14 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO
+)
+Package: bitset 2016/05/16 v1.2 Handle bit-vector datatype (HO)
+Package: uniquecounter 2016/05/16 v1.3 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2016/05/16 v1.5 Let assignment for LaTeX macros (HO)
+Package: hopatch 2016/05/16 v1.3 Wrapper for package hooks (HO)
+Package: xcolor-patch 2016/05/16 xcolor patch
+Package: atveryend 2016/05/16 v1.9 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
+Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
+Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
+Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
+)
+\@linkdim=\dimen293
+\Hy@linkcounter=\count301
+\Hy@pagecounter=\count302
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
+File: pd1enc.def 2017/03/14 v6.85a Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count303
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4498.
+Package hyperref Info: Link nesting OFF on input line 4503.
+Package hyperref Info: Hyper index ON on input line 4506.
+Package hyperref Info: Plain pages OFF on input line 4513.
+Package hyperref Info: Backreferencing OFF on input line 4518.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4751.
+\c@Hy@tempcnt=\count304
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\url\url.sty"
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5104.
+\XeTeXLinkMargin=\dimen294
+\Fld@menulength=\count305
+\Field@Width=\dimen295
+\Fld@charsize=\dimen296
+Package hyperref Info: Hyper figures OFF on input line 6358.
+Package hyperref Info: Link nesting OFF on input line 6363.
+Package hyperref Info: Hyper index ON on input line 6366.
+Package hyperref Info: backreferencing OFF on input line 6373.
+Package hyperref Info: Link coloring OFF on input line 6378.
+Package hyperref Info: Link coloring with OCG OFF on input line 6383.
+Package hyperref Info: PDF/A mode OFF on input line 6388.
+LaTeX Info: Redefining \ref on input line 6428.
+LaTeX Info: Redefining \pageref on input line 6432.
+\Hy@abspage=\count306
+\c@Item=\count307
+\c@Hfootnote=\count308
+)
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
+File: hpdftex.def 2017/03/14 v6.85a Hyperref driver for pdfTeX
+\Fld@listcount=\count309
+\c@bookmark@seq@number=\count310
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
+Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+)
+\Hy@SectionHShift=\skip69
+)
 ("C:\Program Files\MiKTeX 2.9\tex\latex\fancyhdr\fancyhdr.sty"
 Package: fancyhdr 2017/06/30 v3.9a Extensive control of page headers and footer
 s
-\f@nch@headwidth=\skip69
-\f@nch@O@elh=\skip70
-\f@nch@O@erh=\skip71
-\f@nch@O@olh=\skip72
-\f@nch@O@orh=\skip73
-\f@nch@O@elf=\skip74
-\f@nch@O@erf=\skip75
-\f@nch@O@olf=\skip76
-\f@nch@O@orf=\skip77
+\f@nch@headwidth=\skip70
+\f@nch@O@elh=\skip71
+\f@nch@O@erh=\skip72
+\f@nch@O@olh=\skip73
+\f@nch@O@orh=\skip74
+\f@nch@O@elf=\skip75
+\f@nch@O@erf=\skip76
+\f@nch@O@olf=\skip77
+\f@nch@O@orf=\skip78
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\float\float.sty"
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count301
+\c@float@type=\count311
 \float@exts=\toks38
 \float@box=\box59
 \@float@everytoks=\toks39
@@ -1025,67 +1127,67 @@ Package: setspace 2011/12/19 v6.7a set line spacing
 ("C:\Program Files\MiKTeX 2.9\tex\latex\enumitem\enumitem.sty"
 Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \enitkv@toks@=\toks40
-\labelindent=\skip78
-\enit@outerparindent=\dimen293
+\labelindent=\skip79
+\enit@outerparindent=\dimen297
 \enit@toks=\toks41
 \enit@inbox=\box61
-\enitdp@description=\count302
+\enitdp@description=\count312
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\booktabs\booktabs.sty"
 Package: booktabs 2005/04/14 v1.61803 publication quality tables
-\heavyrulewidth=\dimen294
-\lightrulewidth=\dimen295
-\cmidrulewidth=\dimen296
-\belowrulesep=\dimen297
-\belowbottomsep=\dimen298
-\aboverulesep=\dimen299
-\abovetopsep=\dimen300
-\cmidrulesep=\dimen301
-\cmidrulekern=\dimen302
-\defaultaddspace=\dimen303
-\@cmidla=\count303
-\@cmidlb=\count304
-\@aboverulesep=\dimen304
-\@belowrulesep=\dimen305
-\@thisruleclass=\count305
-\@lastruleclass=\count306
-\@thisrulewidth=\dimen306
+\heavyrulewidth=\dimen298
+\lightrulewidth=\dimen299
+\cmidrulewidth=\dimen300
+\belowrulesep=\dimen301
+\belowbottomsep=\dimen302
+\aboverulesep=\dimen303
+\abovetopsep=\dimen304
+\cmidrulesep=\dimen305
+\cmidrulekern=\dimen306
+\defaultaddspace=\dimen307
+\@cmidla=\count313
+\@cmidlb=\count314
+\@aboverulesep=\dimen308
+\@belowrulesep=\dimen309
+\@thisruleclass=\count315
+\@lastruleclass=\count316
+\@thisrulewidth=\dimen310
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\titlesec\titlesec.sty"
 Package: titlesec 2016/03/21 v2.10.2 Sectioning titles
 \ttl@box=\box62
-\beforetitleunit=\skip79
-\aftertitleunit=\skip80
-\ttl@plus=\dimen307
-\ttl@minus=\dimen308
+\beforetitleunit=\skip80
+\aftertitleunit=\skip81
+\ttl@plus=\dimen311
+\ttl@minus=\dimen312
 \ttl@toksa=\toks42
-\titlewidth=\dimen309
-\titlewidthlast=\dimen310
-\titlewidthfirst=\dimen311
+\titlewidth=\dimen313
+\titlewidthlast=\dimen314
+\titlewidthfirst=\dimen315
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\titlesec\ttlkeys.def"
 File: ttlkeys.def 2016/03/15
-\c@ttlp@side=\count307
-\ttlp@side=\count308
+\c@ttlp@side=\count317
+\ttlp@side=\count318
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\listings\listings.sty"
-\lst@mode=\count309
+\lst@mode=\count319
 \lst@gtempboxa=\box63
 \lst@token=\toks43
-\lst@length=\count310
-\lst@currlwidth=\dimen312
-\lst@column=\count311
-\lst@pos=\count312
-\lst@lostspace=\dimen313
-\lst@width=\dimen314
-\lst@newlines=\count313
-\lst@lineno=\count314
-\lst@maxwidth=\dimen315
+\lst@length=\count320
+\lst@currlwidth=\dimen316
+\lst@column=\count321
+\lst@pos=\count322
+\lst@lostspace=\dimen317
+\lst@width=\dimen318
+\lst@newlines=\count323
+\lst@lineno=\count324
+\lst@maxwidth=\dimen319
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\listings\lstmisc.sty"
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
-\c@lstnumber=\count315
-\lst@skipnumbers=\count316
+\c@lstnumber=\count325
+\lst@skipnumbers=\count326
 \lst@framebox=\box64
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\listings\listings.cfg"
@@ -1102,9 +1204,9 @@ Package: pgfplots 2017/06/05 v1.15 Data Visualization (1.15)
 \t@pgfplots@toka=\toks44
 \t@pgfplots@tokb=\toks45
 \t@pgfplots@tokc=\toks46
-\pgfplots@tmpa=\dimen316
-\c@pgfplots@coordindex=\count317
-\c@pgfplots@scanlineindex=\count318
+\pgfplots@tmpa=\dimen320
+\c@pgfplots@coordindex=\count327
+\c@pgfplots@scanlineindex=\count328
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\pgfplots\sys\pgfplotssysgeneric.code.
 tex"))
@@ -1120,7 +1222,7 @@ Package pgfplots: loading complementary arithmetics for your pgf version...
 fsupp_pgflibraryfpu.code.tex")
 ("C:\Program Files\MiKTeX 2.9\tex\generic\pgfplots\oldpgfcompatib\pgfplotsoldpg
 fsupp_pgfmathfloat.code.tex"
-\c@pgfmathroundto@lastzeros=\count319
+\c@pgfmathroundto@lastzeros=\count329
 ))
 ("C:\Program Files\MiKTeX 2.9\tex\generic\pgfplots\util\pgfplotsutil.code.tex"
 ("C:\Program Files\MiKTeX 2.9\tex\generic\pgfplots\liststructure\pgfplotslistst
@@ -1129,13 +1231,13 @@ ructure.code.tex")
 ructureext.code.tex")
 ("C:\Program Files\MiKTeX 2.9\tex\generic\pgfplots\liststructure\pgfplotsarray.
 code.tex"
-\c@pgfplotsarray@tmp=\count320
+\c@pgfplotsarray@tmp=\count330
 )
 ("C:\Program Files\MiKTeX 2.9\tex\generic\pgfplots\liststructure\pgfplotsmatrix
 .code.tex")
 ("C:\Program Files\MiKTeX 2.9\tex\generic\pgfplots\numtable\pgfplotstableshared
 .code.tex"
-\c@pgfplotstable@counta=\count321
+\c@pgfplotstable@counta=\count331
 \t@pgfplotstable@a=\toks47
 )
 ("C:\Program Files\MiKTeX 2.9\tex\generic\pgfplots\liststructure\pgfplotsdeque.
@@ -1148,7 +1250,7 @@ e.tex"))
 tex")
 ("C:\Program Files\MiKTeX 2.9\tex\generic\pgfplots\libs\pgflibrarypgfplots.surf
 shading.code.tex"
-\c@pgfplotslibrarysurf@no=\count322
+\c@pgfplotslibrarysurf@no=\count332
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\pgfplots\sys\pgflibrarypgfplots.surfs
 hading.pgfsys-pdftex.def")))
@@ -1175,14 +1277,14 @@ ex")))
 librarydecorations.code.tex"
 ("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\modules\pgfmoduledecorations.code
 .tex"
-\pgfdecoratedcompleteddistance=\dimen317
-\pgfdecoratedremainingdistance=\dimen318
-\pgfdecoratedinputsegmentcompleteddistance=\dimen319
-\pgfdecoratedinputsegmentremainingdistance=\dimen320
-\pgf@decorate@distancetomove=\dimen321
-\pgf@decorate@repeatstate=\count323
-\pgfdecorationsegmentamplitude=\dimen322
-\pgfdecorationsegmentlength=\dimen323
+\pgfdecoratedcompleteddistance=\dimen321
+\pgfdecoratedremainingdistance=\dimen322
+\pgfdecoratedinputsegmentcompleteddistance=\dimen323
+\pgfdecoratedinputsegmentremainingdistance=\dimen324
+\pgf@decorate@distancetomove=\dimen325
+\pgf@decorate@repeatstate=\count333
+\pgfdecorationsegmentamplitude=\dimen326
+\pgfdecorationsegmentlength=\dimen327
 )
 \tikz@lib@dec@box=\box65
 )
@@ -1194,13 +1296,13 @@ ecorations.pathmorphing.code.tex"))
 librarydecorations.pathreplacing.code.tex"
 ("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\libraries\decorations\pgflibraryd
 ecorations.pathreplacing.code.tex"))
-\pgfplots@numplots=\count324
-\pgfplots@xmin@reg=\dimen324
-\pgfplots@xmax@reg=\dimen325
-\pgfplots@ymin@reg=\dimen326
-\pgfplots@ymax@reg=\dimen327
-\pgfplots@zmin@reg=\dimen328
-\pgfplots@zmax@reg=\dimen329
+\pgfplots@numplots=\count334
+\pgfplots@xmin@reg=\dimen328
+\pgfplots@xmax@reg=\dimen329
+\pgfplots@ymin@reg=\dimen330
+\pgfplots@ymax@reg=\dimen331
+\pgfplots@zmin@reg=\dimen332
+\pgfplots@zmax@reg=\dimen333
 )
 ("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\frontendlayer\tikz\libraries\tikz
 libraryplotmarks.code.tex"
@@ -1242,38 +1344,29 @@ LaTeX Font Info:    Try loading font information for MDB+cmr on input line 7.
 File: mdbcmr.fd 
 )
 LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
 (Font)              scaled to size 8.64006pt on input line 7.
 
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count325
-\scratchdimen=\dimen330
+\scratchcounter=\count335
+\scratchdimen=\dimen334
 \scratchbox=\box66
-\nofMPsegments=\count326
-\nofMParguments=\count327
+\nofMPsegments=\count336
+\nofMParguments=\count337
 \everyMPshowfont=\toks48
-\MPscratchCnt=\count328
-\MPscratchDim=\dimen331
-\MPnumerator=\count329
-\makeMPintoPDFobject=\count330
+\MPscratchCnt=\count338
+\MPscratchDim=\dimen335
+\MPnumerator=\count339
+\makeMPintoPDFobject=\count340
 \everyMPtoPDFconversion=\toks49
 ) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
-
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvdefinekeys.sty"
-Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
-))
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
-Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
-)
-Package pdftexcmds Info: LuaTeX not detected.
-Package pdftexcmds Info: \pdf@primitive is available.
-Package pdftexcmds Info: \pdf@ifprimitive is available.
-Package pdftexcmds Info: \pdfdraftmode found.
 )
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 38.
@@ -1340,6 +1433,7 @@ File: mt-bch.cfg 2007/03/03 v1.5 microtype config. file: Bitstream Charter (RS)
 .................................................
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 
@@ -1351,7 +1445,26 @@ ction with package mdbch, on input line 7.
 Package mathdesign/mdbch Warning: Package 'amsfonts' shouldn't be used in conjo
 nction with package mdbch, on input line 7.
 
-\c@lstlisting=\count331
+\AtBeginShipoutBox=\box67
+Package hyperref Info: Link coloring OFF on input line 7.
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
+Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
+)
+\c@section@level=\count341
+)
+LaTeX Info: Redefining \ref on input line 7.
+LaTeX Info: Redefining \pageref on input line 7.
+LaTeX Info: Redefining \nameref on input line 7.
+
+(book.out) (book.out)
+\@outlinefile=\write4
+\openout4 = `book.out'.
+
+\c@lstlisting=\count342
+
 
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.15} into 
@@ -1359,47 +1472,47 @@ your preamble.
  on input line 7.
 
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 16.58891pt on input line 8.
+(Font)              scaled to size 16.58891pt on input line 9.
 LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 8.
+(Font)              scaled to size 6.72005pt on input line 9.
 LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 8.
-LaTeX Font Info:    Try loading font information for OML+mdbch on input line 8.
+(Font)              scaled to size 4.80003pt on input line 9.
+LaTeX Font Info:    Try loading font information for OML+mdbch on input line 9.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\mathdesign\mdbch\omlmdbch.fd"
 File: omlmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OML/mdbch.
 )
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 9.60007pt on input line 8.
+(Font)              scaled to size 9.60007pt on input line 9.
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 6.72005pt on input line 8.
+(Font)              scaled to size 6.72005pt on input line 9.
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 4.80003pt on input line 8.
-LaTeX Font Info:    Try loading font information for OMS+mdbch on input line 8.
+(Font)              scaled to size 4.80003pt on input line 9.
+LaTeX Font Info:    Try loading font information for OMS+mdbch on input line 9.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\mathdesign\mdbch\omsmdbch.fd"
 File: omsmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OMS/mdbch.
 )
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 8.
+(Font)              scaled to size 9.60007pt on input line 9.
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 8.
+(Font)              scaled to size 6.72005pt on input line 9.
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 8.
-LaTeX Font Info:    Try loading font information for OMX+mdbch on input line 8.
+(Font)              scaled to size 4.80003pt on input line 9.
+LaTeX Font Info:    Try loading font information for OMX+mdbch on input line 9.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\mathdesign\mdbch\omxmdbch.fd"
 File: omxmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OMX/mdbch.
 )
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 8.
+(Font)              scaled to size 9.60007pt on input line 9.
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 8.
+(Font)              scaled to size 6.72005pt on input line 9.
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 8.
-LaTeX Font Info:    Try loading font information for U+msa on input line 8.
+(Font)              scaled to size 4.80003pt on input line 9.
+LaTeX Font Info:    Try loading font information for U+msa on input line 9.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -1407,7 +1520,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ("C:\Program Files\MiKTeX 2.9\tex\latex\microtype\mt-msa.cfg"
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 8.
+LaTeX Font Info:    Try loading font information for U+msb on input line 9.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1416,35 +1529,35 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 8.
+(Font)              scaled to size 9.60007pt on input line 9.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 8.
+(Font)              scaled to size 6.72005pt on input line 9.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 8.
-LaTeX Font Info:    Try loading font information for MDA+mdbch on input line 8.
+(Font)              scaled to size 4.80003pt on input line 9.
+LaTeX Font Info:    Try loading font information for MDA+mdbch on input line 9.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\mathdesign\mdbch\mdamdbch.fd"
 File: mdamdbch.fd 2013/08/29 Fontinst v1.933 font definitions for MDA/mdbch.
 )
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 8.
+(Font)              scaled to size 9.60007pt on input line 9.
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 8.
+(Font)              scaled to size 6.72005pt on input line 9.
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 8.
-LaTeX Font Info:    Try loading font information for MDB+mdbch on input line 8.
+(Font)              scaled to size 4.80003pt on input line 9.
+LaTeX Font Info:    Try loading font information for MDB+mdbch on input line 9.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\mathdesign\mdbch\mdbmdbch.fd"
 File: mdbmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for MDB/mdbch.
 )
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 8.
+(Font)              scaled to size 9.60007pt on input line 9.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 8.
+(Font)              scaled to size 6.72005pt on input line 9.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 8.
+(Font)              scaled to size 4.80003pt on input line 9.
  [1
 
 
@@ -1495,8 +1608,8 @@ LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
 (Font)              scaled to size 8.64006pt on input line 2.
 )
-\tf@toc=\write4
-\openout4 = `book.toc'.
+\tf@toc=\write5
+\openout5 = `book.toc'.
 
  (ch0_intro.tex
 
@@ -1584,14 +1697,14 @@ LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
 (Font)              scaled to size 16.12804pt on input line 5.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
 (Font)              scaled to size 11.52008pt on input line 5.
-<./figures/ch1/digits.png, id=28, 450.2421pt x 92.5056pt>
+<./figures/ch1/digits.png, id=104, 450.2421pt x 92.5056pt>
 File: ./figures/ch1/digits.png Graphic file (type png)
 <use ./figures/ch1/digits.png>
 Package pdftex.def Info: ./figures/ch1/digits.png  used on input line 9. on inp
 ut line 9.
 Package pdftex.def Info: Requested size: 85.35826pt x 17.53671pt on input line 
 9.
-<./figures/ch1/mnist_100_digits.png, id=30, 153.57375pt x 122.859pt>
+<./figures/ch1/mnist_100_digits.png, id=106, 153.57375pt x 122.859pt>
 File: ./figures/ch1/mnist_100_digits.png Graphic file (type png)
 <use ./figures/ch1/mnist_100_digits.png>
 Package pdftex.def Info: ./figures/ch1/mnist_100_digits.png  used on input line
@@ -1608,7 +1721,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[1
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.18 \end{center}
+                  [1
 
 
  <./figures/ch1/digits.png>]
@@ -1623,8 +1741,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
 (Font)              scaled to size 27.31482pt on input line 29.
-[2 <./figures/ch1/mnist_100_digits.png>]
-<./figures/ch1/tikz0.png, id=40, 281.05pt x 138.5175pt>
+pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.29 
+      [2 <./figures/ch1/mnist_100_digits.png>]
+<./figures/ch1/tikz0.png, id=116, 281.05pt x 138.5175pt>
 File: ./figures/ch1/tikz0.png Graphic file (type png)
 <use ./figures/ch1/tikz0.png>
 Package pdftex.def Info: ./figures/ch1/tikz0.png  used on input line 32. on inp
@@ -1643,7 +1766,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [3 <./figures/ch1/tikz0.png>]
-<./figures/ch1/tikz1.png, id=47, 542.025pt x 211.79124pt>
+<./figures/ch1/tikz1.png, id=128, 542.025pt x 211.79124pt>
 File: ./figures/ch1/tikz1.png Graphic file (type png)
 <use ./figures/ch1/tikz1.png>
 Package pdftex.def Info: ./figures/ch1/tikz1.png  used on input line 58. on inp
@@ -1658,7 +1781,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [4 <./figures/ch1/tikz1.png>]
-<./figures/ch1/tikz2.png, id=52, 250.9375pt x 104.39pt>
+<./figures/ch1/tikz2.png, id=135, 250.9375pt x 104.39pt>
 File: ./figures/ch1/tikz2.png Graphic file (type png)
 <use ./figures/ch1/tikz2.png>
 Package pdftex.def Info: ./figures/ch1/tikz2.png  used on input line 76. on inp
@@ -1668,14 +1791,14 @@ Package pdftex.def Info: Requested size: 125.46843pt x 52.19485pt on input line
 Missing character: There is no â in font mdbchr7t!
 Missing character: There is no ˆ in font mdbchr7t!
 Missing character: There is no ’ in font mdbchr7t!
-<./figures/ch1/tikz3.png, id=53, 506.89375pt x 156.585pt>
+<./figures/ch1/tikz3.png, id=136, 506.89375pt x 156.585pt>
 File: ./figures/ch1/tikz3.png Graphic file (type png)
 <use ./figures/ch1/tikz3.png>
 Package pdftex.def Info: ./figures/ch1/tikz3.png  used on input line 82. on inp
 ut line 82.
 Package pdftex.def Info: Requested size: 253.44626pt x 78.2923pt on input line 
 82.
-<./figures/ch1/tikz4.png, id=54, 472.76625pt x 209.78375pt>
+<./figures/ch1/tikz4.png, id=137, 472.76625pt x 209.78375pt>
 File: ./figures/ch1/tikz4.png Graphic file (type png)
 <use ./figures/ch1/tikz4.png>
 Package pdftex.def Info: ./figures/ch1/tikz4.png  used on input line 86. on inp
@@ -1691,21 +1814,21 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [5 <./figures/ch1/tikz2.png> <./figures/ch1/tikz3.png> <./figures/ch1/tikz4.png
 >]
-<./figures/ch1/tikz5.png, id=61, 472.76625pt x 209.78375pt>
+<./figures/ch1/tikz5.png, id=145, 472.76625pt x 209.78375pt>
 File: ./figures/ch1/tikz5.png Graphic file (type png)
 <use ./figures/ch1/tikz5.png>
 Package pdftex.def Info: ./figures/ch1/tikz5.png  used on input line 90. on inp
 ut line 90.
 Package pdftex.def Info: Requested size: 236.38254pt x 104.8916pt on input line
  90.
-<./figures/ch1/tikz6.png, id=62, 479.7925pt x 209.78375pt>
+<./figures/ch1/tikz6.png, id=146, 479.7925pt x 209.78375pt>
 File: ./figures/ch1/tikz6.png Graphic file (type png)
 <use ./figures/ch1/tikz6.png>
 Package pdftex.def Info: ./figures/ch1/tikz6.png  used on input line 94. on inp
 ut line 94.
 Package pdftex.def Info: Requested size: 239.89565pt x 104.8916pt on input line
  94.
-<./figures/ch1/tikz7.png, id=63, 106.3975pt x 40.15pt>
+<./figures/ch1/tikz7.png, id=147, 106.3975pt x 40.15pt>
 File: ./figures/ch1/tikz7.png Graphic file (type png)
 <use ./figures/ch1/tikz7.png>
 Package pdftex.def Info: ./figures/ch1/tikz7.png  used on input line 98. on inp
@@ -1721,7 +1844,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [6 <./figures/ch1/tikz5.png> <./figures/ch1/tikz6.png> <./figures/ch1/tikz7.png
 >]
-<./figures/ch1/tikz8.png, id=70, 488.82625pt x 271.0125pt>
+<./figures/ch1/tikz8.png, id=155, 488.82625pt x 271.0125pt>
 File: ./figures/ch1/tikz8.png Graphic file (type png)
 <use ./figures/ch1/tikz8.png>
 Package pdftex.def Info: ./figures/ch1/tikz8.png  used on input line 112. on in
@@ -1736,7 +1859,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [7 <./figures/ch1/tikz8.png>]
-<./figures/ch1/tikz9.png, id=76, 281.05pt x 138.5175pt>
+<./figures/ch1/tikz9.png, id=162, 281.05pt x 138.5175pt>
 File: ./figures/ch1/tikz9.png Graphic file (type png)
 <use ./figures/ch1/tikz9.png>
 Package pdftex.def Info: ./figures/ch1/tikz9.png  used on input line 123. on in
@@ -1768,7 +1891,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [9]
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
 (Font)              scaled to size 9.60007pt on input line 168.
-<./figures/ch1/tikz10.png, id=85, 397.485pt x 211.79124pt>
+<./figures/ch1/tikz10.png, id=182, 397.485pt x 211.79124pt>
 File: ./figures/ch1/tikz10.png Graphic file (type png)
 <use ./figures/ch1/tikz10.png>
 Package pdftex.def Info: ./figures/ch1/tikz10.png  used on input line 182. on i
@@ -1786,7 +1909,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [10]
-<./figures/ch1/tikz11.png, id=90, 599.23875pt x 325.215pt>
+<./figures/ch1/tikz11.png, id=188, 599.23875pt x 325.215pt>
 File: ./figures/ch1/tikz11.png Graphic file (type png)
 <use ./figures/ch1/tikz11.png>
 Package pdftex.def Info: ./figures/ch1/tikz11.png  used on input line 188. on i
@@ -1807,14 +1930,14 @@ Package pdftex.def Info: ./figures/ch1/digits.png  used on input line 205. on i
 nput line 205.
 Package pdftex.def Info: Requested size: 157.58708pt x 32.37744pt on input line
  205.
-<./figures/ch1/digits_separate.png, id=96, 455.301pt x 71.5473pt>
+<./figures/ch1/digits_separate.png, id=195, 455.301pt x 71.5473pt>
 File: ./figures/ch1/digits_separate.png Graphic file (type png)
 <use ./figures/ch1/digits_separate.png>
 Package pdftex.def Info: ./figures/ch1/digits_separate.png  used on input line 
 209. on input line 209.
 Package pdftex.def Info: Requested size: 227.64993pt x 35.77354pt on input line
  209.
-<./figures/ch1/mnist_first_digit.png, id=97, 22.4037pt x 25.2945pt>
+<./figures/ch1/mnist_first_digit.png, id=196, 22.4037pt x 25.2945pt>
 File: ./figures/ch1/mnist_first_digit.png Graphic file (type png)
 <use ./figures/ch1/mnist_first_digit.png>
 Package pdftex.def Info: ./figures/ch1/mnist_first_digit.png  used on input lin
@@ -1829,7 +1952,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [12 <./figures/ch1/digits_separate.png> <./figures/ch1/mnist_first_digit.png>]
-<./figures/ch1/tikz12.png, id=103, 539.01375pt x 448.67625pt>
+<./figures/ch1/tikz12.png, id=203, 539.01375pt x 448.67625pt>
 File: ./figures/ch1/tikz12.png Graphic file (type png)
 <use ./figures/ch1/tikz12.png>
 Package pdftex.def Info: ./figures/ch1/tikz12.png  used on input line 222. on i
@@ -1848,21 +1971,21 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [13 <./figures/ch1/tikz12.png>]
-<./figures/ch1/mnist_top_left_feature.png, id=109, 359.1819pt x 369.2997pt>
+<./figures/ch1/mnist_top_left_feature.png, id=210, 359.1819pt x 369.2997pt>
 File: ./figures/ch1/mnist_top_left_feature.png Graphic file (type png)
 <use ./figures/ch1/mnist_top_left_feature.png>
 Package pdftex.def Info: ./figures/ch1/mnist_top_left_feature.png  used on inpu
 t line 235. on input line 235.
 Package pdftex.def Info: Requested size: 33.20735pt x 34.14539pt on input line 
 235.
-<./figures/ch1/mnist_other_features.png, id=110, 459.6372pt x 146.7081pt>
+<./figures/ch1/mnist_other_features.png, id=211, 459.6372pt x 146.7081pt>
 File: ./figures/ch1/mnist_other_features.png Graphic file (type png)
 <use ./figures/ch1/mnist_other_features.png>
 Package pdftex.def Info: ./figures/ch1/mnist_other_features.png  used on input 
 line 240. on input line 240.
 Package pdftex.def Info: Requested size: 106.97676pt x 34.14539pt on input line
  240.
-<./figures/ch1/mnist_complete_zero.png, id=111, 357.7365pt x 359.1819pt>
+<./figures/ch1/mnist_complete_zero.png, id=212, 357.7365pt x 359.1819pt>
 File: ./figures/ch1/mnist_complete_zero.png Graphic file (type png)
 <use ./figures/ch1/mnist_complete_zero.png>
 Package pdftex.def Info: ./figures/ch1/mnist_complete_zero.png  used on input l
@@ -1878,7 +2001,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [14 <./figures/ch1/mnist_top_left_feature.png> <./figures/ch1/mnist_other_featu
 res.png> <./figures/ch1/mnist_complete_zero.png>]
-<./figures/ch1/tikz13.png, id=118, 547.04375pt x 305.14pt>
+<./figures/ch1/tikz13.png, id=220, 547.04375pt x 305.14pt>
 File: ./figures/ch1/tikz13.png Graphic file (type png)
 <use ./figures/ch1/tikz13.png>
 Package pdftex.def Info: ./figures/ch1/tikz13.png  used on input line 258. on i
@@ -1907,7 +2030,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [16]
-<./figures/ch1/valley.png, id=126, 586.8324pt x 442.2924pt>
+<./figures/ch1/valley.png, id=235, 586.8324pt x 442.2924pt>
 File: ./figures/ch1/valley.png Graphic file (type png)
 <use ./figures/ch1/valley.png>
 Package pdftex.def Info: ./figures/ch1/valley.png  used on input line 291. on i
@@ -1929,7 +2052,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [18]
-<./figures/ch1/valley_with_ball.png, id=134, 815.045pt x 614.295pt>
+<./figures/ch1/valley_with_ball.png, id=252, 815.045pt x 614.295pt>
 File: ./figures/ch1/valley_with_ball.png Graphic file (type png)
 <use ./figures/ch1/valley_with_ball.png>
 Package pdftex.def Info: ./figures/ch1/valley_with_ball.png  used on input line
@@ -2042,7 +2165,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [31]
-<./figures/ch1/mnist_2_and_1.png, id=179, 462.528pt x 225.4824pt>
+<./figures/ch1/mnist_2_and_1.png, id=629, 462.528pt x 225.4824pt>
 File: ./figures/ch1/mnist_2_and_1.png Graphic file (type png)
 <use ./figures/ch1/mnist_2_and_1.png>
 Package pdftex.def Info: ./figures/ch1/mnist_2_and_1.png  used on input line 83
@@ -2057,28 +2180,28 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [32 <./figures/ch1/mnist_2_and_1.png>]
-<./figures/ch1/mnist_really_bad_images.png, id=184, 731.3724pt x 153.2124pt>
+<./figures/ch1/mnist_really_bad_images.png, id=658, 731.3724pt x 153.2124pt>
 File: ./figures/ch1/mnist_really_bad_images.png Graphic file (type png)
 <use ./figures/ch1/mnist_really_bad_images.png>
 Package pdftex.def Info: ./figures/ch1/mnist_really_bad_images.png  used on inp
 ut line 846. on input line 846.
 Package pdftex.def Info: Requested size: 255.98418pt x 53.62512pt on input line
  846.
-<./figures/ch1/File_Kangaroo_ST_03.jpg, id=185, 72.27pt x 96.36pt>
+<./figures/ch1/File_Kangaroo_ST_03.jpg, id=659, 72.27pt x 96.36pt>
 File: ./figures/ch1/File_Kangaroo_ST_03.jpg Graphic file (type jpg)
 <use ./figures/ch1/File_Kangaroo_ST_03.jpg>
 Package pdftex.def Info: ./figures/ch1/File_Kangaroo_ST_03.jpg  used on input l
 ine 865. on input line 865.
 Package pdftex.def Info: Requested size: 64.01793pt x 85.35826pt on input line 
 865.
-<./figures/ch1/Einstein_crop.jpg, id=186, 54.80475pt x 46.77475pt>
+<./figures/ch1/Einstein_crop.jpg, id=660, 54.80475pt x 46.77475pt>
 File: ./figures/ch1/Einstein_crop.jpg Graphic file (type jpg)
 <use ./figures/ch1/Einstein_crop.jpg>
 Package pdftex.def Info: ./figures/ch1/Einstein_crop.jpg  used on input line 86
 5. on input line 865.
 Package pdftex.def Info: Requested size: 100.01404pt x 85.35826pt on input line
  865.
-<./figures/ch1/hubble.jpg, id=187, 66.2475pt x 57.816pt>
+<./figures/ch1/hubble.jpg, id=661, 66.2475pt x 57.816pt>
 File: ./figures/ch1/hubble.jpg Graphic file (type jpg)
 <use ./figures/ch1/hubble.jpg>
 Package pdftex.def Info: ./figures/ch1/hubble.jpg  used on input line 865. on i
@@ -2095,7 +2218,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [33 <./figures/ch1/mnist_really_bad_images.png>]
-<./figures/ch1/tikz14.png, id=192, 613.29124pt x 410.53375pt>
+<./figures/ch1/tikz14.png, id=667, 613.29124pt x 410.53375pt>
 File: ./figures/ch1/tikz14.png Graphic file (type png)
 <use ./figures/ch1/tikz14.png>
 Package pdftex.def Info: ./figures/ch1/tikz14.png  used on input line 879. on i
@@ -2114,7 +2237,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [34 <./figures/ch1/File_Kangaroo_ST_03.jpg> <./figures/ch1/Einstein_crop.jpg> <
 ./figures/ch1/hubble.jpg>]
-<./figures/ch1/tikz15.png, id=196, 599.23875pt x 239.89626pt>
+<./figures/ch1/tikz15.png, id=673, 599.23875pt x 239.89626pt>
 File: ./figures/ch1/tikz15.png Graphic file (type png)
 <use ./figures/ch1/tikz15.png>
 Package pdftex.def Info: ./figures/ch1/tikz15.png  used on input line 884. on i
@@ -2147,26 +2270,20 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [37
 
 ]
-Missing character: There is no â in font mdbchr7t!
-Missing character: There is no ˆ in font mdbchr7t!
-Missing character: There is no ’ in font mdbchr7t!
-<./figures/ch2/tikz16.png, id=209, 619.31375pt x 243.91125pt>
+<./figures/ch2/tikz16.png, id=689, 619.31375pt x 243.91125pt>
 File: ./figures/ch2/tikz16.png Graphic file (type png)
 <use ./figures/ch2/tikz16.png>
 Package pdftex.def Info: ./figures/ch2/tikz16.png  used on input line 21. on in
 put line 21.
 Package pdftex.def Info: Requested size: 239.0021pt x 94.12756pt on input line 
 21.
-<./figures/ch2/tikz17.png, id=210, 299.1175pt x 243.91125pt>
+<./figures/ch2/tikz17.png, id=690, 299.1175pt x 243.91125pt>
 File: ./figures/ch2/tikz17.png Graphic file (type png)
 <use ./figures/ch2/tikz17.png>
 Package pdftex.def Info: ./figures/ch2/tikz17.png  used on input line 26. on in
 put line 26.
 Package pdftex.def Info: Requested size: 170.71654pt x 139.20949pt on input lin
 e 26.
-Missing character: There is no â in font mdbchr7t!
-Missing character: There is no ˆ in font mdbchr7t!
-Missing character: There is no ’ in font mdbchr7t!
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2175,10 +2292,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [38 <./figures/ch2/tikz16.png> <./figures/ch2/tikz17.png>]
-Missing character: There is no â in font mdbchr7t!
-Missing character: There is no ˆ in font mdbchr7t!
-Missing character: There is no ’ in font mdbchr7t!
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -2189,7 +2302,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [39]
-<./figures/ch2/tikz18.png, id=219, 493.845pt x 211.79124pt>
+<./figures/ch2/tikz18.png, id=713, 493.845pt x 211.79124pt>
 File: ./figures/ch2/tikz18.png Graphic file (type png)
 <use ./figures/ch2/tikz18.png>
 Package pdftex.def Info: ./figures/ch2/tikz18.png  used on input line 67. on in
@@ -2247,7 +2360,20 @@ LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
 (Font)              scaled to size 7.39201pt on input line 75.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
 (Font)              scaled to size 5.28003pt on input line 75.
-<./figures/ch2/tikz19.png, id=224, 585.18625pt x 240.9pt>
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 75.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\odot' on input line 75.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 75.
+
+<./figures/ch2/tikz19.png, id=721, 585.18625pt x 240.9pt>
 File: ./figures/ch2/tikz19.png Graphic file (type png)
 <use ./figures/ch2/tikz19.png>
 Package pdftex.def Info: ./figures/ch2/tikz19.png  used on input line 92. on in
@@ -2255,57 +2381,128 @@ put line 92.
 Package pdftex.def Info: Requested size: 170.71654pt x 70.27824pt on input line
  92.
 
-
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 16.89995pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
 [41 <./figures/ch2/tikz19.png>]
-Missing character: There is no â in font mdbchr7t!
-Missing character: There is no ˆ in font mdbchr7t!
-Missing character: There is no ’ in font mdbchr7t!
-Missing character: There is no â in font mdbchr7t!
-Missing character: There is no ˆ in font mdbchr7t!
-Missing character: There is no ’ in font mdbchr7t!
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 16.89995pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[42])
+[42]pdfTeX warning (ext4): destination with the same identifier (name{equation.
+2.4.8}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.122 \begin{equation}
+                      pdfTeX warning (ext4): destination with the same identifi
+er (name{equation.2.4.8}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.122 \begin{equation}
+                      pdfTeX warning (ext4): destination with the same identifi
+er (name{equation.2.4.8}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.122 \begin{equation}
+                      pdfTeX warning (ext4): destination with the same identifi
+er (name{equation.2.4.8}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.122 \begin{equation}
+                      pdfTeX warning (ext4): destination with the same identifi
+er (name{equation.2.4.8}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.128 \begin{equation}
+                      pdfTeX warning (ext4): destination with the same identifi
+er (name{equation.2.4.8}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.128 \begin{equation}
+                      pdfTeX warning (ext4): destination with the same identifi
+er (name{equation.2.4.8}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.128 \begin{equation}
+                      pdfTeX warning (ext4): destination with the same identifi
+er (name{equation.2.4.8}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.128 \begin{equation}
+                      )
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 16.89995pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[43] (book.aux) ) 
+[43]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 15.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 15.
+ (book.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 15.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 15.
+Package rerunfilecheck Info: File `book.out' has not changed.
+(rerunfilecheck)             Checksum: 704D3A1F1CD66ABDE1A24B2FCCA96E12;1093.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 15.
+ ) 
 Here is how much of TeX's memory you used:
- 40837 strings out of 493318
- 925920 string characters out of 3138999
- 1519288 words of memory out of 3000000
- 43297 multiletter control sequences out of 15000+200000
+ 44591 strings out of 493318
+ 983681 string characters out of 3138999
+ 1599541 words of memory out of 3000000
+ 46602 multiletter control sequences out of 15000+200000
  636386 words of font info for 435 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 71i,20n,103p,10363b,2359s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\Anton\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jkna
-ppen\ec\dpi600\ecvt0900.pk> <C:\Users\Anton\AppData\Local\MiKTeX\2.9\fonts\pk\l
-jfour\jknappen\ec\dpi450\ecvt0800.pk>{C:/Program Files/MiKTeX 2.9/fonts/enc/dvi
-ps/ly1/texnansi.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/bitstrea/charter/b
-chb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/bitstrea/charter/bchr8a.pfb>
-<C:/Program Files/MiKTeX 2.9/fonts/type1/bitstrea/charter/bchri8a.pfb><C:/Progr
-am Files/MiKTeX 2.9/fonts/type1/mathdesign/mdbch/md-chr7m.pfb><C:/Program Files
-/MiKTeX 2.9/fonts/type1/mathdesign/mdbch/md-chr7t.pfb><C:/Program Files/MiKTeX 
-2.9/fonts/type1/mathdesign/mdbch/md-chr7v.pfb><C:/Program Files/MiKTeX 2.9/font
-s/type1/mathdesign/mdbch/md-chr7y.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/
-mathdesign/mdbch/md-chr8t.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/mathdesi
-gn/mdbch/md-chri7m.pfb>
-Output written on book.pdf (49 pages, 872249 bytes).
+ 71i,20n,103p,10363b,2415s stack positions out of 5000i,500n,10000p,200000b,50000s
+pdfTeX warning (dest): name{Hfootnote.10} has been referenced but does not ex
+ist, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.9} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.8} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.7} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.6} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.5} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.4} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist
+, replaced by a fixed one
+
+ <C:\Users\Anton\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ec
+vt0900.pk> <C:\Users\Anton\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec
+\dpi450\ecvt0800.pk>{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/ly1/texnansi.e
+nc}<C:/Program Files/MiKTeX 2.9/fonts/type1/bitstrea/charter/bchb8a.pfb><C:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/bitstrea/charter/bchr8a.pfb><C:/Program Files
+/MiKTeX 2.9/fonts/type1/bitstrea/charter/bchri8a.pfb><C:/Program Files/MiKTeX 2
+.9/fonts/type1/mathdesign/mdbch/md-chr7m.pfb><C:/Program Files/MiKTeX 2.9/fonts
+/type1/mathdesign/mdbch/md-chr7t.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/m
+athdesign/mdbch/md-chr7v.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/mathdesig
+n/mdbch/md-chr7y.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/mathdesign/mdbch/
+md-chr8t.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/mathdesign/mdbch/md-chri7
+m.pfb>
+Output written on book.pdf (49 pages, 939769 bytes).
 PDF statistics:
- 385 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 38071 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 988 PDF objects out of 1000 (max. 8388607)
+ 416 named destinations out of 1000 (max. 500000)
+ 38175 words of extra memory for PDF output out of 42996 (max. 10000000)
 

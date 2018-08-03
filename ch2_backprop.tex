@@ -15,7 +15,7 @@ With that said, if you want to skim the chapter, or jump straight to the next ch
 \section{Warm up: a fast matrix-based approach to computing the output from a neural network}
 Before discussing backpropagation, let's warm up with a fast matrix-based algorithm to compute the output from a neural network. We actually already briefly saw this algorithm near the end of the last chapter, but I described it quickly, so it's worth revisiting in detail. In particular, this is a good way of getting comfortable with the notation used in backpropagation, in a familiar context.
 
-Let's begin with a notation which lets us refer to weights in the network in an unambiguous way. We'll use $w^l_{jk}$ to denote the weight for the connection from the $k$-th neuron in the $(l−1)$-th layer to the $j$-th neuron in the $l$-th layer. So, for example, the diagram below shows the weight on a connection from the fourth neuron in the second layer to the second neuron in the third layer of a network:
+Let's begin with a notation which lets us refer to weights in the network in an unambiguous way. We'll use $w^l_{jk}$ to denote the weight for the connection from the $k$-th neuron in the $(l-1)$-th layer to the $j$-th neuron in the $l$-th layer. So, for example, the diagram below shows the weight on a connection from the fourth neuron in the second layer to the second neuron in the third layer of a network:
 
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{./figures/ch2/tikz16}
@@ -25,12 +25,12 @@ We use a similar notation for the network's biases and activations. Explicitly, 
 \begin{center}
 \includegraphics[width=0.5\linewidth]{./figures/ch2/tikz17}
 \end{center}
-With these notations, the activation $a^l_j$ of the $j$-th neuron in the $l$-th layer is related to the activations in the $(l−1)$-th layer by the equation (compare Equation \ref{eq:4} and surrounding discussion in the last chapter)
+With these notations, the activation $a^l_j$ of the $j$-th neuron in the $l$-th layer is related to the activations in the $(l-1)$-th layer by the equation (compare Equation \ref{eq:4} and surrounding discussion in the last chapter)
 
 \begin{equation}
 	a^{l}_j = \sigma\left( \sum_k w^{l}_{jk} a^{l-1}_k + b^l_j \right),\label{eq:23}
 \end{equation}
-where the sum is over all neurons $k$ in the $(l−1)$-th layer. To rewrite this expression in a matrix form we define a weight matrix $w_l$ for each layer, $l$. The entries of the weight matrix $w_l$ are just the weights connecting to the $l$-th layer of neurons, that is, the entry in the $j$-th row and $k$-th column is $w^l_{jk}$. Similarly, for each layer $l$ we define a \textit{bias vector}, $b^l$. You can probably guess how this works - the components of the bias vector are just the values $b^l_j$, one component for each neuron in the $l$-th layer. And finally, we define an activation vector al whose components are the activations $a^l_j$.
+where the sum is over all neurons $k$ in the $(l-1)$-th layer. To rewrite this expression in a matrix form we define a weight matrix $w_l$ for each layer, $l$. The entries of the weight matrix $w_l$ are just the weights connecting to the $l$-th layer of neurons, that is, the entry in the $j$-th row and $k$-th column is $w^l_{jk}$. Similarly, for each layer $l$ we define a \textit{bias vector}, $b^l$. You can probably guess how this works - the components of the bias vector are just the values $b^l_j$, one component for each neuron in the $l$-th layer. And finally, we define an activation vector al whose components are the activations $a^l_j$.
 The last ingredient we need to rewrite \ref{eq:23} in a matrix form is the idea of vectorizing a function such as $\sigma$. We met vectorization briefly in the last chapter, but to recap, the idea is that we want to apply a function such as $\sigma$ to every element in a vector $v$. We use the obvious notation $\sigma(v)$ to denote this kind of elementwise application of a function. That is, the components of $\sigma(v)$ are just $\sigma(v)_j = \sigma(v_j)$. As an example, if we have the function $f(x)=x^2$ then the vectorized form of $f$ has the effect
 \begin{equation}
 f\left(\left[ \begin{array}{c} 2 \\ 3 \end{array} \right] \right)
@@ -115,7 +115,7 @@ An equation for the error in the output layer, $\delta^L$: The components of $\d
 \end{equation}
 This is a very natural expression. The first term on the right, $\partial{}C/\partial{}a^L_j$, just measures how fast the cost is changing as a function of the $j$-th output activation. If, for example, $C$ doesn't depend much on a particular output neuron, $j$, then $\delta^L_j$ will be small, which is what we'd expect. The second term on the right, $\sigma'(z^L_j)$, measures how fast the activation function $\sigma$ is changing at $z^L_j$.
 
-Notice that everything in Eq.~\ref{eq:BP1} is easily computed. In particular, we compute $z^L_j$ while computing the behaviour of the network, and it's only a small additional overhead to compute $\sigma'(z^L_j)$. The exact form of $\partial{}C/\partial{}a^L_j$ will, of course, depend on the form of the cost function. However, provided the cost function is known there should be little trouble computing $\partial{}C/\partial{}a^L_j$. For example, if we're using the quadratic cost function then $C=\frac12\sum_j(y_j−a^L_j)^2$, and so $\partial{}C/\partial{}a^L_j=(a^L_j−yj)$, which obviously is easily computable.
+Notice that everything in Eq.~\ref{eq:BP1} is easily computed. In particular, we compute $z^L_j$ while computing the behaviour of the network, and it's only a small additional overhead to compute $\sigma'(z^L_j)$. The exact form of $\partial{}C/\partial{}a^L_j$ will, of course, depend on the form of the cost function. However, provided the cost function is known there should be little trouble computing $\partial{}C/\partial{}a^L_j$. For example, if we're using the quadratic cost function then $C=\frac12\sum_j(y_j-a^L_j)^2$, and so $\partial{}C/\partial{}a^L_j=(a^L_j-y_j)$, which obviously is easily computable.
 
 Equation \ref{eq:BP1} is a componentwise expression for $\delta^L$. It's a perfectly good expression, but not the matrix-based form we want for backpropagation. However, it's easy to rewrite the equation in a matrix-based form, as
 %δL=∇aC⊙$\sigma$′(zL).(BP1a)
@@ -136,7 +136,7 @@ As you can see, everything in this expression has a nice vector form, and is eas
 %δl=((wl+1)Tδl+1)⊙$\sigma$′(zl),(BP2)
 %where (wl+1)T is the transpose of the weight matrix wl+1 for the (l+1)th layer. This equation appears complicated, but each element has a nice interpretation. Suppose we know the error δl+1 at the l+1th layer. When we apply the transpose weight matrix, (wl+1)T, we can think intuitively of this as moving the error backward through the network, giving us some sort of measure of the error at the output of the lth layer. We then take the Hadamard product ⊙$\sigma$′(zl). This moves the error backward through the activation function in layer l, giving us the error δl in the weighted input to layer l.
 %
-%By combining (BP2) with (BP1) we can compute the error δl for any layer in the network. We start by using (BP1) to compute δL, then apply Equation (BP2) to compute δL−1, then Equation (BP2) again to compute δL−2, and so on, all the way back through the network.
+%By combining (BP2) with (BP1) we can compute the error δl for any layer in the network. We start by using (BP1) to compute δL, then apply Equation (BP2) to compute δL-1, then Equation (BP2) again to compute δL-2, and so on, all the way back through the network.
 %
 %An equation for the rate of change of the cost with respect to any bias in the network: In particular:
 %\partial{}C\partial{}b^l_j=\delta^l_j.(BP3)
@@ -145,8 +145,8 @@ As you can see, everything in this expression has a nice vector form, and is eas
 %where it is understood that δ is being evaluated at the same neuron as the bias b.
 %
 %An equation for the rate of change of the cost with respect to any weight in the network: In particular:
-%\partial{}C\partial{}w^l_{jk}=al−1k\delta^l_j.(BP4)
-%This tells us how to compute the partial derivatives \partial{}C/\partial{}w^l_{jk} in terms of the quantities δl and al−1, which we already know how to compute. The equation can be rewritten in a less index-heavy notation as
+%\partial{}C\partial{}w^l_{jk}=al-1k\delta^l_j.(BP4)
+%This tells us how to compute the partial derivatives \partial{}C/\partial{}w^l_{jk} in terms of the quantities δl and al-1, which we already know how to compute. The equation can be rewritten in a less index-heavy notation as
 %\partial{}C\partial{}w=ainδout,(32)
 %where it's understood that ain is the activation of the neuron input to the weight w, and δout is the error of the neuron output from the weight w. Zooming in to look at just the weight w, and the two neurons connected by that weight, we can depict this as:
 %
@@ -170,7 +170,7 @@ As you can see, everything in this expression has a nice vector form, and is eas
 %where $\sigma$′(zL) is a square matrix whose diagonal entries are the values $\sigma$′(z^L_j), and whose off-diagonal entries are zero. Note that this matrix acts on ∇aC by conventional matrix multiplication. (2) Show that (BP2) may be rewritten as
 %δl=$\sigma$′(zl)(wl+1)Tδl+1.(34)
 %(3) By combining observations (1) and (2) show that
-%δl=$\sigma$′(zl)(wl+1)T…$\sigma$′(zL−1)(wL)T$\sigma$′(zL)∇aC(35)
+%δl=$\sigma$′(zl)(wl+1)T…$\sigma$′(zL-1)(wL)T$\sigma$′(zL)∇aC(35)
 %For readers comfortable with matrix multiplication this equation may be easier to understand than (BP1) and (BP2). The reason I've focused on (BP1) and (BP2) is because that approach turns out to be faster to implement numerically.
 %Proof of the four fundamental equations (optional)
 %We'll now prove the four fundamental equations (BP1)-(BP4). All four are consequences of the chain rule from multivariable calculus. If you're comfortable with the chain rule, then I strongly encourage you to attempt the derivation yourself before reading on.
@@ -205,10 +205,10 @@ As you can see, everything in this expression has a nice vector form, and is eas
 %The backpropagation equations provide us with a way of computing the gradient of the cost function. Let's explicitly write this out in the form of an algorithm:
 %
 %Input x: Set the corresponding activation a1 for the input layer.
-%Feedforward: For each l=2,3,…,L compute zl=wlal−1+bl and al=$\sigma$(zl).
+%Feedforward: For each l=2,3,…,L compute zl=wlal-1+bl and al=$\sigma$(zl).
 %Output error δL: Compute the vector δL=∇aC⊙$\sigma$′(zL).
-%Backpropagate the error: For each l=L−1,L−2,…,2 compute δl=((wl+1)Tδl+1)⊙$\sigma$′(zl).
-%Output: The gradient of the cost function is given by \partial{}C\partial{}w^l_{jk}=al−1k\delta^l_j and \partial{}C\partial{}b^l_j=\delta^l_j.
+%Backpropagate the error: For each l=L-1,L-2,…,2 compute δl=((wl+1)Tδl+1)⊙$\sigma$′(zl).
+%Output: The gradient of the cost function is given by \partial{}C\partial{}w^l_{jk}=al-1k\delta^l_j and \partial{}C\partial{}b^l_j=\delta^l_j.
 %Examining the algorithm you can see why it's called backpropagation. We compute the error vectors δl backward, starting from the final layer. It may seem peculiar that we're going through the network backward. But if you think about the proof of backpropagation, the backward movement is a consequence of the fact that the cost is a function of outputs from the network. To understand how the cost varies with earlier weights and biases we need to repeatedly apply the chain rule, working backward through the layers to obtain usable expressions.
 %
 %Exercises
@@ -218,10 +218,10 @@ As you can see, everything in this expression has a nice vector form, and is eas
 %
 %Input a set of training examples
 %For each training example x: Set the corresponding input activation ax,1, and perform the following steps:
-%Feedforward: For each l=2,3,…,L compute zx,l=wlax,l−1+bl and ax,l=$\sigma$(zx,l).
+%Feedforward: For each l=2,3,…,L compute zx,l=wlax,l-1+bl and ax,l=$\sigma$(zx,l).
 %Output error δx,L: Compute the vector δx,L=∇aCx⊙$\sigma$′(zx,L).
-%Backpropagate the error: For each l=L−1,L−2,…,2 compute δx,l=((wl+1)Tδx,l+1)⊙$\sigma$′(zx,l).
-%Gradient descent: For each l=L,L−1,…,2 update the weights according to the rule wl→wl−ηm∑xδx,l(ax,l−1)T, and the biases according to the rule bl→bl−ηm∑xδx,l.
+%Backpropagate the error: For each l=L-1,L-2,…,2 compute δx,l=((wl+1)Tδx,l+1)⊙$\sigma$′(zx,l).
+%Gradient descent: For each l=L,L-1,…,2 update the weights according to the rule wl→wl-ηm∑xδx,l(ax,l-1)T, and the biases according to the rule bl→bl-ηm∑xδx,l.
 %Of course, to implement stochastic gradient descent in practice you also need an outer loop generating mini-batches of training examples, and an outer loop stepping through multiple epochs of training. I've omitted those for simplicity.
 %The code for backpropagation
 %Having understood backpropagation in the abstract, we can now understand the code used in the last chapter to implement backpropagation. Recall from that chapter that the code was contained in the update\_mini\_batch and backprop methods of the Network class. The code for these methods is a direct translation of the algorithm described above. In particular, the update\_mini\_batch method updates the Network's weights and biases by computing the gradient for the current mini\_batch of training examples:
@@ -305,7 +305,7 @@ As you can see, everything in this expression has a nice vector form, and is eas
 %Fully matrix-based approach to backpropagation over a mini-batch Our implementation of stochastic gradient descent loops over training examples in a mini-batch. It's possible to modify the backpropagation algorithm so that it computes the gradients for all training examples in a mini-batch simultaneously. The idea is that instead of beginning with a single input vector, x, we can begin with a matrix X=[x1x2…xm] whose columns are the vectors in the mini-batch. We forward-propagate by multiplying by the weight matrices, adding a suitable matrix for the bias terms, and applying the sigmoid function everywhere. We backpropagate along similar lines. Explicitly write out pseudocode for this approach to the backpropagation algorithm. Modify network.py so that it uses this fully matrix-based approach. The advantage of this approach is that it takes full advantage of modern libraries for linear algebra. As a result it can be quite a bit faster than looping over the mini-batch. (On my laptop, for example, the speedup is about a factor of two when run on MNIST classification problems like those we considered in the last chapter.) In practice, all serious libraries for backpropagation use this fully matrix-based approach or some variant.
 %In what sense is backpropagation a fast algorithm?
 %In what sense is backpropagation a fast algorithm? To answer this question, let's consider another approach to computing the gradient. Imagine it's the early days of neural networks research. Maybe it's the 1950s or 1960s, and you're the first person in the world to think of using gradient descent to learn! But to make the idea work you need a way of computing the gradient of the cost function. You think back to your knowledge of calculus, and decide to see if you can use the chain rule to compute the gradient. But after playing around a bit, the algebra looks complicated, and you get discouraged. So you try to find another approach. You decide to regard the cost as a function of the weights C=C(w) alone (we'll get back to the biases in a moment). You number the weights w1,w2,…, and want to compute \partial{}C/\partial{}wj for some particular weight wj. An obvious way of doing that is to use the approximation
-%\partial{}C\partial{}wj≈C(w+ϵej)−C(w)ϵ,(46)
+%\partial{}C\partial{}wj≈C(w+ϵej)-C(w)ϵ,(46)
 %where ϵ>0 is a small positive number, and ej is the unit vector in the jth direction. In other words, we can estimate \partial{}C/\partial{}wj by computing the cost C for two slightly different values of wj, and then applying Equation (46). The same idea will let us compute the partial derivatives \partial{}C/\partial{}b with respect to the biases.
 %
 %This approach looks very promising. It's simple conceptually, and extremely easy to implement, using just a few lines of code. Certainly, it looks much more promising than the idea of using the chain rule to compute the gradient!
@@ -340,12 +340,12 @@ As you can see, everything in this expression has a nice vector form, and is eas
 %Δal+1q≈\partial{}al+1q\partial{}aljΔalj.(49)
 %Substituting in the expression from Equation (48), we get:
 %Δal+1q≈\partial{}al+1q\partial{}alj\partial{}alj\partial{}w^l_{jk}Δw^l_{jk}.(50)
-%Of course, the change Δal+1q will, in turn, cause changes in the activations in the next layer. In fact, we can imagine a path all the way through the network from w^l_{jk} to C, with each change in activation causing a change in the next activation, and, finally, a change in the cost at the output. If the path goes through activations alj,al+1q,…,aL−1n,aLm then the resulting expression is
-%ΔC≈\partial{}C\partial{}aLm\partial{}aLm\partial{}aL−1n\partial{}aL−1n\partial{}aL−2p…\partial{}al+1q\partial{}alj\partial{}alj\partial{}w^l_{jk}Δw^l_{jk},(51)
+%Of course, the change Δal+1q will, in turn, cause changes in the activations in the next layer. In fact, we can imagine a path all the way through the network from w^l_{jk} to C, with each change in activation causing a change in the next activation, and, finally, a change in the cost at the output. If the path goes through activations alj,al+1q,…,aL-1n,aLm then the resulting expression is
+%ΔC≈\partial{}C\partial{}aLm\partial{}aLm\partial{}aL-1n\partial{}aL-1n\partial{}aL-2p…\partial{}al+1q\partial{}alj\partial{}alj\partial{}w^l_{jk}Δw^l_{jk},(51)
 %that is, we've picked up a \partial{}a/\partial{}a type term for each additional neuron we've passed through, as well as the \partial{}C/\partial{}aLm term at the end. This represents the change in C due to changes in the activations along this particular path through the network. Of course, there's many paths by which a change in w^l_{jk} can propagate to affect the cost, and we've been considering just a single path. To compute the total change in C it is plausible that we should sum over all the possible paths between the weight and the final cost, i.e.,
-%ΔC≈∑mnp…q\partial{}C\partial{}aLm\partial{}aLm\partial{}aL−1n\partial{}aL−1n\partial{}aL−2p…\partial{}al+1q\partial{}alj\partial{}alj\partial{}w^l_{jk}Δw^l_{jk},(52)
+%ΔC≈∑mnp…q\partial{}C\partial{}aLm\partial{}aLm\partial{}aL-1n\partial{}aL-1n\partial{}aL-2p…\partial{}al+1q\partial{}alj\partial{}alj\partial{}w^l_{jk}Δw^l_{jk},(52)
 %where we've summed over all possible choices for the intermediate neurons along the path. Comparing with (47) we see that
-%\partial{}C\partial{}w^l_{jk}=∑mnp…q\partial{}C\partial{}aLm\partial{}aLm\partial{}aL−1n\partial{}aL−1n\partial{}aL−2p…\partial{}al+1q\partial{}alj\partial{}alj\partial{}w^l_{jk}.(53)
+%\partial{}C\partial{}w^l_{jk}=∑mnp…q\partial{}C\partial{}aLm\partial{}aLm\partial{}aL-1n\partial{}aL-1n\partial{}aL-2p…\partial{}al+1q\partial{}alj\partial{}alj\partial{}w^l_{jk}.(53)
 %Now, Equation (53) looks complicated. However, it has a nice intuitive interpretation. We're computing the rate of change of C with respect to a weight in the network. What the equation tells us is that every edge between two neurons in the network is associated with a rate factor which is just the partial derivative of one neuron's activation with respect to the other neuron's activation. The edge from the first weight to the first neuron has a rate factor \partial{}alj/\partial{}w^l_{jk}. The rate factor for a path is just the product of the rate factors along the path. And the total rate of change \partial{}C/\partial{}w^l_{jk} is just the sum of the rate factors of all paths from the initial weight to the final cost. This procedure is illustrated here, for a single path:
 %
 %What I've been providing up to now is a heuristic argument, a way of thinking about what's going on when you perturb a weight in a network. Let me sketch out a line of thinking you could use to further develop this argument. First, you could derive explicit expressions for all the individual partial derivatives in Equation (53). That's easy to do with a bit of calculus. Having done that, you could then try to figure out how to write all the sums over indices as matrix multiplications. This turns out to be tedious, and requires some persistence, but not extraordinary insight. After doing all this, and then simplifying as much as possible, what you discover is that you end up with exactly the backpropagation algorithm! And so you can think of the backpropagation algorithm as providing a way of computing the sum over the rate factor for all these paths. Or, to put it slightly differently, the backpropagation algorithm is a clever way of keeping track of small perturbations to the weights (and biases) as they propagate through the network, reach the output, and then affect the cost.
