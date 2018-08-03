@@ -12,3 +12,8 @@
 \BOOKMARK [1][-]{section.2.3}{The Hadamard product, st}{chapter.2}% 12
 \BOOKMARK [1][-]{section.2.4}{The four fundamental equations behind backpropagation}{chapter.2}% 13
 \BOOKMARK [1][-]{section.2.5}{Proof of the four fundamental equations \(optional\)}{chapter.2}% 14
+\BOOKMARK [1][-]{section.2.6}{The backpropagation algorithm}{chapter.2}% 15
+\BOOKMARK [2][-]{subsection.2.6.1}{Exercises}{section.2.6}% 16
+\BOOKMARK [1][-]{section.2.7}{The code for backpropagation}{chapter.2}% 17
+\BOOKMARK [1][-]{section.2.8}{In what sense is backpropagation a fast algorithm?}{chapter.2}% 18
+\BOOKMARK [1][-]{section.2.9}{Backpropagation: the big picture}{chapter.2}% 19

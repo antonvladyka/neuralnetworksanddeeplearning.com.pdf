@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6600 64-bit) (preloaded format=pdflatex 2018.5.6)  3 AUG 2018 10:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6600 64-bit) (preloaded format=pdflatex 2018.5.6)  3 AUG 2018 11:19
 entering extended mode
 **./book.tex
 (book.tex
@@ -1761,12 +1761,12 @@ LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
 (Font)              scaled to size 16.12804pt on input line 5.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
 (Font)              scaled to size 11.52008pt on input line 5.
-<./figures/ch1/digits.png, id=109, 450.2421pt x 92.5056pt>
+<./figures/ch1/digits.png, id=134, 450.2421pt x 92.5056pt>
 File: ./figures/ch1/digits.png Graphic file (type png)
 <use ./figures/ch1/digits.png>
 Package pdftex.def Info: ./figures/ch1/digits.png  used on input line 9.
 (pdftex.def)             Requested size: 85.35826pt x 17.53671pt.
-<./figures/ch1/mnist_100_digits.png, id=111, 153.57375pt x 122.859pt>
+<./figures/ch1/mnist_100_digits.png, id=136, 153.57375pt x 122.859pt>
 File: ./figures/ch1/mnist_100_digits.png Graphic file (type png)
 <use ./figures/ch1/mnist_100_digits.png>
 Package pdftex.def Info: ./figures/ch1/mnist_100_digits.png  used on input line
@@ -1808,7 +1808,7 @@ been already used, duplicate ignored
                    \relax 
 l.29 
       [2 <./figures/ch1/mnist_100_digits.png>]
-<./figures/ch1/tikz0.png, id=121, 281.05pt x 138.5175pt>
+<./figures/ch1/tikz0.png, id=146, 281.05pt x 138.5175pt>
 File: ./figures/ch1/tikz0.png Graphic file (type png)
 <use ./figures/ch1/tikz0.png>
 Package pdftex.def Info: ./figures/ch1/tikz0.png  used on input line 32.
@@ -1825,7 +1825,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [3 <./figures/ch1/tikz0.png>]
-<./figures/ch1/tikz1.png, id=133, 542.025pt x 211.79124pt>
+<./figures/ch1/tikz1.png, id=158, 542.025pt x 211.79124pt>
 File: ./figures/ch1/tikz1.png Graphic file (type png)
 <use ./figures/ch1/tikz1.png>
 Package pdftex.def Info: ./figures/ch1/tikz1.png  used on input line 58.
@@ -1838,7 +1838,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [4 <./figures/ch1/tikz1.png>]
-<./figures/ch1/tikz2.png, id=140, 250.9375pt x 104.39pt>
+<./figures/ch1/tikz2.png, id=165, 250.9375pt x 104.39pt>
 File: ./figures/ch1/tikz2.png Graphic file (type png)
 <use ./figures/ch1/tikz2.png>
 Package pdftex.def Info: ./figures/ch1/tikz2.png  used on input line 76.
@@ -1846,12 +1846,12 @@ Package pdftex.def Info: ./figures/ch1/tikz2.png  used on input line 76.
 Missing character: There is no â in font mdbchr7t!
 Missing character: There is no ˆ in font mdbchr7t!
 Missing character: There is no ’ in font mdbchr7t!
-<./figures/ch1/tikz3.png, id=141, 506.89375pt x 156.585pt>
+<./figures/ch1/tikz3.png, id=166, 506.89375pt x 156.585pt>
 File: ./figures/ch1/tikz3.png Graphic file (type png)
 <use ./figures/ch1/tikz3.png>
 Package pdftex.def Info: ./figures/ch1/tikz3.png  used on input line 82.
 (pdftex.def)             Requested size: 253.44626pt x 78.2923pt.
-<./figures/ch1/tikz4.png, id=142, 472.76625pt x 209.78375pt>
+<./figures/ch1/tikz4.png, id=167, 472.76625pt x 209.78375pt>
 File: ./figures/ch1/tikz4.png Graphic file (type png)
 <use ./figures/ch1/tikz4.png>
 Package pdftex.def Info: ./figures/ch1/tikz4.png  used on input line 86.
@@ -1865,17 +1865,17 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [5 <./figures/ch1/tikz2.png> <./figures/ch1/tikz3.png> <./figures/ch1/tikz4.png
 >]
-<./figures/ch1/tikz5.png, id=150, 472.76625pt x 209.78375pt>
+<./figures/ch1/tikz5.png, id=175, 472.76625pt x 209.78375pt>
 File: ./figures/ch1/tikz5.png Graphic file (type png)
 <use ./figures/ch1/tikz5.png>
 Package pdftex.def Info: ./figures/ch1/tikz5.png  used on input line 90.
 (pdftex.def)             Requested size: 236.38254pt x 104.8916pt.
-<./figures/ch1/tikz6.png, id=151, 479.7925pt x 209.78375pt>
+<./figures/ch1/tikz6.png, id=176, 479.7925pt x 209.78375pt>
 File: ./figures/ch1/tikz6.png Graphic file (type png)
 <use ./figures/ch1/tikz6.png>
 Package pdftex.def Info: ./figures/ch1/tikz6.png  used on input line 94.
 (pdftex.def)             Requested size: 239.89565pt x 104.8916pt.
-<./figures/ch1/tikz7.png, id=152, 106.3975pt x 40.15pt>
+<./figures/ch1/tikz7.png, id=177, 106.3975pt x 40.15pt>
 File: ./figures/ch1/tikz7.png Graphic file (type png)
 <use ./figures/ch1/tikz7.png>
 Package pdftex.def Info: ./figures/ch1/tikz7.png  used on input line 98.
@@ -1889,7 +1889,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [6 <./figures/ch1/tikz5.png> <./figures/ch1/tikz6.png> <./figures/ch1/tikz7.png
 >]
-<./figures/ch1/tikz8.png, id=160, 488.82625pt x 271.0125pt>
+<./figures/ch1/tikz8.png, id=185, 488.82625pt x 271.0125pt>
 File: ./figures/ch1/tikz8.png Graphic file (type png)
 <use ./figures/ch1/tikz8.png>
 Package pdftex.def Info: ./figures/ch1/tikz8.png  used on input line 112.
@@ -1902,7 +1902,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [7 <./figures/ch1/tikz8.png>]
-<./figures/ch1/tikz9.png, id=167, 281.05pt x 138.5175pt>
+<./figures/ch1/tikz9.png, id=192, 281.05pt x 138.5175pt>
 File: ./figures/ch1/tikz9.png Graphic file (type png)
 <use ./figures/ch1/tikz9.png>
 Package pdftex.def Info: ./figures/ch1/tikz9.png  used on input line 123.
@@ -1932,7 +1932,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [9]
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
 (Font)              scaled to size 9.60007pt on input line 168.
-<./figures/ch1/tikz10.png, id=187, 397.485pt x 211.79124pt>
+<./figures/ch1/tikz10.png, id=212, 397.485pt x 211.79124pt>
 File: ./figures/ch1/tikz10.png Graphic file (type png)
 <use ./figures/ch1/tikz10.png>
 Package pdftex.def Info: ./figures/ch1/tikz10.png  used on input line 182.
@@ -1948,7 +1948,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [10]
-<./figures/ch1/tikz11.png, id=193, 599.23875pt x 325.215pt>
+<./figures/ch1/tikz11.png, id=218, 599.23875pt x 325.215pt>
 File: ./figures/ch1/tikz11.png Graphic file (type png)
 <use ./figures/ch1/tikz11.png>
 Package pdftex.def Info: ./figures/ch1/tikz11.png  used on input line 188.
@@ -1965,13 +1965,13 @@ File: ./figures/ch1/digits.png Graphic file (type png)
 <use ./figures/ch1/digits.png>
 Package pdftex.def Info: ./figures/ch1/digits.png  used on input line 205.
 (pdftex.def)             Requested size: 157.58708pt x 32.37744pt.
-<./figures/ch1/digits_separate.png, id=200, 455.301pt x 71.5473pt>
+<./figures/ch1/digits_separate.png, id=225, 455.301pt x 71.5473pt>
 File: ./figures/ch1/digits_separate.png Graphic file (type png)
 <use ./figures/ch1/digits_separate.png>
 Package pdftex.def Info: ./figures/ch1/digits_separate.png  used on input line 
 209.
 (pdftex.def)             Requested size: 227.64993pt x 35.77354pt.
-<./figures/ch1/mnist_first_digit.png, id=201, 22.4037pt x 25.2945pt>
+<./figures/ch1/mnist_first_digit.png, id=226, 22.4037pt x 25.2945pt>
 File: ./figures/ch1/mnist_first_digit.png Graphic file (type png)
 <use ./figures/ch1/mnist_first_digit.png>
 Package pdftex.def Info: ./figures/ch1/mnist_first_digit.png  used on input lin
@@ -1985,7 +1985,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [12 <./figures/ch1/digits_separate.png> <./figures/ch1/mnist_first_digit.png>]
-<./figures/ch1/tikz12.png, id=208, 539.01375pt x 448.67625pt>
+<./figures/ch1/tikz12.png, id=233, 539.01375pt x 448.67625pt>
 File: ./figures/ch1/tikz12.png Graphic file (type png)
 <use ./figures/ch1/tikz12.png>
 Package pdftex.def Info: ./figures/ch1/tikz12.png  used on input line 222.
@@ -2002,19 +2002,19 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [13 <./figures/ch1/tikz12.png>]
-<./figures/ch1/mnist_top_left_feature.png, id=215, 359.1819pt x 369.2997pt>
+<./figures/ch1/mnist_top_left_feature.png, id=240, 359.1819pt x 369.2997pt>
 File: ./figures/ch1/mnist_top_left_feature.png Graphic file (type png)
 <use ./figures/ch1/mnist_top_left_feature.png>
 Package pdftex.def Info: ./figures/ch1/mnist_top_left_feature.png  used on inpu
 t line 235.
 (pdftex.def)             Requested size: 33.20735pt x 34.14539pt.
-<./figures/ch1/mnist_other_features.png, id=216, 459.6372pt x 146.7081pt>
+<./figures/ch1/mnist_other_features.png, id=241, 459.6372pt x 146.7081pt>
 File: ./figures/ch1/mnist_other_features.png Graphic file (type png)
 <use ./figures/ch1/mnist_other_features.png>
 Package pdftex.def Info: ./figures/ch1/mnist_other_features.png  used on input 
 line 240.
 (pdftex.def)             Requested size: 106.97676pt x 34.14539pt.
-<./figures/ch1/mnist_complete_zero.png, id=217, 357.7365pt x 359.1819pt>
+<./figures/ch1/mnist_complete_zero.png, id=242, 357.7365pt x 359.1819pt>
 File: ./figures/ch1/mnist_complete_zero.png Graphic file (type png)
 <use ./figures/ch1/mnist_complete_zero.png>
 Package pdftex.def Info: ./figures/ch1/mnist_complete_zero.png  used on input l
@@ -2029,7 +2029,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [14 <./figures/ch1/mnist_top_left_feature.png> <./figures/ch1/mnist_other_featu
 res.png> <./figures/ch1/mnist_complete_zero.png>]
-<./figures/ch1/tikz13.png, id=225, 547.04375pt x 305.14pt>
+<./figures/ch1/tikz13.png, id=250, 547.04375pt x 305.14pt>
 File: ./figures/ch1/tikz13.png Graphic file (type png)
 <use ./figures/ch1/tikz13.png>
 Package pdftex.def Info: ./figures/ch1/tikz13.png  used on input line 258.
@@ -2055,7 +2055,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [16]
-<./figures/ch1/valley.png, id=240, 586.8324pt x 442.2924pt>
+<./figures/ch1/valley.png, id=265, 586.8324pt x 442.2924pt>
 File: ./figures/ch1/valley.png Graphic file (type png)
 <use ./figures/ch1/valley.png>
 Package pdftex.def Info: ./figures/ch1/valley.png  used on input line 291.
@@ -2075,7 +2075,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [18]
-<./figures/ch1/valley_with_ball.png, id=257, 815.045pt x 614.295pt>
+<./figures/ch1/valley_with_ball.png, id=282, 815.045pt x 614.295pt>
 File: ./figures/ch1/valley_with_ball.png Graphic file (type png)
 <use ./figures/ch1/valley_with_ball.png>
 Package pdftex.def Info: ./figures/ch1/valley_with_ball.png  used on input line
@@ -2187,7 +2187,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [31]
-<./figures/ch1/mnist_2_and_1.png, id=634, 462.528pt x 225.4824pt>
+<./figures/ch1/mnist_2_and_1.png, id=659, 462.528pt x 225.4824pt>
 File: ./figures/ch1/mnist_2_and_1.png Graphic file (type png)
 <use ./figures/ch1/mnist_2_and_1.png>
 Package pdftex.def Info: ./figures/ch1/mnist_2_and_1.png  used on input line 83
@@ -2201,25 +2201,25 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [32 <./figures/ch1/mnist_2_and_1.png>]
-<./figures/ch1/mnist_really_bad_images.png, id=663, 731.3724pt x 153.2124pt>
+<./figures/ch1/mnist_really_bad_images.png, id=688, 731.3724pt x 153.2124pt>
 File: ./figures/ch1/mnist_really_bad_images.png Graphic file (type png)
 <use ./figures/ch1/mnist_really_bad_images.png>
 Package pdftex.def Info: ./figures/ch1/mnist_really_bad_images.png  used on inp
 ut line 846.
 (pdftex.def)             Requested size: 255.98418pt x 53.62512pt.
-<./figures/ch1/File_Kangaroo_ST_03.jpg, id=664, 72.27pt x 96.36pt>
+<./figures/ch1/File_Kangaroo_ST_03.jpg, id=689, 72.27pt x 96.36pt>
 File: ./figures/ch1/File_Kangaroo_ST_03.jpg Graphic file (type jpg)
 <use ./figures/ch1/File_Kangaroo_ST_03.jpg>
 Package pdftex.def Info: ./figures/ch1/File_Kangaroo_ST_03.jpg  used on input l
 ine 865.
 (pdftex.def)             Requested size: 64.01793pt x 85.35826pt.
-<./figures/ch1/Einstein_crop.jpg, id=665, 54.80475pt x 46.77475pt>
+<./figures/ch1/Einstein_crop.jpg, id=690, 54.80475pt x 46.77475pt>
 File: ./figures/ch1/Einstein_crop.jpg Graphic file (type jpg)
 <use ./figures/ch1/Einstein_crop.jpg>
 Package pdftex.def Info: ./figures/ch1/Einstein_crop.jpg  used on input line 86
 5.
 (pdftex.def)             Requested size: 100.01404pt x 85.35826pt.
-<./figures/ch1/hubble.jpg, id=666, 66.2475pt x 57.816pt>
+<./figures/ch1/hubble.jpg, id=691, 66.2475pt x 57.816pt>
 File: ./figures/ch1/hubble.jpg Graphic file (type jpg)
 <use ./figures/ch1/hubble.jpg>
 Package pdftex.def Info: ./figures/ch1/hubble.jpg  used on input line 865.
@@ -2234,7 +2234,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [33 <./figures/ch1/mnist_really_bad_images.png>]
-<./figures/ch1/tikz14.png, id=672, 613.29124pt x 410.53375pt>
+<./figures/ch1/tikz14.png, id=697, 613.29124pt x 410.53375pt>
 File: ./figures/ch1/tikz14.png Graphic file (type png)
 <use ./figures/ch1/tikz14.png>
 Package pdftex.def Info: ./figures/ch1/tikz14.png  used on input line 879.
@@ -2251,7 +2251,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [34 <./figures/ch1/File_Kangaroo_ST_03.jpg> <./figures/ch1/Einstein_crop.jpg> <
 ./figures/ch1/hubble.jpg>]
-<./figures/ch1/tikz15.png, id=678, 599.23875pt x 239.89626pt>
+<./figures/ch1/tikz15.png, id=703, 599.23875pt x 239.89626pt>
 File: ./figures/ch1/tikz15.png Graphic file (type png)
 <use ./figures/ch1/tikz15.png>
 Package pdftex.def Info: ./figures/ch1/tikz15.png  used on input line 884.
@@ -2282,12 +2282,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [37
 
 ]
-<./figures/ch2/tikz16.png, id=694, 619.31375pt x 243.91125pt>
+<./figures/ch2/tikz16.png, id=719, 619.31375pt x 243.91125pt>
 File: ./figures/ch2/tikz16.png Graphic file (type png)
 <use ./figures/ch2/tikz16.png>
 Package pdftex.def Info: ./figures/ch2/tikz16.png  used on input line 21.
 (pdftex.def)             Requested size: 239.0021pt x 94.12756pt.
-<./figures/ch2/tikz17.png, id=695, 299.1175pt x 243.91125pt>
+<./figures/ch2/tikz17.png, id=720, 299.1175pt x 243.91125pt>
 File: ./figures/ch2/tikz17.png Graphic file (type png)
 <use ./figures/ch2/tikz17.png>
 Package pdftex.def Info: ./figures/ch2/tikz17.png  used on input line 26.
@@ -2310,7 +2310,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [39]
-<./figures/ch2/tikz18.png, id=718, 493.845pt x 211.79124pt>
+<./figures/ch2/tikz18.png, id=743, 493.845pt x 211.79124pt>
 File: ./figures/ch2/tikz18.png Graphic file (type png)
 <use ./figures/ch2/tikz18.png>
 Package pdftex.def Info: ./figures/ch2/tikz18.png  used on input line 67.
@@ -2379,7 +2379,7 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 75.
 
-<./figures/ch2/tikz19.png, id=726, 585.18625pt x 240.9pt>
+<./figures/ch2/tikz19.png, id=751, 585.18625pt x 240.9pt>
 File: ./figures/ch2/tikz19.png Graphic file (type png)
 <use ./figures/ch2/tikz19.png>
 Package pdftex.def Info: ./figures/ch2/tikz19.png  used on input line 92.
@@ -2525,12 +2525,12 @@ er (name{equation.2.4.9}) has been already used, duplicate ignored
                    \relax 
 l.168 \begin{equation}
                       
-<./figures/ch2/tikz20.png, id=769, 182.6825pt x 83.31125pt>
+<./figures/ch2/tikz20.png, id=794, 182.6825pt x 83.31125pt>
 File: ./figures/ch2/tikz20.png Graphic file (type png)
 <use ./figures/ch2/tikz20.png>
 Package pdftex.def Info: ./figures/ch2/tikz20.png  used on input line 175.
 (pdftex.def)             Requested size: 182.68204pt x 83.31104pt.
-<figures/ch2/tikz21.png, id=779, 512.91624pt x 285.065pt>
+<figures/ch2/tikz21.png, id=804, 512.91624pt x 285.065pt>
 File: figures/ch2/tikz21.png Graphic file (type png)
 <use figures/ch2/tikz21.png>
 Package pdftex.def Info: figures/ch2/tikz21.png  used on input line 187.
@@ -2549,7 +2549,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[45 <./figures/ch2/tikz21.png>])
+[45 <./figures/ch2/tikz21.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 16.89995pt.
@@ -2557,25 +2560,140 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [46]
+Overfull \hbox (1.07103pt too wide) in paragraph at lines 279--280
+[]\T1/mdbch/b/n/9 Backpropagate the er-ror\T1/mdbch/m/n/9 (-20) : For each $\OM
+L/mdbch/m/it/9 l \OT1/mdbch/m/n/9 (-20) = \OML/mdbch/m/it/9 L \OMS/mdbch/m/n/9 
+  \OT1/mdbch/m/n/9 (-20) 1\OML/mdbch/m/it/9 ; L \OMS/mdbch/m/n/9   \OT1/mdbch/m
+/n/9 (-20) 2\OML/mdbch/m/it/9 ; [] ; \OT1/mdbch/m/n/9 (-20) 2$ \T1/mdbch/m/n/9 
+(-20) com-pute $\OML/mdbch/m/it/9 [] \OT1/mdbch/m/n/9 (-20) = ((\OML/mdbch/m/i
+t/9 w[]\OT1/mdbch/m/n/9 (-20) )[]\OML/mdbch/m/it/9 []\OT1/mdbch/m/n/9 (-20) ) 
+\OMS/mdbch/m/n/9 
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 16.89995pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[47]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 16.89995pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[48]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 16.89995pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[49]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 16.89995pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[50]
+<./figures/ch2/tikz22.png, id=949, 585.18625pt x 266.9975pt>
+File: ./figures/ch2/tikz22.png Graphic file (type png)
+<use ./figures/ch2/tikz22.png>
+Package pdftex.def Info: ./figures/ch2/tikz22.png  used on input line 404.
+(pdftex.def)             Requested size: 292.5924pt x 133.49841pt.
+<./figures/ch2/tikz23.png, id=950, 585.18625pt x 249.93375pt>
+File: ./figures/ch2/tikz23.png Graphic file (type png)
+<use ./figures/ch2/tikz23.png>
+Package pdftex.def Info: ./figures/ch2/tikz23.png  used on input line 408.
+(pdftex.def)             Requested size: 292.5924pt x 124.96657pt.
+<./figures/ch2/tikz24.png, id=951, 585.18625pt x 211.79124pt>
+File: ./figures/ch2/tikz24.png Graphic file (type png)
+<use ./figures/ch2/tikz24.png>
+Package pdftex.def Info: ./figures/ch2/tikz24.png  used on input line 412.
+(pdftex.def)             Requested size: 292.5924pt x 105.89536pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 16.89995pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[51 <./figures/ch2/tikz22.png> <./figures/ch2/tikz23.png>]
+<./figures/ch2/tikz25.png, id=958, 593.21625pt x 211.79124pt>
+File: ./figures/ch2/tikz25.png Graphic file (type png)
+<use ./figures/ch2/tikz25.png>
+Package pdftex.def Info: ./figures/ch2/tikz25.png  used on input line 416.
+(pdftex.def)             Requested size: 296.60739pt x 105.89536pt.
+<./figures/ch2/tikz26.png, id=959, 585.18625pt x 211.79124pt>
+File: ./figures/ch2/tikz26.png Graphic file (type png)
+<use ./figures/ch2/tikz26.png>
+Package pdftex.def Info: ./figures/ch2/tikz26.png  used on input line 434.
+(pdftex.def)             Requested size: 292.5924pt x 105.89536pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 16.89995pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[52 <./figures/ch2/tikz24.png> <./figures/ch2/tikz25.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 16.89995pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[53 <./figures/ch2/tikz26.png>]
+<./figures/ch2/tikz27.png, id=981, 585.18625pt x 257.96375pt>
+File: ./figures/ch2/tikz27.png Graphic file (type png)
+<use ./figures/ch2/tikz27.png>
+Package pdftex.def Info: ./figures/ch2/tikz27.png  used on input line 479.
+(pdftex.def)             Requested size: 292.5924pt x 128.98155pt.
+)
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 16.89995pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[54 <./figures/ch2/tikz27.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 16.89995pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[55]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 15.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 15.
  (book.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 15.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 15.
 Package rerunfilecheck Info: File `book.out' has not changed.
-(rerunfilecheck)             Checksum: A692CAC3536C29CDA5923F3FA2ABF920;1193.
+(rerunfilecheck)             Checksum: 3564A6CCC617C3E178C07C6A0556D057;1588.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 15.
  ) 
 Here is how much of TeX's memory you used:
- 46048 strings out of 493303
- 1010800 string characters out of 3138848
+ 46245 strings out of 493303
+ 1013868 string characters out of 3138848
  1621089 words of memory out of 3000000
- 48033 multiletter control sequences out of 15000+200000
- 639205 words of font info for 444 fonts, out of 3000000 for 9000
+ 48112 multiletter control sequences out of 15000+200000
+ 639659 words of font info for 450 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  71i,20n,103p,1696b,2415s stack positions out of 5000i,500n,10000p,200000b,50000s
-pdfTeX warning (dest): name{Hfootnote.11} has been referenced but does not ex
+pdfTeX warning (dest): name{Hfootnote.13} has been referenced but does not ex
 ist, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.12} has been referenced but does not exis
+t, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.11} has been referenced but does not exis
+t, replaced by a fixed one
 
 pdfTeX warning (dest): name{Hfootnote.10} has been referenced but does not exis
 t, replaced by a fixed one
@@ -2621,9 +2739,9 @@ Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/type1/mathdesign/mdbch/md-chr7y
 .pfb><C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/type1/mathdesign/mdbch
 /md-chr8t.pfb><C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/type1/mathdes
 ign/mdbch/md-chri7m.pfb>
-Output written on book.pdf (52 pages, 969951 bytes).
+Output written on book.pdf (61 pages, 1105895 bytes).
 PDF statistics:
- 1052 PDF objects out of 1200 (max. 8388607)
- 432 named destinations out of 1000 (max. 500000)
- 38193 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 1260 PDF objects out of 1440 (max. 8388607)
+ 536 named destinations out of 1000 (max. 500000)
+ 38263 words of extra memory for PDF output out of 42996 (max. 10000000)
 

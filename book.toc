@@ -13,3 +13,8 @@
 \contentsline {section}{\numberline {2.3}The Hadamard product, $s\odot {}t$}{41}{section.2.3}
 \contentsline {section}{\numberline {2.4}The four fundamental equations behind backpropagation}{41}{section.2.4}
 \contentsline {section}{\numberline {2.5}Proof of the four fundamental equations (optional)}{45}{section.2.5}
+\contentsline {section}{\numberline {2.6}The backpropagation algorithm}{47}{section.2.6}
+\contentsline {subsection}{\numberline {2.6.1}Exercises}{47}{subsection.2.6.1}
+\contentsline {section}{\numberline {2.7}The code for backpropagation}{48}{section.2.7}
+\contentsline {section}{\numberline {2.8}In what sense is backpropagation a fast algorithm?}{50}{section.2.8}
+\contentsline {section}{\numberline {2.9}Backpropagation: the big picture}{51}{section.2.9}
