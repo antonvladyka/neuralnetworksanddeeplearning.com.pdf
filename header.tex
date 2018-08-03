@@ -19,12 +19,6 @@
 % SOME extra math symbols
 \usepackage{amssymb}
 
-% TEXT on top of pictures
-% ABS or REL positioning
-% REL is better for scaled figures
-\usepackage[rel]{overpic}
-% CHEMICAL formulae like \ce{SiO2} and \ce{(NH4)2S2O8}
-\usepackage[version=4]{mhchem}
 
 
 
@@ -40,12 +34,6 @@
 \renewcommand\large{\fontsize{10pt}{10pt}\selectfont}
 \renewcommand\Large{\fontsize{11pt}{11pt}\selectfont}
 \renewcommand\Huge{\fontsize{24pt}{24pt}\selectfont}
-
-%\renewcommand\small{\fontsize{10pt}{10pt}\selectfont}
-%\renewcommand\normalsize{\fontsize{12pt}{12pt}\selectfont}
-%\renewcommand\large{\fontsize{14pt}{14pt}\selectfont}
-%\renewcommand\Large{\fontsize{16pt}{16pt}\selectfont}
-%\renewcommand\Huge{\fontsize{36pt}{36pt}\selectfont}
 
 % LINE spacing
 \renewcommand{\baselinestretch}{1.25}
@@ -167,41 +155,6 @@
 
 
 
-%% BIBLATEX
-%% BIBliography: if authors <= MAXBIBNAMES - show all, ELSE: show only MINBIBNAMES et al.
-%% TEXTCITE: if authors <= MAXCITENAMES - show all, ELSE: show only MINCITENAMES et al.
-%% SORTCITES = sort numbers in ascending order
-%% IGNORE/NOT IGNORE URL, DOI, EPRINT fields
-%% BIBstyle = ieee (available)/ nature / science etc. (requires *.bbx file)
-%% NICE: ieee+doi=true and phys+doi=false
-%\usepackage[maxbibnames=3,minbibnames=1,backend=bibtex,maxcitenames=2,mincitenames=1,bibstyle=ieee,citestyle=numeric-comp,sorting=none,sortcites,url=false,doi=true,eprint=false]{biblatex}
-%% REDUCE font size for bibliography (=useless waste of space)
-%%\renewcommand*{\bibfont}{\footnotesize} %too small
-%\renewcommand*{\bibfont}{\small}
-%% SUPPRESS 'in' nefore journal name
-%\renewbibmacro{in:}{}
-%% LIST of bib files
-%\addbibresource{library.bib}
-%% STYLE of URL/DOI: Serif font instead of monospaced (mono looks ugly)
-%\urlstyle{rm}
-%
-%% REdefine fullcite for personal publications list
-%\DeclareCiteCommand{\fullcite}
-%{\usebibmacro{prenote}}
-%{\usedriver
-%	{\defcounter{minnames}{6}%
-%		\defcounter{maxnames}{9}}
-%	{\thefield{entrytype}}.}
-%{\multicitedelim}
-%{\usebibmacro{postnote}}
-%
-%% FOOTnote on the chapter first page without footnotemark
-%% RESULTS of this chapter were published as a paper
-%\makeatletter
-%    \def\blfootnote{\gdef\@thefnmark{}\@footnotetext}
-%\makeatother
-
-
 % TABLES: nicer rulers
 % AND nicer spacing between lines in tables
 \usepackage{booktabs}
@@ -251,24 +204,6 @@
 %\usepackage[artemisia]{textgreek}
 
 
-% PART page picture
-% DEFINE \partimage before the beginning of the part
-\makeatletter
-\newcommand{\partimage}[2][]{\gdef\@partimage{\includegraphics[#1]{#2}}}
-% REDEFINED amsbook part code to include the \@partimage insertion command - copypaste from SeX
-\def\@part[#1]#2{%
-	\ifnum \c@secnumdepth >-2\relax \refstepcounter{part}%
-	\addcontentsline{toc}{part}{\partname\ \thepart.
-		\protect\enspace\protect\noindent#1}%
-	\else
-	\addcontentsline{toc}{part}{#1}\fi
-	\begingroup\centering
-	\ifnum \c@secnumdepth >-2\relax
-	{\fontsize{\@xviipt}{22}\bfseries
-		\partname\ \thepart} \vskip 20\p@ \fi
-	\fontsize{\@xxpt}{25}\bfseries
-	#1\vfil\@partimage\vfil\endgroup \newpage\thispagestyle{empty}}
-\makeatother
 
 
 \usepackage{listings}

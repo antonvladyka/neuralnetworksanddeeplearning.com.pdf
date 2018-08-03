@@ -1,0 +1,1369 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6600 64-bit) (preloaded format=pdflatex 2018.5.6)  3 AUG 2018 13:39
+entering extended mode
+**./ch3_improving.tex
+(ch3_improving.tex
+LaTeX2e <2017-04-15>
+Babel <3.17> and hyphenation patterns for 75 language(s) loaded.
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\book.cls"
+Document Class: book 2014/09/29 v1.4h Standard LaTeX document class
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\bk10.clo"
+File: bk10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+\@input{header.aux}
+\openout2 = `header.aux'.
+
+(header.tex ("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count88
+\Gm@cntv=\count89
+\c@Gm@tempcnt=\count90
+\Gm@bindingoffset=\dimen103
+\Gm@wd@mp=\dimen104
+\Gm@odd@mp=\dimen105
+\Gm@even@mp=\dimen106
+\Gm@layoutwidth=\dimen107
+\Gm@layoutheight=\dimen108
+\Gm@layouthoffset=\dimen109
+\Gm@layoutvoffset=\dimen110
+\Gm@dimlist=\toks15
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\tabularx.sty"
+Package: tabularx 2016/02/03 v2.11 `tabularx' package (DPC)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\array.sty"
+Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
+\col@sep=\dimen111
+\extrarowheight=\dimen112
+\NC@list=\toks16
+\extratabsurround=\skip43
+\backup@length=\skip44
+)
+\TX@col@width=\dimen113
+\TX@old@table=\dimen114
+\TX@old@col=\dimen115
+\TX@target=\dimen116
+\TX@delta=\dimen117
+\TX@cols=\count91
+\TX@ftn=\toks17
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\frontendlayer\tikz.
+sty
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\basiclayer\pgf.sty
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\utilities\pgfrcs.st
+y
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgfutil
+-common.tex
+\pgfutil@everybye=\toks18
+\pgfutil@tempdima=\dimen118
+\pgfutil@tempdimb=\dimen119
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgfutil
+-common-lists.tex))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgfutil
+-latex.def
+\pgfutil@abb=\box26
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\ms\everyshi.sty
+Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
+))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgfrcs.
+code.tex
+Package: pgfrcs 2015/08/07 v3.0.1a (rcs-revision 1.31)
+))
+Package: pgf 2015/08/07 v3.0.1a (rcs-revision 1.15)
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\basiclayer\pgfcore.
+sty ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-def\pdftex.def"
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen120
+\Gin@req@width=\dimen121
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\systemlayer\pgfsys.
+sty
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\systemlayer\pgfsy
+s.code.tex
+Package: pgfsys 2014/07/09 v3.0.1a (rcs-revision 1.48)
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgfkeys
+.code.tex
+\pgfkeys@pathtoks=\toks19
+\pgfkeys@temptoks=\toks20
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgfkeys
+filtered.code.tex
+\pgfkeys@tmptoks=\toks21
+))
+\pgf@x=\dimen122
+\pgf@y=\dimen123
+\pgf@xa=\dimen124
+\pgf@ya=\dimen125
+\pgf@xb=\dimen126
+\pgf@yb=\dimen127
+\pgf@xc=\dimen128
+\pgf@yc=\dimen129
+\w@pgf@writea=\write3
+\r@pgf@reada=\read1
+\c@pgf@counta=\count92
+\c@pgf@countb=\count93
+\c@pgf@countc=\count94
+\c@pgf@countd=\count95
+\t@pgf@toka=\toks22
+\t@pgf@tokb=\toks23
+\t@pgf@tokc=\toks24
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\systemlayer\pgf.c
+fg
+File: pgf.cfg 2008/05/14  (rcs-revision 1.7)
+)
+Driver file for pgf: pgfsys-pdftex.def
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\systemlayer\pgfsy
+s-pdftex.def
+File: pgfsys-pdftex.def 2014/10/11  (rcs-revision 1.35)
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\systemlayer\pgfsy
+s-common-pdf.def
+File: pgfsys-common-pdf.def 2013/10/10  (rcs-revision 1.13)
+)))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\systemlayer\pgfsy
+ssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2013/09/09  (rcs-revision 1.9)
+\pgfsyssoftpath@smallbuffer@items=\count96
+\pgfsyssoftpath@bigbuffer@items=\count97
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\systemlayer\pgfsy
+sprotocol.code.tex
+File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
+))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\xcolor\xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\color.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+e.code.tex
+Package: pgfcore 2010/04/11 v3.0.1a (rcs-revision 1.7)
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmath.code
+.tex
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathcalc.
+code.tex
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathutil.
+code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathparse
+r.code.tex
+\pgfmath@dimen=\dimen130
+\pgfmath@count=\count98
+\pgfmath@box=\box27
+\pgfmath@toks=\toks25
+\pgfmath@stack@operand=\toks26
+\pgfmath@stack@operation=\toks27
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunct
+ions.code.tex
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunct
+ions.basic.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunct
+ions.trigonometric.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunct
+ions.random.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunct
+ions.comparison.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunct
+ions.base.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunct
+ions.round.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunct
+ions.misc.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunct
+ions.integerarithmetics.code.tex)))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfloat
+.code.tex
+\c@pgfmathroundto@lastzeros=\count99
+))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+epoints.code.tex
+File: pgfcorepoints.code.tex 2013/10/07  (rcs-revision 1.27)
+\pgf@picminx=\dimen131
+\pgf@picmaxx=\dimen132
+\pgf@picminy=\dimen133
+\pgf@picmaxy=\dimen134
+\pgf@pathminx=\dimen135
+\pgf@pathmaxx=\dimen136
+\pgf@pathminy=\dimen137
+\pgf@pathmaxy=\dimen138
+\pgf@xx=\dimen139
+\pgf@xy=\dimen140
+\pgf@yx=\dimen141
+\pgf@yy=\dimen142
+\pgf@zx=\dimen143
+\pgf@zy=\dimen144
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+epathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2013/10/07  (rcs-revision 1.29)
+\pgf@path@lastx=\dimen145
+\pgf@path@lasty=\dimen146
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+epathusage.code.tex
+File: pgfcorepathusage.code.tex 2014/11/02  (rcs-revision 1.24)
+\pgf@shorten@end@additional=\dimen147
+\pgf@shorten@start@additional=\dimen148
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+escopes.code.tex
+File: pgfcorescopes.code.tex 2015/05/08  (rcs-revision 1.46)
+\pgfpic=\box28
+\pgf@hbox=\box29
+\pgf@layerbox@main=\box30
+\pgf@picture@serial@count=\count100
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+egraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2014/11/02  (rcs-revision 1.12)
+\pgflinewidth=\dimen149
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+etransformations.code.tex
+File: pgfcoretransformations.code.tex 2015/08/07  (rcs-revision 1.20)
+\pgf@pt@x=\dimen150
+\pgf@pt@y=\dimen151
+\pgf@pt@temp=\dimen152
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+equick.code.tex
+File: pgfcorequick.code.tex 2008/10/09  (rcs-revision 1.3)
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+eobjects.code.tex
+File: pgfcoreobjects.code.tex 2006/10/11  (rcs-revision 1.2)
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+epathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2013/09/09  (rcs-revision 1.9)
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+earrows.code.tex
+File: pgfcorearrows.code.tex 2015/05/14  (rcs-revision 1.43)
+\pgfarrowsep=\dimen153
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+eshade.code.tex
+File: pgfcoreshade.code.tex 2013/07/15  (rcs-revision 1.15)
+\pgf@max=\dimen154
+\pgf@sys@shading@range@num=\count101
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+eimage.code.tex
+File: pgfcoreimage.code.tex 2013/07/15  (rcs-revision 1.18)
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+eexternal.code.tex
+File: pgfcoreexternal.code.tex 2014/07/09  (rcs-revision 1.21)
+\pgfexternal@startupbox=\box31
+))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+elayers.code.tex
+File: pgfcorelayers.code.tex 2013/07/18  (rcs-revision 1.7)
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+etransparency.code.tex
+File: pgfcoretransparency.code.tex 2013/09/30  (rcs-revision 1.5)
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcor
+epatterns.code.tex
+File: pgfcorepatterns.code.tex 2013/11/07  (rcs-revision 1.5)
+)))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\modules\pgfmodule
+shapes.code.tex
+File: pgfmoduleshapes.code.tex 2014/03/21  (rcs-revision 1.35)
+\pgfnodeparttextbox=\box32
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\modules\pgfmodule
+plot.code.tex
+File: pgfmoduleplot.code.tex 2015/08/03  (rcs-revision 1.13)
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\compatibility\pgfco
+mp-version-0-65.sty
+Package: pgfcomp-version-0-65 2007/07/03 v3.0.1a (rcs-revision 1.7)
+\pgf@nodesepstart=\dimen155
+\pgf@nodesepend=\dimen156
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\compatibility\pgfco
+mp-version-1-18.sty
+Package: pgfcomp-version-1-18 2007/07/23 v3.0.1a (rcs-revision 1.1)
+))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\utilities\pgffor.st
+y
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\utilities\pgfkeys.s
+ty
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgfkeys
+.code.tex))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\math\pgfmath.sty
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmath.code
+.tex))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgffor.
+code.tex
+Package: pgffor 2013/12/13 v3.0.1a (rcs-revision 1.25)
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmath.code
+.tex)
+\pgffor@iter=\dimen157
+\pgffor@skip=\dimen158
+\pgffor@stack=\toks28
+\pgffor@toks=\toks29
+))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tik
+z\tikz.code.tex
+Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\pgflibr
+aryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
+\pgf@plot@mark@count=\count102
+\pgfplotmarksize=\dimen159
+)
+\tikz@lastx=\dimen160
+\tikz@lasty=\dimen161
+\tikz@lastxsaved=\dimen162
+\tikz@lastysaved=\dimen163
+\tikzleveldistance=\dimen164
+\tikzsiblingdistance=\dimen165
+\tikz@figbox=\box33
+\tikz@figbox@bg=\box34
+\tikz@tempbox=\box35
+\tikz@tempbox@bg=\box36
+\tikztreelevel=\count103
+\tikznumberofchildren=\count104
+\tikznumberofcurrentchild=\count105
+\tikz@fig@count=\count106
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\modules\pgfmodule
+matrix.code.tex
+File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
+\pgfmatrixcurrentrow=\count107
+\pgfmatrixcurrentcolumn=\count108
+\pgf@matrix@numberofcolumns=\count109
+)
+\tikz@expandcount=\count110
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tik
+z\libraries\tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.1a (rcs-revision 1.2)
+)))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\microtype\microtype.sty
+Package: microtype 2018/01/14 v2.7a Micro-typographical refinements (RS)
+\MT@toks=\toks30
+\MT@count=\count111
+LaTeX Info: Redefining \textls on input line 793.
+\MT@outer@kern=\dimen166
+LaTeX Info: Redefining \textmicrotypecontext on input line 1339.
+\MT@listname@count=\count112
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\microtype\microtype-pdf
+tex.def
+File: microtype-pdftex.def 2018/01/14 v2.7a Definitions specific to pdftex (RS)
+
+LaTeX Info: Redefining \lsstyle on input line 913.
+LaTeX Info: Redefining \lslig on input line 913.
+\MT@outer@space=\skip45
+)
+Package microtype Info: Loading configuration file microtype.cfg.
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\microtype\microtype.cfg
+File: microtype.cfg 2018/01/14 v2.7a microtype main configuration file (RS)
+)) ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks31
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\caption.sty
+Package: caption 2018/05/01 v3.3-147 Customizing captions (AR)
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\caption3.sty
+Package: caption3 2018/05/27 v1.8a caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 64.
+\captionmargin=\dimen167
+\captionmargin@=\dimen168
+\captionwidth=\dimen169
+\caption@tempdima=\dimen170
+\caption@indent=\dimen171
+\caption@parindent=\dimen172
+\caption@hangindent=\dimen173
+)
+\c@ContinuedFloat=\count113
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\fix-cm.sty"
+Package: fix-cm 2015/01/14 v1.1t fixes to LaTeX
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1enc.def"
+File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+))
+("C:\Program Files\MiKTeX 2.9\tex\generic\babel\babel.sty"
+Package: babel 2018/01/24 3.17 The Babel package
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\babel\switch.def"
+File: switch.def 2018/01/24 3.17 Babel switching mechanism
+)
+*************************************
+* Local config file bblopts.cfg used
+*
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\arabi\bblopts.cfg
+File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of
+ babel
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\babel-english\english.ldf"
+Language: english 2017/06/06 v3.3r English support from the babel system
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\babel\babel.def"
+File: babel.def 2018/01/24 3.17 Babel common definitions
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\babel\switch.def"
+File: switch.def 2018/01/24 3.17 Babel switching mechanism
+)
+\babel@savecnt=\count114
+\U@D=\dimen174
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\babel\txtbabel.def")
+\bbl@dirlevel=\count115
+)
+\l@canadian = a dialect from \language\l@american 
+\l@australian = a dialect from \language\l@british 
+\l@newzealand = a dialect from \language\l@british 
+))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mathdesign.s
+ty
+Package: mathdesign 2013/08/29 v2.31 Math Design Project
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdbch\mdbch.
+cfg)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdbch\mdbch.
+sty
+Package: mdbch 2013/08/29 v2.31 bitstream bitstream charter + mdbch (Math Desig
+n Project)
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdfont.def
+File: mdfont.def 2013/08/29 v2.31 (Math Design Project)
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdsffont.def
+File: mdsffont.def 2013/08/29 v2.31 (Math Design Project)
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdttfont.def
+File: mdttfont.def 2013/08/29 v2.31 (Math Design Project)
+)
+\symmdcal=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `mdcal' in version `bold'
+(Font)                  OMS/mdbch/m/n --> OMS/mdbch/b/n on input line 97.
+\symmdscr=\mathgroup7
+LaTeX Font Info:    Overwriting symbol font `mdscr' in version `bold'
+(Font)                  OMS/mdbch/m/n --> OMS/mdbch/b/n on input line 103.
+LaTeX Font Info:    Redeclaring math alphabet \mathfrak on input line 109.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `normal'
+(Font)                  U/euf/m/n --> U/xmdeuf/m/n on input line 109.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/b/n --> U/xmdeuf/m/n on input line 109.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/xmdeuf/m/n --> U/xmdeuf/b/n on input line 110.
+LaTeX Info: Redefining \frak on input line 111.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/mdbch/m/n on input line 121.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/mdbch/m/it on input line 122.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/mdbch/m/n on input line 123.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/mdbch/m/n on input line 124.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/mdbch/b/n on input line 126.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/mdbch/b/it on input line 127.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/mdbch/b/n on input line 128.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/mdbch/b/n on input line 129.
+LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
+(Font)                  OT1/mdbch/m/n --> OT1/mdbch/m/n on input line 131.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/mdbch/b/n on input line 132.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/mdbch/m/it on input line 133.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 134.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 135.
+LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
+(Font)                  OT1/mdbch/b/n --> OT1/mdbch/b/n on input line 137.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/mdbch/b/n on input line 138.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/mdbch/b/it on input line 139.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/b/n on input line 140.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/b/n on input line 141.
+\symlettersupright=\mathgroup8
+LaTeX Font Info:    Overwriting symbol font `lettersupright' in version `bold'
+(Font)                  OML/mdbch/m/n --> OML/mdbch/b/n on input line 144.
+LaTeX Font Info:    Redeclaring math alphabet \mathrm on input line 145.
+LaTeX Font Info:    Overwriting math alphabet `\mathcal' in version `normal'
+(Font)                  OMS/mdbch/m/n --> OMS/mdbch/m/n on input line 167.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\xkeyval\xkeyval.sty"
+Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\xkeyval\xkeyval.tex"
+("C:\Program Files\MiKTeX 2.9\tex\generic\xkeyval\xkvutils.tex"
+\XKV@toks=\toks32
+\XKV@tempa@toks=\toks33
+)
+\XKV@depth=\count116
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+LaTeX Font Info:    Try loading font information for OT1+mdbch on input line 18
+6.
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdbch\ot1mdb
+ch.fd
+File: ot1mdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OT1/mdbch.
+)
+LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
+(Font)              scaled to size 9.60007pt on input line 186.
+LaTeX Font Info:    Redeclaring math accent \widetilde on input line 449.
+LaTeX Font Info:    Redeclaring math accent \widehat on input line 450.
+\symmathdesignA=\mathgroup9
+LaTeX Font Info:    Overwriting symbol font `mathdesignA' in version `bold'
+(Font)                  MDA/mdbch/m/n --> MDA/mdbch/b/n on input line 491.
+LaTeX Font Info:    Overwriting encoding scheme math defaults on input line 493
+.
+\symmathdesignB=\mathgroup10
+LaTeX Font Info:    Overwriting symbol font `mathdesignB' in version `bold'
+(Font)                  MDB/mdbch/m/n --> MDB/mdbch/b/n on input line 498.
+LaTeX Info: Redefining \bold on input line 510.
+LaTeX Font Info:    Redeclaring math accent \widetilde on input line 532.
+LaTeX Font Info:    Redeclaring math accent \widehat on input line 533.
+\rulethickness=\skip46
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.def"
+File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
+)
+LaTeX Font Info:    Try loading font information for T1+mdbch on input line 105
+.
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdbch\t1mdbc
+h.fd
+File: t1mdbch.fd 2013/08/29 Fontinst v1.933 font definitions for T1/mdbch.
+)
+LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
+(Font)              scaled to size 9.60007pt on input line 105.
+)) ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\helvet.sty"
+Package: helvet 2005/04/12 PSNFSS-v9.2a (WaS) 
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
+Package: hyperref 2018/02/06 v6.86b Hypertext links for LaTeX
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
+Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
+
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
+Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package hobsub Info: Skipping package `ifvtex' (already loaded).
+Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+Package: pdftexcmds 2018/01/21 v0.26 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2016/05/16 v1.14 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO
+)
+Package: bitset 2016/05/16 v1.2 Handle bit-vector datatype (HO)
+Package: uniquecounter 2016/05/16 v1.3 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2016/05/16 v1.5 Let assignment for LaTeX macros (HO)
+Package: hopatch 2016/05/16 v1.3 Wrapper for package hooks (HO)
+Package: xcolor-patch 2016/05/16 xcolor patch
+Package: atveryend 2016/05/16 v1.9 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
+Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
+Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
+Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+)
+\@linkdim=\dimen175
+\Hy@linkcounter=\count117
+\Hy@pagecounter=\count118
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
+File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count119
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4509.
+Package hyperref Info: Link nesting OFF on input line 4514.
+Package hyperref Info: Hyper index ON on input line 4517.
+Package hyperref Info: Plain pages OFF on input line 4524.
+Package hyperref Info: Backreferencing OFF on input line 4529.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4762.
+\c@Hy@tempcnt=\count120
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\url\url.sty
+\Urlmuskip=\muskip10
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5115.
+\XeTeXLinkMargin=\dimen176
+\Fld@menulength=\count121
+\Field@Width=\dimen177
+\Fld@charsize=\dimen178
+Package hyperref Info: Hyper figures OFF on input line 6369.
+Package hyperref Info: Link nesting OFF on input line 6374.
+Package hyperref Info: Hyper index ON on input line 6377.
+Package hyperref Info: backreferencing OFF on input line 6384.
+Package hyperref Info: Link coloring OFF on input line 6389.
+Package hyperref Info: Link coloring with OCG OFF on input line 6394.
+Package hyperref Info: PDF/A mode OFF on input line 6399.
+LaTeX Info: Redefining \ref on input line 6439.
+LaTeX Info: Redefining \pageref on input line 6443.
+\Hy@abspage=\count122
+\c@Item=\count123
+\c@Hfootnote=\count124
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
+File: hpdftex.def 2018/02/06 v6.86b Hyperref driver for pdfTeX
+\Fld@listcount=\count125
+\c@bookmark@seq@number=\count126
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
+Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+)
+\Hy@SectionHShift=\skip47
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\fancyhdr\fancyhdr.sty
+Package: fancyhdr 2017/06/30 v3.9a Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip48
+\f@nch@O@elh=\skip49
+\f@nch@O@erh=\skip50
+\f@nch@O@olh=\skip51
+\f@nch@O@orh=\skip52
+\f@nch@O@elf=\skip53
+\f@nch@O@erf=\skip54
+\f@nch@O@olf=\skip55
+\f@nch@O@orf=\skip56
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\float\float.sty"
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count127
+\float@exts=\toks34
+\float@box=\box37
+\@float@everytoks=\toks35
+\@floatcapt=\box38
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\setspace\setspace.sty
+Package: setspace 2011/12/19 v6.7a set line spacing
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\enumitem\enumitem.sty
+Package: enumitem 2011/09/28 v3.5.2 Customized lists
+\labelindent=\skip57
+\enit@outerparindent=\dimen179
+\enit@toks=\toks36
+\enit@inbox=\box39
+\enitdp@description=\count128
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\booktabs\booktabs.sty
+Package: booktabs 2005/04/14 v1.61803 publication quality tables
+\heavyrulewidth=\dimen180
+\lightrulewidth=\dimen181
+\cmidrulewidth=\dimen182
+\belowrulesep=\dimen183
+\belowbottomsep=\dimen184
+\aboverulesep=\dimen185
+\abovetopsep=\dimen186
+\cmidrulesep=\dimen187
+\cmidrulekern=\dimen188
+\defaultaddspace=\dimen189
+\@cmidla=\count129
+\@cmidlb=\count130
+\@aboverulesep=\dimen190
+\@belowrulesep=\dimen191
+\@thisruleclass=\count131
+\@lastruleclass=\count132
+\@thisrulewidth=\dimen192
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\titlesec\titlesec.sty
+Package: titlesec 2016/03/21 v2.10.2 Sectioning titles
+\ttl@box=\box40
+\beforetitleunit=\skip58
+\aftertitleunit=\skip59
+\ttl@plus=\dimen193
+\ttl@minus=\dimen194
+\ttl@toksa=\toks37
+\titlewidth=\dimen195
+\titlewidthlast=\dimen196
+\titlewidthfirst=\dimen197
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\titlesec\ttlkeys.def
+File: ttlkeys.def 2016/03/15
+\c@ttlp@side=\count133
+\ttlp@side=\count134
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\listings.sty
+\lst@mode=\count135
+\lst@gtempboxa=\box41
+\lst@token=\toks38
+\lst@length=\count136
+\lst@currlwidth=\dimen198
+\lst@column=\count137
+\lst@pos=\count138
+\lst@lostspace=\dimen199
+\lst@width=\dimen256
+\lst@newlines=\count139
+\lst@lineno=\count140
+\lst@maxwidth=\dimen257
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstmisc.sty
+File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+\c@lstnumber=\count141
+\lst@skipnumbers=\count142
+\lst@framebox=\box42
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\listings.cfg
+File: listings.cfg 2015/06/04 1.6 listings configuration
+))
+Package: listings 2015/06/04 1.6 (Carsten Heinz)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
+Package: amsmath 2017/09/02 v2.17a AMS math features
+\@mathmargin=\skip60
+
+For additional information on amsmath, use the `?' option.
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+Package: amstext 2000/06/29 v2.01 AMS text
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks39
+\ex@=\dimen258
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen259
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count143
+LaTeX Info: Redefining \frac on input line 213.
+\uproot@=\count144
+\leftroot@=\count145
+LaTeX Info: Redefining \overline on input line 375.
+\classnum@=\count146
+\DOTSCASE@=\count147
+LaTeX Info: Redefining \ldots on input line 472.
+LaTeX Info: Redefining \dots on input line 475.
+LaTeX Info: Redefining \cdots on input line 596.
+\Mathstrutbox@=\box43
+\strutbox@=\box44
+\big@size=\dimen260
+LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
+\macc@depth=\count148
+\c@MaxMatrixCols=\count149
+\dotsspace@=\muskip11
+\c@parentequation=\count150
+\dspbrk@lvl=\count151
+\tag@help=\toks40
+\row@=\count152
+\column@=\count153
+\maxfields@=\count154
+\andhelp@=\toks41
+\eqnshift@=\dimen261
+\alignsep@=\dimen262
+\tagshift@=\dimen263
+\tagwidth@=\dimen264
+\totwidth@=\dimen265
+\lineht@=\dimen266
+\@envbody=\toks42
+\multlinegap=\skip61
+\multlinetaggap=\skip62
+\mathdisplay@stack=\toks43
+LaTeX Info: Redefining \[ on input line 2817.
+LaTeX Info: Redefining \] on input line 2818.
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\pgfplots\pgfplots.sty
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplots.rev
+ision.tex)
+Package: pgfplots 2018/03/28 v1.16 Data Visualization (1.16)
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplots.cod
+e.tex
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplotscore
+.code.tex
+\t@pgfplots@toka=\toks44
+\t@pgfplots@tokb=\toks45
+\t@pgfplots@tokc=\toks46
+\pgfplots@tmpa=\dimen267
+\c@pgfplots@coordindex=\count155
+\c@pgfplots@scanlineindex=\count156
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\sys\pgfplots
+sysgeneric.code.tex))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\libs\pgfplot
+slibrary.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\oldpgfcompat
+ib\pgfplotsoldpgfsupp_loader.code.tex
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\pgflibr
+aryfpu.code.tex)
+Package pgfplots: loading complementary arithmetics for your pgf version...
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\oldpgfcompat
+ib\pgfplotsoldpgfsupp_pgflibraryfpu.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\oldpgfcompat
+ib\pgfplotsoldpgfsupp_pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count157
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\oldpgfcompat
+ib\pgfplotsoldpgfsupp_leq.code.tex))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\util\pgfplot
+sutil.code.tex
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\liststructur
+e\pgfplotsliststructure.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\liststructur
+e\pgfplotsliststructureext.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\liststructur
+e\pgfplotsarray.code.tex
+\c@pgfplotsarray@tmp=\count158
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\liststructur
+e\pgfplotsmatrix.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\numtable\pgf
+plotstableshared.code.tex
+\c@pgfplotstable@counta=\count159
+\t@pgfplotstable@a=\toks47
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\liststructur
+e\pgfplotsdeque.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\util\pgfplot
+sbinary.code.tex
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\util\pgfplot
+sbinary.data.code.tex))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\util\pgfplot
+sutil.verb.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\libs\pgflibr
+arypgfplots.surfshading.code.tex
+\c@pgfplotslibrarysurf@no=\count160
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\sys\pgflibra
+rypgfplots.surfshading.pgfsys-pdftex.def)))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\util\pgfplot
+scolormap.code.tex
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\util\pgfplot
+scolor.code.tex))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplotsstac
+kedplots.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplotsplot
+handlers.code.tex
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplotsmesh
+plothandler.code.tex
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplotsmesh
+plotimage.code.tex)))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplots.sca
+ling.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplotscoor
+dprocessing.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplots.err
+orbars.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplots.mar
+kers.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplotstick
+s.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplots.pat
+hs.code.tex)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tik
+z\libraries\tikzlibrarydecorations.code.tex
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\modules\pgfmodule
+decorations.code.tex
+\pgfdecoratedcompleteddistance=\dimen268
+\pgfdecoratedremainingdistance=\dimen269
+\pgfdecoratedinputsegmentcompleteddistance=\dimen270
+\pgfdecoratedinputsegmentremainingdistance=\dimen271
+\pgf@decorate@distancetomove=\dimen272
+\pgf@decorate@repeatstate=\count161
+\pgfdecorationsegmentamplitude=\dimen273
+\pgfdecorationsegmentlength=\dimen274
+)
+\tikz@lib@dec@box=\box45
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tik
+z\libraries\tikzlibrarydecorations.pathmorphing.code.tex
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\decorat
+ions\pgflibrarydecorations.pathmorphing.code.tex))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tik
+z\libraries\tikzlibrarydecorations.pathreplacing.code.tex
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\decorat
+ions\pgflibrarydecorations.pathreplacing.code.tex))
+\pgfplots@numplots=\count162
+\pgfplots@xmin@reg=\dimen275
+\pgfplots@xmax@reg=\dimen276
+\pgfplots@ymin@reg=\dimen277
+\pgfplots@ymax@reg=\dimen278
+\pgfplots@zmin@reg=\dimen279
+\pgfplots@zmax@reg=\dimen280
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tik
+z\libraries\tikzlibraryplotmarks.code.tex
+File: tikzlibraryplotmarks.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\pgflibr
+aryplotmarks.code.tex
+File: pgflibraryplotmarks.code.tex 2015/08/03 v3.0.1a (rcs-revision 1.14)
+)))
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstlang1.sty
+File: lstlang1.sty 2015/06/04 1.6 listings language file
+)) (ch3_improving.aux)
+\openout1 = `ch3_improving.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for MDA/cmr/m/n on input line 3.
+LaTeX Font Info:    Try loading font information for MDA+cmr on input line 3.
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdacmr.fd
+File: mdacmr.fd 
+)
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for MDB/cmr/m/n on input line 3.
+LaTeX Font Info:    Try loading font information for MDB+cmr on input line 3.
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdbcmr.fd
+File: mdbcmr.fd 
+)
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
+(Font)              scaled to size 8.64006pt on input line 3.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: custom
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: twoside 
+* h-part:(L,W,R)=(85.35826pt, 341.43307pt, 56.9055pt)
+* v-part:(T,H,B)=(68.2866pt, 557.67403pt, 56.9055pt)
+* \paperwidth=483.69684pt
+* \paperheight=682.86613pt
+* \textwidth=341.43307pt
+* \textheight=557.67403pt
+* \oddsidemargin=13.08827pt
+* \evensidemargin=-15.36449pt
+* \topmargin=-44.43613pt
+* \headheight=12.0pt
+* \headsep=28.45274pt
+* \topskip=10.0pt
+* \footskip=25.29494pt
+* \marginparwidth=115.0pt
+* \marginparsep=7.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+ABD: EveryShipout initializing macros
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count163
+\scratchdimen=\dimen281
+\scratchbox=\box46
+\nofMPsegments=\count164
+\nofMParguments=\count165
+\everyMPshowfont=\toks48
+\MPscratchCnt=\count166
+\MPscratchDim=\dimen282
+\MPnumerator=\count167
+\makeMPintoPDFobject=\count168
+\everyMPtoPDFconversion=\toks49
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+)
+LaTeX Info: Redefining \microtypecontext on input line 3.
+Package microtype Info: Generating PDF output.
+Package microtype Info: Character protrusion enabled (level 2),
+(microtype)             factor: 1500.
+Package microtype Info: Using default protrusion set `alltext'.
+Package microtype Info: Automatic font expansion enabled (level 2),
+(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
+Package microtype Info: Using default expansion set `basictext'.
+Package microtype Info: No adjustment of tracking.
+Package microtype Info: No adjustment of interword spacing.
+Package microtype Info: No adjustment of character kerning.
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\microtype\mt-bch.cfg
+File: mt-bch.cfg 2007/03/03 v1.5 microtype config. file: Bitstream Charter (RS)
+
+)
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: listings package is loaded.
+Package caption Info: End \AtBeginDocument code.
+
+
+Package mathdesign/mdbch Warning: Package 'amssymb' shouldn't be used in conjon
+ction with package mdbch, on input line 3.
+
+
+Package mathdesign/mdbch Warning: Package 'amsfonts' shouldn't be used in conjo
+nction with package mdbch, on input line 3.
+
+\AtBeginShipoutBox=\box47
+Package hyperref Info: Link coloring OFF on input line 3.
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
+Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
+)
+\c@section@level=\count169
+)
+LaTeX Info: Redefining \ref on input line 3.
+LaTeX Info: Redefining \pageref on input line 3.
+LaTeX Info: Redefining \nameref on input line 3.
+
+(ch3_improving.out) (ch3_improving.out)
+\@outlinefile=\write4
+\openout4 = `ch3_improving.out'.
+
+\c@lstlisting=\count170
+
+
+Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
+ick labels; missing features). Consider writing \pgfplotsset{compat=1.16} into 
+your preamble.
+ on input line 3.
+
+Chapter 1.
+LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
+(Font)              scaled to size 23.04016pt on input line 4.
+LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
+(Font)              scaled to size 23.04016pt on input line 4.
+LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
+(Font)              scaled to size 191.20384pt on input line 4.
+Missing character: There is no . in font nullfont!
+LaTeX Font Info:    Calculating math sizes for size <24> on input line 4.
+LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
+(Font)              scaled to size 23.04016pt on input line 4.
+LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
+(Font)              scaled to size 16.12804pt on input line 4.
+LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
+(Font)              scaled to size 11.52008pt on input line 4.
+LaTeX Font Info:    Try loading font information for OML+mdbch on input line 4.
+
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdbch\omlmdb
+ch.fd
+File: omlmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OML/mdbch.
+)
+LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
+(Font)              scaled to size 23.04016pt on input line 4.
+LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
+(Font)              scaled to size 16.12804pt on input line 4.
+LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
+(Font)              scaled to size 11.52008pt on input line 4.
+LaTeX Font Info:    Try loading font information for OMS+mdbch on input line 4.
+
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdbch\omsmdb
+ch.fd
+File: omsmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OMS/mdbch.
+)
+LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
+(Font)              scaled to size 23.04016pt on input line 4.
+LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
+(Font)              scaled to size 16.12804pt on input line 4.
+LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
+(Font)              scaled to size 11.52008pt on input line 4.
+LaTeX Font Info:    Try loading font information for OMX+mdbch on input line 4.
+
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdbch\omxmdb
+ch.fd
+File: omxmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OMX/mdbch.
+)
+LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
+(Font)              scaled to size 23.04016pt on input line 4.
+LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
+(Font)              scaled to size 16.12804pt on input line 4.
+LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
+(Font)              scaled to size 11.52008pt on input line 4.
+LaTeX Font Info:    Try loading font information for U+msa on input line 4.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\microtype\mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 4.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\microtype\mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+)
+LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
+(Font)              scaled to size 23.04016pt on input line 4.
+LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
+(Font)              scaled to size 16.12804pt on input line 4.
+LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
+(Font)              scaled to size 11.52008pt on input line 4.
+LaTeX Font Info:    Try loading font information for MDA+mdbch on input line 4.
+
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdbch\mdamdb
+ch.fd
+File: mdamdbch.fd 2013/08/29 Fontinst v1.933 font definitions for MDA/mdbch.
+)
+LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
+(Font)              scaled to size 23.04016pt on input line 4.
+LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
+(Font)              scaled to size 16.12804pt on input line 4.
+LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
+(Font)              scaled to size 11.52008pt on input line 4.
+LaTeX Font Info:    Try loading font information for MDB+mdbch on input line 4.
+
+
+(C:\Users\vladykaa\AppData\Roaming\MiKTeX\2.9\tex\latex\mathdesign\mdbch\mdbmdb
+ch.fd
+File: mdbmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for MDB/mdbch.
+)
+LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
+(Font)              scaled to size 23.04016pt on input line 4.
+LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
+(Font)              scaled to size 16.12804pt on input line 4.
+LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
+(Font)              scaled to size 11.52008pt on input line 4.
+LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
+(Font)              scaled to size 8.64006pt on input line 11.
+LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
+(Font)              scaled to size 10.56007pt on input line 11.
+LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
+(Font)              scaled to size 8.64006pt on input line 13.
+LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
+(Font)              scaled to size 5.76004pt on input line 13.
+LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 13.
+LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
+(Font)              scaled to size 8.64006pt on input line 13.
+LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
+(Font)              scaled to size 5.76004pt on input line 13.
+LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
+(Font)              scaled to size 4.80003pt on input line 13.
+LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
+(Font)              scaled to size 8.64006pt on input line 13.
+LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
+(Font)              scaled to size 5.76004pt on input line 13.
+LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 13.
+LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
+(Font)              scaled to size 8.64006pt on input line 13.
+LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
+(Font)              scaled to size 5.76004pt on input line 13.
+LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 13.
+LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
+(Font)              scaled to size 8.64006pt on input line 13.
+LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
+(Font)              scaled to size 5.76004pt on input line 13.
+LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 13.
+LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
+(Font)              scaled to size 8.64006pt on input line 13.
+LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
+(Font)              scaled to size 5.76004pt on input line 13.
+LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 13.
+LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
+(Font)              scaled to size 8.64006pt on input line 13.
+LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
+(Font)              scaled to size 5.76004pt on input line 13.
+LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 13.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 16.89995pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[1{C:/Users/vladykaa/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
+
+
+
+
+]
+<figures/ch3/tikz28.png, id=22, 298.11375pt x 85.31876pt>
+File: figures/ch3/tikz28.png Graphic file (type png)
+<use figures/ch3/tikz28.png>
+Package pdftex.def Info: figures/ch3/tikz28.png  used on input line 17.
+(pdftex.def)             Requested size: 170.71654pt x 48.8587pt.
+LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
+(Font)              scaled to size 27.31482pt on input line 22.
+
+[2
+\pgfsyspdfmark {pgfid2}{3729359}{1750507}
+ <./figures/ch3/tikz28.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 22.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 22.
+ (ch3_improving.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 22.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 22.
+Package rerunfilecheck Info: File `ch3_improving.out' has not changed.
+(rerunfilecheck)             Checksum: F08949DBCC6359B73C85357EBF74F40D;153.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 22.
+ ) 
+Here is how much of TeX's memory you used:
+ 33032 strings out of 493303
+ 755367 string characters out of 3138848
+ 1002706 words of memory out of 3000000
+ 35919 multiletter control sequences out of 15000+200000
+ 49424 words of font info for 137 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 66i,19n,98p,1104b,824s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/ly1/texnansi.en
+c}<C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/type1/bitstrea/charter/bc
+hb8a.pfb><C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/type1/bitstrea/cha
+rter/bchr8a.pfb><C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/type1/mathd
+esign/mdbch/md-chr7v.pfb>
+Output written on ch3_improving.pdf (2 pages, 37402 bytes).
+PDF statistics:
+ 43 PDF objects out of 1000 (max. 8388607)
+ 5 named destinations out of 1000 (max. 500000)
+ 17442 words of extra memory for PDF output out of 20736 (max. 10000000)
+
