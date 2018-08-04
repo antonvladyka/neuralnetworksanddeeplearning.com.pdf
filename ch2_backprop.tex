@@ -93,17 +93,17 @@ To understand how the error is defined, imagine there is a demon in our neural n
 \end{center}
 The demon sits at the $j$-th neuron in layer $l$. As the input to the neuron comes in, the demon messes with the neuron's operation. It adds a little change $\delta{}z^l_j$ to the neuron's weighted input, so that instead of outputting $\sigma(z^l_j)$, the neuron instead outputs $\sigma(z^l_j+\delta{}z^l_j)$. This change propagates through later layers in the network, finally causing the overall cost to change by an amount $\partial{}C\partial{}z^l_j\delta{}z^l_j$.
 
-Now, this demon is a good demon, and is trying to help you improve the cost, i.e., they're trying to find a $\delta{}z^l_j$ which makes the cost smaller. Suppose $\partial{}C\partial{}z^l_j$ has a large value (either positive or negative). Then the demon can lower the cost quite a bit by choosing $\delta{}z^l_j$ to have the opposite sign to $\partial{}C\partial{}z^l_j$. By contrast, if $\partial{}C\partial{}z^l_j$ is close to zero, then the demon can't improve the cost much at all by perturbing the weighted input $z^l_j$. So far as the demon can tell, the neuron is already pretty near optimal\footnote{This is only the case for small changes $\delta{}z^l_j$, of course. We'll assume that the demon is constrained to make such small changes.}. And so there's a heuristic sense in which $\partial{}C\partial{}z^l_j$ is a measure of the error in the neuron.
+Now, this demon is a good demon, and is trying to help you improve the cost, i.e., they're trying to find a $\delta{}z^l_j$ which makes the cost smaller. Suppose $\partial{}C/\partial{}z^l_j$ has a large value (either positive or negative). Then the demon can lower the cost quite a bit by choosing $\delta{}z^l_j$ to have the opposite sign to $\partial{}C/\partial{}z^l_j$. By contrast, if $\partial{}C/\partial{}z^l_j$ is close to zero, then the demon can't improve the cost much at all by perturbing the weighted input $z^l_j$. So far as the demon can tell, the neuron is already pretty near optimal\footnote{This is only the case for small changes $\delta{}z^l_j$, of course. We'll assume that the demon is constrained to make such small changes.}. And so there's a heuristic sense in which $\partial{}C/\partial{}z^l_j$ is a measure of the error in the neuron.
 
 Motivated by this story, we define the error $\delta^l_j$ of neuron $j$ in layer $l$ by
 \begin{equation}
-	\delta^l_j\equiv\partial{}C\partial{}z^l_j.\label{eq:29}
+	\delta^l_j\equiv\frac{\partial{}C}{\partial{}z^l_j}.\label{eq:29}
 \end{equation}
 As per our usual conventions, we use $\delta{}l$ to denote the vector of errors associated with layer $l$. Backpropagation will give us a way of computing $\delta{}l$ for every layer, and then relating those errors to the quantities of real interest, $\partial{}C/\partial{}w^l_{jk}$ and $\partial{}C/\partial{}b^l_j$.
 
-You might wonder why the demon is changing the weighted input $z^l_j$. Surely it'd be more natural to imagine the demon changing the output activation alj, with the result that we'd be using $\partial{}C\partial{}a^l_j$ as our measure of error. In fact, if you do this things work out quite similarly to the discussion below. But it turns out to make the presentation of backpropagation a little more algebraically complicated. So we'll stick with $\delta^l_j=\partial{}C\partial{}z^l_j$ as our measure of error\footnote{In classification problems like MNIST the term ``error'' is sometimes used to mean the classification failure rate. E.g., if the neural net correctly classifies 96.0 percent of the digits, then the error is 4.0 percent. Obviously, this has quite a different meaning from our $\delta$ vectors. In practice, you shouldn't have trouble telling which meaning is intended in any given usage.}.
+You might wonder why the demon is changing the weighted input $z^l_j$. Surely it'd be more natural to imagine the demon changing the output activation $a^l_j$, with the result that we'd be using $\frac{\partial{}C}{\partial{}a^l_j}$ as our measure of error. In fact, if you do this things work out quite similarly to the discussion below. But it turns out to make the presentation of backpropagation a little more algebraically complicated. So we'll stick with $\delta^l_j=\frac{\partial{}C}{\partial{}z^l_j}$ as our measure of error\footnote{In classification problems like MNIST the term ``error'' is sometimes used to mean the classification failure rate. E.g., if the neural net correctly classifies 96.0 percent of the digits, then the error is 4.0 percent. Obviously, this has quite a different meaning from our $\delta$ vectors. In practice, you shouldn't have trouble telling which meaning is intended in any given usage.}.
 
-\textbf{Plan of attack}: Backpropagation is based around four fundamental equations. Together, those equations give us a way of computing both the error $\delta{}l$ and the gradient of the cost function. I state the four equations below. Be warned, though: you shouldn't expect to instantaneously assimilate the equations. Such an expectation will lead to disappointment. In fact, the backpropagation equations are so rich that understanding them well requires considerable time and patience as you gradually delve deeper into the equations. The good news is that such patience is repaid many times over. And so the discussion in this section is merely a beginning, helping you on the way to a thorough understanding of the equations.
+\textbf{Plan of attack}: Backpropagation is based around four fundamental equations. Together, those equations give us a way of computing both the error $\delta{}^l$ and the gradient of the cost function. I state the four equations below. Be warned, though: you shouldn't expect to instantaneously assimilate the equations. Such an expectation will lead to disappointment. In fact, the backpropagation equations are so rich that understanding them well requires considerable time and patience as you gradually delve deeper into the equations. The good news is that such patience is repaid many times over. And so the discussion in this section is merely a beginning, helping you on the way to a thorough understanding of the equations.
 
 Here's a preview of the ways we'll delve more deeply into the equations later in the chapter: I'll give a short proof of the equations, which helps explain why they are true; we'll restate the equations in algorithmic form as pseudocode, and see how the pseudocode can be implemented as real, running Python code; and, in the final section of the chapter, we'll develop an intuitive picture of what the backpropagation equations mean, and how someone might discover them from scratch. Along the way we'll return repeatedly to the four fundamental equations, and as you deepen your understanding those equations will come to seem comfortable and, perhaps, even beautiful and natural.
 
@@ -174,11 +174,11 @@ where it's understood that $a_\mathrm{in}$ is the activation of the neuron input
 \begin{center}
 	\includegraphics[]{./figures/ch2/tikz20}
 \end{center}
-A nice consequence of Equation~\ref{eq:32} is that when the activation $a_\mathrm{in}$ is small, $a_\mathrm{in}\approx0$, the gradient term $\partial{}C/\partial{}w $will also tend to be small. In this case, we'll say the weight \textit{learns slowly}, meaning that it's not changing much during gradient descent. In other words, one consequence of (\ref{eq:BP4}) is that weights output from low-activation neurons learn slowly.
+A nice consequence of Equation~\ref{eq:32} is that when the activation $a_\mathrm{in}$ is small, $a_\mathrm{in}\approx0$, the gradient term $\partial{}C/\partial{}w$ will also tend to be small. In this case, we'll say the weight \textit{learns slowly}, meaning that it's not changing much during gradient descent. In other words, one consequence of (\ref{eq:BP4}) is that weights output from low-activation neurons learn slowly.
 
-There are other insights along these lines which can be obtained from (\ref{eq:BP1})-(\ref{eq:BP4}). Let's start by looking at the output layer. Consider the term $\sigma'(z^L_j)$ in (\ref{eq:BP1}). Recall from the graph of the sigmoid function in the last chapter that the $\sigma$ function becomes very flat when $\sigma(z^L_j)$ is approximately 0 or 1. When this occurs we will have $\sigma'(z^L_j)\approx0$. And so the lesson is that a weight in the final layer will learn slowly if the output neuron is either low activation ($\approx0$) or high activation ($\approx1$). In this case it's common to say the output neuron has \textit{saturated} and, as a result, the weight has stopped learning (or is learning slowly). Similar remarks hold also for the biases of output neuron.
+There are other insights along these lines which can be obtained from (\ref{eq:BP1})--(\ref{eq:BP4}). Let's start by looking at the output layer. Consider the term $\sigma'(z^L_j)$ in (\ref{eq:BP1}). Recall from the graph of the sigmoid function in the last chapter that the $\sigma$ function becomes very flat when $\sigma(z^L_j)$ is approximately 0 or 1. When this occurs we will have $\sigma'(z^L_j)\approx0$. And so the lesson is that a weight in the final layer will learn slowly if the output neuron is either low activation ($\approx0$) or high activation ($\approx1$). In this case it's common to say the output neuron has \textit{saturated} and, as a result, the weight has stopped learning (or is learning slowly). Similar remarks hold also for the biases of output neuron.
 
-We can obtain similar insights for earlier layers. In particular, note the $\sigma'(z^l)$ term in (\ref{eq:BP2}). This means that $\delta^l_j$ is likely to get small if the neuron is near saturation. And this, in turn, means that any weights input to a saturated neuron will learn slowly\footnote{This reasoning won't hold if $w^{l+1}$T$\delta^{l+1}$ has large enough entries to compensate for the smallness of $\sigma'(z^l_j)$. But I'm speaking of the general tendency.}.
+We can obtain similar insights for earlier layers. In particular, note the $\sigma'(z^l)$ term in (\ref{eq:BP2}). This means that $\delta^l_j$ is likely to get small if the neuron is near saturation. And this, in turn, means that any weights input to a saturated neuron will learn slowly\footnote{This reasoning won't hold if $(w^{l+1})^T\delta^{l+1}$ has large enough entries to compensate for the smallness of $\sigma'(z^l_j)$. But I'm speaking of the general tendency.}.
 
 Summing up, we've learnt that a weight will learn slowly if either the input neuron is low-activation, or if the output neuron has saturated, i.e., is either high- or low-activation.
 
@@ -283,8 +283,8 @@ Examining the algorithm you can see why it's called\textit{ back}propagation. We
 
 \subsection{Exercises}
 \begin{itemize}
-	\item Backpropagation with a single modified neuron Suppose we modify a single neuron in a feedforward network so that the output from the neuron is given by $f(\sum_j w_j x_j + b)$, where $f$ is some function other than the sigmoid. How should we modify the backpropagation algorithm in this case?
-	\item Backpropagation with linear neurons Suppose we replace the usual non-linear $\sigma$ function with $\sigma(z)=z$ throughout the network. Rewrite the backpropagation algorithm for this case.
+	\item \textbf{Backpropagation with a single modified neuron} Suppose we modify a single neuron in a feedforward network so that the output from the neuron is given by $f(\sum_j w_j x_j + b)$, where $f$ is some function other than the sigmoid. How should we modify the backpropagation algorithm in this case?
+	\item \textbf{Backpropagation with linear neurons} Suppose we replace the usual non-linear $\sigma$ function with $\sigma(z)=z$ throughout the network. Rewrite the backpropagation algorithm for this case.
 \end{itemize}
 
 As I've described it above, the backpropagation algorithm computes the gradient of the cost function for a single training example, $C=C_x$. In practice, it's common to combine backpropagation with a learning algorithm such as stochastic gradient descent, in which we compute the gradient for many training examples. In particular, given a mini-batch of $m$ training examples, the following algorithm applies a gradient descent learning step based on that mini-batch:
@@ -302,37 +302,39 @@ w^l-\frac{\eta}{m} \sum_x \delta^{x,l} (a^{x,l-1})^T$, and the biases according 
 Of course, to implement stochastic gradient descent in practice you also need an outer loop generating mini-batches of training examples, and an outer loop stepping through multiple epochs of training. I've omitted those for simplicity.
 \section{The code for backpropagation}
 Having understood backpropagation in the abstract, we can now understand the code used in the last chapter to implement backpropagation. Recall from that chapter that the code was contained in the \texttt{update\_mini\_batch} and \texttt{backprop} methods of the \texttt{Network} class. The code for these methods is a direct translation of the algorithm described above. In particular, the \texttt{update\_mini\_batch}  method updates the \texttt{Network}'s weights and biases by computing the gradient for the current \texttt{mini\_batch} of training examples:
-\begin{lstlisting}
+\begin{lstlisting}
+
 class Network(object):
 ...
-	def update\_mini\_batch(self, mini\_batch, eta):
+	def update_mini_batch(self, mini_batch, eta):
 		"""Update the network's weights and biases by applying
 		gradient descent using backpropagation to a single mini batch.
-		The "mini\_batch" is a list of tuples "(x, y)", and "eta"
+		The "mini_batch" is a list of tuples "(x, y)", and "eta"
 		is the learning rate."""
-		nabla\_b = [np.zeros(b.shape) for b in self.biases]
-		nabla\_w = [np.zeros(w.shape) for w in self.weights]
-		for x, y in mini\_batch:
-			delta\_nabla\_b, delta\_nabla\_w = self.backprop(x, y)
-			nabla\_b = [nb+dnb for nb, dnb in zip(nabla\_b, delta\_nabla\_b)]
-			nabla\_w = [nw+dnw for nw, dnw in zip(nabla\_w, delta\_nabla\_w)]
-		self.weights = [w-(eta/len(mini\_batch))*nw 
-						for w, nw in zip(self.weights, nabla\_w)]
-		self.biases = [b-(eta/len(mini\_batch))*nb 
-						for b, nb in zip(self.biases, nabla\_b)]
+		nabla_b = [np.zeros(b.shape) for b in self.biases]
+		nabla_w = [np.zeros(w.shape) for w in self.weights]
+		for x, y in mini_batch:
+			delta_nabla_b, delta_nabla_w = self.backprop(x, y)
+			nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
+			nabla_w = [nw+dnw for nw, dnw in zip(nabla_w, delta_nabla_w)]
+		self.weights = [w-(eta/len(mini_batch))*nw 
+						for w, nw in zip(self.weights, nabla_w)]
+		self.biases = [b-(eta/len(mini_batch))*nb 
+						for b, nb in zip(self.biases, nabla_b)]
+
 \end{lstlisting}
-Most of the work is done by the line \texttt{delta\_nabla\_b}, \texttt{delta\_nabla\_w = self.backprop(x, y)} which uses the \texttt{backprop} method to figure out the partial derivatives $\partial{}Cx/\partial{}b^l_j$ and $\partial{}Cx/\partial{}w^l_{jk}$. The \texttt{backprop} method follows the algorithm in the last section closely. There is one small change - we use a slightly different approach to indexing the layers. This change is made to take advantage of a feature of Python, namely the use of negative list indices to count backward from the end of a list, so, e.g., \texttt{l[-3]} is the third last entry in a list \texttt{l}. The code for \texttt{backprop} is below, together with a few helper functions, which are used to compute the $\sigma$ function, the derivative $\sigma'$, and the derivative of the cost function. With these inclusions you should be able to understand the code in a self-contained way. If something's tripping you up, you may find it helpful to consult [link]the original description (and complete listing) of the code.
+Most of the work is done by the line \texttt{delta\_nabla\_b}, \texttt{delta\_nabla\_w = self.backprop(x, y)} which uses the \texttt{backprop} method to figure out the partial derivatives $\partial{}C_x/\partial{}b^l_j$ and $\partial{}C_x/\partial{}w^l_{jk}$. The \texttt{backprop} method follows the algorithm in the last section closely. There is one small change - we use a slightly different approach to indexing the layers. This change is made to take advantage of a feature of Python, namely the use of negative list indices to count backward from the end of a list, so, e.g., \texttt{l[-3]} is the third last entry in a list \texttt{l}. The code for \texttt{backprop} is below, together with a few helper functions, which are used to compute the $\sigma$ function, the derivative $\sigma'$, and the derivative of the cost function. With these inclusions you should be able to understand the code in a self-contained way. If something's tripping you up, you may find it helpful to consult [link]the original description (and complete listing) of the code.
 
 \begin{lstlisting}
 class Network(object):
 ...
 	def backprop(self, x, y):
-		"""Return a tuple "(nabla\_b, nabla\_w)" representing the
-		gradient for the cost function C\_x.  "nabla\_b" and
-		"nabla\_w" are layer-by-layer lists of numpy arrays, similar
+		"""Return a tuple "(nabla_b, nabla_w)" representing the
+		gradient for the cost function C_x.  "nabla_b" and
+		"nabla_w" are layer-by-layer lists of numpy arrays, similar
 		to "self.biases" and "self.weights"."""
-		nabla\_b = [np.zeros(b.shape) for b in self.biases]
-		nabla\_w = [np.zeros(w.shape) for w in self.weights]
+		nabla_b = [np.zeros(b.shape) for b in self.biases]
+		nabla_w = [np.zeros(w.shape) for w in self.weights]
 		# feedforward
 		activation = x
 		activations = [x] # list to store all the activations, layer by layer
@@ -343,31 +345,31 @@ class Network(object):
 			activation = sigmoid(z)
 			activations.append(activation)
 		# backward pass
-		delta = self.cost\_derivative(activations[-1], y) * sigmoid\_prime(zs[-1])
-		nabla\_b[-1] = delta
-		nabla\_w[-1] = np.dot(delta, activations[-2].transpose())
+		delta = self.cost_derivative(activations[-1], y) * sigmoid_prime(zs[-1])
+		nabla_b[-1] = delta
+		nabla_w[-1] = np.dot(delta, activations[-2].transpose())
 		# Note that the variable l in the loop below is used a little
 		# differently to the notation in Chapter 2 of the book.  Here,
 		# l = 1 means the last layer of neurons, l = 2 is the
 		# second-last layer, and so on.  It's a renumbering of the
 		# scheme in the book, used here to take advantage of the fact
 		# that Python can use negative indices in lists.
-		for l in xrange(2, self.num\_layers):
+		for l in xrange(2, self.num_layers):
 			z = zs[-l]
-			sp = sigmoid\_prime(z)
+			sp = sigmoid_prime(z)
 			delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
-			nabla\_b[-l] = delta
-			nabla\_w[-l] = np.dot(delta, activations[-l-1].transpose())
-		return (nabla\_b, nabla\_w)
+			nabla_b[-l] = delta
+			nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
+		return (nabla_b, nabla_w)
 ...
-	def cost\_derivative(self, output\_activations, y):
-		"""Return the vector of partial derivatives \partial{} C\_x /
+	def cost_derivative(self, output_activations, y):
+		"""Return the vector of partial derivatives \partial{} C_x /
 		\partial{} a for the output activations."""
-		return (output\_activations-y) 
+		return (output_activations-y) 
 	def sigmoid(z):
 		"""The sigmoid function."""
 		return 1.0/(1.0+np.exp(-z))
-	def sigmoid\_prime(z):
+	def sigmoid_prime(z):
 		"""Derivative of the sigmoid function."""
 		return sigmoid(z)*(1-sigmoid(z))
 \end{lstlisting}
