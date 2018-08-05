@@ -18,14 +18,16 @@ Ideally, we hope and expect that our neural networks will learn fast from their 
 \end{center}
 We'll train this neuron to do something ridiculously easy: take the input 1 to the output 0. Of course, this is such a trivial task that we could easily figure out an appropriate weight and bias by hand, without using a learning algorithm. However, it turns out to be illuminating to use gradient descent to attempt to learn a weight and bias. So let's take a look at how the neuron learns.
 
-To make things definite, I'll pick the initial weight to be 0.6 and the initial bias to be 0.9. These are generic choices used as a place to begin learning, I wasn't picking them to be special in any way. The initial output from the neuron is 0.82, so quite a bit of learning will be needed before our neuron gets near the desired output, 0.0. Click on ``Run'' in the bottom right corner below to see how the neuron learns an output much closer to 0.0. Note that this isn't a pre-recorded animation, your browser is actually computing the gradient, then using the gradient to update the weight and bias, and displaying the result. The learning rate is $\eta$=0.15, which turns out to be slow enough that we can follow what's happening, but fast enough that we can get substantial learning in just a few seconds. The cost is the quadratic cost function, $C$, introduced back in Chapter 1. I'll remind you of the exact form of the cost function shortly, so there's no need to go and dig up the definition. Note that you can run the animation multiple times by clicking on ``Run'' again.
-\begin{lstlisting}
-ANIMATION
-\end{lstlisting}
-As you can see, the neuron rapidly learns a weight and bias that drives down the cost, and gives an output from the neuron of about 0.09. That's not quite the desired output, 0.0, but it is pretty good. Suppose, however, that we instead choose both the starting weight and the starting bias to be 2.0. In this case the initial output is 0.98, which is very badly wrong. Let's look at how the neuron learns to output 0 in this case. Click on ``Run'' again:
-\begin{lstlisting}
-ANIMATION
-\end{lstlisting}
+To make things definite, I'll pick the initial weight to be 0.6 and the initial bias to be 0.9. These are generic choices used as a place to begin learning, I wasn't picking them to be special in any way. The initial output from the neuron is 0.82, so quite a bit of learning will be needed before our neuron gets near the desired output, 0.0. 
+%Click on ``Run'' in the bottom right corner below to see how the neuron learns an output much closer to 0.0. Note that this isn't a pre-recorded animation, your browser is actually computing the gradient, then using the gradient to update the weight and bias, and displaying the result.
+The learning rate is $\eta$=0.15, which turns out to be slow enough that we can follow what's happening, but fast enough that we can get substantial learning in just a few seconds. The cost is the quadratic cost function, $C$, introduced back in Chapter 1. I'll remind you of the exact form of the cost function shortly, so there's no need to go and dig up the definition. %Note that you can run the animation multiple times by clicking on ``Run'' again.
+\begin{center}%
+	\includegraphics[width=0.75\linewidth]{./figures/ch3/animation_31}
+\end{center}
+As you can see, the neuron rapidly learns a weight and bias that drives down the cost, and gives an output from the neuron of about 0.09. That's not quite the desired output, 0.0, but it is pretty good. Suppose, however, that we instead choose both the starting weight and the starting bias to be 2.0. In this case the initial output is 0.98, which is very badly wrong. Let's look at how the neuron learns to output 0 in this case. %Click on ``Run'' again:
+\begin{center}%
+	\includegraphics[width=0.75\linewidth]{./figures/ch3/animation_32}
+\end{center}
 Although this example uses the same learning rate ($\eta=0.15$), we can see that learning starts out much more slowly. Indeed, for the first 150 or so learning epochs, the weights and biases don't change much at all. Then the learning kicks in and, much as in our first example, the neuron's output rapidly moves closer to 0.0.
 
 This behavior is strange when contrasted to human learning. As I said at the beginning of this section, we often learn fastest when we're badly wrong about something. But we've just seen that our artificial neuron has a lot of difficulty learning when it's badly wrong -- far more difficulty than when it's just a little wrong. What's more, it turns out that this behavior occurs not just in this toy model, but in more general networks. Why is learning so slow? And can we find a way of avoiding this slowdown?
@@ -49,6 +51,154 @@ where I have substituted $x=1$ and $y=0$. To understand the behaviour of these e
 \end{tikzpicture}
 
 We can see from this graph that when the neuron's output is close to 1, the curve gets very flat, and so $\sigma{}'(z)$ gets very small. Equations \ref{eq:55} and \ref{eq:56} then tell us that $\partial{}C/\partial{}w$ and $\partial{}C/\partial{}b$ get very small. This is the origin of the learning slowdown. What's more, as we shall see a little later, the learning slowdown occurs for essentially the same reason in more general neural networks, not just the toy example we've been playing with.
+
 \section{Introducing the cross-entropy cost function}
+How can we address the learning slowdown? It turns out that we can solve the problem by replacing the quadratic cost with a different cost function, known as the cross-entropy. To understand the cross-entropy, let's move a little away from our super-simple toy model. We'll suppose instead that we're trying to train a neuron with several input variables, $x_1,x_2,\ldots$, corresponding weights $w_1,w_2,\ldots$, and a bias, $b$:
+\begin{center}
+	\includegraphics{./figures/ch3/tikz29}
+\end{center}
+The output from the neuron is, of course, $a=\sigma(z)$, where $z=\sum_jw_jb_j+b$ is the weighted sum of the inputs. We define the cross-entropy cost function for this neuron by
+%C=−1n∑x[ylna+(1−y)ln(1−a)],(57)
+\begin{equation}
+	C = -\frac{1}{n} \sum_x \left[y \ln a + (1-y ) \ln (1-a) \right],
+	\label{eq:57}
+\end{equation}
+where $n$ is the total number of items of training data, the sum is over all training inputs, $x$, and $y$ is the corresponding desired output.
+
+It's not obvious that the expression (\ref{eq:57}) fixes the learning slowdown problem. In fact, frankly, it's not even obvious that it makes sense to call this a cost function! Before addressing the learning slowdown, let's see in what sense the cross-entropy can be interpreted as a cost function.
+
+Two properties in particular make it reasonable to interpret the cross-entropy as a cost function. First, it's non-negative, that is, $C>0$. To see this, notice that: (a) all the individual terms in the sum in (\ref{eq:57}) are negative, since both logarithms are of numbers in the range 0 to 1; and (b) there is a minus sign out the front of the sum.
+
+Second, if the neuron's actual output is close to the desired output for all training inputs, x, then the cross-entropy will be close to zero\footnote{To prove this I will need to assume that the desired outputs y are all either 0 or 1. This is usually the case when solving classification problems, for example, or when computing Boolean functions. To understand what happens when we don't make this assumption, see the exercises at the end of this section.}. To see this, suppose for example that y=0 and a≈0 for some input $x$. This is a case when the neuron is doing a good job on that input. We see that the first term in the expression (57) for the cost vanishes, since $y=0$, while the second term is just $−\ln(1−a)\approx0$. A similar analysis holds when $y=1$ and $a\approx1$. And so the contribution to the cost will be low provided the actual output is close to the desired output.
+
+Summing up, the cross-entropy is positive, and tends toward zero as the neuron gets better at computing the desired output, $y$, for all training inputs, $x$. These are both properties we'd intuitively expect for a cost function. Indeed, both properties are also satisfied by the quadratic cost. So that's good news for the cross-entropy. But the cross-entropy cost function has the benefit that, unlike the quadratic cost, it avoids the problem of learning slowing down. To see this, let's compute the partial derivative of the cross-entropy cost with respect to the weights. We substitute $a=\sigma(z)$ into (\ref{eq:57}), and apply the chain rule twice, obtaining:
+%∂C∂wj==−1n∑x(yσ(z)−(1−y)1−σ(z))∂σ∂wj−1n∑x(yσ(z)−(1−y)1−σ(z))σ′(z)xj.(58)(59)
+\begin{equation}
+	\frac{\partial C}{\partial w_j}  =  -\frac{1}{n} \sum_x \left(
+	\frac{y }{\sigma(z)} -\frac{(1-y)}{1-\sigma(z)} \right)
+	\frac{\partial \sigma}{\partial w_j} = 
+ -\frac{1}{n} \sum_x \left( 
+	\frac{y}{\sigma(z)} 
+	-\frac{(1-y)}{1-\sigma(z)} \right)\sigma'(z) x_j.
+	\label{eq:59}
+\end{equation}Putting everything over a common denominator and simplifying this becomes:
+\begin{equation}
+	\frac{\partial C}{\partial w_j}  =  \frac{1}{n}
+	\sum_x \frac{\sigma'(z) x_j}{\sigma(z) (1-\sigma(z))}
+	(\sigma(z)-y).
+	\label{eq:60}
+\end{equation}
+%∂C∂wj=1n∑xσ′(z)xjσ(z)(1−σ(z))(σ(z)−y).(60)
+Using the definition of the sigmoid function, $\sigma(z)=1/(1+e^{−z})$, and a little algebra we can show that $\sigma'(z)=\sigma(z)(1−sigma(z))$. I'll ask you to verify this in an exercise below, but for now let's accept it as given. We see that the $\sigma'(z)$ and $\sigma(z)(1−\sigma(z))$ terms cancel in the equation just above, and it simplifies to become:
+%∂C∂wj=1n∑xxj(σ(z)−y).(61)
+\begin{equation}
+	\frac{\partial C}{\partial w_j} =  \frac{1}{n} \sum_x x_j(\sigma(z)-y).
+	\label{eq:61}
+\end{equation}
+This is a beautiful expression. It tells us that the rate at which the weight learns is controlled by $\sigma(z)−y$, i.e., by the error in the output. The larger the error, the faster the neuron will learn. This is just what we'd intuitively expect. In particular, it avoids the learning slowdown caused by the $\sigma'(z)$ term in the analogous equation for the quadratic cost, Equation(\ref{eq:55}). When we use the cross-entropy, the $\sigma'(z)$ term gets canceled out, and we no longer need worry about it being small. This cancellation is the special miracle ensured by the cross-entropy cost function. Actually, it's not really a miracle. As we'll see later, the cross-entropy was specially chosen to have just this property.
+
+In a similar way, we can compute the partial derivative for the bias. I won't go through all the details again, but you can easily verify that
+\begin{equation}
+	\frac{\partial C}{\partial b} = \frac{1}{n} \sum_x (\sigma(z)-y).
+	\label{eq:62}
+\end{equation}
+%∂C∂b=1n∑x(σ(z)−y).(62)
+Again, this avoids the learning slowdown caused by the $\sigma'(z)$ term in the analogous equation for the quadratic cost, Equation (\ref{eq:56}).
+\subsection*{Exercise}
+\begin{itemize}
+	\item Verify that $\sigma'(z) = \sigma(z)(1-\sigma(z))$
+\end{itemize}
+Let's return to the toy example we played with earlier, and explore what happens when we use the cross-entropy instead of the quadratic cost. To re-orient ourselves, we'll begin with the case where the quadratic cost did just fine, with starting weight 0.6 and starting bias 0.9
+%. Press "Run" to see what happens when we replace the quadratic cost by the cross-entropy
+:
+\begin{center}%
+	\includegraphics[width=0.75\linewidth]{./figures/ch3/animation_33}
+\end{center}
+Unsurprisingly, the neuron learns perfectly well in this instance, just as it did earlier. And now let's look at the case where our neuron got stuck before ([link], for comparison), with the weight and bias both starting at 2.0:
+\begin{center}%
+	\includegraphics[width=0.75\linewidth]{./figures/ch3/animation_34}
+\end{center}
+Success! This time the neuron learned quickly, just as we hoped. If you observe closely you can see that the slope of the cost curve was much steeper initially than the initial flat region on the corresponding curve for the quadratic cost. It's that steepness which the cross-entropy buys us, preventing us from getting stuck just when we'd expect our neuron to learn fastest, i.e., when the neuron starts out badly wrong.
+
+I didn't say what learning rate was used in the examples just illustrated. Earlier, with the quadratic cost, we used $\eta=0.15$. Should we have used the same learning rate in the new examples? In fact, with the change in cost function it's not possible to say precisely what it means to use the ``same'' learning rate; it's an apples and oranges comparison. For both cost functions I simply experimented to find a learning rate that made it possible to see what is going on. If you're still curious, despite my disavowal, here's the lowdown: I used $\eta=0.005$ in the examples just given.
+
+You might object that the change in learning rate makes the graphs above meaningless. Who cares how fast the neuron learns, when our choice of learning rate was arbitrary to begin with?! That objection misses the point. The point of the graphs isn't about the absolute speed of learning. It's about how the speed of learning changes. In particular, when we use the quadratic cost learning is slower when the neuron is unambiguously wrong than it is later on, as the neuron gets closer to the correct output; while with the cross-entropy learning is faster when the neuron is unambiguously wrong. Those statements don't depend on how the learning rate is set.
+
+We've been studying the cross-entropy for a single neuron. However, it's easy to generalize the cross-entropy to many-neuron multi-layer networks. In particular, suppose $y=y_1,y_2,\ldots$ are the desired values at the output neurons, i.e., the neurons in the final layer, while $a^L_1,a^L_2,\ldots$ are the actual output values. Then we define the cross-entropy by
+%C=−1n∑x∑j[yjlna^L_j+(1−yj)ln(1−a^L_j)].(63)
+\begin{equation}
+	\sum_j \left[y_j \ln a^L_j + (1-y_j) \ln (1-a^L_j) \right].
+	\label{eq:63}
+\end{equation}
+This is the same as our earlier expression, Equation (\ref{eq:57}), except now we've got the $\sum_j$ summing over all the output neurons. I won't explicitly work through a derivation, but it should be plausible that using the expression (\ref{eq:63}) avoids a learning slowdown in many-neuron networks. If you're interested, you can work through the derivation in the problem below.
+
+Incidentally, I'm using the term ``cross-entropy'' in a way that has confused some early readers, since it superficially appears to conflict with other sources. In particular, it's common to define the cross-entropy for two probability distributions, $p_j$ and $q_j$, as $\sum_jp_j\ln{}q_j$. This definition may be connected to (\ref{eq:57}), if we treat a single sigmoid neuron as outputting a probability distribution consisting of the neuron's activation $a$ and its complement $1−a$.
+
+However, when we have many sigmoid neurons in the final layer, the vector $a^L_j$ of activations don't usually form a probability distribution. As a result, a definition like $\sum_j p_j \ln q_j$ doesn't even make sense, since we're not working with probability distributions. Instead, you can think of (\ref{eq:63}) as a summed set of per-neuron cross-entropies, with the activation of each neuron being interpreted as part of a two-element probability distribution\footnote{Of course, in our networks there are no probabilistic elements, so they're not really probabilities.}. In this sense, (\ref{eq:63}) is a generalization of the cross-entropy for probability distributions.
+
+When should we use the cross-entropy instead of the quadratic cost? In fact, the cross-entropy is nearly always the better choice, provided the output neurons are sigmoid neurons. To see why, consider that when we're setting up the network we usually initialize the weights and biases using some sort of randomization. It may happen that those initial choices result in the network being decisively wrong for some training input - that is, an output neuron will have saturated near 1, when it should be 0, or vice versa. If we're using the quadratic cost that will slow down learning. It won't stop learning completely, since the weights will continue learning from other training inputs, but it's obviously undesirable.
+
+\subsection*{Exercises}
+\begin{itemize}
+	\item One gotcha with the cross-entropy is that it can be difficult at first to remember the respective roles of the ys and the as. It's easy to get confused about whether the right form is $$-[y \ln a + (1-y) \ln (1-a)].$$ What happens to the second of these expressions when $y=0$ or 1? Does this problem afflict the first expression? Why or why not?
+	\item In the single-neuron discussion at the start of this section, I argued that the cross-entropy is small if $\sigma(z)\approx y$ for all training inputs. The argument relied on y being equal to either 0 or 1. This is usually true in classification problems, but for other problems (e.g., regression problems) y can sometimes take values intermediate between 0 and 1. Show that the cross-entropy is still minimized when σ(z)=y for all training inputs. When this is the case the cross-entropy has the value:
+	\begin{equation}
+		C = -\frac{1}{n} \sum_x [y \ln y+(1-y) \ln(1-y)].
+		\label{eq:64}
+	\end{equation}
+	The quantity $−[y \ln y+(1-y) \ln(1-y)]$ is sometimes known as the binary entropy.
+\end{itemize}
+\subsection*{Problems}
+\begin{itemize}
+	\item \textbf{Many-layer multi-neuron networks} In the notation introduced in the last chapter, show that for the quadratic cost the partial derivative with respect to weights in the output layer is
+	\begin{equation}
+		\frac{\partial C}{\partial w^L_{jk}}  = \frac{1}{n}
+		\sum_x a^{L-1}_k  (a^L_j-y_j) \sigma'(z^L_j).
+		\label{eq:65}
+	\end{equation}%∂C∂wLjk=1n∑xaL−1k(aLj−yj)σ′(zLj).(65)
+	The term $\sigma'(z^L_j)$ causes a learning slowdown whenever an output neuron saturates on the wrong value. Show that for the cross-entropy cost the output error 
+	$\delta^L$ for a single training example $x$ is given by
+	\begin{equation}
+		\delta^L = a^L - y.\label{eq:66}
+	\end{equation}%δL=aL−y.(66)
+	Use this expression to show that the partial derivative with respect to the weights in the output layer is given by
+	\begin{equation}
+		\frac{\partial C}{\partial w^L_{jk}}  =  \frac{1}{n} \sum_x 	a^{L-1}_k  (a^L_j-y_j).
+		\label{eq:67}
+	\end{equation}%∂C∂wLjk=1n∑xaL−1k(aLj−yj).(67)
+	The $\sigma'(z^L_j)$ term has vanished, and so the cross-entropy avoids the problem of learning slowdown, not just when used with a single neuron, as we saw earlier, but also in many-layer multi-neuron networks. A simple variation on this analysis holds also for the biases. If this is not obvious to you, then you should work through that analysis as well.
+	\item \textbf{Using the quadratic cost when we have linear neurons in the output layer} Suppose that we have a many-layer multi-neuron network. Suppose all the neurons in the final layer are linear neurons, meaning that the sigmoid activation function is not applied, and the outputs are simply $a^L_j=z^L_j$. Show that if we use the quadratic cost function then the output error $\delta^L$ for a single training example $x$ is given by
+	\begin{equation}
+		\delta^L = a^L-y.
+		\label{eq:68}
+	\end{equation}%δL=aL−y.(68)
+	Similarly to the previous problem, use this expression to show that the partial derivatives with respect to the weights and biases in the output layer are given by
+	\begin{eqnarray}
+	\frac{\partial C}{\partial w^L_{jk}} & = & \frac{1}{n} \sum_x a^{L-1}_k  (a^L_j-y_j)\\
+	\frac{\partial C}{\partial b^L_{j}} & = & \frac{1}{n} \sum_x (a^L_j-y_j).
+	\label{eq:70}
+	\end{eqnarray}
+	%∂C∂wLjk∂C∂bLj==1n∑xaL−1k(aLj−yj)1n∑x(aLj−yj).(69)(70)
+	This shows that if the output neurons are linear neurons then the quadratic cost will not give rise to any problems with a learning slowdown. In this case the quadratic cost is, in fact, an appropriate cost function to use.
+\end{itemize}
+\section{Using the cross-entropy to classify MNIST digits}
+The cross-entropy is easy to implement as part of a program which learns using gradient descent and backpropagation. We'll do that later in the chapter, developing an improved version of our earlier program for classifying the MNIST handwritten digits, \texttt{network.py}. The new program is called \texttt{network2.py}, and incorporates not just the cross-entropy, but also several other techniques developed in this chapter\footnote{The code is available on [link]GitHub.}. For now, let's look at how well our new program classifies MNIST digits. As was the case in Chapter 1, we'll use a network with 30 hidden neurons, and we'll use a mini-batch size of 10. We set the learning rate to $\eta=0.5$\footnote{In Chapter 1 we used the quadratic cost and a learning rate of $\eta=3.0$. As discussed above, it's not possible to say precisely what it means to use the ``same'' learning rate when the cost function is changed. For both cost functions I experimented to find a learning rate that provides near-optimal performance, given the other hyper-parameter choices. \newline There is, incidentally, a very rough general heuristic for relating the learning rate for the cross-entropy and the quadratic cost. As we saw earlier, the gradient terms for the quadratic cost have an extra $\sigma' = \sigma(1-\sigma)$ term in them. Suppose we average this over values for $\sigma$, $\int_0^1\mathrm{d}\sigma \sigma(1-\sigma)=1/6$. We see that (very roughly) the quadratic cost learns an average of 6 times slower, for the same learning rate. This suggests that a reasonable starting point is to divide the learning rate for the quadratic cost by 6. Of course, this argument is far from rigorous, and shouldn't be taken too seriously. Still, it can sometimes be a useful starting point.} and we train for 30 epochs. The interface to \texttt{network2.py} is slightly different than \texttt{network.py}, but it should still be clear what is going on. You can, by the way, get documentation about \texttt{network2.py}'s interface by using commands such as \texttt{help(network2.Network.SGD)} in a Python shell.
+\begin{lstlisting}
+>>> import mnist_loader
+>>> training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
+>>> import network2
+>>> net = network2.Network([784, 30, 10], cost=network2.CrossEntropyCost)
+>>> net.large_weight_initializer()
+>>> net.SGD(training_data, 30, 10, 0.5, evaluation_data=test_data, monitor_evaluation_accuracy=True)
+\end{lstlisting}	
+Note, by the way, that the \texttt{net.large\_weight\_initializer()} command is used to initialize the weights and biases in the same way as described in Chapter 1. We need to run this command because later in this chapter we'll change the default weight initialization in our networks. The result from running the above sequence of commands is a network with 95.49 percent accuracy. This is pretty close to the result we obtained in Chapter 1, 95.42 percent, using the quadratic cost.
+	
+Let's look also at the case where we use 100 hidden neurons, the cross-entropy, and otherwise keep the parameters the same. In this case we obtain an accuracy of 96.82 percent. That's a substantial improvement over the results from Chapter 1, where we obtained a classification accuracy of 96.59 percent, using the quadratic cost. That may look like a small change, but consider that the error rate has dropped from 3.41 percent to 3.18 percent. That is, we've eliminated about one in fourteen of the original errors. That's quite a handy improvement.
+	
+It's encouraging that the cross-entropy cost gives us similar or better results than the quadratic cost. However, these results don't conclusively prove that the cross-entropy is a better choice. The reason is that I've put only a little effort into choosing hyper-parameters such as learning rate, mini-batch size, and so on. For the improvement to be really convincing we'd need to do a thorough job optimizing such hyper-parameters. Still, the results are encouraging, and reinforce our earlier theoretical argument that the cross-entropy is a better choice than the quadratic cost.
+	
+This, by the way, is part of a general pattern that we'll see through this chapter and, indeed, through much of the rest of the book. We'll develop a new technique, we'll try it out, and we'll get ``improved'' results. It is, of course, nice that we see such improvements. But the interpretation of such improvements is always problematic. They're only truly convincing if we see an improvement after putting tremendous effort into optimizing all the other hyper-parameters. That's a great deal of work, requiring lots of computing power, and we're not usually going to do such an exhaustive investigation. Instead, we'll proceed on the basis of informal tests like those done above. Still, you should keep in mind that such tests fall short of definitive proof, and remain alert to signs that the arguments are breaking down.
+	
+By now, we've discussed the cross-entropy at great length. Why go to so much effort when it gives only a small improvement to our MNIST results? Later in the chapter we'll see other techniques -- notably, regularization -- which give much bigger improvements. So why so much focus on cross-entropy? Part of the reason is that the cross-entropy is a widely-used cost function, and so is worth understanding well. But the more important reason is that neuron saturation is an important problem in neural nets, a problem we'll return to repeatedly throughout the book. And so I've discussed the cross-entropy at length because it's a good laboratory to begin understanding neuron saturation and how it may be addressed.
 
 \end{document}
