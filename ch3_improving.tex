@@ -254,10 +254,13 @@ The idea of softmax is to define a new type of output layer for our neural netwo
 %a^L_j=ez^L_j∑kezLk,(78)
 where in the denominator we sum over all the output neurons.
 
-If you're not familiar with the softmax function, Equation (\ref{eq:78}) may look pretty opaque. It's certainly not obvious why we'd want to use this function. And it's also not obvious that this will help us address the learning slowdown problem. To better understand Equation (\ref{eq:78}), suppose we have a network with four output neurons, and four corresponding weighted inputs, which we'll denote $z^L_1,z^L_2,z^L_3,$ and $z^L_4$. Shown below are adjustable sliders showing possible values for the weighted inputs, and a graph of the corresponding output activations. A good place to start exploration is by using the bottom slider to increase $z^L_4$:
-\begin{lstlisting}
-ANIMATION
-\end{lstlisting}
+If you're not familiar with the softmax function, Equation (\ref{eq:78}) may look pretty opaque. It's certainly not obvious why we'd want to use this function. And it's also not obvious that this will help us address the learning slowdown problem. To better understand Equation (\ref{eq:78}), suppose we have a network with four output neurons, and four corresponding weighted inputs, which we'll denote $z^L_1,z^L_2,z^L_3,$ and $z^L_4$. Figure\ref{fig:softmax} shows  a graph of the corresponding output activations for different inputs\footnote{This paragraph is an adaptation of an animation from online version of the book.}.
+\begin{figure}
+\includegraphics[width=\linewidth]{./figures/ch3/animation_softmax}
+\caption{Equation~\ref{eq:78} for different fixed values of $z^L_{1,2,3}$ and variable $z^L_4$. $L$ index avoided for clarity. }
+\label{fig:softmax}
+\end{figure}
+
 As you increase $z^L_4$, you'll see an increase in the corresponding output activation, $a^L_4$, and a decrease in the other output activations. Similarly, if you decrease $z^L_4$ then $a^L_4$ will decrease, and all the other output activations will increase. In fact, if you look closely, you'll see that in both cases the total change in the other activations exactly compensates for the change in $a^L_4$. The reason is that the output activations are guaranteed to always sum up to 1, as we can prove using Equation (\ref{eq:78}) and a little algebra:
 \begin{eqnarray}
 \sum_j a^L_j & = & \frac{\sum_j e^{z^L_j}}{\sum_k e^{z^L_k}} = 1.
