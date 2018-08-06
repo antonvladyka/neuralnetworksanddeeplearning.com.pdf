@@ -172,7 +172,7 @@ This tells us how to compute the partial derivatives $\partial{}C/\partial{}w^l_
 where it's understood that $a_\mathrm{in}$ is the activation of the neuron input to the weight $w$, and $\delta_\mathrm{out}$ is the error of the neuron output from the weight $w$. Zooming in to look at just the weight $w$, and the two neurons connected by that weight, we can depict this as:
 
 \begin{center}
-	\includegraphics[]{./figures/ch2/tikz20}
+	\includegraphics[width=0.35\linewidth]{./figures/ch2/tikz20}
 \end{center}
 A nice consequence of Equation~\ref{eq:32} is that when the activation $a_\mathrm{in}$ is small, $a_\mathrm{in}\approx0$, the gradient term $\partial{}C/\partial{}w$ will also tend to be small. In this case, we'll say the weight \textit{learns slowly}, meaning that it's not changing much during gradient descent. In other words, one consequence of (\ref{eq:BP4}) is that weights output from low-activation neurons learn slowly.
 

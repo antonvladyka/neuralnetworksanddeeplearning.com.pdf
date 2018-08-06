@@ -143,7 +143,6 @@ What about the algebraic form of $\sigma$? How can we understand that? In fact, 
 \addplot[blue,domain=-5:5,samples=81]{1/(1+exp(-x)};
 \end{axis}
 \end{tikzpicture}
-
 This shape is a smoothed out version of a step function:
 
 \begin{tikzpicture}[scale=0.75]
@@ -151,7 +150,6 @@ This shape is a smoothed out version of a step function:
 \addplot[domain=-5:5,samples=161,blue]{1/(1+exp(-1000*x)};
 \end{axis}
 \end{tikzpicture}
-
 If $\sigma$ had in fact been a step function, then the sigmoid neuron would be a perceptron, since the output would be 1 or 0 depending on whether $w\cdot x + b$ was positive or negative\footnote{Actually, when $w\cdot x+b = 0$ the perceptron outputs 0, while the step function outputs 1. So, strictly speaking, we'd need to modify the step function at that one point. But you get the idea.}. By using the actual $\sigma$ function we get, as already implied above, a smoothed out perceptron. Indeed, it's the smoothness of the $\sigma$ function that is the crucial fact, not its detailed form. The smoothness of $\sigma$ means that small changes $\Delta{}w_j$ in the weights and $\Delta{}b$ in the bias will produce a small change $\Delta\textrm{output}$ in the output from the neuron. In fact, calculus tells us that $\Delta\textrm{output}$ is well approximated by
 \begin{equation}
 \Delta\textrm{output}\approx \sum_j\frac{\partial\textrm{output}}{\partial w_j}\Delta w_j + \frac{\partial\textrm{output}}{\partial b}\Delta b
@@ -179,7 +177,6 @@ In the next section I'll introduce a neural network that can do a pretty good jo
 \begin{center}
 	\includegraphics[scale=0.5]{./figures/ch1/tikz10}
 \end{center}
-
 As mentioned earlier, the leftmost layer in this network is called the input layer, and the neurons within the layer are called \textit{input neurons}. The rightmost or \textit{output} layer contains the \textit{output neurons}, or, as in this case, a single output neuron. The middle layer is called a \textit{hidden layer}, since the neurons in this layer are neither inputs nor outputs. The term ``hidden'' perhaps sounds a little mysterious -- the first time I heard the term I thought it must have some deep philosophical or mathematical significance - but it really means nothing more than ``not an input or an output''. The network above has just a single hidden layer, but some networks have multiple hidden layers. For example, the following four-layer network has two hidden layers:
 
 \begin{center}
@@ -216,7 +213,7 @@ We'll focus on writing a program to solve the second problem, that is, classifyi
 
 To recognize individual digits we will use a three-layer neural network:
 \begin{center}
-	\includegraphics[scale=0.65]{./figures/ch1/tikz12}
+	\includegraphics[width=\linewidth]{./figures/ch1/tikz12}
 \end{center}
 The input layer of the network contains neurons encoding the values of the input pixels. As discussed in the next section, our training data for the network will consist of many 28 by 28 pixel images of scanned handwritten digits, and so the input layer contains $784=28\times28$ neurons. For simplicity I've omitted most of the 784 input neurons in the diagram above. The input pixels are greyscale, with a value of 0.0 representing white, a value of 1.0 representing black, and in between values representing gradually darkening shades of grey.
 

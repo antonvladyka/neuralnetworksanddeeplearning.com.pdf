@@ -52,7 +52,7 @@ plt.plot(X,B,'black')
 plt.xlabel('Epoch')
 plt.legend(['Bias'],loc=0)
 plt.tight_layout()
-plt.savefig('animation_33',dpi=300,pad_inches=0,bbox_inches=0)
+plt.savefig('animation_34',dpi=300,pad_inches=0,bbox_inches=0)
 #plt.plot(X,B)
 #plt.plot(X,W)
 
