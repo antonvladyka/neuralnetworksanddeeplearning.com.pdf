@@ -55,10 +55,10 @@ We can see from this graph that when the neuron's output is close to 1, the curv
 \section{Introducing the cross-entropy cost function}
 How can we address the learning slowdown? It turns out that we can solve the problem by replacing the quadratic cost with a different cost function, known as the cross-entropy. To understand the cross-entropy, let's move a little away from our super-simple toy model. We'll suppose instead that we're trying to train a neuron with several input variables, $x_1,x_2,\ldots$, corresponding weights $w_1,w_2,\ldots$, and a bias, $b$:
 \begin{center}
-	\includegraphics{./figures/ch3/tikz29}
+	\includegraphics[scale=0.5]{./figures/ch3/tikz29}
 \end{center}
 The output from the neuron is, of course, $a=\sigma(z)$, where $z=\sum_jw_jb_j+b$ is the weighted sum of the inputs. We define the cross-entropy cost function for this neuron by
-%C=−1n∑x[ylna+(1−y)ln(1−a)],(57)
+%C=-1n∑x[ylna+(1-y)ln(1-a)],(57)
 \begin{equation}
 	C = -\frac{1}{n} \sum_x \left[y \ln a + (1-y ) \ln (1-a) \right],
 	\label{eq:57}
@@ -69,10 +69,10 @@ It's not obvious that the expression (\ref{eq:57}) fixes the learning slowdown p
 
 Two properties in particular make it reasonable to interpret the cross-entropy as a cost function. First, it's non-negative, that is, $C>0$. To see this, notice that: (a) all the individual terms in the sum in (\ref{eq:57}) are negative, since both logarithms are of numbers in the range 0 to 1; and (b) there is a minus sign out the front of the sum.
 
-Second, if the neuron's actual output is close to the desired output for all training inputs, x, then the cross-entropy will be close to zero\footnote{To prove this I will need to assume that the desired outputs y are all either 0 or 1. This is usually the case when solving classification problems, for example, or when computing Boolean functions. To understand what happens when we don't make this assumption, see the exercises at the end of this section.}. To see this, suppose for example that y=0 and a≈0 for some input $x$. This is a case when the neuron is doing a good job on that input. We see that the first term in the expression (57) for the cost vanishes, since $y=0$, while the second term is just $−\ln(1−a)\approx0$. A similar analysis holds when $y=1$ and $a\approx1$. And so the contribution to the cost will be low provided the actual output is close to the desired output.
+Second, if the neuron's actual output is close to the desired output for all training inputs, x, then the cross-entropy will be close to zero\footnote{To prove this I will need to assume that the desired outputs y are all either 0 or 1. This is usually the case when solving classification problems, for example, or when computing Boolean functions. To understand what happens when we don't make this assumption, see the exercises at the end of this section.}. To see this, suppose for example that y=0 and a≈0 for some input $x$. This is a case when the neuron is doing a good job on that input. We see that the first term in the expression (57) for the cost vanishes, since $y=0$, while the second term is just $-\ln(1-a)\approx0$. A similar analysis holds when $y=1$ and $a\approx1$. And so the contribution to the cost will be low provided the actual output is close to the desired output.
 
 Summing up, the cross-entropy is positive, and tends toward zero as the neuron gets better at computing the desired output, $y$, for all training inputs, $x$. These are both properties we'd intuitively expect for a cost function. Indeed, both properties are also satisfied by the quadratic cost. So that's good news for the cross-entropy. But the cross-entropy cost function has the benefit that, unlike the quadratic cost, it avoids the problem of learning slowing down. To see this, let's compute the partial derivative of the cross-entropy cost with respect to the weights. We substitute $a=\sigma(z)$ into (\ref{eq:57}), and apply the chain rule twice, obtaining:
-%∂C∂wj==−1n∑x(yσ(z)−(1−y)1−σ(z))∂σ∂wj−1n∑x(yσ(z)−(1−y)1−σ(z))σ′(z)xj.(58)(59)
+%∂C∂wj==-1n∑x(yσ(z)-(1-y)1-σ(z))∂σ∂wj-1n∑x(yσ(z)-(1-y)1-σ(z))σ′(z)xj.(58)(59)
 \begin{equation}
 	\frac{\partial C}{\partial w_j}  =  -\frac{1}{n} \sum_x \left(
 	\frac{y }{\sigma(z)} -\frac{(1-y)}{1-\sigma(z)} \right)
@@ -88,21 +88,21 @@ Summing up, the cross-entropy is positive, and tends toward zero as the neuron g
 	(\sigma(z)-y).
 	\label{eq:60}
 \end{equation}
-%∂C∂wj=1n∑xσ′(z)xjσ(z)(1−σ(z))(σ(z)−y).(60)
-Using the definition of the sigmoid function, $\sigma(z)=1/(1+e^{−z})$, and a little algebra we can show that $\sigma'(z)=\sigma(z)(1−sigma(z))$. I'll ask you to verify this in an exercise below, but for now let's accept it as given. We see that the $\sigma'(z)$ and $\sigma(z)(1−\sigma(z))$ terms cancel in the equation just above, and it simplifies to become:
-%∂C∂wj=1n∑xxj(σ(z)−y).(61)
+%∂C∂wj=1n∑xσ′(z)xjσ(z)(1-σ(z))(σ(z)-y).(60)
+Using the definition of the sigmoid function, $\sigma(z)=1/(1+e^{-z})$, and a little algebra we can show that $\sigma'(z)=\sigma(z)(1-\sigma(z))$. I'll ask you to verify this in an exercise below, but for now let's accept it as given. We see that the $\sigma'(z)$ and $\sigma(z)(1-\sigma(z))$ terms cancel in the equation just above, and it simplifies to become:
+%∂C∂wj=1n∑xxj(σ(z)-y).(61)
 \begin{equation}
 	\frac{\partial C}{\partial w_j} =  \frac{1}{n} \sum_x x_j(\sigma(z)-y).
 	\label{eq:61}
 \end{equation}
-This is a beautiful expression. It tells us that the rate at which the weight learns is controlled by $\sigma(z)−y$, i.e., by the error in the output. The larger the error, the faster the neuron will learn. This is just what we'd intuitively expect. In particular, it avoids the learning slowdown caused by the $\sigma'(z)$ term in the analogous equation for the quadratic cost, Equation(\ref{eq:55}). When we use the cross-entropy, the $\sigma'(z)$ term gets canceled out, and we no longer need worry about it being small. This cancellation is the special miracle ensured by the cross-entropy cost function. Actually, it's not really a miracle. As we'll see later, the cross-entropy was specially chosen to have just this property.
+This is a beautiful expression. It tells us that the rate at which the weight learns is controlled by $\sigma(z)-y$, i.e., by the error in the output. The larger the error, the faster the neuron will learn. This is just what we'd intuitively expect. In particular, it avoids the learning slowdown caused by the $\sigma'(z)$ term in the analogous equation for the quadratic cost, Equation(\ref{eq:55}). When we use the cross-entropy, the $\sigma'(z)$ term gets canceled out, and we no longer need worry about it being small. This cancellation is the special miracle ensured by the cross-entropy cost function. Actually, it's not really a miracle. As we'll see later, the cross-entropy was specially chosen to have just this property.
 
 In a similar way, we can compute the partial derivative for the bias. I won't go through all the details again, but you can easily verify that
 \begin{equation}
 	\frac{\partial C}{\partial b} = \frac{1}{n} \sum_x (\sigma(z)-y).
 	\label{eq:62}
 \end{equation}
-%∂C∂b=1n∑x(σ(z)−y).(62)
+%∂C∂b=1n∑x(σ(z)-y).(62)
 Again, this avoids the learning slowdown caused by the $\sigma'(z)$ term in the analogous equation for the quadratic cost, Equation (\ref{eq:56}).
 \subsection*{Exercise}
 \begin{itemize}
@@ -125,14 +125,14 @@ I didn't say what learning rate was used in the examples just illustrated. Earli
 You might object that the change in learning rate makes the graphs above meaningless. Who cares how fast the neuron learns, when our choice of learning rate was arbitrary to begin with?! That objection misses the point. The point of the graphs isn't about the absolute speed of learning. It's about how the speed of learning changes. In particular, when we use the quadratic cost learning is slower when the neuron is unambiguously wrong than it is later on, as the neuron gets closer to the correct output; while with the cross-entropy learning is faster when the neuron is unambiguously wrong. Those statements don't depend on how the learning rate is set.
 
 We've been studying the cross-entropy for a single neuron. However, it's easy to generalize the cross-entropy to many-neuron multi-layer networks. In particular, suppose $y=y_1,y_2,\ldots$ are the desired values at the output neurons, i.e., the neurons in the final layer, while $a^L_1,a^L_2,\ldots$ are the actual output values. Then we define the cross-entropy by
-%C=−1n∑x∑j[yjlna^L_j+(1−yj)ln(1−a^L_j)].(63)
+%C=-1n∑x∑j[yjlna^L_j+(1-yj)ln(1-a^L_j)].(63)
 \begin{equation}
 	\sum_j \left[y_j \ln a^L_j + (1-y_j) \ln (1-a^L_j) \right].
 	\label{eq:63}
 \end{equation}
 This is the same as our earlier expression, Equation (\ref{eq:57}), except now we've got the $\sum_j$ summing over all the output neurons. I won't explicitly work through a derivation, but it should be plausible that using the expression (\ref{eq:63}) avoids a learning slowdown in many-neuron networks. If you're interested, you can work through the derivation in the problem below.
 
-Incidentally, I'm using the term ``cross-entropy'' in a way that has confused some early readers, since it superficially appears to conflict with other sources. In particular, it's common to define the cross-entropy for two probability distributions, $p_j$ and $q_j$, as $\sum_jp_j\ln{}q_j$. This definition may be connected to (\ref{eq:57}), if we treat a single sigmoid neuron as outputting a probability distribution consisting of the neuron's activation $a$ and its complement $1−a$.
+Incidentally, I'm using the term ``cross-entropy'' in a way that has confused some early readers, since it superficially appears to conflict with other sources. In particular, it's common to define the cross-entropy for two probability distributions, $p_j$ and $q_j$, as $\sum_jp_j\ln{}q_j$. This definition may be connected to (\ref{eq:57}), if we treat a single sigmoid neuron as outputting a probability distribution consisting of the neuron's activation $a$ and its complement $1-a$.
 
 However, when we have many sigmoid neurons in the final layer, the vector $a^L_j$ of activations don't usually form a probability distribution. As a result, a definition like $\sum_j p_j \ln q_j$ doesn't even make sense, since we're not working with probability distributions. Instead, you can think of (\ref{eq:63}) as a summed set of per-neuron cross-entropies, with the activation of each neuron being interpreted as part of a two-element probability distribution\footnote{Of course, in our networks there are no probabilistic elements, so they're not really probabilities.}. In this sense, (\ref{eq:63}) is a generalization of the cross-entropy for probability distributions.
 
@@ -141,12 +141,12 @@ When should we use the cross-entropy instead of the quadratic cost? In fact, the
 \subsection*{Exercises}
 \begin{itemize}
 	\item One gotcha with the cross-entropy is that it can be difficult at first to remember the respective roles of the ys and the as. It's easy to get confused about whether the right form is $$-[y \ln a + (1-y) \ln (1-a)].$$ What happens to the second of these expressions when $y=0$ or 1? Does this problem afflict the first expression? Why or why not?
-	\item In the single-neuron discussion at the start of this section, I argued that the cross-entropy is small if $\sigma(z)\approx y$ for all training inputs. The argument relied on y being equal to either 0 or 1. This is usually true in classification problems, but for other problems (e.g., regression problems) y can sometimes take values intermediate between 0 and 1. Show that the cross-entropy is still minimized when σ(z)=y for all training inputs. When this is the case the cross-entropy has the value:
+	\item In the single-neuron discussion at the start of this section, I argued that the cross-entropy is small if $\sigma(z)\approx y$ for all training inputs. The argument relied on $y$ being equal to either 0 or 1. This is usually true in classification problems, but for other problems (e.g., regression problems) $y$ can sometimes take values intermediate between 0 and 1. Show that the cross-entropy is still minimized when $\sigma(z)=y$ for all training inputs. When this is the case the cross-entropy has the value:
 	\begin{equation}
 		C = -\frac{1}{n} \sum_x [y \ln y+(1-y) \ln(1-y)].
 		\label{eq:64}
 	\end{equation}
-	The quantity $−[y \ln y+(1-y) \ln(1-y)]$ is sometimes known as the binary entropy.
+	The quantity $-[y \ln y+(1-y) \ln(1-y)]$ is sometimes known as the \textit{binary entropy}.
 \end{itemize}
 \subsection*{Problems}
 \begin{itemize}
@@ -155,30 +155,30 @@ When should we use the cross-entropy instead of the quadratic cost? In fact, the
 		\frac{\partial C}{\partial w^L_{jk}}  = \frac{1}{n}
 		\sum_x a^{L-1}_k  (a^L_j-y_j) \sigma'(z^L_j).
 		\label{eq:65}
-	\end{equation}%∂C∂wLjk=1n∑xaL−1k(aLj−yj)σ′(zLj).(65)
+	\end{equation}%∂C∂wLjk=1n∑xaL-1k(aLj-yj)σ′(zLj).(65)
 	The term $\sigma'(z^L_j)$ causes a learning slowdown whenever an output neuron saturates on the wrong value. Show that for the cross-entropy cost the output error 
 	$\delta^L$ for a single training example $x$ is given by
 	\begin{equation}
 		\delta^L = a^L - y.\label{eq:66}
-	\end{equation}%δL=aL−y.(66)
+	\end{equation}%δL=aL-y.(66)
 	Use this expression to show that the partial derivative with respect to the weights in the output layer is given by
 	\begin{equation}
 		\frac{\partial C}{\partial w^L_{jk}}  =  \frac{1}{n} \sum_x 	a^{L-1}_k  (a^L_j-y_j).
 		\label{eq:67}
-	\end{equation}%∂C∂wLjk=1n∑xaL−1k(aLj−yj).(67)
+	\end{equation}%∂C∂wLjk=1n∑xaL-1k(aLj-yj).(67)
 	The $\sigma'(z^L_j)$ term has vanished, and so the cross-entropy avoids the problem of learning slowdown, not just when used with a single neuron, as we saw earlier, but also in many-layer multi-neuron networks. A simple variation on this analysis holds also for the biases. If this is not obvious to you, then you should work through that analysis as well.
 	\item \textbf{Using the quadratic cost when we have linear neurons in the output layer} Suppose that we have a many-layer multi-neuron network. Suppose all the neurons in the final layer are linear neurons, meaning that the sigmoid activation function is not applied, and the outputs are simply $a^L_j=z^L_j$. Show that if we use the quadratic cost function then the output error $\delta^L$ for a single training example $x$ is given by
 	\begin{equation}
 		\delta^L = a^L-y.
 		\label{eq:68}
-	\end{equation}%δL=aL−y.(68)
+	\end{equation}%δL=aL-y.(68)
 	Similarly to the previous problem, use this expression to show that the partial derivatives with respect to the weights and biases in the output layer are given by
 	\begin{eqnarray}
 	\frac{\partial C}{\partial w^L_{jk}} & = & \frac{1}{n} \sum_x a^{L-1}_k  (a^L_j-y_j)\\
 	\frac{\partial C}{\partial b^L_{j}} & = & \frac{1}{n} \sum_x (a^L_j-y_j).
 	\label{eq:70}
 	\end{eqnarray}
-	%∂C∂wLjk∂C∂bLj==1n∑xaL−1k(aLj−yj)1n∑x(aLj−yj).(69)(70)
+	%∂C∂wLjk∂C∂bLj==1n∑xaL-1k(aLj-yj)1n∑x(aLj-yj).(69)(70)
 	This shows that if the output neurons are linear neurons then the quadratic cost will not give rise to any problems with a learning slowdown. In this case the quadratic cost is, in fact, an appropriate cost function to use.
 \end{itemize}
 \section{Using the cross-entropy to classify MNIST digits}
