@@ -6,54 +6,40 @@ Created on Fri Aug  3 20:04:02 2018
 """
 
 # chapter 3, animation 1
-import math
-def cost(x):    return -math.log(1-x)
-def costd(x):   return 1/(1-x)
-def s(x):       return 1/(1+math.exp(-x))
-def ov(w,b):    return s(w+b)
-x = 1
-w0 = 2
-b0 = 2
-eta = 0.005
-w = w0
-b = b0
-Y = []
-X = []
-A = []
-W = []
-B = []
-while x <= 300:
-    a = ov(w,b)
-    d = costd(a)
-    w = w - eta * d
-    b = b - eta * d
-    y = cost(a)
-    X.append(x)
-    Y.append(y)
-    W.append(w)
-    B.append(b)
-    A.append(a)
-    x = x + 1
-
+import numpy as np
 import matplotlib.pyplot as plt
-plt.figure(figsize=(10,5))
-plt.subplot(2,2,1)
-plt.plot(X,Y)
-plt.legend(['Cost'],loc=0)
-plt.subplot(2,2,3)
-plt.plot(X,A,'red')
-plt.xlabel('Epoch')
-plt.legend(['Output'],loc=0)
-plt.subplot(2,2,2)
-plt.plot(X,W,'green')
-plt.legend(['Weight'],loc=0)
-plt.subplot(2,2,4)
-plt.plot(X,B,'black')
-plt.xlabel('Epoch')
-plt.legend(['Bias'],loc=0)
+def softmax(z1, z2, z3, z4):
+    N = len(z4)
+    A = np.zeros((N,4))
+    for j in range(N):
+        z = np.array([z1,z2,z3,z4[j]])
+        a = np.exp(z)
+        A[j,] = a/np.sum(a)
+    return(A)
+
+N = 101
+z1 = -1
+z2 = 0
+z3 = 1
+z4 = np.linspace(-5,5,N)
+A = softmax(z1,z2,z3,z4)
+plt.figure(figsize=(10,3.5))
+plt.subplot(1,2,1)
+plt.plot(z4,A)
+plt.xlabel('$z_4$')
+plt.ylabel('$a_j$')
+plt.legend(['$a_1$, $z_1$ = %g'%(z1),'$a_2$, $z_2$ = %g'%(z2),'$a_3$, $z_3$ = %g'%(z3),'$a_4$'],loc=0)
+z1 = -0.5
+z2 = 0
+z3 = 1.5
+z4 = np.linspace(-5,5,N)
+A = softmax(z1,z2,z3,z4)
+plt.subplot(1,2,2)
+plt.plot(z4,A)
+plt.xlabel('$z_4$')
+plt.legend(['$a_1$, $z_1$ = %g'%(z1),'$a_2$, $z_2$ = %g'%(z2),'$a_3$, $z_3$ = %g'%(z3),'$a_4$'],loc=0)
 plt.tight_layout()
-plt.savefig('animation_33',dpi=300,pad_inches=0,bbox_inches=0)
-#plt.plot(X,B)
-#plt.plot(X,W)
+
+plt.savefig('animation_softmax',dpi=300,pad_inches=0,bbox_inches=0)
 
     
