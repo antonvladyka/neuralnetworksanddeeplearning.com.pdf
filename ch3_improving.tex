@@ -370,7 +370,7 @@ Overfitting is a major problem in neural networks. This is especially true in mo
 The obvious way to detect overfitting is to use the approach above, keeping track of accuracy on the test data as our network trains. If we see that the accuracy on the test data is no longer improving, then we should stop training. Of course, strictly speaking, this is not necessarily a sign of overfitting. It might be that accuracy on the test data and the training data both stop improving at the same time. Still, adopting this strategy will prevent overfitting.
 
 In fact, we'll use a variation on this strategy. Recall that when we load in the MNIST data we load in three data sets:
-\begin{lstlisting}
+\begin{lstlisting}
 >>> import mnist_loader 
 >>> training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
 \end{lstlisting}
@@ -388,5 +388,112 @@ We've been looking so far at overfitting when we're just using 1,000 training im
 \end{center}
 As you can see, the accuracy on the test and training data remain much closer together than when we were using 1,000 training examples. In particular, the best classification accuracy of 97.86 percent on the training data is only 2.53 percent higher than the 95.33 percent on the test data. That's compared to the 17.73 percent gap we had earlier! Overfitting is still going on, but it's been greatly reduced. Our network is generalizing much better from the training data to the test data. In general, one of the best ways of reducing overfitting is to increase the size of the training data. With enough training data it is difficult for even a very large network to overfit. Unfortunately, training data can be expensive or difficult to acquire, so this is not always a practical option.
 
+\section{Regularization}
+Increasing the amount of training data is one way of reducing overfitting. Are there other ways we can reduce the extent to which overfitting occurs? One possible approach is to reduce the size of our network. However, large networks have the potential to be more powerful than small networks, and so this is an option we'd only adopt reluctantly.
 
+Fortunately, there are other techniques which can reduce overfitting, even when we have a fixed network and fixed training data. These are known as \textit{regularization} techniques. In this section I describe one of the most commonly used regularization techniques, a technique sometimes known as \textit{weight decay} or \textit{L2 regularization}. The idea of L2 regularization is to add an extra term to the cost function, a term called the \textit{regularization term}. Here's the regularized cross-entropy:
+\begin{eqnarray}
+C = -\frac{1}{n} \sum_{xj} \left[ y_j \ln a^L_j+(1-y_j) \ln (1-a^L_j)\right] + \frac{\lambda}{2n} \sum_w w^2.
+\label{eq:85}
+\end{eqnarray}
+%C=−1n∑xj[yjlnaLj+(1−yj)ln(1−aLj)]+\lambda 2n∑ww2.(85)
+The first term is just the usual expression for the cross-entropy. But we've added a second term, namely the sum of the squares of all the weights in the network. This is scaled by a factor $\lambda/2n$, where $\lambda>0$ is known as the \textit{regularization parameter}, and $n$ is, as usual, the size of our training set. I'll discuss later how $\lambda$ is chosen. It's also worth noting that the regularization term doesn't include the biases. I'll also come back to that below.
+
+Of course, it's possible to regularize other cost functions, such as the quadratic cost. This can be done in a similar way:
+\begin{eqnarray} C = \frac{1}{2n} \sum_x \|y-a^L\|^2 + \frac{\lambda}{2n} \sum_w w^2.
+\label{eq:86}\end{eqnarray}
+%C=12n∑x∥y−aL∥2+\lambda 2n∑ww2.(86)
+In both cases we can write the regularized cost function as
+%C=C0+\lambda 2n∑ww2,(87)
+\begin{eqnarray}  C = C_0 + \frac{\lambda}{2n}\sum_w w^2,
+\label{eq:87}
+\end{eqnarray}
+where $C_0$ is the original, unregularized cost function.
+
+Intuitively, the effect of regularization is to make it so the network prefers to learn small weights, all other things being equal. Large weights will only be allowed if they considerably improve the first part of the cost function. Put another way, regularization can be viewed as a way of compromising between finding small weights and minimizing the original cost function. The relative importance of the two elements of the compromise depends on the value of $\lambda$: when $\lambda$  is small we prefer to minimize the original cost function, but when $\lambda$ is large we prefer small weights.
+
+Now, it's really not at all obvious why making this kind of compromise should help reduce overfitting! But it turns out that it does. We'll address the question of why it helps in the next section. But first, let's work through an example showing that regularization really does reduce overfitting.
+
+To construct such an example, we first need to figure out how to apply our stochastic gradient descent learning algorithm in a regularized neural network. In particular, we need to know how to compute the partial derivatives $\partial{}C/\partial{}w$ and $\partial{}C/\partial{}b$ for all the weights and biases in the network. Taking the partial derivatives of Equation (\ref{eq:87}) gives
+\begin{eqnarray} 
+\frac{\partial C}{\partial w} & = & \frac{\partial C_0}{\partial w} + \frac{\lambda}{n} w \label{eq:88}\\ 
+\frac{\partial C}{\partial b} & = & \frac{\partial C_0}{\partial b}. \label{eq:89}\end{eqnarray}
+%\partial{}C\partial{}w\partial{}C\partial{}b==\partial{}C0\partial{}w+\lambda nw\partial{}C0\partial{}b.(88)(89)
+The $\partial{}C_0/\partial{}w$ and $\partial{}C_0/\partial{}b$ terms can be computed using backpropagation, as described in the last chapter. And so we see that it's easy to compute the gradient of the regularized cost function: just use backpropagation, as usual, and then add $\frac{\lambda}{n}w$ to the partial derivative of all the weight terms. The partial derivatives with respect to the biases are unchanged, and so the gradient descent learning rule for the biases doesn't change from the usual rule:
+\begin{equation}
+b\to b-\eta\frac{\partial{}C_0}{\partial{}b}.
+\label{eq:90}
+\end{equation}
+The learning rule for the weights becomes:
+\begin{eqnarray} 
+w & \rightarrow & w-\eta \frac{\partial C_0}{\partial w}-\frac{\eta \lambda}{n} w  = \left(1-\frac{\eta \lambda}{n}\right) w -\eta \frac{\partial	C_0}{\partial w}. 
+\label{eq:92}
+\end{eqnarray}
+%w→=w−\eta\partial{}C0\partial{}w−\eta\lambda nw(1−\eta\lambda n)w−\eta\partial{}C0\partial{}w.(91)(92)
+This is exactly the same as the usual gradient descent learning rule, except we first rescale the weight $w$ by a factor $1−\eta\frac{\lambda}{n}$. This rescaling is sometimes referred to as \textit{weight decay}, since it makes the weights smaller. At first glance it looks as though this means the weights are being driven unstoppably toward zero. But that's not right, since the other term may lead the weights to increase, if so doing causes a decrease in the unregularized cost function.
+
+Okay, that's how gradient descent works. What about stochastic gradient descent? Well, just as in unregularized stochastic gradient descent, we can estimate $\partial{}C_0/\partial{}w$ by averaging over a mini-batch of $m$ training examples. Thus the regularized learning rule for stochastic gradient descent becomes (c.f. Equation (\ref{eq:20}))
+\begin{eqnarray} 
+w \rightarrow \left(1-\frac{\eta \lambda}{n}\right) w -\frac{\eta}{m} \sum_x \frac{\partial C_x}{\partial w}, 
+\label{eq:93}
+\end{eqnarray}
+%w→(1−\eta\lambda n)w−\etam∑x\partial{}Cx\partial{}w,(93)
+where the sum is over training examples $x$ in the mini-batch, and $C_x$ is the (unregularized) cost for each training example. This is exactly the same as the usual rule for stochastic gradient descent, except for the $1−\eta\lambda/n$ weight decay factor. Finally, and for completeness, let me state the regularized learning rule for the biases. This is, of course, exactly the same as in the unregularized case (c.f. Equation (\ref{eq:21})),
+\begin{eqnarray}
+	b \to b - \frac{\eta}{m} \sum_x \frac{\partial C_x}{\partial b},
+	\label{eq:94}
+\end{eqnarray}
+%b→b−\etam∑x\partial{}Cx\partial{}b,(94)
+where the sum is over training examples $x$ in the mini-batch.
+
+Let's see how regularization changes the performance of our neural network. We'll use a network with 30 hidden neurons, a mini-batch size of 10, a learning rate of 0.5, and the cross-entropy cost function. However, this time we'll use a regularization parameter of $\lambda =0.1$. Note that in the code, we use the variable name \texttt{lmbda}, because \texttt{lambda} is a reserved word in Python, with an unrelated meaning. I've also used the \texttt{test\_data} again, not the \texttt{validation\_data}. Strictly speaking, we should use the \texttt{validation\_data}, for all the reasons we discussed earlier. But I decided to use the \texttt{test\_data} because it makes the results more directly comparable with our earlier, unregularized results. You can easily change the code to use the \texttt{validation\_data} instead, and you'll find that it gives similar results.
+
+\begin{lstlisting}
+>>> import mnist_loader 
+>>> training_data, validation_data, test_data =  mnist_loader.load_data_wrapper() 
+>>> import network2 
+>>> net = network2.Network([784, 30, 10], cost=network2.CrossEntropyCost)
+>>> net.large_weight_initializer()
+>>> net.SGD(training_data[:1000], 400, 10, 0.5, evaluation_data=test_data, lmbda = 0.1, \
+... monitor_evaluation_cost=True, monitor_evaluation_accuracy=True, monitor_training_cost=True, monitor_training_accuracy=True)
+\end{lstlisting}
+The cost on the training data decreases over the whole time, much as it did in the earlier, unregularized case\footnote{This and the next two graphs were produced with the program \texttt{overfitting.py.}}:
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{figures/ch3/regularized1}
+\end{center}
+But this time the accuracy on the \texttt{test\_data} continues to increase for the entire 400 epochs:
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{figures/ch3/regularized2}
+\end{center}
+Clearly, the use of regularization has suppressed overfitting. What's more, the accuracy is considerably higher, with a peak classification accuracy of 87.1 percent, compared to the peak of 82.27 percent obtained in the unregularized case. Indeed, we could almost certainly get considerably better results by continuing to train past 400 epochs. It seems that, empirically, regularization is causing our network to generalize better, and considerably reducing the effects of overfitting.
+
+What happens if we move out of the artificial environment of just having 1,000 training images, and return to the full 50,000 image training set? Of course, we've seen already that overfitting is much less of a problem with the full 50,000 images. Does regularization help any further? Let's keep the hyper-parameters the same as before -- 30 epochs, learning rate 0.5, mini-batch size of 10. However, we need to modify the regularization parameter. The reason is because the size n of the training set has changed from $n$=1,000 to $n$=50,000, and this changes the weight decay factor $1−\eta\lambda/n$. If we continued to use $\lambda =0.1$ that would mean much less weight decay, and thus much less of a regularization effect. We compensate by changing to $\lambda =5.0$.
+
+Okay, let's train our network, stopping first to re-initialize the weights:
+
+\begin{lstlisting}
+>>> net.large_weight_initializer()
+>>> net.SGD(training_data, 30, 10, 0.5, evaluation_data=test_data, lmbda = 5.0,
+... monitor_evaluation_accuracy=True, monitor_training_accuracy=True)
+\end{lstlisting}
+We obtain the results:
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{figures/ch3/regularized_full}
+\end{center}
+There's lots of good news here. First, our classification accuracy on the test data is up, from 95.49 percent when running unregularized, to 96.49 percent. That's a big improvement. Second, we can see that the gap between results on the training and test data is much narrower than before, running at under a percent. That's still a significant gap, but we've obviously made substantial progress reducing overfitting.
+
+
+Finally, let's see what test classification accuracy we get when we use 100 hidden neurons and a regularization parameter of $\lambda =5.0$. I won't go through a detailed analysis of overfitting here, this is purely for fun, just to see how high an accuracy we can get when we use our new tricks: the cross-entropy cost function and L2 regularization.
+
+\begin{lstlisting}
+>>> net = network2.Network([784, 100, 10], cost=network2.CrossEntropyCost)
+>>> net.large_weight_initializer()
+>>> net.SGD(training_data, 30, 10, 0.5, lmbda=5.0, evaluation_data=validation_data,
+... monitor_evaluation_accuracy=True)
+\end{lstlisting}
+The final result is a classification accuracy of 97.92 percent on the validation data. That's a big jump from the 30 hidden neuron case. In fact, tuning just a little more, to run for 60 epochs at $\eta=0.1$ and $\lambda =5.0$ we break the 98 percent barrier, achieving 98.04 percent classification accuracy on the validation data. Not bad for what turns out to be 152 lines of code!
+
+I've described regularization as a way to reduce overfitting and to increase classification accuracies. In fact, that's not the only benefit. Empirically, when doing multiple runs of our MNIST networks, but with different (random) weight initializations, I've found that the unregularized runs will occasionally get ``stuck'', apparently caught in local minima of the cost function. The result is that different runs sometimes provide quite different results. By contrast, the regularized runs have provided much more easily replicable results.
+
+Why is this going on? Heuristically, if the cost function is unregularized, then the length of the weight vector is likely to grow, all other things being equal. Over time this can lead to the weight vector being very large indeed. This can cause the weight vector to get stuck pointing in more or less the same direction, since changes due to gradient descent only make tiny changes to the direction, when the length is long. I believe this phenomenon is making it hard for our learning algorithm to properly explore the weight space, and consequently harder to find good minima of the cost function.
 \end{document}
