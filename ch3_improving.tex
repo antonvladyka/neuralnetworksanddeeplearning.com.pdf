@@ -565,12 +565,12 @@ To do that, we'll look at the partial derivatives of the cost function. Differen
 %\partial{}C\partial{}w=\partial{}C0\partial{}w+\lambdansgn(w),(96)
 where ${\rm sgn}(w)$ is the sign of $w$, that is, $+1$ if $w$ is positive, and $-1$ if $w$ is negative. Using this expression, we can easily modify backpropagation to do stochastic gradient descent using L1 regularization. The resulting update rule for an L1 regularized network is
 \begin{eqnarray}  w \to w' = w-\frac{\eta \lambda}{n} \mbox{sgn}(w) - \eta \frac{\partial C_0}{\partial w}, \label{eq:97}\end{eqnarray}
-%w→w′=w−η\lambdansgn(w)−η\partial{}C0\partial{}w,(97)
+%w→w′=w−\eta\lambdansgn(w)−\eta\partial{}C0\partial{}w,(97)
 where, as per usual, we can estimate $\partial{}C_0/\partial{}w$ using a mini-batch average, if we wish. Compare that to the update rule for L2 regularization (c.f. Equation (\ref{eq:93})),
 \begin{eqnarray}
 w \to w' = w\left(1 - \frac{\eta \lambda}{n} \right) - \eta \frac{\partial C_0}{\partial w}.
 \label{eq:98}\end{eqnarray}
-%w→w′=w(1−η\lambdan)−η\partial{}C0\partial{}w.(98)
+%w→w′=w(1−\eta\lambdan)−\eta\partial{}C0\partial{}w.(98)
 In both expressions the effect of regularization is to shrink the weights. This accords with our intuition that both kinds of regularization penalize large weights. But the way the weights shrink is different. In L1 regularization, the weights shrink by a constant amount toward 0. In L2 regularization, the weights shrink by an amount which is proportional to $w$. And so when a particular weight has a large magnitude, $|w|$, L1 regularization shrinks the weight much less than L2 regularization does. By contrast, when $|w|$ is small, L1 regularization shrinks the weight much more than L2 regularization. The net result is that L1 regularization tends to concentrate the weight of the network in a relatively small number of high-importance connections, while the other weights are driven toward zero.
 
 I've glossed over an issue in the above discussion, which is that the partial derivative $\partial{}C/\partial{}w$ isn't defined when w=0. The reason is that the function $|w|$ has a sharp ``corner'' at $w=0$, and so isn't differentiable at that point. That's okay, though. What we'll do is just apply the usual (unregularized) rule for stochastic gradient descent when $w=0$. That should be okay -- intuitively, the effect of regularization is to shrink weights, and obviously it can't shrink a weight which is already 0. To put it more precisely, we'll use Equations (\ref{eq:96}) and (\ref{eq:97}) with the convention that ${rm sgn}(0)=0$. That gives a nice, compact rule for doing stochastic gradient descent with L1 regularization.
@@ -1120,6 +1120,367 @@ There are many other minor changes in the code for \inline{network2.py}, but the
 \item Take a look at the \inline{Network.cost_derivative} method in \inline{network.py}. That method was written for the quadratic cost. How would you rewrite the method for the cross-entropy cost? Can you think of a problem that might arise in the cross-entropy version? In \inline{network2.py} we've eliminated the \inline{Network.cost_derivative} method entirely, instead incorporating its functionality into the \inline{CrossEntropyCost.delta} method. How does this solve the problem you've just identified?
 \end{itemize}
 \section{How to choose a neural network's hyper-parameters?}
+Up until now I haven't explained how I've been choosing values for hyper-parameters such as the learning rate, $\eta$, the regularization parameter, $\lambda$, and so on. I've just been supplying values which work pretty well. In practice, when you're using neural nets to attack a problem, it can be difficult to find good hyper-parameters. Imagine, for example, that we've just been introduced to the MNIST problem, and have begun working on it, knowing nothing at all about what hyper-parameters to use. Let's suppose that by good fortune in our first experiments we choose many of the hyper-parameters in the same way as was done earlier this chapter: 30 hidden neurons, a mini-batch size of 10, training for 30 epochs using the cross-entropy. But we choose a learning rate $\eta=10.0$ and regularization parameter $\lambda=1000.0$. Here's what I saw on one such run:
+
+\begin{lstlisting}
+>>> import mnist_loader
+>>> training_data, validation_data, test_data = \
+... mnist_loader.load_data_wrapper()
+>>> import network2
+>>> net = network2.Network([784, 30, 10])
+>>> net.SGD(training_data, 30, 10, 10.0, lmbda = 1000.0,
+... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
+
+Epoch 0 training complete
+Accuracy on evaluation data: 1030 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 990 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 1009 / 10000
+
+...
+
+Epoch 27 training complete
+Accuracy on evaluation data: 1009 / 10000
+
+Epoch 28 training complete
+Accuracy on evaluation data: 983 / 10000
+
+Epoch 29 training complete
+Accuracy on evaluation data: 967 / 10000
+\end{lstlisting}
+Our classification accuracies are no better than chance! Our network is acting as a random noise generator!
+
+``Well, that's easy to fix,'' you might say, ``just decrease the learning rate and regularization hyper-parameters''. Unfortunately, you don't a priori know those are the hyper-parameters you need to adjust. Maybe the real problem is that our 30 hidden neuron network will never work well, no matter how the other hyper-parameters are chosen? Maybe we really need at least 100 hidden neurons? Or 300 hidden neurons? Or multiple hidden layers? Or a different approach to encoding the output? Maybe our network is learning, but we need to train for more epochs? Maybe the mini-batches are too small? Maybe we'd do better switching back to the quadratic cost function? Maybe we need to try a different approach to weight initialization? And so on, on and on and on. It's easy to feel lost in hyper-parameter space. This can be particularly frustrating if your network is very large, or uses a lot of training data, since you may train for hours or days or weeks, only to get no result. If the situation persists, it damages your confidence. Maybe neural networks are the wrong approach to your problem? Maybe you should quit your job and take up beekeeping?
+
+In this section I explain some heuristics which can be used to set the hyper-parameters in a neural network. The goal is to help you develop a workflow that enables you to do a pretty good job setting hyper-parameters. Of course, I won't cover everything about hyper-parameter optimization. That's a huge subject, and it's not, in any case, a problem that is ever completely solved, nor is there universal agreement amongst practitioners on the right strategies to use. There's always one more trick you can try to eke out a bit more performance from your network. But the heuristics in this section should get you started.
+
+\textbf{Broad strategy:} When using neural networks to attack a new problem the first challenge is to get any non-trivial learning, i.e., for the network to achieve results better than chance. This can be surprisingly difficult, especially when confronting a new class of problem. Let's look at some strategies you can use if you're having this kind of trouble.
+
+Suppose, for example, that you're attacking MNIST for the first time. You start out enthusiastic, but are a little discouraged when your first network fails completely, as in the example above. The way to go is to strip the problem down. Get rid of all the training and validation images except images which are 0s or 1s. Then try to train a network to distinguish 0s from 1s. Not only is that an inherently easier problem than distinguishing all ten digits, it also reduces the amount of training data by 80 percent, speeding up training by a factor of 5. That enables much more rapid experimentation, and so gives you more rapid insight into how to build a good network.
+
+You can further speed up experimentation by stripping your network down to the simplest network likely to do meaningful learning. If you believe a \inline{[784, 10]} network can likely do better-than-chance classification of MNIST digits, then begin your experimentation with such a network. It'll be much faster than training a \inline{[784, 30, 10]} network, and you can build back up to the latter.
+
+You can get another speed up in experimentation by increasing the frequency of monitoring. In \inline{network2.py} we monitor performance at the end of each training epoch. With 50,000 images per epoch, that means waiting a little while - about ten seconds per epoch, on my laptop, when training a [784, 30, 10] network - before getting feedback on how well the network is learning. Of course, ten seconds isn't very long, but if you want to trial dozens of hyper-parameter choices it's annoying, and if you want to trial hundreds or thousands of choices it starts to get debilitating. We can get feedback more quickly by monitoring the validation accuracy more often, say, after every 1,000 training images. Furthermore, instead of using the full 10,000 image validation set to monitor performance, we can get a much faster estimate using just 100 validation images. All that matters is that the network sees enough images to do real learning, and to get a pretty good rough estimate of performance. Of course, our program \inline{network2.py} doesn't currently do this kind of monitoring. But as a kludge to achieve a similar effect for the purposes of illustration, we'll strip down our training data to just the first 1,000 MNIST training images. Let's try it and see what happens. (To keep the code below simple I haven't implemented the idea of using only 0 and 1 images. Of course, that can be done with just a little more work.)
+\begin{lstlisting}
+>>> net = network2.Network([784, 10])
+>>> net.SGD(training_data[:1000], 30, 10, 10.0, lmbda = 1000.0, \
+... evaluation_data=validation_data[:100], \
+... monitor_evaluation_accuracy=True)
+Epoch 0 training complete
+Accuracy on evaluation data: 10 / 100
+
+Epoch 1 training complete
+Accuracy on evaluation data: 10 / 100
+
+Epoch 2 training complete
+Accuracy on evaluation data: 10 / 100
+...
+\end{lstlisting}
+We're still getting pure noise! But there's a big win: we're now getting feedback in a fraction of a second, rather than once every ten seconds or so. That means you can more quickly experiment with other choices of hyper-parameter, or even conduct experiments trialling many different choices of hyper-parameter nearly simultaneously.
+
+In the above example I left $\lambda$ as $\lambda=1000.0$, as we used earlier. But since we changed the number of training examples we should really change $\lambda$ to keep the weight decay the same. That means changing $\lambda$ to 20.0. If we do that then this is what happens:
+\begin{lstlisting}
+>>> net = network2.Network([784, 10])
+>>> net.SGD(training_data[:1000], 30, 10, 10.0, lmbda = 20.0, \
+... evaluation_data=validation_data[:100], \
+... monitor_evaluation_accuracy=True)
+Epoch 0 training complete
+Accuracy on evaluation data: 12 / 100
+
+Epoch 1 training complete
+Accuracy on evaluation data: 14 / 100
+
+Epoch 2 training complete
+Accuracy on evaluation data: 25 / 100
+
+Epoch 3 training complete
+Accuracy on evaluation data: 18 / 100
+...
+\end{lstlisting}
+Ahah! We have a signal. Not a terribly good signal, but a signal nonetheless. That's something we can build on, modifying the hyper-parameters to try to get further improvement. Maybe we guess that our learning rate needs to be higher. (As you perhaps realize, that's a silly guess, for reasons we'll discuss shortly, but please bear with me.) So to test our guess we try dialing $\eta$ up to 100.0:
+
+\begin{lstlisting}
+>>> net = network2.Network([784, 10])
+>>> net.SGD(training_data[:1000], 30, 10, 100.0, lmbda = 20.0, \
+... evaluation_data=validation_data[:100], \
+... monitor_evaluation_accuracy=True)
+Epoch 0 training complete
+Accuracy on evaluation data: 10 / 100
+
+Epoch 1 training complete
+Accuracy on evaluation data: 10 / 100
+
+Epoch 2 training complete
+Accuracy on evaluation data: 10 / 100
+
+Epoch 3 training complete
+Accuracy on evaluation data: 10 / 100
+...
+\end{lstlisting}
+That's no good! It suggests that our guess was wrong, and the problem wasn't that the learning rate was too low. So instead we try dialing $\eta$ down to $\eta=1.0$:
+
+\begin{lstlisting}
+>>> net = network2.Network([784, 10])
+>>> net.SGD(training_data[:1000], 30, 10, 1.0, lmbda = 20.0, \
+... evaluation_data=validation_data[:100], \
+... monitor_evaluation_accuracy=True)
+Epoch 0 training complete
+Accuracy on evaluation data: 62 / 100
+
+Epoch 1 training complete
+Accuracy on evaluation data: 42 / 100
+
+Epoch 2 training complete
+Accuracy on evaluation data: 43 / 100
+
+Epoch 3 training complete
+Accuracy on evaluation data: 61 / 100
+...
+\end{lstlisting}
+That's better! And so we can continue, individually adjusting each hyper-parameter, gradually improving performance. Once we've explored to find an improved value for $\eta$, then we move on to find a good value for $\lambda$. Then experiment with a more complex architecture, say a network with 10 hidden neurons. Then adjust the values for $\eta$ and $\lambda$ again. Then increase to 20 hidden neurons. And then adjust other hyper-parameters some more. And so on, at each stage evaluating performance using our held-out validation data, and using those evaluations to find better and better hyper-parameters. As we do so, it typically takes longer to witness the impact due to modifications of the hyper-parameters, and so we can gradually decrease the frequency of monitoring.
+
+This all looks very promising as a broad strategy. However, I want to return to that initial stage of finding hyper-parameters that enable a network to learn anything at all. In fact, even the above discussion conveys too positive an outlook. It can be immensely frustrating to work with a network that's learning nothing. You can tweak hyper-parameters for days, and still get no meaningful response. And so I'd like to re-emphasize that during the early stages you should make sure you can get quick feedback from experiments. Intuitively, it may seem as though simplifying the problem and the architecture will merely slow you down. In fact, it speeds things up, since you much more quickly find a network with a meaningful signal. Once you've got such a signal, you can often get rapid improvements by tweaking the hyper-parameters. As with many things in life, getting started can be the hardest thing to do.
+
+Okay, that's the broad strategy. Let's now look at some specific recommendations for setting hyper-parameters. I will focus on the learning rate, $\eta$, the L2 regularization parameter, $\lambda$, and the mini-batch size. However, many of the remarks apply also to other hyper-parameters, including those associated to network architecture, other forms of regularization, and some hyper-parameters we'll meet later in the book, such as the momentum co-efficient.
+
+Learning rate: Suppose we run three MNIST networks with three different learning rates, $\eta=0.025$, $\eta=0.25$ and $\eta=2.5$, respectively. We'll set the other hyper-parameters as for the experiments in earlier sections, running over 30 epochs, with a mini-batch size of 10, and with $\lambda=5.0$. We'll also return to using the full 50,000 training images. Here's a graph showing the behaviour of the training cost as we train\footnote{The graph was generated by \inline{multiple_eta.py}.}:
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{figures/ch3/multiple_eta}
+\end{center}
+With $\eta=0.025$ the cost decreases smoothly until the final epoch. With $\eta=0.25$ the cost initially decreases, but after about 20 epochs it is near saturation, and thereafter most of the changes are merely small and apparently random oscillations. Finally, with $\eta=2.5$ the cost makes large oscillations right from the start. To understand the reason for the oscillations, recall that stochastic gradient descent is supposed to step us gradually down into a valley of the cost function,
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/ch3/tikz33}
+\end{center}
+However, if $\eta$ is too large then the steps will be so large that they may actually overshoot the minimum, causing the algorithm to climb up out of the valley instead. That's likely* *This picture is helpful, but it's intended as an intuition-building illustration of what may go on, not as a complete, exhaustive explanation. Briefly, a more complete explanation is as follows: gradient descent uses a first-order approximation to the cost function as a guide to how to decrease the cost. For large $\eta$, higher-order terms in the cost function become more important, and may dominate the behaviour, causing gradient descent to break down. This is especially likely as we approach minima and quasi-minima of the cost function, since near such points the gradient becomes small, making it easier for higher-order terms to dominate behaviour. what's causing the cost to oscillate when $\eta=2.5$. When we choose $\eta$=0.25 the initial steps do take us toward a minimum of the cost function, and it's only once we get near that minimum that we start to suffer from the overshooting problem. And when we choose $\eta=0.025$ we don't suffer from this problem at all during the first 30 epochs. Of course, choosing $\eta$ so small creates another problem, namely, that it slows down stochastic gradient descent. An even better approach would be to start with $\eta=0.25$, train for 20 epochs, and then switch to $\eta=0.025$. We'll discuss such variable learning rate schedules later. For now, though, let's stick to figuring out how to find a single good value for the learning rate, $\eta$.
+
+With this picture in mind, we can set $\eta$ as follows. First, we estimate the threshold value for $\eta$ at which the cost on the training data immediately begins decreasing, instead of oscillating or increasing. This estimate doesn't need to be too accurate. You can estimate the order of magnitude by starting with $\eta$=0.01. If the cost decreases during the first few epochs, then you should successively try $\eta=0.1,1.0,\ldots$ until you find a value for $\eta$ where the cost oscillates or increases during the first few epochs. Alternately, if the cost oscillates or increases during the first few epochs when $\eta$=0.01, then try $\eta$=0.001,0.0001,$\ldots$ until you find a value for $\eta$ where the cost decreases during the first few epochs. Following this procedure will give us an order of magnitude estimate for the threshold value of $\eta$. You may optionally refine your estimate, to pick out the largest value of $\eta$ at which the cost decreases during the first few epochs, say $\eta$=0.5 or $\eta$=0.2 (there's no need for this to be super-accurate). This gives us an estimate for the threshold value of $\eta$.
+
+Obviously, the actual value of $\eta$ that you use should be no larger than the threshold value. In fact, if the value of $\eta$ is to remain usable over many epochs then you likely want to use a value for $\eta$ that is smaller, say, a factor of two below the threshold. Such a choice will typically allow you to train for many epochs, without causing too much of a slowdown in learning.
+
+In the case of the MNIST data, following this strategy leads to an estimate of 0.1 for the order of magnitude of the threshold value of $\eta$. After some more refinement, we obtain a threshold value $\eta$=0.5. Following the prescription above, this suggests using $\eta$=0.25 as our value for the learning rate. In fact, I found that using $\eta$=0.5 worked well enough over 30 epochs that for the most part I didn't worry about using a lower value of $\eta$.
+
+This all seems quite straightforward. However, using the training cost to pick $\eta$ appears to contradict what I said earlier in this section, namely, that we'd pick hyper-parameters by evaluating performance using our held-out validation data. In fact, we'll use validation accuracy to pick the regularization hyper-parameter, the mini-batch size, and network parameters such as the number of layers and hidden neurons, and so on. Why do things differently for the learning rate? Frankly, this choice is my personal aesthetic preference, and is perhaps somewhat idiosyncratic. The reasoning is that the other hyper-parameters are intended to improve the final classification accuracy on the test set, and so it makes sense to select them on the basis of validation accuracy. However, the learning rate is only incidentally meant to impact the final classification accuracy. Its primary purpose is really to control the step size in gradient descent, and monitoring the training cost is the best way to detect if the step size is too big. With that said, this is a personal aesthetic preference. Early on during learning the training cost usually only decreases if the validation accuracy improves, and so in practice it's unlikely to make much difference which criterion you use.
 
 
+\textbf{Use early stopping to determine the number of training epochs:} As we discussed earlier in the chapter, early stopping means that at the end of each epoch we should compute the classification accuracy on the validation data. When that stops improving, terminate. This makes setting the number of epochs very simple. In particular, it means that we don't need to worry about explicitly figuring out how the number of epochs depends on the other hyper-parameters. Instead, that's taken care of automatically. Furthermore, early stopping also automatically prevents us from overfitting. This is, of course, a good thing, although in the early stages of experimentation it can be helpful to turn off early stopping, so you can see any signs of overfitting, and use it to inform your approach to regularization.
+
+To implement early stopping we need to say more precisely what it means that the classification accuracy has stopped improving. As we've seen, the accuracy can jump around quite a bit, even when the overall trend is to improve. If we stop the first time the accuracy decreases then we'll almost certainly stop when there are more improvements to be had. A better rule is to terminate if the best classification accuracy doesn't improve for quite some time. Suppose, for example, that we're doing MNIST. Then we might elect to terminate if the classification accuracy hasn't improved during the last ten epochs. This ensures that we don't stop too soon, in response to bad luck in training, but also that we're not waiting around forever for an improvement that never comes.
+
+This no-improvement-in-ten rule is good for initial exploration of MNIST. However, networks can sometimes plateau near a particular classification accuracy for quite some time, only to then begin improving again. If you're trying to get really good performance, the no-improvement-in-ten rule may be too aggressive about stopping. In that case, I suggest using the no-improvement-in-ten rule for initial experimentation, and gradually adopting more lenient rules, as you better understand the way your network trains: no-improvement-in-twenty, no-improvement-in-fifty, and so on. Of course, this introduces a new hyper-parameter to optimize! In practice, however, it's usually easy to set this hyper-parameter to get pretty good results. Similarly, for problems other than MNIST, the no-improvement-in-ten rule may be much too aggressive or not nearly aggressive enough, depending on the details of the problem. However, with a little experimentation it's usually easy to find a pretty good strategy for early stopping.
+
+We haven't used early stopping in our MNIST experiments to date. The reason is that we've been doing a lot of comparisons between different approaches to learning. For such comparisons it's helpful to use the same number of epochs in each case. However, it's well worth modifying \inline{network2.py} to implement early stopping:
+
+\subsection*{Problem}
+\begin{itemize}
+\item Modify \inline{network2.py} so that it implements early stopping using a no-improvement-in-n epochs strategy, where n is a parameter that can be set.
+\item Can you think of a rule for early stopping other than no-improvement-in-$n$? Ideally, the rule should compromise between getting high validation accuracies and not training too long. Add your rule to \inline{network2.py}, and run three experiments comparing the validation accuracies and number of epochs of training to no-improvement-in-10.
+\end{itemize}
+\textbf{Learning rate schedule:} We've been holding the learning rate $\eta$ constant. However, it's often advantageous to vary the learning rate. Early on during the learning process it's likely that the weights are badly wrong. And so it's best to use a large learning rate that causes the weights to change quickly. Later, we can reduce the learning rate as we make more fine-tuned adjustments to our weights.
+
+How should we set our learning rate schedule? Many approaches are possible. One natural approach is to use the same basic idea as early stopping. The idea is to hold the learning rate constant until the validation accuracy starts to get worse. Then decrease the learning rate by some amount, say a factor of two or ten. We repeat this many times, until, say, the learning rate is a factor of 1,024 (or 1,000) times lower than the initial value. Then we terminate.
+
+A variable learning schedule can improve performance, but it also opens up a world of possible choices for the learning schedule. Those choices can be a headache -- you can spend forever trying to optimize your learning schedule. For first experiments my suggestion is to use a single, constant value for the learning rate. That'll get you a good first approximation. Later, if you want to obtain the best performance from your network, it's worth experimenting with a learning schedule, along the lines I've described\footnote{A readable recent paper which demonstrates the benefits of variable learning rates in attacking MNIST is Deep, Big, Simple Neural Nets Excel on Handwritten Digit Recognition, by Dan Claudiu Cireșan, Ueli Meier, Luca Maria Gambardella, and Jürgen Schmidhuber (2010).}.
+
+\subsection*{Exercise}
+\begin{itemize}
+	\item Modify \inline{network2.py} so that it implements a learning schedule that: halves the learning rate each time the validation accuracy satisfies the no-improvement-in-10 rule; and terminates when the learning rate has dropped to 1/128 of its original value.
+\end{itemize}
+\textbf{The regularization parameter,} $\lambda$: I suggest starting initially with no regularization ($\lambda=0.0$), and determining a value for $\eta$, as above. Using that choice of $\eta$, we can then use the validation data to select a good value for $\lambda$. Start by trialling $\lambda=1.0$\footnote{I don't have a good principled justification for using this as a starting value. If anyone knows of a good principled discussion of where to start with $\lambda$, I'd appreciate hearing it (mn@michaelnielsen.org).}, and then increase or decrease by factors of 10, as needed to improve performance on the validation data. Once you've found a good order of magnitude, you can fine tune your value of $\lambda$. That done, you should return and re-optimize $\eta$ again.
+
+\subsection*{Exercise}
+\begin{itemize}
+\item It's tempting to use gradient descent to try to learn good values for hyper-parameters such as $\lambda$ and $\eta$. Can you think of an obstacle to using gradient descent to determine $\lambda$? Can you think of an obstacle to using gradient descent to determine $\eta$?
+\end{itemize}
+\textbf{How I selected hyper-parameters earlier in this book:} If you use the recommendations in this section you'll find that you get values for $\eta$ and $\lambda$ which don't always exactly match the values I've used earlier in the book. The reason is that the book has narrative constraints that have sometimes made it impractical to optimize the hyper-parameters. Think of all the comparisons we've made of different approaches to learning, e.g., comparing the quadratic and cross-entropy cost functions, comparing the old and new methods of weight initialization, running with and without regularization, and so on. To make such comparisons meaningful, I've usually tried to keep hyper-parameters constant across the approaches being compared (or to scale them in an appropriate way). Of course, there's no reason for the same hyper-parameters to be optimal for all the different approaches to learning, so the hyper-parameters I've used are something of a compromise.
+
+As an alternative to this compromise, I could have tried to optimize the heck out of the hyper-parameters for every single approach to learning. In principle that'd be a better, fairer approach, since then we'd see the best from every approach to learning. However, we've made dozens of comparisons along these lines, and in practice I found it too computationally expensive. That's why I've adopted the compromise of using pretty good (but not necessarily optimal) choices for the hyper-parameters.
+
+
+\textbf{Mini-batch size:} How should we set the mini-batch size? To answer this question, let's first suppose that we're doing online learning, i.e., that we're using a mini-batch size of 1.
+
+The obvious worry about online learning is that using mini-batches which contain just a single training example will cause significant errors in our estimate of the gradient. In fact, though, the errors turn out to not be such a problem. The reason is that the individual gradient estimates don't need to be super-accurate. All we need is an estimate accurate enough that our cost function tends to keep decreasing. It's as though you are trying to get to the North Magnetic Pole, but have a wonky compass that's 10-20 degrees off each time you look at it. Provided you stop to check the compass frequently, and the compass gets the direction right on average, you'll end up at the North Magnetic Pole just fine.
+
+Based on this argument, it sounds as though we should use online learning. In fact, the situation turns out to be more complicated than that. In a problem [link]in the last chapter I pointed out that it's possible to use matrix techniques to compute the gradient update for all examples in a mini-batch simultaneously, rather than looping over them. Depending on the details of your hardware and linear algebra library this can make it quite a bit faster to compute the gradient estimate for a mini-batch of (for example) size 100, rather than computing the mini-batch gradient estimate by looping over the 100 training examples separately. It might take (say) only 50 times as long, rather than 100 times as long.
+
+Now, at first it seems as though this doesn't help us that much. With our mini-batch of size 100 the learning rule for the weights looks like:
+%w→w′=w−\eta1100∑x∇Cx,(100)
+\begin{eqnarray}
+w \to w' = w-\eta \frac{1}{100} \sum_x \nabla C_x,
+\label{eq:100}\end{eqnarray}
+where the sum is over training examples in the mini-batch. This is versus
+\begin{eqnarray}
+w \rightarrow w' = w-\eta \nabla C_x
+\label{eq:101}\end{eqnarray}
+%w→w′=w−\eta∇Cx(101)
+for online learning. Even if it only takes 50 times as long to do the mini-batch update, it still seems likely to be better to do online learning, because we'd be updating so much more frequently. Suppose, however, that in the mini-batch case we increase the learning rate by a factor 100, so the update rule becomes
+%w→w′=w−\eta∑x∇Cx.(102)
+\begin{eqnarray}
+w \rightarrow w' = w-\eta \sum_x \nabla C_x.
+\label{eq:102}\end{eqnarray}
+That's a lot like doing 100 separate instances of online learning with a learning rate of $\eta$. But it only takes 50 times as long as doing a single instance of online learning. Of course, it's not truly the same as 100 instances of online learning, since in the mini-batch the ∇Cx's are all evaluated for the same set of weights, as opposed to the cumulative learning that occurs in the online case. Still, it seems distinctly possible that using the larger mini-batch would speed things up.
+
+With these factors in mind, choosing the best mini-batch size is a compromise. Too small, and you don't get to take full advantage of the benefits of good matrix libraries optimized for fast hardware. Too large and you're simply not updating your weights often enough. What you need is to choose a compromise value which maximizes the speed of learning. Fortunately, the choice of mini-batch size at which the speed is maximized is relatively independent of the other hyper-parameters (apart from the overall architecture), so you don't need to have optimized those hyper-parameters in order to find a good mini-batch size. The way to go is therefore to use some acceptable (but not necessarily optimal) values for the other hyper-parameters, and then trial a number of different mini-batch sizes, scaling $\eta$ as above. Plot the validation accuracy versus time (as in, real elapsed time, not epoch!), and choose whichever mini-batch size gives you the most rapid improvement in performance. With the mini-batch size chosen you can then proceed to optimize the other hyper-parameters.
+
+Of course, as you've no doubt realized, I haven't done this optimization in our work. Indeed, our implementation doesn't use the faster approach to mini-batch updates at all. I've simply used a mini-batch size of 10 without comment or explanation in nearly all examples. Because of this, we could have sped up learning by reducing the mini-batch size. I haven't done this, in part because I wanted to illustrate the use of mini-batches beyond size 1, and in part because my preliminary experiments suggested the speedup would be rather modest. In practical implementations, however, we would most certainly implement the faster approach to mini-batch updates, and then make an effort to optimize the mini-batch size, in order to maximize our overall speed.
+
+\textbf{Automated techniques:} I've been describing these heuristics as though you're optimizing your hyper-parameters by hand. Hand-optimization is a good way to build up a feel for how neural networks behave. However, and unsurprisingly, a great deal of work has been done on automating the process. A common technique is grid search, which systematically searches through a grid in hyper-parameter space. A review of both the achievements and the limitations of grid search (with suggestions for easily-implemented alternatives) may be found in a 2012 paper\footnote{Random search for hyper-parameter optimization, by James Bergstra and Yoshua Bengio (2012).} by James Bergstra and Yoshua Bengio. Many more sophisticated approaches have also been proposed. I won't review all that work here, but do want to mention a particularly promising 2012 paper which used a Bayesian approach to automatically optimize hyper-parameters\footnote{Practical Bayesian optimization of machine learning algorithms, by Jasper Snoek, Hugo Larochelle, and Ryan Adams.}. The code from the paper is [link]publicly available, and has been used with some success by other researchers.
+
+\textbf{Summing up:} Following the rules-of-thumb I've described won't give you the absolute best possible results from your neural network. But it will likely give you a good start and a basis for further improvements. In particular, I've discussed the hyper-parameters largely independently. In practice, there are relationships between the hyper-parameters. You may experiment with $\eta$, feel that you've got it just right, then start to optimize for $\lambda$, only to find that it's messing up your optimization for $\eta$. In practice, it helps to bounce backward and forward, gradually closing in good values. Above all, keep in mind that the heuristics I've described are rules of thumb, not rules cast in stone. You should be on the lookout for signs that things aren't working, and be willing to experiment. In particular, this means carefully monitoring your network's behaviour, especially the validation accuracy.
+
+The difficulty of choosing hyper-parameters is exacerbated by the fact that the lore about how to choose hyper-parameters is widely spread, across many research papers and software programs, and often is only available inside the heads of individual practitioners. There are many, many papers setting out (sometimes contradictory) recommendations for how to proceed. However, there are a few particularly useful papers that synthesize and distill out much of this lore. Yoshua Bengio has a 2012 paper\footnote{Practical recommendations for gradient-based training of deep architectures, by Yoshua Bengio (2012).} that gives some practical recommendations for using backpropagation and gradient descent to train neural networks, including deep neural nets. Bengio discusses many issues in much more detail than I have, including how to do more systematic hyper-parameter searches. Another good paper is a 1998 paper\footnote{Efficient BackProp, by Yann LeCun, Léon Bottou, Genevieve Orr and Klaus-Robert M\"{u}ller (1998)} by Yann LeCun, L\'{e}on Bottou, Genevieve Orr and Klaus-Robert M\"{u}ller. Both these papers appear in an extremely useful 2012 book that collects many tricks commonly used in neural nets\footnote{Neural Networks: Tricks of the Trade, edited by Gr\'egoire Montavon, Genevi\`eve Orr, and Klaus-Robert M\"{u}ller.}. The book is expensive, but many of the articles have been placed online by their respective authors with, one presumes, the blessing of the publisher, and may be located using a search engine.
+
+One thing that becomes clear as you read these articles and, especially, as you engage in your own experiments, is that hyper-parameter optimization is not a problem that is ever completely solved. There's always another trick you can try to improve performance. There is a saying common among writers that books are never finished, only abandoned. The same is also true of neural network optimization: the space of hyper-parameters is so large that one never really finishes optimizing, one only abandons the network to posterity. So your goal should be to develop a workflow that enables you to quickly do a pretty good job on the optimization, while leaving you the flexibility to try more detailed optimizations, if that's important.
+
+The challenge of setting hyper-parameters has led some people to complain that neural networks require a lot of work when compared with other machine learning techniques. I've heard many variations on the following complaint: ``Yes, a well-tuned neural network may get the best performance on the problem. On the other hand, I can try a random forest [or SVM or ... insert your own favorite technique] and it just works. I don't have time to figure out just the right neural network.'' Of course, from a practical point of view it's good to have easy-to-apply techniques. This is particularly true when you're just getting started on a problem, and it may not be obvious whether machine learning can help solve the problem at all. On the other hand, if getting optimal performance is important, then you may need to try approaches that require more specialist knowledge. While it would be nice if machine learning were always easy, there is no a priori reason it should be trivially simple.
+
+\section{Other techniques}
+Each technique developed in this chapter is valuable to know in its own right, but that's not the only reason I've explained them. The larger point is to familiarize you with some of the problems which can occur in neural networks, and with a style of analysis which can help overcome those problems. In a sense, we've been learning how to think about neural nets. Over the remainder of this chapter I briefly sketch a handful of other techniques. These sketches are less in-depth than the earlier discussions, but should convey some feeling for the diversity of techniques available for use in neural networks.
+
+\subsection{Variations on stochastic gradient descent}
+Stochastic gradient descent by backpropagation has served us well in attacking the MNIST digit classification problem. However, there are many other approaches to optimizing the cost function, and sometimes those other approaches offer performance superior to mini-batch stochastic gradient descent. In this section I sketch two such approaches, the Hessian and momentum techniques.
+
+\textbf{Hessian technique:} To begin our discussion it helps to put neural networks aside for a bit. Instead, we're just going to consider the abstract problem of minimizing a cost function $C$ which is a function of many variables, $w=w_1,w_2,\ldots$, so $C=C(w)$. By Taylor's theorem, the cost function can be approximated near a point $w$ by
+\begin{eqnarray}
+C(w+\Delta w)  =  C(w) + \sum_j \frac{\partial C}{\partial w_j} \Delta w_j + \frac{1}{2} \sum_{jk} \Delta w_j \frac{\partial^2 C}{\partial w_j \partial w_k} \Delta w_k + \ldots
+\label{eq:103}
+\end{eqnarray}
+%C(w+Δw)=C(w)+∑j∂C∂wjΔwj+12∑jkΔwj∂2C∂wj∂wkΔwk+…(103)
+We can rewrite this more compactly as
+%C(w+Δw)=C(w)+∇C⋅Δw+12ΔwTHΔw+…,(104)
+\begin{eqnarray}
+C(w+\Delta w) = C(w) + \nabla C \cdot \Delta w + \frac{1}{2} \Delta w^T H \Delta w + \ldots,
+\label{eq:104}
+\end{eqnarray}
+where $\nabla C$ is the usual gradient vector, and $H$ is a matrix known as the \textit{Hessian matrix}, whose $jk$-th entry is $\partial^2C / \partial w_j \partial w_k$. Suppose we approximate $C$ by discarding the higher-order terms represented by $\ldots$ above,
+%C(w+Δw)≈C(w)+∇C⋅Δw+12ΔwTHΔw.(105)
+\begin{eqnarray} 
+C(w+\Delta w) \approx C(w) + \nabla C \cdot \Delta w + \frac{1}{2} \Delta w^T H \Delta w.
+\label{eq:105}
+\end{eqnarray}
+Using calculus we can show that the expression on the right-hand side can be minimized\footnote{Strictly speaking, for this to be a minimum, and not merely an extremum, we need to assume that the Hessian matrix is positive definite. Intuitively, this means that the function C looks like a valley locally, not a mountain or a saddle.} by choosing
+\begin{eqnarray}
+\Delta w = -H^{-1} \nabla C.
+\label{eq:106}
+\end{eqnarray}
+%Δw=−H−1∇C.(106)
+Provided (\ref{eq:105}) is a good approximate expression for the cost function, then we'd expect that moving from the point $w$ to $w+\Delta w = w-H^{-1} \nabla C$ should significantly decrease the cost function. That suggests a possible algorithm for minimizing the cost:
+\begin{itemize}
+\item Choose a starting point, $w$.
+\item Update $w$ to a new point$w' = w-H^{-1} \nabla C$, where the Hessian $H$ and $\nabla C$ are computed at $w$.
+\item Update $w'$ to a new point $w''=w'−H'^{−1}\nabla'C$, where the Hessian $H'$ and $\nabla'C$ are computed at $w'$.
+\item $\ldots$
+\end{itemize}
+In practice, (\ref{eq:105}) is only an approximation, and it's better to take smaller steps. We do this by repeatedly changing $w$ by an amount $\Delta w = -\eta H^{-1}\nabla C$, where $\eta$ is known as the learning rate.
+
+This approach to minimizing a cost function is known as the \textit{Hessian technique} or \textit{Hessian optimization}. There are theoretical and empirical results showing that Hessian methods converge on a minimum in fewer steps than standard gradient descent. In particular, by incorporating information about second-order changes in the cost function it's possible for the Hessian approach to avoid many pathologies that can occur in gradient descent. Furthermore, there are versions of the backpropagation algorithm which can be used to compute the Hessian.
+
+If Hessian optimization is so great, why aren't we using it in our neural networks? Unfortunately, while it has many desirable properties, it has one very undesirable property: it's very difficult to apply in practice. Part of the problem is the sheer size of the Hessian matrix. Suppose you have a neural network with $10^7$ weights and biases. Then the corresponding Hessian matrix will contain $10^7\times10^7=10^{14}$ entries. That's a lot of entries! And that makes computing $H^{-1} \nabla C$ extremely difficult in practice. However, that doesn't mean that it's not useful to understand. In fact, there are many variations on gradient descent which are inspired by Hessian optimization, but which avoid the problem with overly-large matrices. Let's take a look at one such technique, momentum-based gradient descent.
+
+
+\textbf{Momentum-based gradient descent:} Intuitively, the advantage Hessian optimization has is that it incorporates not just information about the gradient, but also information about how the gradient is changing. Momentum-based gradient descent is based on a similar intuition, but avoids large matrices of second derivatives. To understand the momentum technique, think back to our [link]original picture of gradient descent, in which we considered a ball rolling down into a valley. At the time, we observed that gradient descent is, despite its name, only loosely similar to a ball falling to the bottom of a valley. The momentum technique modifies gradient descent in two ways that make it more similar to the physical picture. First, it introduces a notion of ``velocity'' for the parameters we're trying to optimize. The gradient acts to change the velocity, not (directly) the ``position'', in much the same way as physical forces change the velocity, and only indirectly affect position. Second, the momentum method introduces a kind of friction term, which tends to gradually reduce the velocity.
+
+Let's give a more precise mathematical description. We introduce velocity variables $v=v_1,v_2,\ldots$, one for each corresponding $w_j$ variable\footnote{In a neural net the $w_j$ variables would, of course, include all weights and biases.}. Then we replace the gradient descent update rule $w \to w'= w-\eta \nabla C$ by
+%vw→→v′=\muv−\eta∇Cw′=w+v′.(107)(108)
+\begin{eqnarray} 
+v & \to  & v' = \mu v - \eta \nabla C \label{eq:107}\\
+w & \to & w' = w+v'.\label{eq:108}
+\end{eqnarray}
+In these equations, $\mu$ is a hyper-parameter which controls the amount of damping or friction in the system. To understand the meaning of the equations it's helpful to first consider the case where $\mu=1$, which corresponds to no friction. When that's the case, inspection of the equations shows that the ``force'' $\nabla C$ is now modifying the velocity, v$v$, and the velocity is controlling the rate of change of $w$. Intuitively, we build up the velocity by repeatedly adding gradient terms to it. That means that if the gradient is in (roughly) the same direction through several rounds of learning, we can build up quite a bit of steam moving in that direction. Think, for example, of what happens if we're moving straight down a slope:
+\begin{center}
+	\includegraphics[width=0.55\linewidth]{figures/ch3/tikz34}
+\end{center}
+With each step the velocity gets larger down the slope, so we move more and more quickly to the bottom of the valley. This can enable the momentum technique to work much faster than standard gradient descent. Of course, a problem is that once we reach the bottom of the valley we will overshoot. Or, if the gradient should change rapidly, then we could find ourselves moving in the wrong direction. That's the reason for the $\mu$ hyper-parameter in (\ref{eq:107}). I said earlier that $\mu$ controls the amount of friction in the system; to be a little more precise, you should think of $1-\mu$ as the amount of friction in the system. When $\mu=1$, as we've seen, there is no friction, and the velocity is completely driven by the gradient $\nabla C$. By contrast, when $\mu=0$ there's a lot of friction, the velocity can't build up, and Equations (\ref{eq:107}) and (\ref{eq:108}) reduce to the usual equation for gradient descent, $w \to w'=w-\eta \nabla C$. In practice, using a value of $\mu$ intermediate between 0 and 1 can give us much of the benefit of being able to build up speed, but without causing overshooting. We can choose such a value for $\mu$ using the held-out validation data, in much the same way as we select $\eta$ and $\lambda$.
+
+I've avoided naming the hyper-parameter $\mu$ up to now. The reason is that the standard name for $\mu$ is badly chosen: it's called the momentum co-efficient. This is potentially confusing, since $\mu$ is not at all the same as the notion of momentum from physics. Rather, it is much more closely related to friction. However, the term momentum co-efficient is widely used, so we will continue to use it.
+
+A nice thing about the momentum technique is that it takes almost no work to modify an implementation of gradient descent to incorporate momentum. We can still use backpropagation to compute the gradients, just as before, and use ideas such as sampling stochastically chosen mini-batches. In this way, we can get some of the advantages of the Hessian technique, using information about how the gradient is changing. But it's done without the disadvantages, and with only minor modifications to our code. In practice, the momentum technique is commonly used, and often speeds up learning.
+\subsection*{Exercise}
+\begin{itemize}
+\item What would go wrong if we used $\mu>1$ in the momentum technique?
+\item What would go wrong if we used $\mu<0$ in the momentum technique?
+\end{itemize}
+\subsection*{Problem}
+\begin{itemize}
+\item Add momentum-based stochastic gradient descent to \texttt{network2.py}.
+\end{itemize}
+Other approaches to minimizing the cost function: Many other approaches to minimizing the cost function have been developed, and there isn't universal agreement on which is the best approach. As you go deeper into neural networks it's worth digging into the other techniques, understanding how they work, their strengths and weaknesses, and how to apply them in practice. A paper I mentioned earlier\footnote{Efficient BackProp, by Yann LeCun, L\'eon Bottou, Genevieve Orr and Klaus-Robert M\"uller (1998).} introduces and compares several of these techniques, including conjugate gradient descent and the BFGS method (see also the closely related limited-memory BFGS method, known as [link]L-BFGS). Another technique which has recently shown promising results\footnote{See, for example, On the importance of initialization and momentum in deep learning, by Ilya Sutskever, James Martens, George Dahl, and Geoffrey Hinton (2012).} is Nesterov's accelerated gradient technique, which improves on the momentum technique. However, for many problems, plain stochastic gradient descent works well, especially if momentum is used, and so we'll stick to stochastic gradient descent through the remainder of this book.
+
+\subsection*{Other models of artificial neuron}
+Up to now we've built our neural networks using sigmoid neurons. In principle, a network built from sigmoid neurons can compute any function. In practice, however, networks built using other model neurons sometimes outperform sigmoid networks. Depending on the application, networks based on such alternate models may learn faster, generalize better to test data, or perhaps do both. Let me mention a couple of alternate model neurons, to give you the flavor of some variations in common use.
+
+Perhaps the simplest variation is the tanh (pronounced ``tanch'') neuron, which replaces the sigmoid function by the hyperbolic tangent function. The output of a tanh neuron with input $x$, weight vector $w$, and bias $b$ is given by
+\begin{eqnarray}
+\tanh(w \cdot x+b), 
+\label{eq:109}\end{eqnarray}
+%tanh(w⋅x+b),(109)
+where $\tanh$ is, of course, the hyperbolic tangent function. It turns out that this is very closely related to the sigmoid neuron. To see this, recall that the tanh function is defined by
+\begin{eqnarray}
+\tanh(z) \equiv \frac{e^z-e^{-z}}{e^z+e^{-z}}.
+\label{eq:110}
+\end{eqnarray}
+%tanh(z)≡ez−e−zez+e−z.(110)
+With a little algebra it can easily be verified that
+\begin{eqnarray} 
+\sigma(z) = \frac{1+\tanh(z/2)}{2},\label{eq:111}
+\end{eqnarray}
+%σ(z)=1+tanh(z/2)2,(111)
+that is, tanh is just a rescaled version of the sigmoid function. We can also see graphically that the tanh function has the same shape as the sigmoid function,
+\begin{center} 
+\begin{tikzpicture}
+\begin{axis}[title={tanh function},axis lines=middle,width=0.85\linewidth,height=0.5\linewidth,ymin=-1.1,ymax=1.1,scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-5.5,xmax=5.5]
+\addplot[blue,domain=-5:5,samples=101]{(exp(x)-exp(-x))/(exp(x)+exp(-x))};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+One difference between tanh neurons and sigmoid neurons is that the output from tanh neurons ranges from $-1$ to 1, not 0 to 1. This means that if you're going to build a network based on tanh neurons you may need to normalize your outputs (and, depending on the details of the application, possibly your inputs) a little differently than in sigmoid networks.
+
+Similar to sigmoid neurons, a network of tanh neurons can, in principle, compute any function\footnote{There are some technical caveats to this statement for both tanh and sigmoid neurons, as well as for the rectified linear neurons discussed below. However, informally it's usually fine to think of neural networks as being able to approximate any function to arbitrary accuracy.} mapping inputs to the range $-1$ to 1. Furthermore, ideas such as backpropagation and stochastic gradient descent are as easily applied to a network of tanh neurons as to a network of sigmoid neurons.
+
+\subsection*{Exercise}
+\begin{itemize}
+	\item Prove the identity in Equation (\ref{eq:111}).
+\end{itemize}
+Which type of neuron should you use in your networks, the tanh or sigmoid? A priori the answer is not obvious, to put it mildly! However, there are theoretical arguments and some empirical evidence to suggest that the tanh sometimes performs better\footnote{See, for example, [link]Efficient BackProp, by Yann LeCun, L\'eon Bottou, Genevieve Orr and Klaus-Robert M\"uller (1998), and [link]Understanding the difficulty of training deep feedforward networks, by Xavier Glorot and Yoshua Bengio (2010).}. Let me briefly give you the flavor of one of the theoretical arguments for tanh neurons. Suppose we're using sigmoid neurons, so all activations in our network are positive. Let's consider the weights $w^{l+1}_{jk}$ input to the $j$-th neuron in the $l+1$-th layer. The rules for backpropagation (see [link]here) tell us that the associated gradient will be $a^l_k\delta^{l+1}_{j}$. Because the activations are positive the sign of this gradient will be the same as the sign of $\delta^{l+1}_{j}$. What this means is that if $\delta^{l+1}_{j}$ is positive then all the weights $w^{l+1}_{jk}$ will decrease during gradient descent, while if $\delta^{l+1}_{j}$ is negative then all the weights $w^{l+1}_{jk}$ will increase during gradient descent. In other words, all weights to the same neuron must either increase together or decrease together. That's a problem, since some of the weights may need to increase while others need to decrease. That can only happen if some of the input activations have different signs. That suggests replacing the sigmoid by an activation function, such as tanh, which allows both positive and negative activations. Indeed, because tanh is symmetric about zero, $\tanh(-z)=-\tanh(z)$, we might even expect that, roughly speaking, the activations in hidden layers would be equally balanced between positive and negative. That would help ensure that there is no systematic bias for the weight updates to be one way or the other.
+
+How seriously should we take this argument? While the argument is suggestive, it's a heuristic, not a rigorous proof that tanh neurons outperform sigmoid neurons. Perhaps there are other properties of the sigmoid neuron which compensate for this problem? Indeed, for many tasks the tanh is found empirically to provide only a small or no improvement in performance over sigmoid neurons. Unfortunately, we don't yet have hard-and-fast rules to know which neuron types will learn fastest, or give the best generalization performance, for any particular application.
+
+Another variation on the sigmoid neuron is the \textit{rectified linear neuron} or \textit{rectified linear} unit. The output of a rectified linear unit with input $x$, weight vector $w$, and bias $b$ is given by
+\begin{eqnarray}
+\max(0, w \cdot x+b).
+\label{eq:112}
+\end{eqnarray}
+%max(0,w⋅x+b).(112)
+Graphically, the rectifying function $\max(0,z)$ looks like this:
+\begin{center} 
+	\begin{tikzpicture}
+	\begin{axis}[title={$\max(0,z)$},width=0.85\linewidth,height=0.5\linewidth,ymin=-5,ymax=5,scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-5.5,xmax=5.5,axis x line=middle,	axis y line=left, x label style = {at = {(6,0)}}]
+	\addplot[blue,domain=-5:5,samples=101]{max(0,x)};
+	\end{axis}
+	\end{tikzpicture}
+\end{center}
+Obviously such neurons are quite different from both sigmoid and tanh neurons. However, like the sigmoid and tanh neurons, rectified linear units can be used to compute any function, and they can be trained using ideas such as backpropagation and stochastic gradient descent.
+
+When should you use rectified linear units instead of sigmoid or tanh neurons? Some recent work on image recognition\footnote{See, for example, [link]What is the Best Multi-Stage Architecture for Object Recognition?, by Kevin Jarrett, Koray Kavukcuoglu, Marc'Aurelio Ranzato and Yann LeCun (2009), [link]Deep Sparse Rectiﬁer Neural Networks, by Xavier Glorot, Antoine Bordes, and Yoshua Bengio (2011), and ImageNet Classification with Deep Convolutional Neural Networks, by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton (2012). Note that these papers fill in important details about how to set up the output layer, cost function, and regularization in networks using rectified linear units. I've glossed over all these details in this brief account. The papers also discuss in more detail the benefits and drawbacks of using rectified linear units. Another informative paper is Rectified Linear Units Improve Restricted Boltzmann Machines, by Vinod Nair and Geoffrey Hinton (2010), which demonstrates the benefits of using rectified linear units in a somewhat different approach to neural networks.} has found considerable benefit in using rectified linear units through much of the network. However, as with tanh neurons, we do not yet have a really deep understanding of when, exactly, rectified linear units are preferable, nor why. To give you the flavor of some of the issues, recall that sigmoid neurons stop learning when they saturate, i.e., when their output is near either 0 or 1. As we've seen repeatedly in this chapter, the problem is that $\sigma'$ terms reduce the gradient, and that slows down learning. Tanh neurons suffer from a similar problem when they saturate. By contrast, increasing the weighted input to a rectified linear unit will never cause it to saturate, and so there is no corresponding learning slowdown. On the other hand, when the weighted input to a rectified linear unit is negative, the gradient vanishes, and so the neuron stops learning entirely. These are just two of the many issues that make it non-trivial to understand when and why rectified linear units perform better than sigmoid or tanh neurons.
+
+I've painted a picture of uncertainty here, stressing that we do not yet have a solid theory of how activation functions should be chosen. Indeed, the problem is harder even than I have described, for there are infinitely many possible activation functions. Which is the best for any given problem? Which will result in a network which learns fastest? Which will give the highest test accuracies? I am surprised how little really deep and systematic investigation has been done of these questions. Ideally, we'd have a theory which tells us, in detail, how to choose (and perhaps modify-on-the-fly) our activation functions. On the other hand, we shouldn't let the lack of a full theory stop us! We have powerful tools already at hand, and can make a lot of progress with those tools. Through the remainder of this book I'll continue to use sigmoid neurons as our go-to neuron, since they're powerful and provide concrete illustrations of the core ideas about neural nets. But keep in the back of your mind that these same ideas can be applied to other types of neuron, and that there are sometimes advantages in doing so.
+
+\subsection*{On stories in neural networks}
+\hangindent=1cm\textbf{Question:} \textit{How do you approach utilizing and researching machine learning techniques that are supported almost entirely empirically, as opposed to mathematically? Also in what situations have you noticed some of these techniques fail?}
+
+\hangindent=1cm\textbf{Answer:} You have to realize that our theoretical tools are very weak. Sometimes, we have good mathematical intuitions for why a particular technique should work. Sometimes our intuition ends up being wrong [...] The questions become: how well does my method work on this particular problem, and how large is the set of problems on which it works well.
+
+\hangindent=1cm--- \textit{Question and answer with neural networks researcher Yann LeCun}
+
+\noindent Once, attending a conference on the foundations of quantum mechanics, I noticed what seemed to me a most curious verbal habit: when talks finished, questions from the audience often began with ``I'm very sympathetic to your point of view, but [...]''. Quantum foundations was not my usual field, and I noticed this style of questioning because at other scientific conferences I'd rarely or never heard a questioner express their sympathy for the point of view of the speaker. At the time, I thought the prevalence of the question suggested that little genuine progress was being made in quantum foundations, and people were merely spinning their wheels. Later, I realized that assessment was too harsh. The speakers were wrestling with some of the hardest problems human minds have ever confronted. Of course progress was slow! But there was still value in hearing updates on how people were thinking, even if they didn't always have unarguable new progress to report.
+
+You may have noticed a verbal tic similar to ``I'm very sympathetic [...]'' in the current book. To explain what we're seeing I've often fallen back on saying ``Heuristically, [...]'', or ``Roughly speaking, [...]'', following up with a story to explain some phenomenon or other. These stories are plausible, but the empirical evidence I've presented has often been pretty thin. If you look through the research literature you'll see that stories in a similar style appear in many research papers on neural nets, often with thin supporting evidence. What should we think about such stories?
+
+In many parts of science - especially those parts that deal with simple phenomena -- it's possible to obtain very solid, very reliable evidence for quite general hypotheses. But in neural networks there are large numbers of parameters and hyper-parameters, and extremely complex interactions between them. In such extraordinarily complex systems it's exceedingly difficult to establish reliable general statements. Understanding neural networks in their full generality is a problem that, like quantum foundations, tests the limits of the human mind. Instead, we often make do with evidence for or against a few specific instances of a general statement. As a result those statements sometimes later need to be modified or abandoned, when new evidence comes to light.
+
+One way of viewing this situation is that any heuristic story about neural networks carries with it an implied challenge. For example, consider the statement I quoted earlier, explaining why dropout works\footnote{[link]From ImageNet Classification with Deep Convolutional Neural Networks by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton (2012).}: ``This technique reduces complex co-adaptations of neurons, since a neuron cannot rely on the presence of particular other neurons. It is, therefore, forced to learn more robust features that are useful in conjunction with many different random subsets of the other neurons.'' This is a rich, provocative statement, and one could build a fruitful research program entirely around unpacking the statement, figuring out what in it is true, what is false, what needs variation and refinement. Indeed, there is now a small industry of researchers who are investigating dropout (and many variations), trying to understand how it works, and what its limits are. And so it goes with many of the heuristics we've discussed. Each heuristic is not just a (potential) explanation, it's also a challenge to investigate and understand in more detail.
+
+Of course, there is not time for any single person to investigate all these heuristic explanations in depth. It's going to take decades (or longer) for the community of neural networks researchers to develop a really powerful, evidence-based theory of how neural networks learn. Does this mean you should reject heuristic explanations as unrigorous, and not sufficiently evidence-based? No! In fact, we need such heuristics to inspire and guide our thinking. It's like the great age of exploration: the early explorers sometimes explored (and made new discoveries) on the basis of beliefs which were wrong in important ways. Later, those mistakes were corrected as we filled in our knowledge of geography. When you understand something poorly - as the explorers understood geography, and as we understand neural nets today -- it's more important to explore boldly than it is to be rigorously correct in every step of your thinking. And so you should view these stories as a useful guide to how to think about neural nets, while retaining a healthy awareness of the limitations of such stories, and carefully keeping track of just how strong the evidence is for any given line of reasoning. Put another way, we need good stories to help motivate and inspire us, and rigorous in-depth investigation in order to uncover the real facts of the matter.
 \end{document}
