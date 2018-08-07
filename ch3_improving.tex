@@ -52,7 +52,7 @@ where I have substituted $x=1$ and $y=0$. To understand the behaviour of these e
 
 We can see from this graph that when the neuron's output is close to 1, the curve gets very flat, and so $\sigma{}'(z)$ gets very small. Equations \ref{eq:55} and \ref{eq:56} then tell us that $\partial{}C/\partial{}w$ and $\partial{}C/\partial{}b$ get very small. This is the origin of the learning slowdown. What's more, as we shall see a little later, the learning slowdown occurs for essentially the same reason in more general neural networks, not just the toy example we've been playing with.
 
-\section{Introducing the cross-entropy cost function}
+\subsection{Introducing the cross-entropy cost function}
 How can we address the learning slowdown? It turns out that we can solve the problem by replacing the quadratic cost with a different cost function, known as the cross-entropy. To understand the cross-entropy, let's move a little away from our super-simple toy model. We'll suppose instead that we're trying to train a neuron with several input variables, $x_1,x_2,\ldots$, corresponding weights $w_1,w_2,\ldots$, and a bias, $b$:
 \begin{center}
 	\includegraphics[scale=0.5]{./figures/ch3/tikz29}
@@ -104,7 +104,7 @@ In a similar way, we can compute the partial derivative for the bias. I won't go
 \end{equation}
 %\partial{}C\partial{}b=1n∑x(\sigma(z)-y).(62)
 Again, this avoids the learning slowdown caused by the $\sigma'(z)$ term in the analogous equation for the quadratic cost, Equation (\ref{eq:56}).
-\subsection*{Exercise}
+\subsubsection*{Exercise}
 \begin{itemize}
 	\item Verify that $\sigma'(z) = \sigma(z)(1-\sigma(z))$
 \end{itemize}
@@ -138,7 +138,7 @@ However, when we have many sigmoid neurons in the final layer, the vector $a^L_j
 
 When should we use the cross-entropy instead of the quadratic cost? In fact, the cross-entropy is nearly always the better choice, provided the output neurons are sigmoid neurons. To see why, consider that when we're setting up the network we usually initialize the weights and biases using some sort of randomization. It may happen that those initial choices result in the network being decisively wrong for some training input - that is, an output neuron will have saturated near 1, when it should be 0, or vice versa. If we're using the quadratic cost that will slow down learning. It won't stop learning completely, since the weights will continue learning from other training inputs, but it's obviously undesirable.
 
-\subsection*{Exercises}
+\subsubsection*{Exercises}
 \begin{itemize}
 	\item One gotcha with the cross-entropy is that it can be difficult at first to remember the respective roles of the ys and the as. It's easy to get confused about whether the right form is $$-[y \ln a + (1-y) \ln (1-a)].$$ What happens to the second of these expressions when $y=0$ or 1? Does this problem afflict the first expression? Why or why not?
 	\item In the single-neuron discussion at the start of this section, I argued that the cross-entropy is small if $\sigma(z)\approx y$ for all training inputs. The argument relied on $y$ being equal to either 0 or 1. This is usually true in classification problems, but for other problems (e.g., regression problems) $y$ can sometimes take values intermediate between 0 and 1. Show that the cross-entropy is still minimized when $\sigma(z)=y$ for all training inputs. When this is the case the cross-entropy has the value:
@@ -148,7 +148,7 @@ When should we use the cross-entropy instead of the quadratic cost? In fact, the
 	\end{equation}
 	The quantity $-[y \ln y+(1-y) \ln(1-y)]$ is sometimes known as the \textit{binary entropy}.
 \end{itemize}
-\subsection*{Problems}
+\subsubsection*{Problems}
 \begin{itemize}
 	\item \textbf{Many-layer multi-neuron networks} In the notation introduced in the last chapter, show that for the quadratic cost the partial derivative with respect to weights in the output layer is
 	\begin{equation}
@@ -181,7 +181,7 @@ When should we use the cross-entropy instead of the quadratic cost? In fact, the
 	%\partial{}C\partial{}w^L_{jk}\partial{}C\partial{}b^L_j==1n∑xaL-1k(a^L_j-yj)1n∑x(a^L_j-yj).(69)(70)
 	This shows that if the output neurons are linear neurons then the quadratic cost will not give rise to any problems with a learning slowdown. In this case the quadratic cost is, in fact, an appropriate cost function to use.
 \end{itemize}
-\section{Using the cross-entropy to classify MNIST digits}
+\subsection{Using the cross-entropy to classify MNIST digits}
 The cross-entropy is easy to implement as part of a program which learns using gradient descent and backpropagation. We'll do that later in the chapter, developing an improved version of our earlier program for classifying the MNIST handwritten digits, \inline{network.py}. The new program is called \inline{network2.py}, and incorporates not just the cross-entropy, but also several other techniques developed in this chapter\footnote{The code is available on [link]GitHub.}. For now, let's look at how well our new program classifies MNIST digits. As was the case in Chapter 1, we'll use a network with 30 hidden neurons, and we'll use a mini-batch size of 10. We set the learning rate to $\eta=0.5$\footnote{In Chapter 1 we used the quadratic cost and a learning rate of $\eta=3.0$. As discussed above, it's not possible to say precisely what it means to use the ``same'' learning rate when the cost function is changed. For both cost functions I experimented to find a learning rate that provides near-optimal performance, given the other hyper-parameter choices. \newline There is, incidentally, a very rough general heuristic for relating the learning rate for the cross-entropy and the quadratic cost. As we saw earlier, the gradient terms for the quadratic cost have an extra $\sigma' = \sigma(1-\sigma)$ term in them. Suppose we average this over values for $\sigma$, $\int_0^1\mathrm{d}\sigma \sigma(1-\sigma)=1/6$. We see that (very roughly) the quadratic cost learns an average of 6 times slower, for the same learning rate. This suggests that a reasonable starting point is to divide the learning rate for the quadratic cost by 6. Of course, this argument is far from rigorous, and shouldn't be taken too seriously. Still, it can sometimes be a useful starting point.} and we train for 30 epochs. The interface to \inline{network2.py} is slightly different than \inline{network.py}, but it should still be clear what is going on. You can, by the way, get documentation about \inline{network2.py}'s interface by using commands such as \inline{help(network2.Network.SGD)} in a Python shell.
 \begin{lstlisting}
 >>> import mnist_loader
@@ -201,7 +201,7 @@ This, by the way, is part of a general pattern that we'll see through this chapt
 	
 By now, we've discussed the cross-entropy at great length. Why go to so much effort when it gives only a small improvement to our MNIST results? Later in the chapter we'll see other techniques -- notably, regularization -- which give much bigger improvements. So why so much focus on cross-entropy? Part of the reason is that the cross-entropy is a widely-used cost function, and so is worth understanding well. But the more important reason is that neuron saturation is an important problem in neural nets, a problem we'll return to repeatedly throughout the book. And so I've discussed the cross-entropy at length because it's a good laboratory to begin understanding neuron saturation and how it may be addressed.
 
-\section{What does the cross-entropy mean? Where does it come from?}
+\subsection{What does the cross-entropy mean? Where does it come from?}
 Our discussion of the cross-entropy has focused on algebraic analysis and practical implementation. That's useful, but it leaves unanswered broader conceptual questions, like: what does the cross-entropy mean? Is there some intuitive way of thinking about the cross-entropy? And how could we have dreamed up the cross-entropy in the first place?
 
 Let's begin with the last of these questions: what could have motivated us to think up the cross-entropy in the first place? Suppose we'd discovered the learning slowdown described earlier, and understood that the origin was the $\sigma'(z)$ terms in Equations (\ref{eq:55}) and (\ref{eq:56}). After staring at those equations for a bit, we might wonder if it's possible to choose a cost function so that the $\sigma'(z)$ term disappeared. In that case, the cost $C=C_x$ for a single training example $x$ would satisfy
@@ -238,12 +238,12 @@ where the constant here is the average of the individual constants for each trai
 
 What about the intuitive meaning of the cross-entropy? How should we think about it? Explaining this in depth would take us further afield than I want to go. However, it is worth mentioning that there is a standard way of interpreting the cross-entropy that comes from the field of information theory. Roughly speaking, the idea is that the cross-entropy is a measure of surprise. In particular, our neuron is trying to compute the function $x\to y=y(x)$. But instead it computes the function $x \to a=a(x)$. Suppose we think of a as our neuron's estimated probability that $y$ is 1, and $1-a$ is the estimated probability that the right value for $y$ is 0. Then the cross-entropy measures how ``surprised'' we are, on average, when we learn the true value for $y$. We get low surprise if the output is what we expect, and high surprise if the output is unexpected. Of course, I haven't said exactly what ``surprise'' means, and so this perhaps seems like empty verbiage. But in fact there is a precise information-theoretic way of saying what is meant by surprise. Unfortunately, I don't know of a good, short, self-contained discussion of this subject that's available online. But if you want to dig deeper, then Wikipedia contains a [link]brief summary that will get you started down the right track. And the details can be filled in by working through the materials about the Kraft inequality in chapter 5 of the book about information theory by [link]Cover and Thomas.
 
-\subsection*{Problem}
+\subsubsection*{Problem}
 \begin{itemize}
 	\item We've discussed at length the learning slowdown that can occur when output neurons saturate, in networks using the quadratic cost to train. Another factor that may inhibit learning is the presence of the $x_j$ term in Equation (\ref{eq:61}). Because of this term, when an input $x_j$ is near to zero, the corresponding weight $w_j$ will learn slowly. Explain why it is not possible to eliminate the $x_j$ term through a clever choice of cost function.
 \end{itemize}
 
-\section{Softmax}
+\subsection{Softmax}
 In this chapter we'll mostly use the cross-entropy cost to address the problem of learning slowdown. However, I want to briefly describe another approach to the problem, based on what are called \textit{softmax} layers of neurons. We're not actually going to use softmax layers in the remainder of the chapter, so if you're in a great hurry, you can skip to the next section. However, softmax is still worth understanding, in part because it's intrinsically interesting, and in part because we'll use softmax layers in Chapter 6, in our discussion of deep neural networks.
 
 The idea of softmax is to define a new type of output layer for our neural networks. It begins in the same way as with a sigmoid layer, by forming the weighted inputs\footnote{In describing the softmax we'll make frequent use of notation introduced in the last chapter. You may wish to revisit that chapter if you need to refresh your memory about the meaning of the notation.} $z^L_j=\sum_kw^L_{jk}a^{L−1}_k+b^L_j$. However, we don't apply the sigmoid function to get the output. Instead, in a softmax layer we apply the so-called softmax function to the $z^L_j$. According to this function, the activation $a^L_j$ of the $j$-th output neuron is
@@ -275,18 +275,18 @@ The fact that a softmax layer outputs a probability distribution is rather pleas
 
 By contrast, if the output layer was a sigmoid layer, then we certainly couldn't assume that the activations formed a probability distribution. I won't explicitly prove it, but it should be plausible that the activations from a sigmoid layer won't in general form a probability distribution. And so with a sigmoid output layer we don't have such a simple interpretation of the output activations.
 
-\subsection*{Exercise}
+\subsubsection*{Exercise}
 \begin{itemize}
 	\item Construct an example showing explicitly that in a network with a sigmoid output layer, the output activations $a^L_j$ won't always sum to 1.
 \end{itemize}
 We're starting to build up some feel for the softmax function and the way softmax layers behave. Just to review where we're at: the exponentials in Equation (\ref{eq:78}) ensure that all the output activations are positive. And the sum in the denominator of Equation (\ref{eq:78}) ensures that the softmax outputs sum to 1. So that particular form no longer appears so mysterious: rather, it is a natural way to ensure that the output activations form a probability distribution. You can think of softmax as a way of rescaling the $z^L_j$, and then squishing them together to form a probability distribution.
 
-\subsection*{Exercises}
+\subsubsection*{Exercises}
 \begin{itemize}
 \item \textbf{Monotonicity of softmax} Show that $\partial a^L_j / \partial z^L_k $is positive if $j=k$ and negative if $j\ne k$. As a consequence, increasing $z^L_j$ is guaranteed to increase the corresponding output activation, $a^L_j$, and will decrease all the other output activations. We already saw this empirically with the sliders, but this is a rigorous proof.
 \item \textbf{Non-locality of softmax} A nice thing about sigmoid layers is that the output $a^L_j$ is a function of the corresponding weighted input, $a^L_j=\sigma(z^L_j)$. Explain why this is not the case for a softmax layer: any particular output activation $a^L_j$ depends on all the weighted inputs.
 \end{itemize}
-\subsection*{Problem}
+\subsubsection*{Problem}
 \begin{itemize}
 	\item \textbf{Inverting the softmax layer} Suppose we have a neural network with a softmax output layer, and the activations $a^L_j$ are known. Show that the corresponding weighted inputs have the form $z^L_j=\ln a^L_j+C$, for some constant $C$ that is independent of $j$.
 \end{itemize}
@@ -308,7 +308,7 @@ These equations are the same as the analogous expressions obtained in our earlie
 
 Given this similarity, should you use a sigmoid output layer and cross-entropy, or a softmax output layer and log-likelihood? In fact, in many situations both approaches work well. Through the remainder of this chapter we'll use a sigmoid output layer, with the cross-entropy cost. Later, in Chapter 6, we'll sometimes use a softmax output layer, with log-likelihood cost. The reason for the switch is to make some of our later networks more similar to networks found in certain influential academic papers. As a more general point of principle, softmax plus log-likelihood is worth using whenever you want to interpret the output activations as probabilities. That's not always a concern, but can be useful with classification problems (like MNIST) involving disjoint classes.
 
-\subsection*{Problems}
+\subsubsection*{Problems}
 \begin{itemize}
 \item Derive Equations (\ref{eq:81}) and (\ref{eq:82}).
 \item \textbf{Where does the ``softmax'' name come from?} Suppose we change the softmax function so the output activations are given by
@@ -391,7 +391,7 @@ We've been looking so far at overfitting when we're just using 1,000 training im
 \end{center}
 As you can see, the accuracy on the test and training data remain much closer together than when we were using 1,000 training examples. In particular, the best classification accuracy of 97.86 percent on the training data is only 2.53 percent higher than the 95.33 percent on the test data. That's compared to the 17.73 percent gap we had earlier! Overfitting is still going on, but it's been greatly reduced. Our network is generalizing much better from the training data to the test data. In general, one of the best ways of reducing overfitting is to increase the size of the training data. With enough training data it is difficult for even a very large network to overfit. Unfortunately, training data can be expensive or difficult to acquire, so this is not always a practical option.
 
-\section{Regularization}
+\subsection{Regularization}
 Increasing the amount of training data is one way of reducing overfitting. Are there other ways we can reduce the extent to which overfitting occurs? One possible approach is to reduce the size of our network. However, large networks have the potential to be more powerful than small networks, and so this is an option we'd only adopt reluctantly.
 
 Fortunately, there are other techniques which can reduce overfitting, even when we have a fixed network and fixed training data. These are known as \textit{regularization} techniques. In this section I describe one of the most commonly used regularization techniques, a technique sometimes known as \textit{weight decay} or \textit{L2 regularization}. The idea of L2 regularization is to add an extra term to the cost function, a term called the \textit{regularization term}. Here's the regularized cross-entropy:
@@ -507,7 +507,7 @@ I've described regularization as a way to reduce overfitting and to increase cla
 Why is this going on? Heuristically, if the cost function is unregularized, then the length of the weight vector is likely to grow, all other things being equal. Over time this can lead to the weight vector being very large indeed. This can cause the weight vector to get stuck pointing in more or less the same direction, since changes due to gradient descent only make tiny changes to the direction, when the length is long. I believe this phenomenon is making it hard for our learning algorithm to properly explore the weight space, and consequently harder to find good minima of the cost function.
 
 
-\section{Why does regularization help reduce overfitting?}
+\subsection{Why does regularization help reduce overfitting?}
 We've seen empirically that regularization helps reduce overfitting. That's encouraging but, unfortunately, it's not obvious why regularization helps! A standard story people tell to explain what's going on is along the following lines: smaller weights are, in some sense, lower complexity, and so provide a simpler and more powerful explanation for the data, and should thus be preferred. That's a pretty terse story, though, and contains several elements that perhaps seem dubious or mystifying. Let's unpack the story and examine it critically. To do that, let's suppose we have a simple data set for which we wish to build a model:
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting1}
@@ -549,7 +549,7 @@ In fact, our networks already generalize better than one might a priori expect. 
 Let me conclude this section by returning to a detail which I left unexplained earlier: the fact that L2 regularization doesn't constrain the biases. Of course, it would be easy to modify the regularization procedure to regularize the biases. Empirically, doing this often doesn't change the results very much, so to some extent it's merely a convention whether to regularize the biases or not. However, it's worth noting that having a large bias doesn't make a neuron sensitive to its inputs in the same way as having large weights. And so we don't need to worry about large biases enabling our network to learn the noise in our training data. At the same time, allowing large biases gives our networks more flexibility in behaviour - in particular, large biases make it easier for neurons to saturate, which is sometimes desirable. For these reasons we don't usually include bias terms when regularizing.
 
 
-\section{Other techniques for regularization}
+\subsection{Other techniques for regularization}
 There are many regularization techniques other than L2 regularization. In fact, so many techniques have been developed that I can't possibly summarize them all. In this section I briefly describe three other approaches to reducing overfitting: L1 regularization, dropout, and artificially increasing the training set size. We won't go into nearly as much depth studying these techniques as we did earlier. Instead, the purpose is to get familiar with the main ideas, and to appreciate something of the diversity of regularization techniques available.
 
 \textbf{L1 regularization:} In this approach we modify the unregularized cost function by adding the sum of the absolute values of the weights:
@@ -622,7 +622,7 @@ This idea is very powerful and has been widely used. Let's look at some of the r
 
 Variations on this idea can be used to improve performance on many learning tasks, not just handwriting recognition. The general principle is to expand the training data by applying operations that reflect real-world variation. It's not difficult to think of ways of doing this. Suppose, for example, that you're building a neural network to do speech recognition. We humans can recognize speech even in the presence of distortions such as background noise. And so you can expand your data by adding background noise. We can also recognize speech if it's sped up or slowed down. So that's another way we can expand the training data. These techniques are not always used - for instance, instead of expanding the training data by adding noise, it may well be more efficient to clean up the input to the network by first applying a noise reduction filter. Still, it's worth keeping the idea of expanding the training data in mind, and looking for opportunities to apply it.
 
-\subsection*{Exercise}
+\subsubsection*{Exercise}
 \begin{itemize}
 	\item As discussed above, one way of expanding the MNIST training data is to use small rotations of training images. What's a problem that might occur if we allow arbitrarily large rotations of training images?
 \end{itemize}
@@ -640,7 +640,7 @@ Something even more interesting can occur. Suppose we're trying to solve a probl
 
 All this is a caution to keep in mind, both when doing development, and when reading research papers. Many papers focus on finding new tricks to wring out improved performance on standard benchmark data sets. ``Our whiz-bang technique gave us an improvement of X percent on standard benchmark Y'' is a canonical form of research claim. Such claims are often genuinely interesting, but they must be understood as applying only in the context of the specific training data set used. Imagine an alternate history in which the people who originally created the benchmark data set had a larger research grant. They might have used the extra money to collect more training data. It's entirely possible that the ``improvement'' due to the whiz-bang technique would disappear on a larger data set. In other words, the purported improvement might be just an accident of history. The message to take away, especially in practical applications, is that what we want is both better algorithms and better training data. It's fine to look for better algorithms, but make sure you're not focusing on better algorithms to the exclusion of easy wins getting more or better training data.
 
-\subsection*{Problem}
+\subsubsection*{Problem}
 \begin{itemize}
 	\item \textbf{(Research problem)} How do our machine learning algorithms perform in the limit of very large data sets? For any given algorithm it's natural to attempt to define a notion of asymptotic performance in the limit of truly big data. A quick-and-dirty approach to this problem is to simply try fitting curves to graphs like those shown above, and then to extrapolate the fitted curves out to infinity. An objection to this approach is that different approaches to curve fitting will give different notions of asymptotic performance. Can you find a principled justification for fitting to some particular class of curves? If so, compare the asymptotic performance of several different machine learning algorithms.
 \end{itemize}
@@ -1122,14 +1122,16 @@ There are many other minor changes in the code for \inline{network2.py}, but the
 \section{How to choose a neural network's hyper-parameters?}
 Up until now I haven't explained how I've been choosing values for hyper-parameters such as the learning rate, $\eta$, the regularization parameter, $\lambda$, and so on. I've just been supplying values which work pretty well. In practice, when you're using neural nets to attack a problem, it can be difficult to find good hyper-parameters. Imagine, for example, that we've just been introduced to the MNIST problem, and have begun working on it, knowing nothing at all about what hyper-parameters to use. Let's suppose that by good fortune in our first experiments we choose many of the hyper-parameters in the same way as was done earlier this chapter: 30 hidden neurons, a mini-batch size of 10, training for 30 epochs using the cross-entropy. But we choose a learning rate $\eta=10.0$ and regularization parameter $\lambda=1000.0$. Here's what I saw on one such run:
 
-\begin{lstlisting}
+\begin{lstlisting}
+
 >>> import mnist_loader
 >>> training_data, validation_data, test_data = \
 ... mnist_loader.load_data_wrapper()
 >>> import network2
 >>> net = network2.Network([784, 30, 10])
 >>> net.SGD(training_data, 30, 10, 10.0, lmbda = 1000.0,
-... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
+... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
+
 
 Epoch 0 training complete
 Accuracy on evaluation data: 1030 / 10000
@@ -1164,7 +1166,8 @@ Suppose, for example, that you're attacking MNIST for the first time. You start 
 You can further speed up experimentation by stripping your network down to the simplest network likely to do meaningful learning. If you believe a \inline{[784, 10]} network can likely do better-than-chance classification of MNIST digits, then begin your experimentation with such a network. It'll be much faster than training a \inline{[784, 30, 10]} network, and you can build back up to the latter.
 
 You can get another speed up in experimentation by increasing the frequency of monitoring. In \inline{network2.py} we monitor performance at the end of each training epoch. With 50,000 images per epoch, that means waiting a little while - about ten seconds per epoch, on my laptop, when training a [784, 30, 10] network - before getting feedback on how well the network is learning. Of course, ten seconds isn't very long, but if you want to trial dozens of hyper-parameter choices it's annoying, and if you want to trial hundreds or thousands of choices it starts to get debilitating. We can get feedback more quickly by monitoring the validation accuracy more often, say, after every 1,000 training images. Furthermore, instead of using the full 10,000 image validation set to monitor performance, we can get a much faster estimate using just 100 validation images. All that matters is that the network sees enough images to do real learning, and to get a pretty good rough estimate of performance. Of course, our program \inline{network2.py} doesn't currently do this kind of monitoring. But as a kludge to achieve a similar effect for the purposes of illustration, we'll strip down our training data to just the first 1,000 MNIST training images. Let's try it and see what happens. (To keep the code below simple I haven't implemented the idea of using only 0 and 1 images. Of course, that can be done with just a little more work.)
-\begin{lstlisting}
+\begin{lstlisting}
+
 >>> net = network2.Network([784, 10])
 >>> net.SGD(training_data[:1000], 30, 10, 10.0, lmbda = 1000.0, \
 ... evaluation_data=validation_data[:100], \
@@ -1177,12 +1180,14 @@ Accuracy on evaluation data: 10 / 100
 
 Epoch 2 training complete
 Accuracy on evaluation data: 10 / 100
-...
+...
+
 \end{lstlisting}
 We're still getting pure noise! But there's a big win: we're now getting feedback in a fraction of a second, rather than once every ten seconds or so. That means you can more quickly experiment with other choices of hyper-parameter, or even conduct experiments trialling many different choices of hyper-parameter nearly simultaneously.
 
 In the above example I left $\lambda$ as $\lambda=1000.0$, as we used earlier. But since we changed the number of training examples we should really change $\lambda$ to keep the weight decay the same. That means changing $\lambda$ to 20.0. If we do that then this is what happens:
-\begin{lstlisting}
+\begin{lstlisting}
+
 >>> net = network2.Network([784, 10])
 >>> net.SGD(training_data[:1000], 30, 10, 10.0, lmbda = 20.0, \
 ... evaluation_data=validation_data[:100], \
@@ -1198,11 +1203,13 @@ Accuracy on evaluation data: 25 / 100
 
 Epoch 3 training complete
 Accuracy on evaluation data: 18 / 100
-...
+...
+
 \end{lstlisting}
 Ahah! We have a signal. Not a terribly good signal, but a signal nonetheless. That's something we can build on, modifying the hyper-parameters to try to get further improvement. Maybe we guess that our learning rate needs to be higher. (As you perhaps realize, that's a silly guess, for reasons we'll discuss shortly, but please bear with me.) So to test our guess we try dialing $\eta$ up to 100.0:
 
-\begin{lstlisting}
+\begin{lstlisting}
+
 >>> net = network2.Network([784, 10])
 >>> net.SGD(training_data[:1000], 30, 10, 100.0, lmbda = 20.0, \
 ... evaluation_data=validation_data[:100], \
@@ -1218,11 +1225,13 @@ Accuracy on evaluation data: 10 / 100
 
 Epoch 3 training complete
 Accuracy on evaluation data: 10 / 100
-...
+...
+
 \end{lstlisting}
 That's no good! It suggests that our guess was wrong, and the problem wasn't that the learning rate was too low. So instead we try dialing $\eta$ down to $\eta=1.0$:
 
-\begin{lstlisting}
+\begin{lstlisting}
+
 >>> net = network2.Network([784, 10])
 >>> net.SGD(training_data[:1000], 30, 10, 1.0, lmbda = 20.0, \
 ... evaluation_data=validation_data[:100], \
@@ -1238,7 +1247,8 @@ Accuracy on evaluation data: 43 / 100
 
 Epoch 3 training complete
 Accuracy on evaluation data: 61 / 100
-...
+...
+
 \end{lstlisting}
 That's better! And so we can continue, individually adjusting each hyper-parameter, gradually improving performance. Once we've explored to find an improved value for $\eta$, then we move on to find a good value for $\lambda$. Then experiment with a more complex architecture, say a network with 10 hidden neurons. Then adjust the values for $\eta$ and $\lambda$ again. Then increase to 20 hidden neurons. And then adjust other hyper-parameters some more. And so on, at each stage evaluating performance using our held-out validation data, and using those evaluations to find better and better hyper-parameters. As we do so, it typically takes longer to witness the impact due to modifications of the hyper-parameters, and so we can gradually decrease the frequency of monitoring.
 
@@ -1397,12 +1407,12 @@ With each step the velocity gets larger down the slope, so we move more and more
 I've avoided naming the hyper-parameter $\mu$ up to now. The reason is that the standard name for $\mu$ is badly chosen: it's called the momentum co-efficient. This is potentially confusing, since $\mu$ is not at all the same as the notion of momentum from physics. Rather, it is much more closely related to friction. However, the term momentum co-efficient is widely used, so we will continue to use it.
 
 A nice thing about the momentum technique is that it takes almost no work to modify an implementation of gradient descent to incorporate momentum. We can still use backpropagation to compute the gradients, just as before, and use ideas such as sampling stochastically chosen mini-batches. In this way, we can get some of the advantages of the Hessian technique, using information about how the gradient is changing. But it's done without the disadvantages, and with only minor modifications to our code. In practice, the momentum technique is commonly used, and often speeds up learning.
-\subsection*{Exercise}
+\subsubsection*{Exercise}
 \begin{itemize}
 \item What would go wrong if we used $\mu>1$ in the momentum technique?
 \item What would go wrong if we used $\mu<0$ in the momentum technique?
 \end{itemize}
-\subsection*{Problem}
+\subsubsection*{Problem}
 \begin{itemize}
 \item Add momentum-based stochastic gradient descent to \texttt{network2.py}.
 \end{itemize}
@@ -1439,7 +1449,7 @@ One difference between tanh neurons and sigmoid neurons is that the output from 
 
 Similar to sigmoid neurons, a network of tanh neurons can, in principle, compute any function\footnote{There are some technical caveats to this statement for both tanh and sigmoid neurons, as well as for the rectified linear neurons discussed below. However, informally it's usually fine to think of neural networks as being able to approximate any function to arbitrary accuracy.} mapping inputs to the range $-1$ to 1. Furthermore, ideas such as backpropagation and stochastic gradient descent are as easily applied to a network of tanh neurons as to a network of sigmoid neurons.
 
-\subsection*{Exercise}
+\subsubsection*{Exercise}
 \begin{itemize}
 	\item Prove the identity in Equation (\ref{eq:111}).
 \end{itemize}
