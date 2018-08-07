@@ -186,8 +186,8 @@ None of these observations is too greatly surprising. Still, they help improve o
 \begin{center}
 	\includegraphics[width=0.65\linewidth]{figures/ch2/tikz21}
 \end{center}
-\subsection*{Problem}
-\begin{itemize}
+
+\begin{exercize}{Problem}
 	\item \textbf{Alternate presentation of the equations of backpropagation:} I've stated the equations of backpropagation (notably \ref{eq:BP1} and \ref{eq:BP2}) using the Hadamard product. This presentation may be disconcerting if you're unused to the Hadamard product. There's an alternative approach, based on conventional matrix multiplication, which some readers may find enlightening.
 	\begin{enumerate}
 		\item[(1)]  Show that (\ref{eq:BP1}) may be rewritten as
@@ -208,7 +208,7 @@ None of these observations is too greatly surprising. Still, they help improve o
 		\end{equation}
 		For readers comfortable with matrix multiplication this equation may be easier to understand than (\ref{eq:BP1}) and (\ref{eq:BP2}). The reason I've focused on (\ref{eq:BP1}) and (\ref{eq:BP2}) is because that approach turns out to be faster to implement numerically.
 	\end{enumerate}
-\end{itemize}
+\end{exercize}
 \section{Proof of the four fundamental equations (optional)}
 We'll now prove the four fundamental equations (\ref{eq:BP1})-(\ref{eq:BP4}). All four are consequences of the chain rule from multivariable calculus. If you're comfortable with the chain rule, then I strongly encourage you to attempt the derivation yourself before reading on.
 
@@ -263,11 +263,9 @@ This is just (\ref{eq:BP2}) written in component form.
 
 The final two equations we want to prove are (\ref{eq:BP3}) and (\ref{eq:BP4}). These also follow from the chain rule, in a manner similar to the proofs of the two equations above. I leave them to you as an exercise.
 
-\subsection*{Exercise}
-\begin{itemize}
+\begin{exercize}{Exercise}
 	\item Prove Equations (\ref{eq:BP3}) and (\ref{eq:BP4}).
-\end{itemize}
-
+\end{exercize}
 That completes the proof of the four fundamental equations of backpropagation. The proof may seem complicated. But it's really just the outcome of carefully applying the chain rule. A little less succinctly, we can think of backpropagation as a way of computing the gradient of the cost function by systematically applying the chain rule from multi-variable calculus. That's all there really is to backpropagation -- the rest is details.
 
 \section{The backpropagation algorithm}
@@ -281,12 +279,10 @@ The backpropagation equations provide us with a way of computing the gradient of
 \end{enumerate}
 Examining the algorithm you can see why it's called\textit{ back}propagation. We compute the error vectors $\delta^l$ backward, starting from the final layer. It may seem peculiar that we're going through the network backward. But if you think about the proof of backpropagation, the backward movement is a consequence of the fact that the cost is a function of outputs from the network. To understand how the cost varies with earlier weights and biases we need to repeatedly apply the chain rule, working backward through the layers to obtain usable expressions.
 
-\subsection*{Exercises}
-\begin{itemize}
+\begin{exercize}{Exercises}
 	\item \textbf{Backpropagation with a single modified neuron} Suppose we modify a single neuron in a feedforward network so that the output from the neuron is given by $f(\sum_j w_j x_j + b)$, where $f$ is some function other than the sigmoid. How should we modify the backpropagation algorithm in this case?
 	\item \textbf{Backpropagation with linear neurons} Suppose we replace the usual non-linear $\sigma$ function with $\sigma(z)=z$ throughout the network. Rewrite the backpropagation algorithm for this case.
-\end{itemize}
-
+\end{exercize}
 As I've described it above, the backpropagation algorithm computes the gradient of the cost function for a single training example, $C=C_x$. In practice, it's common to combine backpropagation with a learning algorithm such as stochastic gradient descent, in which we compute the gradient for many training examples. In particular, given a mini-batch of $m$ training examples, the following algorithm applies a gradient descent learning step based on that mini-batch:
 \begin{enumerate}
 \item Input a set of training examples
@@ -374,10 +370,10 @@ class Network(object):
 		return sigmoid(z)*(1-sigmoid(z))
 \end{lstlisting}
 
-\subsection*{Problem}
-\begin{itemize}
+
+\begin{exercize}{Problem}
 \item \textbf{Fully matrix-based approach to backpropagation over a mini-batch} Our implementation of stochastic gradient descent loops over training examples in a mini-batch. It's possible to modify the backpropagation algorithm so that it computes the gradients for all training examples in a mini-batch simultaneously. The idea is that instead of beginning with a single input vector, $x$, we can begin with a matrix $X=[x_1x_2\ldots{}x_m]$ whose columns are the vectors in the mini-batch. We forward-propagate by multiplying by the weight matrices, adding a suitable matrix for the bias terms, and applying the sigmoid function everywhere. We backpropagate along similar lines. Explicitly write out pseudocode for this approach to the backpropagation algorithm. Modify \inline{network.py} so that it uses this fully matrix-based approach. The advantage of this approach is that it takes full advantage of modern libraries for linear algebra. As a result it can be quite a bit faster than looping over the mini-batch. (On my laptop, for example, the speedup is about a factor of two when run on MNIST classification problems like those we considered in the last chapter.) In practice, all serious libraries for backpropagation use this fully matrix-based approach or some variant.
-\end{itemize}
+\end{exercize}
 \section{In what sense is backpropagation a fast algorithm?}
 In what sense is backpropagation a fast algorithm? To answer this question, let's consider another approach to computing the gradient. Imagine it's the early days of neural networks research. Maybe it's the 1950s or 1960s, and you're the first person in the world to think of using gradient descent to learn! But to make the idea work you need a way of computing the gradient of the cost function. You think back to your knowledge of calculus, and decide to see if you can use the chain rule to compute the gradient. But after playing around a bit, the algebra looks complicated, and you get discouraged. So you try to find another approach. You decide to regard the cost as a function of the weights $C=C(w)$ alone (we'll get back to the biases in a moment). You number the weights $w_1,w_2,\ldots$, and want to compute $\partial{}C/\partial{}w_j$ for some particular weight $w_j$. An obvious way of doing that is to use the approximation
 \begin{equation}

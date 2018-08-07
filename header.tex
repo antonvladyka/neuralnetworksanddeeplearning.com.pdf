@@ -149,8 +149,8 @@
 % VERICAL: topsep partopsep parsep itemsep
 % HORIZONTAL: leftmargin rightmargin listparindent labelwidth labelsep itemindent
 % GLOBAL: \setlist[enumerate]{labelsep=*, leftmargin=1.5pc}
-\setlist{noitemsep}
-%\setlist{nosep}
+%\setlist{noitemsep}
+\setlist{nosep}
 
 
 
@@ -243,3 +243,10 @@
 	title=\lstname 			          % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
 \def\inline{\lstinline[basicstyle=\ttfamily,keywordstyle={}]} %https://tex.stackexchange.com/questions/44702/can-you-change-lstinline-without-changing-the-global-lstset
+
+% https://tex.stackexchange.com/questions/31085/is-there-a-standard-way-to-title-a-list-of-bullets
+% name is purpose
+\newenvironment{exercize}[1]{%
+\vspace{0.2em}\noindent{\Large\textbf{#1}}
+	\begin{itemize}}
+	{\end{itemize}}

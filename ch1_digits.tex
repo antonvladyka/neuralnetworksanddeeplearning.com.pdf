@@ -163,16 +163,12 @@ If it's the shape of $\sigma$ which really matters, and not its exact form, then
 
 How should we interpret the output from a sigmoid neuron? Obviously, one big difference between perceptrons and sigmoid neurons is that sigmoid neurons don't just output 0 or 1. They can have as output any real number between 0 and 1, so values such as 0.173$\ldots$ and 0.689$\ldots$ are legitimate outputs. This can be useful, for example, if we want to use the output value to represent the average intensity of the pixels in an image input to a neural network. But sometimes it can be a nuisance. Suppose we want the output from the network to indicate either ``the input image is a 9'' or ``the input image is not a 9''. Obviously, it'd be easiest to do this if the output was a 0 or a 1, as in a perceptron. But in practice we can set up a convention to deal with this, for example, by deciding to interpret any output of at least 0.5 as indicating a ``9'', and any output less than 0.5 as indicating ``not a 9''. I'll always explicitly state when we're using such a convention, so it shouldn't cause any confusion.
 
-\subsection*{Exercises}
-\begin{itemize}
-\item \textbf{Sigmoid neurons simulating perceptrons, part I}
+\begin{exercize}{Exercises}
+\item \textbf{Sigmoid neurons simulating perceptrons, part I} Suppose we take all the weights and biases in a network of perceptrons, and multiply them by a positive constant, c>0. Show that the behavior of the network doesn't change.
 
-Suppose we take all the weights and biases in a network of perceptrons, and multiply them by a positive constant, c>0. Show that the behavior of the network doesn't change.
+\item \textbf{Sigmoid neurons simulating perceptrons, part II} Suppose we have the same setup as the last problem - a network of perceptrons. Suppose also that the overall input to the network of perceptrons has been chosen. We won't need the actual input value, we just need the input to have been fixed. Suppose the weights and biases are such that $w\cdot x + b \ne 0$ for the input x to any particular perceptron in the network. Now replace all the perceptrons in the network by sigmoid neurons, and multiply the weights and biases by a positive constant $c>0$. Show that in the limit as $c\to\infty$ the behaviour of this network of sigmoid neurons is exactly the same as the network of perceptrons. How can this fail when $w\cdot x+b=0$ for one of the perceptrons?
+\end{exercize}
 
-\item \textbf{Sigmoid neurons simulating perceptrons, part II}
-
-Suppose we have the same setup as the last problem - a network of perceptrons. Suppose also that the overall input to the network of perceptrons has been chosen. We won't need the actual input value, we just need the input to have been fixed. Suppose the weights and biases are such that $w\cdot x + b \ne 0$ for the input x to any particular perceptron in the network. Now replace all the perceptrons in the network by sigmoid neurons, and multiply the weights and biases by a positive constant $c>0$. Show that in the limit as $c\to\infty$ the behaviour of this network of sigmoid neurons is exactly the same as the network of perceptrons. How can this fail when $w\cdot x+b=0$ for one of the perceptrons?
-\end{itemize}
 \section{The architecture of neural networks}
 In the next section I'll introduce a neural network that can do a pretty good job classifying handwritten digits. In preparation for that, it helps to explain some terminology that lets us name different parts of a network. Suppose we have the network:
 
@@ -244,13 +240,13 @@ Supposing the neural network functions in this way, we can give a plausible expl
 
 Now, with all that said, this is all just a heuristic. Nothing says that the three-layer neural network has to operate in the way I described, with the hidden neurons detecting simple component shapes. Maybe a clever learning algorithm will find some assignment of weights that lets us use only 4 output neurons. But as a heuristic the way of thinking I've described works pretty well, and can save you a lot of time in designing good neural network architectures.
 
-\subsection*{Exercise}
-\begin{itemize}
+
+\begin{exercize}{Exercise}
 	\item There is a way of determining the bitwise representation of a digit by adding an extra layer to the three-layer network above. The extra layer converts the output from the previous layer into a binary representation, as illustrated in the figure below. Find a set of weights and biases for the new output layer. Assume that the first 3 layers of neurons are such that the correct output in the third layer (i.e., the old output layer) has activation at least 0.99, and incorrect outputs have activation less than 0.01.
 	\begin{center}
 		\includegraphics[width=\linewidth]{./figures/ch1/tikz13}
 	\end{center}
-\end{itemize}
+\end{exercize}
 
 
 \section{Learning with gradient descent}
@@ -356,11 +352,10 @@ You can think of this update rule as \textit{defining} the gradient descent algo
 
 Indeed, there's even a sense in which gradient descent is the optimal strategy for searching for a minimum. Let's suppose that we're trying to make a move $\Delta v$ in position so as to decrease $C$ as much as possible. This is equivalent to minimizing $\Delta C \approx \nabla C \cdot \Delta v$. We'll constrain the size of the move so that $\|\Delta v\| = \epsilon$ for some small fixed $\epsilon > 0$. In other words, we want a move that is a small step of a fixed size, and we're trying to find the movement direction which decreases $C$ as much as possible. It can be proved that the choice of $\Delta v$ which minimizes $\nabla C \cdot \Delta v$ is $\Delta v = - \eta \nabla C$, where $\eta = \epsilon / \|\nabla C\|$ is determined by the size constraint $\|\Delta v\| = \epsilon$. So gradient descent can be viewed as a way of taking small steps in the direction which does the most to immediately decrease $C$.
 
-\subsection*{Exercises}
-\begin{itemize}
+\begin{exercize}{Exercises}
 \item Prove the assertion of the last paragraph. Hint: If you're not already familiar with the Cauchy-Schwarz inequality, you may find it helpful to familiarize yourself with it.
 \item I explained gradient descent when C is a function of two variables, and when it's a function of more than two variables. What happens when C is a function of just one variable? Can you provide a geometric interpretation of what gradient descent is doing in the one-dimensional case?
-\end{itemize}
+\end{exercize}
 
 People have investigated many variations of gradient descent, including variations that more closely mimic a real physical ball. These ball-mimicking variations have some advantages, but also have a major disadvantage: it turns out to be necessary to compute second partial derivatives of C, and this can be quite costly. To see why it's costly, suppose we want to compute all the second partial derivatives $\partial^2 C/ \partial v_j \partial v_k$. If there are a million such $v_j$ variables then we'd need to compute something like a trillion (i.e., a million squared) second partial derivatives\footnote{Actually, more like half a trillion, since $\partial^2 C/ \partial v_j \partial v_k = \partial^2 C/ \partial v_k \partial v_j$. Still, you get the point.}! That's going to be computationally costly. With that said, there are tricks for avoiding this kind of problem, and finding alternatives to gradient descent is an active area of investigation. But in this book we'll use gradient descent (and variations) as our main approach to learning in neural networks.
 
@@ -401,11 +396,9 @@ Incidentally, it's worth noting that conventions vary about scaling of the cost 
 
 We can think of stochastic gradient descent as being like political polling: it's much easier to sample a small mini-batch than it is to apply gradient descent to the full batch, just as carrying out a poll is easier than running a full election. For example, if we have a training set of size $n$=60,000, as in MNIST, and choose a mini-batch size of (say) $m=10$, this means we'll get a factor of 6,000 speedup in estimating the gradient! Of course, the estimate won't be perfect - there will be statistical fluctuations - but it doesn't need to be perfect: all we really care about is moving in a general direction that will help decrease C, and that means we don't need an exact computation of the gradient. In practice, stochastic gradient descent is a commonly used and powerful technique for learning in neural networks, and it's the basis for most of the learning techniques we'll develop in this book.
 
-\subsection*{Exercise}
-\begin{itemize}
+\begin{exercize}{Exercize}
 	\item An extreme version of gradient descent is to use a mini-batch size of just 1. That is, given a training input, $x$, we update our weights and biases according to the rules $w_k \to w_k' = w_k - \eta \partial C_x / \partial w_k$ and $b_l \to b_l' =	b_l - \eta \partial C_x / \partial b_l$. Then we choose another training input, and update the weights and biases again. And so on, repeatedly. This procedure is known as online, on-line, or incremental learning. In online learning, a neural network learns from just one training input at a time (just as human beings do). Name one advantage and one disadvantage of online learning, compared to stochastic gradient descent with a mini-batch size of, say, 20.
-\end{itemize}
-
+\end{exercize}
 Let me conclude this section by discussing a point that sometimes bugs people new to gradient descent. In neural networks the cost $C$ is, of course, a function of many variables - all the weights and biases - and so in some sense defines a surface in a very high-dimensional space. Some people get hung up thinking: ``Hey, I have to be able to visualize all these extra dimensions''. And they may start to worry: ``I can't think in four dimensions, let alone five (or five million)''. Is there some special ability they're missing, some ability that ``real'' supermathematicians have? Of course, the answer is no. Even most professional mathematicians can't visualize four dimensions especially well, if at all. The trick they use, instead, is to develop other ways of representing what's going on. That's exactly what we did above: we used an algebraic (rather than visual) representation of $\Delta C$ to figure out how to move so as to decrease $C$. People who are good at thinking in high dimensions have a mental library containing many different techniques along these lines; our algebraic trick is just one example. Those techniques may not have the simplicity we're accustomed to when visualizing three dimensions, but once you build up a library of such techniques, you can get pretty good at thinking in high dimensions. I won't go into more detail here, but if you're interested then you may enjoy reading this discussion of some of the techniques professional mathematicians use to think in high dimensions. While some of the techniques discussed are quite complex, much of the best content is intuitive and accessible, and could be mastered by anyone.
 
 \section{Implementing our network to classify digits}
@@ -445,11 +438,9 @@ Note also that the biases and weights are stored as lists of Numpy matrices. So,
 
 There's quite a bit going on in this equation, so let's unpack it piece by piece. $a$ is the vector of activations of the second layer of neurons. To obtain $a'$ we multiply $a$ by the weight matrix $w$, and add the vector $b$ of biases. We then apply the function $\sigma$ elementwise to every entry in the vector $wa+b$. (This is called \textit{vectorizing} the function $\sigma$.) It's easy to verify that Equation \ref{eq:22} gives the same result as our earlier rule, Equation \ref{eq:4}, for computing the output of a sigmoid neuron.
 
-\subsection*{Exercise}
-\begin{itemize}
+\begin{exercize}{Exercise}
 \item  Write out Equation \ref{eq:22} in component form, and verify that it gives the same result as the rule \ref{eq:4} for computing the output of a sigmoid neuron.
-
-\end{itemize}
+\end{exercize}
 With all this in mind, it's easy to write code computing the output from a Network instance. We begin by defining the sigmoid function:
 \begin{lstlisting}
 def sigmoid(z):
@@ -726,10 +717,9 @@ Now imagine that we were coming to this problem for the first time. Of course, w
 
 The lesson to take away from this is that debugging a neural network is not trivial, and, just as for ordinary programming, there is an art to it. You need to learn that art of debugging in order to get good results from neural networks. More generally, we need to develop heuristics for choosing good hyper-parameters and a good architecture. We'll discuss all these at length through the book, including how I chose the hyper-parameters above.
 
-\subsection*{Exercise}
-\begin{itemize}
+\begin{exercize}{Exercise}
 	\item Try creating a network with just two layers -- an input and an output layer, no hidden layer -- with 784 and 10 neurons, respectively. Train the network using stochastic gradient descent. What classification accuracy can you achieve?
-\end{itemize}
+\end{exercize}
 Earlier, I skipped over the details of how the MNIST data is loaded. It's pretty straightforward. For completeness, here's the code. The data structures used to store the MNIST data are described in the documentation strings -- it's straightforward stuff, tuples and lists of Numpy ndarray objects (think of them as vectors if you're not familiar with ndarrays):
 
 \begin{lstlisting}

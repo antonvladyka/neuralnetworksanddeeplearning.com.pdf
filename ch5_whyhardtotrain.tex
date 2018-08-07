@@ -66,9 +66,9 @@ We set up our network:
 >>> import network2
 >>> net = network2.Network([784, 30, 10])
 \end{lstlisting}
-This network has 784 neurons in the input layer, corresponding to the $28\times28=784$ pixels in the input image. We use 30 hidden neurons, as well as 10 output neurons, corresponding to the 10 possible classifications for the MNIST digits ('0', '1', '2', …, '9').
+This network has 784 neurons in the input layer, corresponding to the $28\times28=784$ pixels in the input image. We use 30 hidden neurons, as well as 10 output neurons, corresponding to the 10 possible classifications for the MNIST digits (`0', `1', `2',..., `9').
 
-Let's try training our network for 30 complete epochs, using mini-batches of 10 training examples at a time, a learning rate η=0.1, and regularization parameter λ=5.0. As we train we'll monitor the classification accuracy on the \inline{validation_data}\footnote{Note that the networks is likely to take some minutes to train, depending on the speed of your machine. So if you're running the code you may wish to continue reading and return later, not wait for the code to finish executing.}:
+Let's try training our network for 30 complete epochs, using mini-batches of 10 training examples at a time, a learning rate η=0.1, and regularization parameter $\lambda=5.0$. As we train we'll monitor the classification accuracy on the \inline{validation_data}\footnote{Note that the networks is likely to take some minutes to train, depending on the speed of your machine. So if you're running the code you may wish to continue reading and return later, not wait for the code to finish executing.}:
 \begin{lstlisting}
 >>> net.SGD(training_data, 30, 10, 0.1, lmbda=5.0, 
 ... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
@@ -109,122 +109,147 @@ To keep the diagram simple, I've shown just the top six neurons in the two hidde
 	\includegraphics[width=0.5\linewidth]{figures/ch5/tikz500}
 \end{center}
 The network was initialized randomly, and so it's not surprising that there's a lot of variation in how rapidly the neurons learn. Still, one thing that jumps out is that the bars in the second hidden layer are mostly much larger than the bars in the first hidden layer. As a result, the neurons in the second hidden layer will learn quite a bit faster than the neurons in the first hidden layer. Is this merely a coincidence, or are the neurons in the second hidden layer likely to learn faster than neurons in the first hidden layer in general?
-%
-%To determine whether this is the case, it helps to have a global way of comparing the speed of learning in the first and second hidden layers. To do this, let's denote the gradient as δlj=∂C/∂blj, i.e., the gradient for the jth neuron in the lth layer* *Back in Chapter 2 we referred to this as the error, but here we'll adopt the informal term "gradient". I say "informal" because of course this doesn't explicitly include the partial derivatives of the cost with respect to the weights, ∂C/∂w.. We can think of the gradient δ1 as a vector whose entries determine how quickly the first hidden layer learns, and δ2 as a vector whose entries determine how quickly the second hidden layer learns. We'll then use the lengths of these vectors as (rough!) global measures of the speed at which the layers are learning. So, for instance, the length ∥δ1∥ measures the speed at which the first hidden layer is learning, while the length ∥δ2∥ measures the speed at which the second hidden layer is learning.
-%
-%With these definitions, and in the same configuration as was plotted above, we find ∥δ1∥=0.07… and ∥δ2∥=0.31…. So this confirms our earlier suspicion: the neurons in the second hidden layer really are learning much faster than the neurons in the first hidden layer.
-%
-%What happens if we add more hidden layers? If we have three hidden layers, in a [784,30,30,30,10] network, then the respective speeds of learning turn out to be 0.012, 0.060, and 0.283. Again, earlier hidden layers are learning much slower than later hidden layers. Suppose we add yet another layer with 30 hidden neurons. In that case, the respective speeds of learning are 0.003, 0.017, 0.070, and 0.285. The pattern holds: early layers learn slower than later layers.
-%
-%We've been looking at the speed of learning at the start of training, that is, just after the networks are initialized. How does the speed of learning change as we train our networks? Let's return to look at the network with just two hidden layers. The speed of learning changes as follows:
-%
-%
-%To generate these results, I used batch gradient descent with just 1,000 training images, trained over 500 epochs. This is a bit different than the way we usually train - I've used no mini-batches, and just 1,000 training images, rather than the full 50,000 image training set. I'm not trying to do anything sneaky, or pull the wool over your eyes, but it turns out that using mini-batch stochastic gradient descent gives much noisier (albeit very similar, when you average away the noise) results. Using the parameters I've chosen is an easy way of smoothing the results out, so we can see what's going on.
-%
-%In any case, as you can see the two layers start out learning at very different speeds (as we already know). The speed in both layers then drops very quickly, before rebounding. But through it all, the first hidden layer learns much more slowly than the second hidden layer.
-%
-%What about more complex networks? Here's the results of a similar experiment, but this time with three hidden layers (a [784,30,30,30,10] network):
-%
-%
-%Again, early hidden layers learn much more slowly than later hidden layers. Finally, let's add a fourth hidden layer (a [784,30,30,30,30,10] network), and see what happens when we train:
-%
-%
-%Again, early hidden layers learn much more slowly than later hidden layers. In this case, the first hidden layer is learning roughly 100 times slower than the final hidden layer. No wonder we were having trouble training these networks earlier!
-%
-%We have here an important observation: in at least some deep neural networks, the gradient tends to get smaller as we move backward through the hidden layers. This means that neurons in the earlier layers learn much more slowly than neurons in later layers. And while we've seen this in just a single network, there are fundamental reasons why this happens in many neural networks. The phenomenon is known as the vanishing gradient problem* *See Gradient flow in recurrent nets: the difficulty of learning long-term dependencies, by Sepp Hochreiter, Yoshua Bengio, Paolo Frasconi, and Jürgen Schmidhuber (2001). This paper studied recurrent neural nets, but the essential phenomenon is the same as in the feedforward networks we are studying. See also Sepp Hochreiter's earlier Diploma Thesis, Untersuchungen zu dynamischen neuronalen Netzen (1991, in German)..
-%
-%Why does the vanishing gradient problem occur? Are there ways we can avoid it? And how should we deal with it in training deep neural networks? In fact, we'll learn shortly that it's not inevitable, although the alternative is not very attractive, either: sometimes the gradient gets much larger in earlier layers! This is the exploding gradient problem, and it's not much better news than the vanishing gradient problem. More generally, it turns out that the gradient in deep neural networks is unstable, tending to either explode or vanish in earlier layers. This instability is a fundamental problem for gradient-based learning in deep neural networks. It's something we need to understand, and, if possible, take steps to address.
-%
-%One response to vanishing (or unstable) gradients is to wonder if they're really such a problem. Momentarily stepping away from neural nets, imagine we were trying to numerically minimize a function f(x) of a single variable. Wouldn't it be good news if the derivative f′(x) was small? Wouldn't that mean we were already near an extremum? In a similar way, might the small gradient in early layers of a deep network mean that we don't need to do much adjustment of the weights and biases?
-%
-%Of course, this isn't the case. Recall that we randomly initialized the weight and biases in the network. It is extremely unlikely our initial weights and biases will do a good job at whatever it is we want our network to do. To be concrete, consider the first layer of weights in a [784,30,30,30,10] network for the MNIST problem. The random initialization means the first layer throws away most information about the input image. Even if later layers have been extensively trained, they will still find it extremely difficult to identify the input image, simply because they don't have enough information. And so it can't possibly be the case that not much learning needs to be done in the first layer. If we're going to train deep networks, we need to figure out how to address the vanishing gradient problem.
-%
-%What's causing the vanishing gradient problem? Unstable gradients in deep neural nets
-%To get insight into why the vanishing gradient problem occurs, let's consider the simplest deep neural network: one with just a single neuron in each layer. Here's a network with three hidden layers:
-%
-%
-%Here, w1,w2,… are the weights, b1,b2,… are the biases, and C is some cost function. Just to remind you how this works, the output aj from the jth neuron is σ(zj), where σ is the usual sigmoid activation function, and zj=wjaj−1+bj is the weighted input to the neuron. I've drawn the cost C at the end to emphasize that the cost is a function of the network's output, a4: if the actual output from the network is close to the desired output, then the cost will be low, while if it's far away, the cost will be high.
-%
-%We're going to study the gradient ∂C/∂b1 associated to the first hidden neuron. We'll figure out an expression for ∂C/∂b1, and by studying that expression we'll understand why the vanishing gradient problem occurs.
-%
-%I'll start by simply showing you the expression for ∂C/∂b1. It looks forbidding, but it's actually got a simple structure, which I'll describe in a moment. Here's the expression (ignore the network, for now, and note that σ′ is just the derivative of the σ function):
-%
-%
-%The structure in the expression is as follows: there is a σ′(zj) term in the product for each neuron in the network; a weight wj term for each weight in the network; and a final ∂C/∂a4 term, corresponding to the cost function at the end. Notice that I've placed each term in the expression above the corresponding part of the network. So the network itself is a mnemonic for the expression.
-%
-%You're welcome to take this expression for granted, and skip to the discussion of how it relates to the vanishing gradient problem. There's no harm in doing this, since the expression is a special case of our earlier discussion of backpropagation. But there's also a simple explanation of why the expression is true, and so it's fun (and perhaps enlightening) to take a look at that explanation.
-%
-%Imagine we make a small change Δb1 in the bias b1. That will set off a cascading series of changes in the rest of the network. First, it causes a change Δa1 in the output from the first hidden neuron. That, in turn, will cause a change Δz2 in the weighted input to the second hidden neuron. Then a change Δa2 in the output from the second hidden neuron. And so on, all the way through to a change ΔC in the cost at the output. We have
-%∂C∂b1≈ΔCΔb1.(114)
-%This suggests that we can figure out an expression for the gradient ∂C/∂b1 by carefully tracking the effect of each step in this cascade.
-%
-%To do this, let's think about how Δb1 causes the output a1 from the first hidden neuron to change. We have a1=σ(z1)=σ(w1a0+b1), so
-%Δa1≈=∂σ(w1a0+b1)∂b1Δb1σ′(z1)Δb1.(115)(116)
-%That σ′(z1) term should look familiar: it's the first term in our claimed expression for the gradient ∂C/∂b1. Intuitively, this term converts a change Δb1 in the bias into a change Δa1 in the output activation. That change Δa1 in turn causes a change in the weighted input z2=w2a1+b2 to the second hidden neuron:
-%Δz2≈=∂z2∂a1Δa1w2Δa1.(117)(118)
-%Combining our expressions for Δz2 and Δa1, we see how the change in the bias b1 propagates along the network to affect z2:
-%Δz2≈σ′(z1)w2Δb1.(119)
-%Again, that should look familiar: we've now got the first two terms in our claimed expression for the gradient ∂C/∂b1.
-%
-%We can keep going in this fashion, tracking the way changes propagate through the rest of the network. At each neuron we pick up a σ′(zj) term, and through each weight we pick up a wj term. The end result is an expression relating the final change ΔC in cost to the initial change Δb1 in the bias:
-%ΔC≈σ′(z1)w2σ′(z2)…σ′(z4)∂C∂a4Δb1.(120)
-%Dividing by Δb1 we do indeed get the desired expression for the gradient:
-%∂C∂b1=σ′(z1)w2σ′(z2)…σ′(z4)∂C∂a4.(121)
-%
-%Why the vanishing gradient problem occurs: To understand why the vanishing gradient problem occurs, let's explicitly write out the entire expression for the gradient:
-%∂C∂b1=σ′(z1)w2σ′(z2)w3σ′(z3)w4σ′(z4)∂C∂a4.(122)
-%Excepting the very last term, this expression is a product of terms of the form wjσ′(zj). To understand how each of those terms behave, let's look at a plot of the function σ′:
-%
-%-4
-%-3
-%-2
-%-1
-%0
-%1
-%2
-%3
-%4
-%0.00
-%0.05
-%0.10
-%0.15
-%0.20
-%0.25
-%z
-%Derivative of sigmoid function
-%The derivative reaches a maximum at σ′(0)=1/4. Now, if we use our standard approach to initializing the weights in the network, then we'll choose the weights using a Gaussian with mean 0 and standard deviation 1. So the weights will usually satisfy |wj|<1. Putting these observations together, we see that the terms wjσ′(zj) will usually satisfy |wjσ′(zj)|<1/4. And when we take a product of many such terms, the product will tend to exponentially decrease: the more terms, the smaller the product will be. This is starting to smell like a possible explanation for the vanishing gradient problem.
-%
-%To make this all a bit more explicit, let's compare the expression for ∂C/∂b1 to an expression for the gradient with respect to a later bias, say ∂C/∂b3. Of course, we haven't explicitly worked out an expression for ∂C/∂b3, but it follows the same pattern described above for ∂C/∂b1. Here's the comparison of the two expressions:
-%
-%
-%The two expressions share many terms. But the gradient ∂C/∂b1 includes two extra terms each of the form wjσ′(zj). As we've seen, such terms are typically less than 1/4 in magnitude. And so the gradient ∂C/∂b1 will usually be a factor of 16 (or more) smaller than ∂C/∂b3. This is the essential origin of the vanishing gradient problem.
-%Of course, this is an informal argument, not a rigorous proof that the vanishing gradient problem will occur. There are several possible escape clauses. In particular, we might wonder whether the weights wj could grow during training. If they do, it's possible the terms wjσ′(zj) in the product will no longer satisfy |wjσ′(zj)|<1/4. Indeed, if the terms get large enough - greater than 1 - then we will no longer have a vanishing gradient problem. Instead, the gradient will actually grow exponentially as we move backward through the layers. Instead of a vanishing gradient problem, we'll have an exploding gradient problem.
-%
-%The exploding gradient problem: Let's look at an explicit example where exploding gradients occur. The example is somewhat contrived: I'm going to fix parameters in the network in just the right way to ensure we get an exploding gradient. But even though the example is contrived, it has the virtue of firmly establishing that exploding gradients aren't merely a hypothetical possibility, they really can happen.
-%
-%There are two steps to getting an exploding gradient. First, we choose all the weights in the network to be large, say w1=w2=w3=w4=100. Second, we'll choose the biases so that the σ′(zj) terms are not too small. That's actually pretty easy to do: all we need do is choose the biases to ensure that the weighted input to each neuron is zj=0 (and so σ′(zj)=1/4). So, for instance, we want z1=w1a0+b1=0. We can achieve this by setting b1=−100∗a0. We can use the same idea to select the other biases. When we do this, we see that all the terms wjσ′(zj) are equal to 100∗14=25. With these choices we get an exploding gradient.
-%
-%The unstable gradient problem: The fundamental problem here isn't so much the vanishing gradient problem or the exploding gradient problem. It's that the gradient in early layers is the product of terms from all the later layers. When there are many layers, that's an intrinsically unstable situation. The only way all layers can learn at close to the same speed is if all those products of terms come close to balancing out. Without some mechanism or underlying reason for that balancing to occur, it's highly unlikely to happen simply by chance. In short, the real problem here is that neural networks suffer from an unstable gradient problem. As a result, if we use standard gradient-based learning techniques, different layers in the network will tend to learn at wildly different speeds.
-%
-%Exercise
-%In our discussion of the vanishing gradient problem, we made use of the fact that |σ′(z)|<1/4. Suppose we used a different activation function, one whose derivative could be much larger. Would that help us avoid the unstable gradient problem?
-%The prevalence of the vanishing gradient problem: We've seen that the gradient can either vanish or explode in the early layers of a deep network. In fact, when using sigmoid neurons the gradient will usually vanish. To see why, consider again the expression |wσ′(z)|. To avoid the vanishing gradient problem we need |wσ′(z)|≥1. You might think this could happen easily if w is very large. However, it's more difficult than it looks. The reason is that the σ′(z) term also depends on w: σ′(z)=σ′(wa+b), where a is the input activation. So when we make w large, we need to be careful that we're not simultaneously making σ′(wa+b) small. That turns out to be a considerable constraint. The reason is that when we make w large we tend to make wa+b very large. Looking at the graph of σ′ you can see that this puts us off in the "wings" of the σ′ function, where it takes very small values. The only way to avoid this is if the input activation falls within a fairly narrow range of values (this qualitative explanation is made quantitative in the first problem below). Sometimes that will chance to happen. More often, though, it does not happen. And so in the generic case we have vanishing gradients.
+
+To determine whether this is the case, it helps to have a global way of comparing the speed of learning in the first and second hidden layers. To do this, let's denote the gradient as $\delta^l_j=\partial C/\partial b^l_j$, i.e., the gradient for the $j$-th neuron in the $l$-th layer\footnote{Back in Chapter 2 we referred to this as the error, but here we'll adopt the informal term ``gradient''. I say ``informal'' because of course this doesn't explicitly include the partial derivatives of the cost with respect to the weights, $\partial C/\partial w$.}  We can think of the gradient $\delta^1$ as a vector whose entries determine how quickly the first hidden layer learns, and $\delta^2$ as a vector whose entries determine how quickly the second hidden layer learns. We'll then use the lengths of these vectors as (rough!) global measures of the speed at which the layers are learning. So, for instance, the length $\|\delta^1\|$ measures the speed at which the first hidden layer is learning, while the length $\|\delta^2\|$ measures the speed at which the second hidden layer is learning.
+
+With these definitions, and in the same configuration as was plotted above, we find $\|\delta^1\| = 0.07...$ and $\|\delta^2\|=0.31...$. So this confirms our earlier suspicion: the neurons in the second hidden layer really are learning much faster than the neurons in the first hidden layer.
+
+What happens if we add more hidden layers? If we have three hidden layers, in a [784,30,30,30,10] network, then the respective speeds of learning turn out to be 0.012, 0.060, and 0.283. Again, earlier hidden layers are learning much slower than later hidden layers. Suppose we add yet another layer with 30 hidden neurons. In that case, the respective speeds of learning are 0.003, 0.017, 0.070, and 0.285. The pattern holds: early layers learn slower than later layers.
+
+We've been looking at the speed of learning at the start of training, that is, just after the networks are initialized. How does the speed of learning change as we train our networks? Let's return to look at the network with just two hidden layers. The speed of learning changes as follows:
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/training_speed_2_layers}
+\end{center}
+To generate these results, I used batch gradient descent with just 1,000 training images, trained over 500 epochs. This is a bit different than the way we usually train - I've used no mini-batches, and just 1,000 training images, rather than the full 50,000 image training set. I'm not trying to do anything sneaky, or pull the wool over your eyes, but it turns out that using mini-batch stochastic gradient descent gives much noisier (albeit very similar, when you average away the noise) results. Using the parameters I've chosen is an easy way of smoothing the results out, so we can see what's going on.
+
+In any case, as you can see the two layers start out learning at very different speeds (as we already know). The speed in both layers then drops very quickly, before rebounding. But through it all, the first hidden layer learns much more slowly than the second hidden layer.
+
+What about more complex networks? Here's the results of a similar experiment, but this time with three hidden layers (a [784,30,30,30,10] network):
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/training_speed_3_layers}
+\end{center}
+Again, early hidden layers learn much more slowly than later hidden layers. Finally, let's add a fourth hidden layer (a [784,30,30,30,30,10] network), and see what happens when we train:
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/training_speed_4_layers}
+\end{center}
+Again, early hidden layers learn much more slowly than later hidden layers. In this case, the first hidden layer is learning roughly 100 times slower than the final hidden layer. No wonder we were having trouble training these networks earlier!
+
+We have here an important observation: in at least some deep neural networks, the gradient tends to get smaller as we move backward through the hidden layers. This means that neurons in the earlier layers learn much more slowly than neurons in later layers. And while we've seen this in just a single network, there are fundamental reasons why this happens in many neural networks. The phenomenon is known as the vanishing gradient problem\footnote{See [link]Gradient flow in recurrent nets: the difficulty of learning long-term dependencies, by Sepp Hochreiter, Yoshua Bengio, Paolo Frasconi, and J\"urgen Schmidhuber (2001). This paper studied recurrent neural nets, but the essential phenomenon is the same as in the feedforward networks we are studying. See also [link]Sepp Hochreiter's earlier Diploma Thesis, Untersuchungen zu dynamischen neuronalen Netzen (1991, in German).}.
+
+Why does the vanishing gradient problem occur? Are there ways we can avoid it? And how should we deal with it in training deep neural networks? In fact, we'll learn shortly that it's not inevitable, although the alternative is not very attractive, either: sometimes the gradient gets much larger in earlier layers! This is the exploding gradient problem, and it's not much better news than the vanishing gradient problem. More generally, it turns out that the gradient in deep neural networks is unstable, tending to either explode or vanish in earlier layers. This instability is a fundamental problem for gradient-based learning in deep neural networks. It's something we need to understand, and, if possible, take steps to address.
+
+One response to vanishing (or unstable) gradients is to wonder if they're really such a problem. Momentarily stepping away from neural nets, imagine we were trying to numerically minimize a function $f(x)$ of a single variable. Wouldn't it be good news if the derivative $f'(x)$ was small? Wouldn't that mean we were already near an extremum? In a similar way, might the small gradient in early layers of a deep network mean that we don't need to do much adjustment of the weights and biases?
+
+Of course, this isn't the case. Recall that we randomly initialized the weight and biases in the network. It is extremely unlikely our initial weights and biases will do a good job at whatever it is we want our network to do. To be concrete, consider the first layer of weights in a [784,30,30,30,10] network for the MNIST problem. The random initialization means the first layer throws away most information about the input image. Even if later layers have been extensively trained, they will still find it extremely difficult to identify the input image, simply because they don't have enough information. And so it can't possibly be the case that not much learning needs to be done in the first layer. If we're going to train deep networks, we need to figure out how to address the vanishing gradient problem.
+
+\section{What's causing the vanishing gradient problem? Unstable gradients in deep neural nets}
+To get insight into why the vanishing gradient problem occurs, let's consider the simplest deep neural network: one with just a single neuron in each layer. Here's a network with three hidden layers:
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz37}
+\end{center}
+Here, $w_1,w_2,\ldots$ are the weights, $b_1,b_2,\ldots$ are the biases, and $C$ is some cost function. Just to remind you how this works, the output $a_j$ from the $j$-th neuron is $\sigma(z_j)$, where $\sigma$ is the usual sigmoid activation function, and $z_j=w_ja_{j−1}+b_j$ is the weighted input to the neuron. I've drawn the cost $C$ at the end to emphasize that the cost is a function of the network's output, $a_4$: if the actual output from the network is close to the desired output, then the cost will be low, while if it's far away, the cost will be high.
+
+We're going to study the gradient $\partial C/\partial b_1$ associated to the first hidden neuron. We'll figure out an expression for $\partial C/\partial b_1$, and by studying that expression we'll understand why the vanishing gradient problem occurs.
+
+I'll start by simply showing you the expression for $\partial C/\partial b_1$. It looks forbidding, but it's actually got a simple structure, which I'll describe in a moment. Here's the expression (ignore the network, for now, and note that $\sigma'$ is just the derivative of the $\sigma$ function):
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz38}
+\end{center}
+
+
+The structure in the expression is as follows: there is a $\sigma'(z_j)$ term in the product for each neuron in the network; a weight $w_j$ term for each weight in the network; and a final $\partial C/\partial a_4$ term, corresponding to the cost function at the end. Notice that I've placed each term in the expression above the corresponding part of the network. So the network itself is a mnemonic for the expression.
+
+You're welcome to take this expression for granted, and skip to the discussion of how it relates to the vanishing gradient problem. There's no harm in doing this, since the expression is a special case of our earlier discussion of backpropagation. But there's also a simple explanation of why the expression is true, and so it's fun (and perhaps enlightening) to take a look at that explanation.
+
+Imagine we make a small change $\delta b_1$ in the bias $b_1$. That will set off a cascading series of changes in the rest of the network. First, it causes a change $\delta a_1$ in the output from the first hidden neuron. That, in turn, will cause a change $\delta z_2$ in the weighted input to the second hidden neuron. Then a change $\delta a_2$ in the output from the second hidden neuron. And so on, all the way through to a change $\delta C$ in the cost at the output. We have
+%$\partial C\partial b1≈\deltaC\delta b_1.(114)
+\begin{eqnarray}
+\frac{\partial C}{\partial b_1} \approx \frac{\Delta C}{\Delta b_1}.\label{eq:114}
+\end{eqnarray}
+This suggests that we can figure out an expression for the gradient $\partial C/\partial b_1$ by carefully tracking the effect of each step in this cascade.
+
+
+
+
+
+To do this, let's think about how $\delta b_1$ causes the output a1 from the first hidden neuron to change. We have $a_1=\sigma(z_1)=\sigma(w_1a_0+b1)$, so
+%\delta a_1≈=\partial \sigma(w1a0+b1)\partial b1\delta b_1\sigma'(z1)\delta b_1.(115)(116)
+\begin{eqnarray}
+\Delta a_1 \approx \frac{\partial \sigma(w_1 a_0+b_1)}{\partial b_1} \Delta b_1 = \sigma'(z_1) \Delta b_1. \label{eq:116}
+\end{eqnarray}
+
+That $\sigma'(z_1)$ term should look familiar: it's the first term in our claimed expression for the gradient $\partial C/\partial b_1$. Intuitively, this term converts a change $\delta b_1$ in the bias into a change $\delta a_1$ in the output activation. That change $\delta a_1$ in turn causes a change in the weighted input $z_2=w_2a_1+b_2$ to the second hidden neuron:
+\begin{eqnarray}
+\Delta z_2 & \approx \frac{\partial z_2}{\partial a_1} \Delta a_1 =  w_2 \Delta a_1. \label{eq:118}
+\end{eqnarray}
+
+Combining our expressions for $\delta z_2$ and $\delta a_1$, we see how the change in the bias $b_1$ propagates along the network to affect $z_2$:
+\begin{eqnarray}
+\Delta z_2 \approx \sigma'(z_1) w_2 \Delta b_1.\label{eq:119}
+\end{eqnarray}
+%\delta z_2≈\sigma'(z1)w2\delta b_1.(119)
+Again, that should look familiar: we've now got the first two terms in our claimed expression for the gradient $\partial C/\partial b_1$.
+
+We can keep going in this fashion, tracking the way changes propagate through the rest of the network. At each neuron we pick up a $\sigma'(z_j)$ term, and through each weight we pick up a $w_j$ term. The end result is an expression relating the final change $\delta C$ in cost to the initial change $\delta b_1$ in the bias:
+\begin{eqnarray}
+\Delta C  \approx  \sigma'(z_1) w_2 \sigma'(z_2) \ldots \sigma'(z_4) \frac{\partial C}{\partial a_4} \Delta b_1. \label{eq:120}
+\end{eqnarray}
+%\deltaC≈\sigma'(z1)w2\sigma'(z2)…\sigma'(z4)\partial C\partial a4\delta b_1.(120)
+Dividing by $\delta b_1$ we do indeed get the desired expression for the gradient:
+%\partial C\partial b1=\sigma'(z1)w2\sigma'(z2)…\sigma'(z4)\partial C\partial a4.(121)
+\begin{eqnarray}
+\frac{\partial C}{\partial b_1} = \sigma'(z_1) w_2 \sigma'(z_2) \ldots \sigma'(z_4) \frac{\partial C}{\partial a_4}. \label{eq:121}
+\end{eqnarray}
+
+\textbf{Why the vanishing gradient problem occurs:} To understand why the vanishing gradient problem occurs, let's explicitly write out the entire expression for the gradient:
+\begin{eqnarray}
+\frac{\partial C}{\partial b_1} = \sigma'(z_1) \, w_2 \sigma'(z_2) \,w_3 \sigma'(z_3) \, w_4 \sigma'(z_4) \, \frac{\partial C}{\partial a_4}.\label{eq:122}
+\end{eqnarray}
+Excepting the very last term, this expression is a product of terms of the form $w_j\sigma'(z_j)$. To understand how each of those terms behave, let's look at a plot of the function $\sigma'$:
+\begin{center} 
+\begin{tikzpicture}
+\begin{axis}[title={$\sigma'(z)$},axis x line=bottom,axis y line=left,width=0.75\linewidth,height=0.35\linewidth,ymin=0,ymax=0.27,scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-5.5,xmax=5.5]
+\addplot[blue,domain=-5:5,samples=101]{exp(-x)/(1+exp(-x))/(1+exp(-x))};
+\end{axis}
+\end{tikzpicture}
+\end{center}%
+The derivative reaches a maximum at $\sigma'(0)=1/4$. Now, if we use our standard approach to initializing the weights in the network, then we'll choose the weights using a Gaussian with mean 0 and standard deviation 1. So the weights will usually satisfy $|w_j|<1$. Putting these observations together, we see that the terms $w_j\sigma'(z_j)$ will usually satisfy $|w_j\sigma'(z_j)|<1/4$. And when we take a product of many such terms, the product will tend to exponentially decrease: the more terms, the smaller the product will be. This is starting to smell like a possible explanation for the vanishing gradient problem.
+
+
+To make this all a bit more explicit, let's compare the expression for $\partial C/\partial b_1$ to an expression for the gradient with respect to a later bias, say $\partial C/\partial b_3$. Of course, we haven't explicitly worked out an expression for $\partial C/\partial b_3$, but it follows the same pattern described above for $\partial C/\partial b_1$. Here's the comparison of the two expressions:
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz39}
+\end{center}
+The two expressions share many terms. But the gradient $\partial C/\partial b_1$ includes two extra terms each of the form $w_j\sigma'(z_j)$. As we've seen, such terms are typically less than 1/4 in magnitude. And so the gradient $\partial C/\partial b_1$ will usually be a factor of 16 (or more) smaller than $\partial C/\partial b_3$. This is the essential origin of the vanishing gradient problem.
+
+Of course, this is an informal argument, not a rigorous proof that the vanishing gradient problem will occur. There are several possible escape clauses. In particular, we might wonder whether the weights $w_j$ could grow during training. If they do, it's possible the terms $w_j\sigma'(z_j)$ in the product will no longer satisfy $|w_j\sigma'(z_j)|<1/4$. Indeed, if the terms get large enough -- greater than 1 -- then we will no longer have a vanishing gradient problem. Instead, the gradient will actually grow exponentially as we move backward through the layers. Instead of a vanishing gradient problem, we'll have an exploding gradient problem.
+
+\textbf{The exploding gradient problem:} Let's look at an explicit example where exploding gradients occur. The example is somewhat contrived: I'm going to fix parameters in the network in just the right way to ensure we get an exploding gradient. But even though the example is contrived, it has the virtue of firmly establishing that exploding gradients aren't merely a hypothetical possibility, they really can happen.
+
+There are two steps to getting an exploding gradient. First, we choose all the weights in the network to be large, say $w_1=w_2=w_3=w_4=100$. Second, we'll choose the biases so that the $\sigma'(z_j)$ terms are not too small. That's actually pretty easy to do: all we need do is choose the biases to ensure that the weighted input to each neuron is $z_j=0$ (and so $\sigma'(z_j)=1/4$). So, for instance, we want $z_1=w_1a_0+b1=0$. We can achieve this by setting $b_1=−100\ast a0$. We can use the same idea to select the other biases. When we do this, we see that all the terms $w_j\sigma'(z_j)$ are equal to $100\ast1/4=25$. With these choices we get an exploding gradient.
+
+\textbf{The unstable gradient problem:} The fundamental problem here isn't so much the vanishing gradient problem or the exploding gradient problem. It's that the gradient in early layers is the product of terms from all the later layers. When there are many layers, that's an intrinsically unstable situation. The only way all layers can learn at close to the same speed is if all those products of terms come close to balancing out. Without some mechanism or underlying reason for that balancing to occur, it's highly unlikely to happen simply by chance. In short, the real problem here is that neural networks suffer from an unstable gradient problem. As a result, if we use standard gradient-based learning techniques, different layers in the network will tend to learn at wildly different speeds.
+
+\begin{exercize}{Exercise}
+\item In our discussion of the vanishing gradient problem, we made use of the fact that $|\sigma'(z)|<1/4$. Suppose we used a different activation function, one whose derivative could be much larger. Would that help us avoid the unstable gradient problem?
+\end{exercize}
+\textbf{The prevalence of the vanishing gradient problem:} We've seen that the gradient can either vanish or explode in the early layers of a deep network. In fact, when using sigmoid neurons the gradient will usually vanish. To see why, consider again the expression $|w\sigma'(z)|$. To avoid the vanishing gradient problem we need $|w\sigma'(z)|\geq1$. You might think this could happen easily if w is very large. However, it's more difficult than it looks. The reason is that the $\sigma'(z)$ term also depends on w: $\sigma'(z)=\sigma'(wa+b)$, where a is the input activation. So when we make w large, we need to be careful that we're not simultaneously making $\sigma'(wa+b)$ small. That turns out to be a considerable constraint. The reason is that when we make w large we tend to make wa+b very large. Looking at the graph of $\sigma'$ you can see that this puts us off in the ``wings'' of the $\sigma'$ function, where it takes very small values. The only way to avoid this is if the input activation falls within a fairly narrow range of values (this qualitative explanation is made quantitative in the first problem below). Sometimes that will chance to happen. More often, though, it does not happen. And so in the generic case we have vanishing gradients.
 %
 %Problems
-%Consider the product |wσ′(wa+b)|. Suppose |wσ′(wa+b)|≥1. (1) Argue that this can only ever occur if |w|≥4. (2) Supposing that |w|≥4, consider the set of input activations a for which |wσ′(wa+b)|≥1. Show that the set of a satisfying that constraint can range over an interval no greater in width than
+%Consider the product |w\sigma'(wa+b)|. Suppose |w\sigma'(wa+b)|≥1. (1) Argue that this can only ever occur if |w|≥4. (2) Supposing that |w|≥4, consider the set of input activations a for which |w\sigma'(wa+b)|≥1. Show that the set of a satisfying that constraint can range over an interval no greater in width than
 %2|w|ln(|w|(1+1−4/|w|−−−−−−−−√)2−1).(123)
 %(3) Show numerically that the above expression bounding the width of the range is greatest at |w|≈6.9, where it takes a value ≈0.45. And so even given that everything lines up just perfectly, we still have a fairly narrow range of input activations which can avoid the vanishing gradient problem.
-%Identity neuron: Consider a neuron with a single input, x, a corresponding weight, w1, a bias b, and a weight w2 on the output. Show that by choosing the weights and bias appropriately, we can ensure w2σ(w1x+b)≈x for x∈[0,1]. Such a neuron can thus be used as a kind of identity neuron, that is, a neuron whose output is the same (up to rescaling by a weight factor) as its input. Hint: It helps to rewrite x=1/2+Δ, to assume w1 is small, and to use a Taylor series expansion in w1Δ.
+%Identity neuron: Consider a neuron with a single input, x, a corresponding weight, w1, a bias b, and a weight w2 on the output. Show that by choosing the weights and bias appropriately, we can ensure w2\sigma(w1x+b)≈x for x∈[0,1]. Such a neuron can thus be used as a kind of identity neuron, that is, a neuron whose output is the same (up to rescaling by a weight factor) as its input. Hint: It helps to rewrite x=1/2+\delta, to assume w1 is small, and to use a Taylor series expansion in w1\delta.
 %Unstable gradients in more complex networks
 %We've been studying toy networks, with just one neuron in each hidden layer. What about more complex deep networks, with many neurons in each hidden layer?
 %
 %
 %In fact, much the same behaviour occurs in such networks. In the earlier chapter on backpropagation we saw that the gradient in the lth layer of an L layer network is given by:
 %
-%δl=Σ′(zl)(wl+1)TΣ′(zl+1)(wl+2)T…Σ′(zL)∇aC(124)
-%Here, Σ′(zl) is a diagonal matrix whose entries are the σ′(z) values for the weighted inputs to the lth layer. The wl are the weight matrices for the different layers. And ∇aC is the vector of partial derivatives of C with respect to the output activations.
+%\deltal=\sigma'(zl)(wl+1)T\sigma'(zl+1)(wl+2)T…\sigma'(zL)∇aC(124)
+%Here, \sigma'(zl) is a diagonal matrix whose entries are the \sigma'(z) values for the weighted inputs to the lth layer. The wl are the weight matrices for the different layers. And ∇aC is the vector of partial derivatives of C with respect to the output activations.
 %
-%This is a much more complicated expression than in the single-neuron case. Still, if you look closely, the essential form is very similar, with lots of pairs of the form (wj)TΣ′(zj). What's more, the matrices Σ′(zj) have small entries on the diagonal, none larger than 14. Provided the weight matrices wj aren't too large, each additional term (wj)TΣ′(zl) tends to make the gradient vector smaller, leading to a vanishing gradient. More generally, the large number of terms in the product tends to lead to an unstable gradient, just as in our earlier example. In practice, empirically it is typically found in sigmoid networks that gradients vanish exponentially quickly in earlier layers. As a result, learning slows down in those layers. This slowdown isn't merely an accident or an inconvenience: it's a fundamental consequence of the approach we're taking to learning.
+%This is a much more complicated expression than in the single-neuron case. Still, if you look closely, the essential form is very similar, with lots of pairs of the form (w_j)T\sigma'(z_j). What's more, the matrices \sigma'(z_j) have small entries on the diagonal, none larger than 14. Provided the weight matrices w_j aren't too large, each additional term (w_j)T\sigma'(zl) tends to make the gradient vector smaller, leading to a vanishing gradient. More generally, the large number of terms in the product tends to lead to an unstable gradient, just as in our earlier example. In practice, empirically it is typically found in sigmoid networks that gradients vanish exponentially quickly in earlier layers. As a result, learning slows down in those layers. This slowdown isn't merely an accident or an inconvenience: it's a fundamental consequence of the approach we're taking to learning.
 %
 %Other obstacles to deep learning
 %In this chapter we've focused on vanishing gradients - and, more generally, unstable gradients - as an obstacle to deep learning. In fact, unstable gradients are just one obstacle to deep learning, albeit an important fundamental obstacle. Much ongoing research aims to better understand the challenges that can occur when training deep networks. I won't comprehensively summarize that work here, but just want to briefly mention a couple of papers, to give you the flavor of some of the questions people are asking.

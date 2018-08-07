@@ -104,10 +104,10 @@ In a similar way, we can compute the partial derivative for the bias. I won't go
 \end{equation}
 %\partial{}C\partial{}b=1n∑x(\sigma(z)-y).(62)
 Again, this avoids the learning slowdown caused by the $\sigma'(z)$ term in the analogous equation for the quadratic cost, Equation (\ref{eq:56}).
-\subsubsection*{Exercise}
-\begin{itemize}
+
+\begin{exercize}{Exercise}
 	\item Verify that $\sigma'(z) = \sigma(z)(1-\sigma(z))$
-\end{itemize}
+\end{exercize}
 Let's return to the toy example we played with earlier, and explore what happens when we use the cross-entropy instead of the quadratic cost. To re-orient ourselves, we'll begin with the case where the quadratic cost did just fine, with starting weight 0.6 and starting bias 0.9
 %. Press "Run" to see what happens when we replace the quadratic cost by the cross-entropy
 :
@@ -138,8 +138,8 @@ However, when we have many sigmoid neurons in the final layer, the vector $a^L_j
 
 When should we use the cross-entropy instead of the quadratic cost? In fact, the cross-entropy is nearly always the better choice, provided the output neurons are sigmoid neurons. To see why, consider that when we're setting up the network we usually initialize the weights and biases using some sort of randomization. It may happen that those initial choices result in the network being decisively wrong for some training input - that is, an output neuron will have saturated near 1, when it should be 0, or vice versa. If we're using the quadratic cost that will slow down learning. It won't stop learning completely, since the weights will continue learning from other training inputs, but it's obviously undesirable.
 
-\subsubsection*{Exercises}
-\begin{itemize}
+
+\begin{exercize}{Exercises}
 	\item One gotcha with the cross-entropy is that it can be difficult at first to remember the respective roles of the ys and the as. It's easy to get confused about whether the right form is $$-[y \ln a + (1-y) \ln (1-a)].$$ What happens to the second of these expressions when $y=0$ or 1? Does this problem afflict the first expression? Why or why not?
 	\item In the single-neuron discussion at the start of this section, I argued that the cross-entropy is small if $\sigma(z)\approx y$ for all training inputs. The argument relied on $y$ being equal to either 0 or 1. This is usually true in classification problems, but for other problems (e.g., regression problems) $y$ can sometimes take values intermediate between 0 and 1. Show that the cross-entropy is still minimized when $\sigma(z)=y$ for all training inputs. When this is the case the cross-entropy has the value:
 	\begin{equation}
@@ -147,9 +147,9 @@ When should we use the cross-entropy instead of the quadratic cost? In fact, the
 		\label{eq:64}
 	\end{equation}
 	The quantity $-[y \ln y+(1-y) \ln(1-y)]$ is sometimes known as the \textit{binary entropy}.
-\end{itemize}
-\subsubsection*{Problems}
-\begin{itemize}
+\end{exercize}
+
+\begin{exercize}{Problems}
 	\item \textbf{Many-layer multi-neuron networks} In the notation introduced in the last chapter, show that for the quadratic cost the partial derivative with respect to weights in the output layer is
 	\begin{equation}
 		\frac{\partial C}{\partial w^L_{jk}}  = \frac{1}{n}
@@ -180,7 +180,7 @@ When should we use the cross-entropy instead of the quadratic cost? In fact, the
 	\end{eqnarray}
 	%\partial{}C\partial{}w^L_{jk}\partial{}C\partial{}b^L_j==1n∑xaL-1k(a^L_j-yj)1n∑x(a^L_j-yj).(69)(70)
 	This shows that if the output neurons are linear neurons then the quadratic cost will not give rise to any problems with a learning slowdown. In this case the quadratic cost is, in fact, an appropriate cost function to use.
-\end{itemize}
+\end{exercize}
 \subsection{Using the cross-entropy to classify MNIST digits}
 The cross-entropy is easy to implement as part of a program which learns using gradient descent and backpropagation. We'll do that later in the chapter, developing an improved version of our earlier program for classifying the MNIST handwritten digits, \inline{network.py}. The new program is called \inline{network2.py}, and incorporates not just the cross-entropy, but also several other techniques developed in this chapter\footnote{The code is available on [link]GitHub.}. For now, let's look at how well our new program classifies MNIST digits. As was the case in Chapter 1, we'll use a network with 30 hidden neurons, and we'll use a mini-batch size of 10. We set the learning rate to $\eta=0.5$\footnote{In Chapter 1 we used the quadratic cost and a learning rate of $\eta=3.0$. As discussed above, it's not possible to say precisely what it means to use the ``same'' learning rate when the cost function is changed. For both cost functions I experimented to find a learning rate that provides near-optimal performance, given the other hyper-parameter choices. \newline There is, incidentally, a very rough general heuristic for relating the learning rate for the cross-entropy and the quadratic cost. As we saw earlier, the gradient terms for the quadratic cost have an extra $\sigma' = \sigma(1-\sigma)$ term in them. Suppose we average this over values for $\sigma$, $\int_0^1\mathrm{d}\sigma \sigma(1-\sigma)=1/6$. We see that (very roughly) the quadratic cost learns an average of 6 times slower, for the same learning rate. This suggests that a reasonable starting point is to divide the learning rate for the quadratic cost by 6. Of course, this argument is far from rigorous, and shouldn't be taken too seriously. Still, it can sometimes be a useful starting point.} and we train for 30 epochs. The interface to \inline{network2.py} is slightly different than \inline{network.py}, but it should still be clear what is going on. You can, by the way, get documentation about \inline{network2.py}'s interface by using commands such as \inline{help(network2.Network.SGD)} in a Python shell.
 \begin{lstlisting}
@@ -238,10 +238,10 @@ where the constant here is the average of the individual constants for each trai
 
 What about the intuitive meaning of the cross-entropy? How should we think about it? Explaining this in depth would take us further afield than I want to go. However, it is worth mentioning that there is a standard way of interpreting the cross-entropy that comes from the field of information theory. Roughly speaking, the idea is that the cross-entropy is a measure of surprise. In particular, our neuron is trying to compute the function $x\to y=y(x)$. But instead it computes the function $x \to a=a(x)$. Suppose we think of a as our neuron's estimated probability that $y$ is 1, and $1-a$ is the estimated probability that the right value for $y$ is 0. Then the cross-entropy measures how ``surprised'' we are, on average, when we learn the true value for $y$. We get low surprise if the output is what we expect, and high surprise if the output is unexpected. Of course, I haven't said exactly what ``surprise'' means, and so this perhaps seems like empty verbiage. But in fact there is a precise information-theoretic way of saying what is meant by surprise. Unfortunately, I don't know of a good, short, self-contained discussion of this subject that's available online. But if you want to dig deeper, then Wikipedia contains a [link]brief summary that will get you started down the right track. And the details can be filled in by working through the materials about the Kraft inequality in chapter 5 of the book about information theory by [link]Cover and Thomas.
 
-\subsubsection*{Problem}
-\begin{itemize}
+
+\begin{exercize}{Problem}
 	\item We've discussed at length the learning slowdown that can occur when output neurons saturate, in networks using the quadratic cost to train. Another factor that may inhibit learning is the presence of the $x_j$ term in Equation (\ref{eq:61}). Because of this term, when an input $x_j$ is near to zero, the corresponding weight $w_j$ will learn slowly. Explain why it is not possible to eliminate the $x_j$ term through a clever choice of cost function.
-\end{itemize}
+\end{exercize}
 
 \subsection{Softmax}
 In this chapter we'll mostly use the cross-entropy cost to address the problem of learning slowdown. However, I want to briefly describe another approach to the problem, based on what are called \textit{softmax} layers of neurons. We're not actually going to use softmax layers in the remainder of the chapter, so if you're in a great hurry, you can skip to the next section. However, softmax is still worth understanding, in part because it's intrinsically interesting, and in part because we'll use softmax layers in Chapter 6, in our discussion of deep neural networks.
@@ -275,21 +275,20 @@ The fact that a softmax layer outputs a probability distribution is rather pleas
 
 By contrast, if the output layer was a sigmoid layer, then we certainly couldn't assume that the activations formed a probability distribution. I won't explicitly prove it, but it should be plausible that the activations from a sigmoid layer won't in general form a probability distribution. And so with a sigmoid output layer we don't have such a simple interpretation of the output activations.
 
-\subsubsection*{Exercise}
-\begin{itemize}
+\begin{exercize}{Exercise}
 	\item Construct an example showing explicitly that in a network with a sigmoid output layer, the output activations $a^L_j$ won't always sum to 1.
-\end{itemize}
+\end{exercize}
 We're starting to build up some feel for the softmax function and the way softmax layers behave. Just to review where we're at: the exponentials in Equation (\ref{eq:78}) ensure that all the output activations are positive. And the sum in the denominator of Equation (\ref{eq:78}) ensures that the softmax outputs sum to 1. So that particular form no longer appears so mysterious: rather, it is a natural way to ensure that the output activations form a probability distribution. You can think of softmax as a way of rescaling the $z^L_j$, and then squishing them together to form a probability distribution.
 
-\subsubsection*{Exercises}
-\begin{itemize}
+
+\begin{exercize}{Exercises}
 \item \textbf{Monotonicity of softmax} Show that $\partial a^L_j / \partial z^L_k $is positive if $j=k$ and negative if $j\ne k$. As a consequence, increasing $z^L_j$ is guaranteed to increase the corresponding output activation, $a^L_j$, and will decrease all the other output activations. We already saw this empirically with the sliders, but this is a rigorous proof.
 \item \textbf{Non-locality of softmax} A nice thing about sigmoid layers is that the output $a^L_j$ is a function of the corresponding weighted input, $a^L_j=\sigma(z^L_j)$. Explain why this is not the case for a softmax layer: any particular output activation $a^L_j$ depends on all the weighted inputs.
-\end{itemize}
-\subsubsection*{Problem}
-\begin{itemize}
+\end{exercize}
+
+\begin{exercize}{Problem}
 	\item \textbf{Inverting the softmax layer} Suppose we have a neural network with a softmax output layer, and the activations $a^L_j$ are known. Show that the corresponding weighted inputs have the form $z^L_j=\ln a^L_j+C$, for some constant $C$ that is independent of $j$.
-\end{itemize}
+\end{exercize}
 \textbf{The learning slowdown problem:} We've now built up considerable familiarity with softmax layers of neurons. But we haven't yet seen how a softmax layer lets us address the learning slowdown problem. To understand that, let's define the \textit{log-likelihood} cost function. We'll use x to denote a training input to the network, and y to denote the corresponding desired output. Then the log-likelihood cost associated to this training input is
 %C≡−lnaLy.(80)
 \begin{equation}
@@ -308,8 +307,8 @@ These equations are the same as the analogous expressions obtained in our earlie
 
 Given this similarity, should you use a sigmoid output layer and cross-entropy, or a softmax output layer and log-likelihood? In fact, in many situations both approaches work well. Through the remainder of this chapter we'll use a sigmoid output layer, with the cross-entropy cost. Later, in Chapter 6, we'll sometimes use a softmax output layer, with log-likelihood cost. The reason for the switch is to make some of our later networks more similar to networks found in certain influential academic papers. As a more general point of principle, softmax plus log-likelihood is worth using whenever you want to interpret the output activations as probabilities. That's not always a concern, but can be useful with classification problems (like MNIST) involving disjoint classes.
 
-\subsubsection*{Problems}
-\begin{itemize}
+
+\begin{exercize}{Problems}
 \item Derive Equations (\ref{eq:81}) and (\ref{eq:82}).
 \item \textbf{Where does the ``softmax'' name come from?} Suppose we change the softmax function so the output activations are given by
 \begin{equation}
@@ -321,7 +320,7 @@ where $c$ is a positive constant. Note that $c=1$ corresponds to the standard so
 \delta^L_j = a^L_j -y_j. \label{eq:84}
 \end{equation}
 Using this expression we can apply the backpropagation algorithm to a network using a softmax output layer and the log-likelihood cost.
-\end{itemize}
+\end{exercize}
 
 \section{Overfitting and regularization}
 The Nobel prize winning physicist Enrico Fermi was once asked his opinion of a mathematical model some colleagues had proposed as the solution to an important unsolved physics problem. The model gave excellent agreement with experiment, but Fermi was skeptical. He asked how many free parameters could be set in the model. ``Four'' was the answer. Fermi replied\footnote{The quote comes from a charming article by Freeman Dyson, who is one of the people who proposed the flawed model. A four-parameter elephant may be found here.} : ``I remember my friend Johnny von Neumann used to say, with four parameters I can fit an elephant, and with five I can make him wiggle his trunk.''.
@@ -610,11 +609,11 @@ It seems clear that the graph is still going up toward the end. This suggests th
 
 Obtaining more training data is a great idea. Unfortunately, it can be expensive, and so is not always possible in practice. However, there's another idea which can work nearly as well, and that's to artificially expand the training data. Suppose, for example, that we take an MNIST training image of a five,
 \begin{center}
-	\includegraphics[width=0.3\linewidth]{figures/ch3/more_data_5}
+	\includegraphics[width=0.2\linewidth]{figures/ch3/more_data_5}
 \end{center}
 and rotate it by a small amount, let's say 15 degrees:
 \begin{center}
-	\includegraphics[width=0.3\linewidth]{figures/ch3/more_data_rotated_5}
+	\includegraphics[width=0.2\linewidth]{figures/ch3/more_data_rotated_5}
 \end{center}
 It's still recognizably the same digit. And yet at the pixel level it's quite different to any image currently in the MNIST training data. It's conceivable that adding this image to the training data might help our network learn more about how to classify digits. What's more, obviously we're not limited to adding just this one image. We can expand our training data by making \textit{many} small rotations of \textit{all} the MNIST training images, and then using the expanded training data to improve our network's performance.
 
@@ -622,10 +621,10 @@ This idea is very powerful and has been widely used. Let's look at some of the r
 
 Variations on this idea can be used to improve performance on many learning tasks, not just handwriting recognition. The general principle is to expand the training data by applying operations that reflect real-world variation. It's not difficult to think of ways of doing this. Suppose, for example, that you're building a neural network to do speech recognition. We humans can recognize speech even in the presence of distortions such as background noise. And so you can expand your data by adding background noise. We can also recognize speech if it's sped up or slowed down. So that's another way we can expand the training data. These techniques are not always used - for instance, instead of expanding the training data by adding noise, it may well be more efficient to clean up the input to the network by first applying a noise reduction filter. Still, it's worth keeping the idea of expanding the training data in mind, and looking for opportunities to apply it.
 
-\subsubsection*{Exercise}
-\begin{itemize}
+
+\begin{exercize}{Exercise}
 	\item As discussed above, one way of expanding the MNIST training data is to use small rotations of training images. What's a problem that might occur if we allow arbitrarily large rotations of training images?
-\end{itemize}
+\end{exercize}
 \textbf{An aside on big data and what it means to compare classification accuracies:} Let's look again at how our neural network's accuracy varies with training set size:
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{figures/ch3/more_data_log}
@@ -640,10 +639,10 @@ Something even more interesting can occur. Suppose we're trying to solve a probl
 
 All this is a caution to keep in mind, both when doing development, and when reading research papers. Many papers focus on finding new tricks to wring out improved performance on standard benchmark data sets. ``Our whiz-bang technique gave us an improvement of X percent on standard benchmark Y'' is a canonical form of research claim. Such claims are often genuinely interesting, but they must be understood as applying only in the context of the specific training data set used. Imagine an alternate history in which the people who originally created the benchmark data set had a larger research grant. They might have used the extra money to collect more training data. It's entirely possible that the ``improvement'' due to the whiz-bang technique would disappear on a larger data set. In other words, the purported improvement might be just an accident of history. The message to take away, especially in practical applications, is that what we want is both better algorithms and better training data. It's fine to look for better algorithms, but make sure you're not focusing on better algorithms to the exclusion of easy wins getting more or better training data.
 
-\subsubsection*{Problem}
-\begin{itemize}
+
+\begin{exercize}{Problem}
 	\item \textbf{(Research problem)} How do our machine learning algorithms perform in the limit of very large data sets? For any given algorithm it's natural to attempt to define a notion of asymptotic performance in the limit of truly big data. A quick-and-dirty approach to this problem is to simply try fitting curves to graphs like those shown above, and then to extrapolate the fitted curves out to infinity. An objection to this approach is that different approaches to curve fitting will give different notions of asymptotic performance. Can you find a principled justification for fitting to some particular class of curves? If so, compare the asymptotic performance of several different machine learning algorithms.
-\end{itemize}
+\end{exercize}
 \textbf{Summing up:} We've now completed our dive into overfitting and regularization. Of course, we'll return again to the issue. As I've mentioned several times, overfitting is a major problem in neural networks, especially as computers get more powerful, and we have the ability to train larger networks. As a result there's a pressing need to develop powerful regularization techniques to reduce overfitting, and this is an extremely active area of current work.
 
 \section{Weight initialization}
@@ -674,10 +673,9 @@ Is there some way we can choose better initializations for the weights and biase
 
 Such a neuron is much less likely to saturate, and correspondingly much less likely to have problems with a learning slowdown.
 
-\subsection*{Exercise}
-\begin{itemize}
+\begin{exercize}{Exercise}
 	\item Verify that the standard deviation of $z=\sum_jw_jx_j+b$ in the paragraph above is $\sqrt{3/2}$. It may help to know that: (a) the variance of a sum of independent random variables is the sum of the variances of the individual random variables; and (b) the variance is the square of the standard deviation.
-\end{itemize}
+\end{exercize}
 I stated above that we'll continue to initialize the biases as before, as Gaussian random variables with a mean of 0 and a standard deviation of 1. This is okay, because it doesn't make it too much more likely that our neurons will saturate. In fact, it doesn't much matter how we initialize the biases, provided we avoid the problem with saturation. Some people go so far as to initialize all the biases to 0, and rely on gradient descent to learn appropriate biases. But since it's unlikely to make much difference, we'll continue with the same initialization procedure as before.
 
 Let's compare the results for both our old and new approaches to weight initialization, using the MNIST digit classification task. As before, we'll use 30 hidden neurons, a mini-batch size of 10, a regularization parameter $\lambda=5.0$, and the cross-entropy cost function. We will decrease the learning rate slightly from $\eta=0.5$ to 0.1, since that makes the results a little more easily visible in the graphs. We can train using the old method of weight initialization:
@@ -708,10 +706,9 @@ In this case, the two curves don't quite meet. However, my experiments suggest t
 
 The $1/\sqrt{n_{\rm in}}$ approach to weight initialization helps improve the way our neural nets learn. Other techniques for weight initialization have also been proposed, many building on this basic idea. I won't review the other approaches here, since $1/\sqrt{n_{\rm in}}$ works well enough for our purposes. If you're interested in looking further, I recommend looking at the discussion on pages 14 and 15 of a 2012 paper by Yoshua Bengio\footnote{[link]Practical Recommendations for Gradient-Based Training of Deep Architectures, by Yoshua Bengio (2012).}, as well as the references therein.
 
-\subsection*{Problem}
-\begin{itemize}
+\begin{exercize}{Problem}
 	\item \textbf{Connecting regularization and the improved method of weight initialization} L2 regularization sometimes automatically gives us something similar to the new approach to weight initialization. Suppose we are using the old approach to weight initialization. Sketch a heuristic argument that: (1) supposing $\lambda$ is not too small, the first epochs of training will be dominated almost entirely by weight decay; (2) provided $\eta\lambda\ll n$ the weights will decay by a factor of $\exp(-\eta\lambda/m)$ per epoch; and (3) supposing $\lambda$ is not too large, the weight decay will tail off when the weights are down to a size around $1/\sqrt{n_{\rm in}}$, where $n$ is the total number of weights in the network. Argue that these conditions are all satisfied in the examples graphed in this section.
-	\end{itemize}
+	\end{exercize}
 
 \section{Handwriting recognition revisited: the code}
 Let's implement the ideas we've discussed in this chapter. We'll develop a new program, \inline{network2.py}, which is an improved version of the program \inline{network.py} we developed in Chapter 1. If you haven't looked at \inline{network.py} in a while then you may find it helpful to spend a few minutes quickly reading over the earlier discussion. It's only 74 lines of code, and is easily understood.
@@ -1114,11 +1111,11 @@ Other additions to the code include a \inline{Network.save} method, to save \inl
 
 There are many other minor changes in the code for \inline{network2.py}, but they're all simple variations on \inline{network.py}. The net result is to expand our 74-line program to a far more capable 152 lines.
 
-\subsection*{Problems}
-\begin{itemize}
+
+\begin{exercize}{Problems}
 \item Modify the code above to implement L1 regularization, and use L1 regularization to classify MNIST digits using a 30 hidden neuron network. Can you find a regularization parameter that enables you to do better than running unregularized?
 \item Take a look at the \inline{Network.cost_derivative} method in \inline{network.py}. That method was written for the quadratic cost. How would you rewrite the method for the cross-entropy cost? Can you think of a problem that might arise in the cross-entropy version? In \inline{network2.py} we've eliminated the \inline{Network.cost_derivative} method entirely, instead incorporating its functionality into the \inline{CrossEntropyCost.delta} method. How does this solve the problem you've just identified?
-\end{itemize}
+\end{exercize}
 \section{How to choose a neural network's hyper-parameters?}
 Up until now I haven't explained how I've been choosing values for hyper-parameters such as the learning rate, $\eta$, the regularization parameter, $\lambda$, and so on. I've just been supplying values which work pretty well. In practice, when you're using neural nets to attack a problem, it can be difficult to find good hyper-parameters. Imagine, for example, that we've just been introduced to the MNIST problem, and have begun working on it, knowing nothing at all about what hyper-parameters to use. Let's suppose that by good fortune in our first experiments we choose many of the hyper-parameters in the same way as was done earlier this chapter: 30 hidden neurons, a mini-batch size of 10, training for 30 epochs using the cross-entropy. But we choose a learning rate $\eta=10.0$ and regularization parameter $\lambda=1000.0$. Here's what I saw on one such run:
 
@@ -1283,27 +1280,24 @@ This no-improvement-in-ten rule is good for initial exploration of MNIST. Howeve
 
 We haven't used early stopping in our MNIST experiments to date. The reason is that we've been doing a lot of comparisons between different approaches to learning. For such comparisons it's helpful to use the same number of epochs in each case. However, it's well worth modifying \inline{network2.py} to implement early stopping:
 
-\subsection*{Problem}
-\begin{itemize}
+\begin{exercize}{Problem}
 \item Modify \inline{network2.py} so that it implements early stopping using a no-improvement-in-n epochs strategy, where n is a parameter that can be set.
 \item Can you think of a rule for early stopping other than no-improvement-in-$n$? Ideally, the rule should compromise between getting high validation accuracies and not training too long. Add your rule to \inline{network2.py}, and run three experiments comparing the validation accuracies and number of epochs of training to no-improvement-in-10.
-\end{itemize}
+\end{exercize}
 \textbf{Learning rate schedule:} We've been holding the learning rate $\eta$ constant. However, it's often advantageous to vary the learning rate. Early on during the learning process it's likely that the weights are badly wrong. And so it's best to use a large learning rate that causes the weights to change quickly. Later, we can reduce the learning rate as we make more fine-tuned adjustments to our weights.
 
 How should we set our learning rate schedule? Many approaches are possible. One natural approach is to use the same basic idea as early stopping. The idea is to hold the learning rate constant until the validation accuracy starts to get worse. Then decrease the learning rate by some amount, say a factor of two or ten. We repeat this many times, until, say, the learning rate is a factor of 1,024 (or 1,000) times lower than the initial value. Then we terminate.
 
-A variable learning schedule can improve performance, but it also opens up a world of possible choices for the learning schedule. Those choices can be a headache -- you can spend forever trying to optimize your learning schedule. For first experiments my suggestion is to use a single, constant value for the learning rate. That'll get you a good first approximation. Later, if you want to obtain the best performance from your network, it's worth experimenting with a learning schedule, along the lines I've described\footnote{A readable recent paper which demonstrates the benefits of variable learning rates in attacking MNIST is Deep, Big, Simple Neural Nets Excel on Handwritten Digit Recognition, by Dan Claudiu Cireșan, Ueli Meier, Luca Maria Gambardella, and Jürgen Schmidhuber (2010).}.
+A variable learning schedule can improve performance, but it also opens up a world of possible choices for the learning schedule. Those choices can be a headache -- you can spend forever trying to optimize your learning schedule. For first experiments my suggestion is to use a single, constant value for the learning rate. That'll get you a good first approximation. Later, if you want to obtain the best performance from your network, it's worth experimenting with a learning schedule, along the lines I've described\footnote{A readable recent paper which demonstrates the benefits of variable learning rates in attacking MNIST is Deep, Big, Simple Neural Nets Excel on Handwritten Digit Recognition, by Dan Claudiu Cireșan, Ueli Meier, Luca Maria Gambardella, and J\"urgen Schmidhuber (2010).}.
 
-\subsection*{Exercise}
-\begin{itemize}
+\begin{exercize}{Exercise}
 	\item Modify \inline{network2.py} so that it implements a learning schedule that: halves the learning rate each time the validation accuracy satisfies the no-improvement-in-10 rule; and terminates when the learning rate has dropped to 1/128 of its original value.
-\end{itemize}
+\end{exercize}
 \textbf{The regularization parameter,} $\lambda$: I suggest starting initially with no regularization ($\lambda=0.0$), and determining a value for $\eta$, as above. Using that choice of $\eta$, we can then use the validation data to select a good value for $\lambda$. Start by trialling $\lambda=1.0$\footnote{I don't have a good principled justification for using this as a starting value. If anyone knows of a good principled discussion of where to start with $\lambda$, I'd appreciate hearing it (mn@michaelnielsen.org).}, and then increase or decrease by factors of 10, as needed to improve performance on the validation data. Once you've found a good order of magnitude, you can fine tune your value of $\lambda$. That done, you should return and re-optimize $\eta$ again.
 
-\subsection*{Exercise}
-\begin{itemize}
+\begin{exercize}{Exercise}
 \item It's tempting to use gradient descent to try to learn good values for hyper-parameters such as $\lambda$ and $\eta$. Can you think of an obstacle to using gradient descent to determine $\lambda$? Can you think of an obstacle to using gradient descent to determine $\eta$?
-\end{itemize}
+\end{exercize}
 \textbf{How I selected hyper-parameters earlier in this book:} If you use the recommendations in this section you'll find that you get values for $\eta$ and $\lambda$ which don't always exactly match the values I've used earlier in the book. The reason is that the book has narrative constraints that have sometimes made it impractical to optimize the hyper-parameters. Think of all the comparisons we've made of different approaches to learning, e.g., comparing the quadratic and cross-entropy cost functions, comparing the old and new methods of weight initialization, running with and without regularization, and so on. To make such comparisons meaningful, I've usually tried to keep hyper-parameters constant across the approaches being compared (or to scale them in an appropriate way). Of course, there's no reason for the same hyper-parameters to be optimal for all the different approaches to learning, so the hyper-parameters I've used are something of a compromise.
 
 As an alternative to this compromise, I could have tried to optimize the heck out of the hyper-parameters for every single approach to learning. In principle that'd be a better, fairer approach, since then we'd see the best from every approach to learning. However, we've made dozens of comparisons along these lines, and in practice I found it too computationally expensive. That's why I've adopted the compromise of using pretty good (but not necessarily optimal) choices for the hyper-parameters.
@@ -1407,15 +1401,14 @@ With each step the velocity gets larger down the slope, so we move more and more
 I've avoided naming the hyper-parameter $\mu$ up to now. The reason is that the standard name for $\mu$ is badly chosen: it's called the momentum co-efficient. This is potentially confusing, since $\mu$ is not at all the same as the notion of momentum from physics. Rather, it is much more closely related to friction. However, the term momentum co-efficient is widely used, so we will continue to use it.
 
 A nice thing about the momentum technique is that it takes almost no work to modify an implementation of gradient descent to incorporate momentum. We can still use backpropagation to compute the gradients, just as before, and use ideas such as sampling stochastically chosen mini-batches. In this way, we can get some of the advantages of the Hessian technique, using information about how the gradient is changing. But it's done without the disadvantages, and with only minor modifications to our code. In practice, the momentum technique is commonly used, and often speeds up learning.
-\subsubsection*{Exercise}
-\begin{itemize}
+\begin{exercize}{Exercise}
 \item What would go wrong if we used $\mu>1$ in the momentum technique?
 \item What would go wrong if we used $\mu<0$ in the momentum technique?
-\end{itemize}
-\subsubsection*{Problem}
-\begin{itemize}
+\end{exercize}
+
+\begin{exercize}{Problem}
 \item Add momentum-based stochastic gradient descent to \texttt{network2.py}.
-\end{itemize}
+\end{exercize}
 Other approaches to minimizing the cost function: Many other approaches to minimizing the cost function have been developed, and there isn't universal agreement on which is the best approach. As you go deeper into neural networks it's worth digging into the other techniques, understanding how they work, their strengths and weaknesses, and how to apply them in practice. A paper I mentioned earlier\footnote{Efficient BackProp, by Yann LeCun, L\'eon Bottou, Genevieve Orr and Klaus-Robert M\"uller (1998).} introduces and compares several of these techniques, including conjugate gradient descent and the BFGS method (see also the closely related limited-memory BFGS method, known as [link]L-BFGS). Another technique which has recently shown promising results\footnote{See, for example, On the importance of initialization and momentum in deep learning, by Ilya Sutskever, James Martens, George Dahl, and Geoffrey Hinton (2012).} is Nesterov's accelerated gradient technique, which improves on the momentum technique. However, for many problems, plain stochastic gradient descent works well, especially if momentum is used, and so we'll stick to stochastic gradient descent through the remainder of this book.
 
 \subsection*{Other models of artificial neuron}
@@ -1449,10 +1442,9 @@ One difference between tanh neurons and sigmoid neurons is that the output from 
 
 Similar to sigmoid neurons, a network of tanh neurons can, in principle, compute any function\footnote{There are some technical caveats to this statement for both tanh and sigmoid neurons, as well as for the rectified linear neurons discussed below. However, informally it's usually fine to think of neural networks as being able to approximate any function to arbitrary accuracy.} mapping inputs to the range $-1$ to 1. Furthermore, ideas such as backpropagation and stochastic gradient descent are as easily applied to a network of tanh neurons as to a network of sigmoid neurons.
 
-\subsubsection*{Exercise}
-\begin{itemize}
+\begin{exercize}{Exercise}
 	\item Prove the identity in Equation (\ref{eq:111}).
-\end{itemize}
+\end{exercize}
 Which type of neuron should you use in your networks, the tanh or sigmoid? A priori the answer is not obvious, to put it mildly! However, there are theoretical arguments and some empirical evidence to suggest that the tanh sometimes performs better\footnote{See, for example, [link]Efficient BackProp, by Yann LeCun, L\'eon Bottou, Genevieve Orr and Klaus-Robert M\"uller (1998), and [link]Understanding the difficulty of training deep feedforward networks, by Xavier Glorot and Yoshua Bengio (2010).}. Let me briefly give you the flavor of one of the theoretical arguments for tanh neurons. Suppose we're using sigmoid neurons, so all activations in our network are positive. Let's consider the weights $w^{l+1}_{jk}$ input to the $j$-th neuron in the $l+1$-th layer. The rules for backpropagation (see [link]here) tell us that the associated gradient will be $a^l_k\delta^{l+1}_{j}$. Because the activations are positive the sign of this gradient will be the same as the sign of $\delta^{l+1}_{j}$. What this means is that if $\delta^{l+1}_{j}$ is positive then all the weights $w^{l+1}_{jk}$ will decrease during gradient descent, while if $\delta^{l+1}_{j}$ is negative then all the weights $w^{l+1}_{jk}$ will increase during gradient descent. In other words, all weights to the same neuron must either increase together or decrease together. That's a problem, since some of the weights may need to increase while others need to decrease. That can only happen if some of the input activations have different signs. That suggests replacing the sigmoid by an activation function, such as tanh, which allows both positive and negative activations. Indeed, because tanh is symmetric about zero, $\tanh(-z)=-\tanh(z)$, we might even expect that, roughly speaking, the activations in hidden layers would be equally balanced between positive and negative. That would help ensure that there is no systematic bias for the weight updates to be one way or the other.
 
 How seriously should we take this argument? While the argument is suggestive, it's a heuristic, not a rigorous proof that tanh neurons outperform sigmoid neurons. Perhaps there are other properties of the sigmoid neuron which compensate for this problem? Indeed, for many tasks the tanh is found empirically to provide only a small or no improvement in performance over sigmoid neurons. Unfortunately, we don't yet have hard-and-fast rules to know which neuron types will learn fastest, or give the best generalization performance, for any particular application.
