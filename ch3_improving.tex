@@ -182,7 +182,7 @@ When should we use the cross-entropy instead of the quadratic cost? In fact, the
 	This shows that if the output neurons are linear neurons then the quadratic cost will not give rise to any problems with a learning slowdown. In this case the quadratic cost is, in fact, an appropriate cost function to use.
 \end{itemize}
 \section{Using the cross-entropy to classify MNIST digits}
-The cross-entropy is easy to implement as part of a program which learns using gradient descent and backpropagation. We'll do that later in the chapter, developing an improved version of our earlier program for classifying the MNIST handwritten digits, \texttt{network.py}. The new program is called \texttt{network2.py}, and incorporates not just the cross-entropy, but also several other techniques developed in this chapter\footnote{The code is available on [link]GitHub.}. For now, let's look at how well our new program classifies MNIST digits. As was the case in Chapter 1, we'll use a network with 30 hidden neurons, and we'll use a mini-batch size of 10. We set the learning rate to $\eta=0.5$\footnote{In Chapter 1 we used the quadratic cost and a learning rate of $\eta=3.0$. As discussed above, it's not possible to say precisely what it means to use the ``same'' learning rate when the cost function is changed. For both cost functions I experimented to find a learning rate that provides near-optimal performance, given the other hyper-parameter choices. \newline There is, incidentally, a very rough general heuristic for relating the learning rate for the cross-entropy and the quadratic cost. As we saw earlier, the gradient terms for the quadratic cost have an extra $\sigma' = \sigma(1-\sigma)$ term in them. Suppose we average this over values for $\sigma$, $\int_0^1\mathrm{d}\sigma \sigma(1-\sigma)=1/6$. We see that (very roughly) the quadratic cost learns an average of 6 times slower, for the same learning rate. This suggests that a reasonable starting point is to divide the learning rate for the quadratic cost by 6. Of course, this argument is far from rigorous, and shouldn't be taken too seriously. Still, it can sometimes be a useful starting point.} and we train for 30 epochs. The interface to \texttt{network2.py} is slightly different than \texttt{network.py}, but it should still be clear what is going on. You can, by the way, get documentation about \texttt{network2.py}'s interface by using commands such as \texttt{help(network2.Network.SGD)} in a Python shell.
+The cross-entropy is easy to implement as part of a program which learns using gradient descent and backpropagation. We'll do that later in the chapter, developing an improved version of our earlier program for classifying the MNIST handwritten digits, \inline{network.py}. The new program is called \inline{network2.py}, and incorporates not just the cross-entropy, but also several other techniques developed in this chapter\footnote{The code is available on [link]GitHub.}. For now, let's look at how well our new program classifies MNIST digits. As was the case in Chapter 1, we'll use a network with 30 hidden neurons, and we'll use a mini-batch size of 10. We set the learning rate to $\eta=0.5$\footnote{In Chapter 1 we used the quadratic cost and a learning rate of $\eta=3.0$. As discussed above, it's not possible to say precisely what it means to use the ``same'' learning rate when the cost function is changed. For both cost functions I experimented to find a learning rate that provides near-optimal performance, given the other hyper-parameter choices. \newline There is, incidentally, a very rough general heuristic for relating the learning rate for the cross-entropy and the quadratic cost. As we saw earlier, the gradient terms for the quadratic cost have an extra $\sigma' = \sigma(1-\sigma)$ term in them. Suppose we average this over values for $\sigma$, $\int_0^1\mathrm{d}\sigma \sigma(1-\sigma)=1/6$. We see that (very roughly) the quadratic cost learns an average of 6 times slower, for the same learning rate. This suggests that a reasonable starting point is to divide the learning rate for the quadratic cost by 6. Of course, this argument is far from rigorous, and shouldn't be taken too seriously. Still, it can sometimes be a useful starting point.} and we train for 30 epochs. The interface to \inline{network2.py} is slightly different than \inline{network.py}, but it should still be clear what is going on. You can, by the way, get documentation about \inline{network2.py}'s interface by using commands such as \inline{help(network2.Network.SGD)} in a Python shell.
 \begin{lstlisting}
 >>> import mnist_loader
 >>> training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
@@ -191,7 +191,7 @@ The cross-entropy is easy to implement as part of a program which learns using g
 >>> net.large_weight_initializer()
 >>> net.SGD(training_data, 30, 10, 0.5, evaluation_data=test_data, monitor_evaluation_accuracy=True)
 \end{lstlisting}	
-Note, by the way, that the \texttt{net.large\_weight\_initializer()} command is used to initialize the weights and biases in the same way as described in Chapter 1. We need to run this command because later in this chapter we'll change the default weight initialization in our networks. The result from running the above sequence of commands is a network with 95.49 percent accuracy. This is pretty close to the result we obtained in Chapter 1, 95.42 percent, using the quadratic cost.
+Note, by the way, that the \inline{net.large_weight_initializer()} command is used to initialize the weights and biases in the same way as described in Chapter 1. We need to run this command because later in this chapter we'll change the default weight initialization in our networks. The result from running the above sequence of commands is a network with 95.49 percent accuracy. This is pretty close to the result we obtained in Chapter 1, 95.42 percent, using the quadratic cost.
 	
 Let's look also at the case where we use 100 hidden neurons, the cross-entropy, and otherwise keep the parameters the same. In this case we obtain an accuracy of 96.82 percent. That's a substantial improvement over the results from Chapter 1, where we obtained a classification accuracy of 96.59 percent, using the quadratic cost. That may look like a small change, but consider that the error rate has dropped from 3.41 percent to 3.18 percent. That is, we've eliminated about one in fourteen of the original errors. That's quite a handy improvement.
 	
@@ -330,7 +330,7 @@ The point, of course, is that models with a large number of free parameters can 
 
 Fermi and von Neumann were suspicious of models with four parameters. Our 30 hidden neuron network for classifying MNIST digits has nearly 24,000 parameters! That's a lot of parameters. Our 100 hidden neuron network has nearly 80,000 parameters, and state-of-the-art deep neural nets sometimes contain millions or even billions of parameters. Should we trust the results?
 
-Let's sharpen this problem up by constructing a situation where our network does a bad job generalizing to new situations. We'll use our 30 hidden neuron network, with its 23,860 parameters. But we won't train the network using all 50,000 MNIST training images. Instead, we'll use just the first 1,000 training images. Using that restricted set will make the problem with generalization much more evident. We'll train in a similar way to before, using the cross-entropy cost function, with a learning rate of $\eta=0.5$ and a mini-batch size of 10. However, we'll train for 400 epochs, a somewhat larger number than before, because we're not using as many training examples. Let's use \texttt{network2} to look at the way the cost function changes:
+Let's sharpen this problem up by constructing a situation where our network does a bad job generalizing to new situations. We'll use our 30 hidden neuron network, with its 23,860 parameters. But we won't train the network using all 50,000 MNIST training images. Instead, we'll use just the first 1,000 training images. Using that restricted set will make the problem with generalization much more evident. We'll train in a similar way to before, using the cross-entropy cost function, with a learning rate of $\eta=0.5$ and a mini-batch size of 10. However, we'll train for 400 epochs, a somewhat larger number than before, because we're not using as many training examples. Let's use \inline{network2} to look at the way the cost function changes:
 
 
 \begin{lstlisting}
@@ -342,7 +342,7 @@ Let's sharpen this problem up by constructing a situation where our network does
 >>> net.large_weight_initializer()
 >>> net.SGD(training_data[:1000], 400, 10, 0.5, evaluation_data=test_data, monitor_evaluation_accuracy=True, monitor_training_cost=True)
 \end{lstlisting}
-Using the results we can plot the way the cost changes as the network learns\footnote{This and the next four graphs were generated by the program \texttt{overfitting.py}.} :
+Using the results we can plot the way the cost changes as the network learns\footnote{This and the next four graphs were generated by the program \inline{overfitting.py}.} :
 
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{figures/ch3/overfitting1}
@@ -377,13 +377,13 @@ In fact, we'll use a variation on this strategy. Recall that when we load in the
 >>> training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
 
 \end{lstlisting}
-Up to now we've been using the \texttt{training\_data} and \texttt{test\_data}, and ignoring the \texttt{validation\_data}. The \texttt{validation\_data} contains 10,000 images of digits, images which are different from the 50,000 images in the MNIST training set, and the 10,000 images in the MNIST test set. Instead of using the \texttt{test\_data} to prevent overfitting, we will use the \texttt{validation\_data}. To do this, we'll use much the same strategy as was described above for the test\_data. That is, we'll compute the classification accuracy on the \texttt{validation\_data} at the end of each epoch. Once the classification accuracy on the \texttt{validation\_data} has saturated, we stop training. This strategy is called early stopping. Of course, in practice we won't immediately know when the accuracy has saturated. Instead, we continue training until we're confident that the accuracy has saturated\footnote{It requires some judgment to determine when to stop. In my earlier graphs I identified epoch 280 as the place at which accuracy saturated. It's possible that was too pessimistic. Neural networks sometimes plateau for a while in training, before continuing to improve. I wouldn't be surprised if more learning could have occurred even after epoch 400, although the magnitude of any further improvement would likely be small. So it's possible to adopt more or less aggressive strategies for early stopping.}.
+Up to now we've been using the \inline{training_data} and \inline{test_data}, and ignoring the \inline{validation_data}. The \inline{validation_data} contains 10,000 images of digits, images which are different from the 50,000 images in the MNIST training set, and the 10,000 images in the MNIST test set. Instead of using the \inline{test_data} to prevent overfitting, we will use the \inline{validation_data}. To do this, we'll use much the same strategy as was described above for the \inline{test_data}. That is, we'll compute the classification accuracy on the \inline{validation_data} at the end of each epoch. Once the classification accuracy on the \inline{validation_data} has saturated, we stop training. This strategy is called early stopping. Of course, in practice we won't immediately know when the accuracy has saturated. Instead, we continue training until we're confident that the accuracy has saturated\footnote{It requires some judgment to determine when to stop. In my earlier graphs I identified epoch 280 as the place at which accuracy saturated. It's possible that was too pessimistic. Neural networks sometimes plateau for a while in training, before continuing to improve. I wouldn't be surprised if more learning could have occurred even after epoch 400, although the magnitude of any further improvement would likely be small. So it's possible to adopt more or less aggressive strategies for early stopping.}.
 
-Why use the \texttt{validation\_data} to prevent overfitting, rather than the \texttt{test\_data}? In fact, this is part of a more general strategy, which is to use the \texttt{validation\_data} to evaluate different trial choices of hyper-parameters such as the number of epochs to train for, the learning rate, the best network architecture, and so on. We use such evaluations to find and set good values for the hyper-parameters. Indeed, although I haven't mentioned it until now, that is, in part, how I arrived at the hyper-parameter choices made earlier in this book. (More on this later.)
+Why use the \inline{validation_data} to prevent overfitting, rather than the \inline{test_data}? In fact, this is part of a more general strategy, which is to use the \inline{validation_data} to evaluate different trial choices of hyper-parameters such as the number of epochs to train for, the learning rate, the best network architecture, and so on. We use such evaluations to find and set good values for the hyper-parameters. Indeed, although I haven't mentioned it until now, that is, in part, how I arrived at the hyper-parameter choices made earlier in this book. (More on this later.)
 
-Of course, that doesn't in any way answer the question of why we're using the \texttt{validation\_data} to prevent overfitting, rather than the \texttt{test\_data}. Instead, it replaces it with a more general question, which is why we're using the \texttt{validation\_data} rather than the \texttt{test\_data} to set good hyper-parameters? To understand why, consider that when setting hyper-parameters we're likely to try many different choices for the hyper-parameters. If we set the hyper-parameters based on evaluations of the test\_data it's possible we'll end up overfitting our hyper-parameters to the \texttt{test\_data}. That is, we may end up finding hyper-parameters which fit particular peculiarities of the \texttt{test\_data}, but where the performance of the network won't generalize to other data sets. We guard against that by figuring out the hyper-parameters using the \texttt{validation\_data}. Then, once we've got the hyper-parameters we want, we do a final evaluation of accuracy using the \texttt{test\_data}. That gives us confidence that our results on the \texttt{test\_data} are a true measure of how well our neural network generalizes. To put it another way, you can think of the validation data as a type of training data that helps us learn good hyper-parameters. This approach to finding good hyper-parameters is sometimes known as the hold out method, since the \texttt{validation\_data} is kept apart or ``held out'' from the \texttt{training\_data}.
+Of course, that doesn't in any way answer the question of why we're using the \inline{validation_data} to prevent overfitting, rather than the \inline{test_data}. Instead, it replaces it with a more general question, which is why we're using the \inline{validation_data} rather than the \inline{test_data} to set good hyper-parameters? To understand why, consider that when setting hyper-parameters we're likely to try many different choices for the hyper-parameters. If we set the hyper-parameters based on evaluations of the \inline{test_data} it's possible we'll end up overfitting our hyper-parameters to the \inline{test_data}. That is, we may end up finding hyper-parameters which fit particular peculiarities of the \inline{test_data}, but where the performance of the network won't generalize to other data sets. We guard against that by figuring out the hyper-parameters using the \inline{validation_data}. Then, once we've got the hyper-parameters we want, we do a final evaluation of accuracy using the \inline{test_data}. That gives us confidence that our results on the \inline{test_data} are a true measure of how well our neural network generalizes. To put it another way, you can think of the validation data as a type of training data that helps us learn good hyper-parameters. This approach to finding good hyper-parameters is sometimes known as the hold out method, since the \inline{validation_data} is kept apart or ``held out'' from the \inline{training_data}.
 
-Now, in practice, even after evaluating performance on the \texttt{test\_data} we may change our minds and want to try another approach - perhaps a different network architecture - which will involve finding a new set of hyper-parameters. If we do this, isn't there a danger we'll end up overfitting to the \texttt{test\_data} as well? Do we need a potentially infinite regress of data sets, so we can be confident our results will generalize? Addressing this concern fully is a deep and difficult problem. But for our practical purposes, we're not going to worry too much about this question. Instead, we'll plunge ahead, using the basic hold out method, based on the \texttt{training\_data}, \texttt{validation\_data}, and \texttt{test\_data}, as described above.
+Now, in practice, even after evaluating performance on the \inline{test_data} we may change our minds and want to try another approach -- perhaps a different network architecture -- which will involve finding a new set of hyper-parameters. If we do this, isn't there a danger we'll end up overfitting to the \inline{test_data} as well? Do we need a potentially infinite regress of data sets, so we can be confident our results will generalize? Addressing this concern fully is a deep and difficult problem. But for our practical purposes, we're not going to worry too much about this question. Instead, we'll plunge ahead, using the basic hold out method, based on the \inline{training_data}, \inline{validation_data}, and \inline{test_data}, as described above.
 
 We've been looking so far at overfitting when we're just using 1,000 training images. What happens when we use the full training set of 50,000 images? We'll keep all the other parameters the same (30 hidden neurons, learning rate 0.5, mini-batch size of 10), but train using all 50,000 images for 30 epochs. Here's a graph showing the results for the classification accuracy on both the training data and the test data. Note that I've used the test data here, rather than the validation data, in order to make the results more directly comparable with the earlier graphs.
 \begin{center}
@@ -449,7 +449,7 @@ where the sum is over training examples $x$ in the mini-batch, and $C_x$ is the 
 %b→b−\etam∑x\partial{}Cx\partial{}b,(94)
 where the sum is over training examples $x$ in the mini-batch.
 
-Let's see how regularization changes the performance of our neural network. We'll use a network with 30 hidden neurons, a mini-batch size of 10, a learning rate of 0.5, and the cross-entropy cost function. However, this time we'll use a regularization parameter of $\lambda =0.1$. Note that in the code, we use the variable name \texttt{lmbda}, because \texttt{lambda} is a reserved word in Python, with an unrelated meaning. I've also used the \texttt{test\_data} again, not the \texttt{validation\_data}. Strictly speaking, we should use the \texttt{validation\_data}, for all the reasons we discussed earlier. But I decided to use the \texttt{test\_data} because it makes the results more directly comparable with our earlier, unregularized results. You can easily change the code to use the \texttt{validation\_data} instead, and you'll find that it gives similar results.
+Let's see how regularization changes the performance of our neural network. We'll use a network with 30 hidden neurons, a mini-batch size of 10, a learning rate of 0.5, and the cross-entropy cost function. However, this time we'll use a regularization parameter of $\lambda =0.1$. Note that in the code, we use the variable name \inline{lmbda}, because \inline{lambda} is a reserved word in Python, with an unrelated meaning. I've also used the \inline{test_data} again, not the \inline{validation_data}. Strictly speaking, we should use the \inline{validation_data}, for all the reasons we discussed earlier. But I decided to use the \inline{test_data} because it makes the results more directly comparable with our earlier, unregularized results. You can easily change the code to use the \inline{validation_data} instead, and you'll find that it gives similar results.
 
 \begin{lstlisting}
 
@@ -462,11 +462,11 @@ Let's see how regularization changes the performance of our neural network. We'l
 ... monitor_evaluation_cost=True, monitor_evaluation_accuracy=True, monitor_training_cost=True, monitor_training_accuracy=True)
 
 \end{lstlisting}
-The cost on the training data decreases over the whole time, much as it did in the earlier, unregularized case\footnote{This and the next two graphs were produced with the program \texttt{overfitting.py.}}:
+The cost on the training data decreases over the whole time, much as it did in the earlier, unregularized case\footnote{This and the next two graphs were produced with the program \inline{overfitting.py.}}:
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{figures/ch3/regularized1}
 \end{center}
-But this time the accuracy on the \texttt{test\_data} continues to increase for the entire 400 epochs:
+But this time the accuracy on the \inline{test_data} continues to increase for the entire 400 epochs:
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{figures/ch3/regularized2}
 \end{center}
@@ -512,7 +512,7 @@ We've seen empirically that regularization helps reduce overfitting. That's enco
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting1}
 \end{center}
-Implicitly, we're studying some real-world phenomenon here, with $x$ and $y$ representing real-world data. Our goal is to build a model which lets us predict $y$ as a function of $x$. We could try using neural networks to build such a model, but I'm going to do something even simpler: I'll try to model $y$ as a polynomial in $x$. I'm doing this instead of using neural nets because using polynomials will make things particularly transparent. Once we've understood the polynomial case, we'll translate to neural networks. Now, there are ten points in the graph above, which means we can find a unique 9-th-order polynomial $y=a_0x^9+a_1x^8+\ldots+a_9$ which fits the data exactly. Here's the graph of that polynomial\footnote{I won't show the coefficients explicitly, although they are easy to find using a routine such as Numpy's \texttt{polyfit}.} :
+Implicitly, we're studying some real-world phenomenon here, with $x$ and $y$ representing real-world data. Our goal is to build a model which lets us predict $y$ as a function of $x$. We could try using neural networks to build such a model, but I'm going to do something even simpler: I'll try to model $y$ as a polynomial in $x$. I'm doing this instead of using neural nets because using polynomials will make things particularly transparent. Once we've understood the polynomial case, we'll translate to neural networks. Now, there are ten points in the graph above, which means we can find a unique 9-th-order polynomial $y=a_0x^9+a_1x^8+\ldots+a_9$ which fits the data exactly. Here's the graph of that polynomial\footnote{I won't show the coefficients explicitly, although they are easy to find using a routine such as Numpy's \inline{polyfit}.} :
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting2}
 	\end{center}
@@ -598,7 +598,7 @@ A related heuristic explanation for dropout is given in one of the earliest pape
 
 Of course, the true measure of dropout is that it has been very successful in improving the performance of neural networks. The original paper\footnote{Improving neural networks by preventing co-adaptation of feature detectors by Geoffrey Hinton, Nitish Srivastava, Alex Krizhevsky, Ilya Sutskever, and Ruslan Salakhutdinov (2012). Note that the paper discusses a number of subtleties that I have glossed over in this brief introduction.} introducing the technique applied it to many different tasks. For us, it's of particular interest that they applied dropout to MNIST digit classification, using a vanilla feedforward neural network along lines similar to those we've been considering. The paper noted that the best result anyone had achieved up to that point using such an architecture was 98.4 percent classification accuracy on the test set. They improved that to 98.7 percent accuracy using a combination of dropout and a modified form of L2 regularization. Similarly impressive results have been obtained for many other tasks, including problems in image and speech recognition, and natural language processing. Dropout has been especially useful in training large, deep networks, where the problem of overfitting is often acute.
 
-\textbf{Artificially expanding the training data:} We saw earlier that our MNIST classification accuracy dropped down to percentages in the mid-80s when we used only 1,000 training images. It's not surprising that this is the case, since less training data means our network will be exposed to fewer variations in the way human beings write digits. Let's try training our 30 hidden neuron network with a variety of different training data set sizes, to see how performance varies. We train using a mini-batch size of 10, a learning rate $\eta=0.5$, a regularization parameter $\lambda=5.0$, and the cross-entropy cost function. We will train for 30 epochs when the full training data set is used, and scale up the number of epochs proportionally when smaller training sets are used. To ensure the weight decay factor remains the same across training sets, we will use a regularization parameter of $\lambda=5.0$ when the full training data set is used, and scale down $\lambda$ proportionally when smaller training sets are used\footnote{This and the next two graph are produced with the program \texttt{more\_data.py}.}.
+\textbf{Artificially expanding the training data:} We saw earlier that our MNIST classification accuracy dropped down to percentages in the mid-80s when we used only 1,000 training images. It's not surprising that this is the case, since less training data means our network will be exposed to fewer variations in the way human beings write digits. Let's try training our 30 hidden neuron network with a variety of different training data set sizes, to see how performance varies. We train using a mini-batch size of 10, a learning rate $\eta=0.5$, a regularization parameter $\lambda=5.0$, and the cross-entropy cost function. We will train for 30 epochs when the full training data set is used, and scale up the number of epochs proportionally when smaller training sets are used. To ensure the weight decay factor remains the same across training sets, we will use a regularization parameter of $\lambda=5.0$ when the full training data set is used, and scale down $\lambda$ proportionally when smaller training sets are used\footnote{This and the next two graph are produced with the program \inline{more_data.py}.}.
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{figures/ch3/more_data}
 \end{center}
@@ -630,7 +630,7 @@ Variations on this idea can be used to improve performance on many learning task
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{figures/ch3/more_data_log}
 \end{center}
-Suppose that instead of using a neural network we use some other machine learning technique to classify digits. For instance, let's try using the support vector machines (SVM) which we met briefly back in Chapter 1. As was the case in Chapter 1, don't worry if you're not familiar with SVMs, we don't need to understand their details. Instead, we'll use the SVM supplied by the scikit-learn library. Here's how SVM performance varies as a function of training set size. I've plotted the neural net results as well, to make comparison easy\footnote{This graph was produced with the program \texttt{more\_data.py} (as were the last few graphs).}:
+Suppose that instead of using a neural network we use some other machine learning technique to classify digits. For instance, let's try using the support vector machines (SVM) which we met briefly back in Chapter 1. As was the case in Chapter 1, don't worry if you're not familiar with SVMs, we don't need to understand their details. Instead, we'll use the SVM supplied by the scikit-learn library. Here's how SVM performance varies as a function of training set size. I've plotted the neural net results as well, to make comparison easy\footnote{This graph was produced with the program \inline{more_data.py} (as were the last few graphs).}:
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{figures/ch3/more_data_comparison}
 \end{center}
@@ -690,13 +690,13 @@ Let's compare the results for both our old and new approaches to weight initiali
 >>> net.SGD(training_data, 30, 10, 0.1, lmbda = 5.0,  evaluation_data=validation_data, 
 ... monitor_evaluation_accuracy=True)
 \end{lstlisting}
-We can also train using the new approach to weight initialization. This is actually even easier, since network2's default way of initializing the weights is using this new approach. That means we can omit the \texttt{net.large\_weight\_initializer()} call above: 
+We can also train using the new approach to weight initialization. This is actually even easier, since network2's default way of initializing the weights is using this new approach. That means we can omit the \inline{net.large_weight_initializer()} call above: 
 \begin{lstlisting}
 >>> net = network2.Network([784, 30, 10], cost=network2.CrossEntropyCost)
 >>> net.SGD(training_data, 30, 10, 0.1, lmbda = 5.0, evaluation_data=validation_data, 
 ... monitor_evaluation_accuracy=True)
 \end{lstlisting}
-Plotting the results\footnote{The program used to generate this and the next graph is \texttt{weight\_initialization.py}.}, we obtain:
+Plotting the results\footnote{The program used to generate this and the next graph is \inline{weight_initialization.py}.}, we obtain:
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{figures/ch3/weight_initialization_30}
 \end{center}
@@ -712,4 +712,414 @@ The $1/\sqrt{n_{\rm in}}$ approach to weight initialization helps improve the wa
 \begin{itemize}
 	\item \textbf{Connecting regularization and the improved method of weight initialization} L2 regularization sometimes automatically gives us something similar to the new approach to weight initialization. Suppose we are using the old approach to weight initialization. Sketch a heuristic argument that: (1) supposing $\lambda$ is not too small, the first epochs of training will be dominated almost entirely by weight decay; (2) provided $\eta\lambda\ll n$ the weights will decay by a factor of $\exp(-\eta\lambda/m)$ per epoch; and (3) supposing $\lambda$ is not too large, the weight decay will tail off when the weights are down to a size around $1/\sqrt{n_{\rm in}}$, where $n$ is the total number of weights in the network. Argue that these conditions are all satisfied in the examples graphed in this section.
 	\end{itemize}
+
+\section{Handwriting recognition revisited: the code}
+Let's implement the ideas we've discussed in this chapter. We'll develop a new program, \inline{network2.py}, which is an improved version of the program \inline{network.py} we developed in Chapter 1. If you haven't looked at \inline{network.py} in a while then you may find it helpful to spend a few minutes quickly reading over the earlier discussion. It's only 74 lines of code, and is easily understood.
+
+As was the case in \inline{network.py}, the star of \inline{network2.py} is the \inline{Network} class, which we use to represent our neural networks. We initialize an instance of \inline{Network} with a list of \inline{sizes} for the respective layers in the network, and a choice for the cost to use, defaulting to the cross-entropy:
+\begin{lstlisting}
+class Network(object):
+	def __init__(self, sizes, cost=CrossEntropyCost):
+		self.num_layers = len(sizes)
+		self.sizes = sizes
+		self.default_weight_initializer()
+		self.cost=cost
+\end{lstlisting}
+The first couple of lines of the \inline{__init__} method are the same as in \inline{network.py}, and are pretty self-explanatory. But the next two lines are new, and we need to understand what they're doing in detail.
+
+Let's start by examining the \inline{default_weight_initializer} method. This makes use of our new and improved approach to weight initialization. As we've seen, in that approach the weights input to a neuron are initialized as Gaussian random variables with mean 0 and standard deviation 1 divided by the square root of the number of connections input to the neuron. Also in this method we'll initialize the biases, using Gaussian random variables with mean 0 and standard deviation 1. Here's the code:
+\begin{lstlisting}
+def default_weight_initializer(self):
+	self.biases = [np.random.randn(y, 1) for y in self.sizes[1:]]
+	self.weights = [np.random.randn(y, x)/np.sqrt(x) for x, y in zip(self.sizes[:-1], self.sizes[1:])]
+\end{lstlisting}
+To understand the code, it may help to recall that \inline{np} is the Numpy library for doing linear algebra. We'll import Numpy at the beginning of our program. Also, notice that we don't initialize any biases for the first layer of neurons. We avoid doing this because the first layer is an input layer, and so any biases would not be used. We did exactly the same thing in \inline{network.py}.
+
+Complementing the \inline{default_weight_initializer} we'll also include a \inline{large_weight_initializer} method. This method initializes the weights and biases using the old approach from Chapter 1, with both weights and biases initialized as Gaussian random variables with mean 0 and standard deviation 1. The code is, of course, only a tiny bit different from the \inline{default_weight_initializer}:
+\begin{lstlisting}
+def large_weight_initializer(self):
+	self.biases = [np.random.randn(y, 1) for y in self.sizes[1:]]
+	self.weights = [np.random.randn(y, x) for x, y in zip(self.sizes[:-1], self.sizes[1:])]
+\end{lstlisting}
+	
+I've included the \inline{large_weight_initializer} method mostly as a convenience to make it easier to compare the results in this chapter to those in Chapter 1. I can't think of many practical situations where I would recommend using it!
+
+The second new thing in \inline{Network}'s \inline{__init__} method is that we now initialize a cost attribute. To understand how that works, let's look at the class we use to represent the cross-entropy cost\footnote{If you're not familiar with Python's static methods you can ignore the \inline{@staticmethod} decorators, and just treat fn and delta as ordinary methods. If you're curious about details, all \inline{@staticmethod} does is tell the Python interpreter that the method which follows doesn't depend on the object in any way. That's why self isn't passed as a parameter to the fn and delta methods.}:
+\begin{lstlisting} 
+class CrossEntropyCost(object):
+	@staticmethod
+	def fn(a, y):
+		return np.sum(np.nan_to_num(-y*np.log(a)-(1-y)*np.log(1-a)))
+	@staticmethod
+	def delta(z, a, y):
+		return (a-y)
+\end{lstlisting}
+Let's break this down. The first thing to observe is that even though the cross-entropy is, mathematically speaking, a function, we've implemented it as a Python class, not a Python function. Why have I made that choice? The reason is that the cost plays two different roles in our network. The obvious role is that it's a measure of how well an output activation, \inline{a}, matches the desired output, \inline{y}. This role is captured by the \inline{CrossEntropyCost.fn} method. (Note, by the way, that the \inline{np.nan_to_num} call inside \inline{CrossEntropyCost.fn} ensures that Numpy deals correctly with the log of numbers very close to zero.) But there's also a second way the cost function enters our network. Recall from Chapter 2 that when running the backpropagation algorithm we need to compute the network's output error, $\delta^L$. The form of the output error depends on the choice of cost function: different cost function, different form for the output error. For the cross-entropy the output error is, as we saw in Equation (\ref{eq:66}),
+\begin{equation}
+	\delta^L=a^L-y.\label{eq:99}
+\end{equation}
+%δL=aL−y.(99)
+For this reason we define a second method, \inline{CrossEntropyCost.delta}, whose purpose is to tell our network how to compute the output error. And then we bundle these two methods up into a single class containing everything our networks need to know about the cost function.
+
+In a similar way, \inline{network2.py} also contains a class to represent the quadratic cost function. This is included for comparison with the results of Chapter 1, since going forward we'll mostly use the cross entropy. The code is just below. The \inline{QuadraticCost.fn} method is a straightforward computation of the quadratic cost associated to the actual output, \inline{a}, and the desired output, \inline{y}. The value returned by \inline{QuadraticCost.delta} is based on the expression (\ref{eq:30}) for the output error for the quadratic cost, which we derived back in Chapter 2.
+
+\begin{lstlisting}
+class QuadraticCost(object):
+	@staticmethod
+	def fn(a, y):
+		return 0.5*np.linalg.norm(a-y)**2
+	@staticmethod
+	def delta(z, a, y):
+		return (a-y) * sigmoid_prime(z)
+\end{lstlisting}
+We've now understood the main differences between \inline{network2.py} and \inline{network.py}. It's all pretty simple stuff. There are a number of smaller changes, which I'll discuss below, including the implementation of L2 regularization. Before getting to that, let's look at the complete code for \inline{network2.py}. You don't need to read all the code in detail, but it is worth understanding the broad structure, and in particular reading the documentation strings, so you understand what each piece of the program is doing. Of course, you're also welcome to delve as deeply as you wish! If you get lost, you may wish to continue reading the prose below, and return to the code later. Anyway, here's the code:
+\begin{lstlisting}
+"""network2.py
+~~~~~~~~~~~~~~
+
+An improved version of network.py, implementing the stochastic
+gradient descent learning algorithm for a feedforward neural network.
+Improvements include the addition of the cross-entropy cost function,
+regularization, and better initialization of network weights.  Note
+that I have focused on making the code simple, easily readable, and
+easily modifiable.  It is not optimized, and omits many desirable
+features.
+"""
+#### Libraries
+# Standard library
+import json
+import random
+import sys
+# Third-party libraries
+import numpy as np
+
+#### Define the quadratic and cross-entropy cost functions
+
+class QuadraticCost(object):
+
+	@staticmethod
+	def fn(a, y):
+		"""Return the cost associated with an output ``a`` and desired output	``y``.
+		"""
+		return 0.5*np.linalg.norm(a-y)**2
+
+	@staticmethod
+	def delta(z, a, y):
+		"""Return the error delta from the output layer."""
+		return (a-y) * sigmoid_prime(z)
+
+class CrossEntropyCost(object):
+
+	@staticmethod
+		def fn(a, y):
+		"""Return the cost associated with an output ``a`` and desired output
+		``y``.  Note that np.nan_to_num is used to ensure numerical
+		stability.  In particular, if both ``a`` and ``y`` have a 1.0
+		in the same slot, then the expression (1-y)*np.log(1-a)
+		returns nan.  The np.nan_to_num ensures that that is converted
+		to the correct value (0.0).
+		
+		"""
+		return np.sum(np.nan_to_num(-y*np.log(a)-(1-y)*np.log(1-a)))
+
+	@staticmethod
+	def delta(z, a, y):
+		"""Return the error delta from the output layer.  Note that the
+		parameter ``z`` is not used by the method.  It is included in
+		the method's parameters in order to make the interface
+		consistent with the delta method for other cost classes.
+		
+		"""
+		return (a-y)
+
+
+#### Main Network class
+class Network(object):
+	
+	def __init__(self, sizes, cost=CrossEntropyCost):
+		"""The list ``sizes`` contains the number of neurons in the respective
+		layers of the network.  For example, if the list was [2, 3, 1]
+		then it would be a three-layer network, with the first layer
+		containing 2 neurons, the second layer 3 neurons, and the
+		third layer 1 neuron.  The biases and weights for the network
+		are initialized randomly, using
+		``self.default_weight_initializer`` (see docstring for that
+		method).
+		
+		"""
+		self.num_layers = len(sizes)
+		self.sizes = sizes
+		self.default_weight_initializer()
+		self.cost=cost
+
+	def default_weight_initializer(self):
+		"""Initialize each weight using a Gaussian distribution with mean 0
+		and standard deviation 1 over the square root of the number of
+		weights connecting to the same neuron.  Initialize the biases
+		using a Gaussian distribution with mean 0 and standard
+		deviation 1.
+	
+		Note that the first layer is assumed to be an input layer, and
+		by convention we won't set any biases for those neurons, since
+		biases are only ever used in computing the outputs from later
+		layers.
+		
+		"""
+		self.biases = [np.random.randn(y, 1) for y in self.sizes[1:]]
+		self.weights = [np.random.randn(y, x)/np.sqrt(x) for x, y in zip(self.sizes[:-1], self.sizes[1:])]
+
+	def large_weight_initializer(self):
+		"""Initialize the weights using a Gaussian distribution with mean 0
+		and standard deviation 1.  Initialize the biases using a
+		Gaussian distribution with mean 0 and standard deviation 1.
+		
+		Note that the first layer is assumed to be an input layer, and
+		by convention we won't set any biases for those neurons, since
+		biases are only ever used in computing the outputs from later
+		layers.
+		
+		This weight and bias initializer uses the same approach as in
+		Chapter 1, and is included for purposes of comparison.  It
+		will usually be better to use the default weight initializer
+		instead.
+		
+		"""
+		self.biases = [np.random.randn(y, 1) for y in self.sizes[1:]]
+		self.weights = [np.random.randn(y, x)
+		for x, y in zip(self.sizes[:-1], self.sizes[1:])]
+	
+	def feedforward(self, a):
+		"""Return the output of the network if ``a`` is input."""
+		for b, w in zip(self.biases, self.weights):
+		a = sigmoid(np.dot(w, a)+b)
+		return a
+	
+	def SGD(self, training_data, epochs, mini_batch_size, eta, lmbda = 0.0, evaluation_data=None, monitor_evaluation_cost=False, monitor_evaluation_accuracy=False, monitor_training_cost=False, monitor_training_accuracy=False):
+		"""Train the neural network using mini-batch stochastic gradient
+		descent.  The ``training_data`` is a list of tuples ``(x, y)``
+		representing the training inputs and the desired outputs.  The
+		other non-optional parameters are self-explanatory, as is the
+		regularization parameter ``lmbda``.  The method also accepts
+		``evaluation_data``, usually either the validation or test
+		data.  We can monitor the cost and accuracy on either the
+		evaluation data or the training data, by setting the
+		appropriate flags.  The method returns a tuple containing four
+		lists: the (per-epoch) costs on the evaluation data, the
+		accuracies on the evaluation data, the costs on the training
+		data, and the accuracies on the training data.  All values are
+		evaluated at the end of each training epoch.  So, for example,
+		if we train for 30 epochs, then the first element of the tuple
+		will be a 30-element list containing the cost on the
+		evaluation data at the end of each epoch. Note that the lists
+		are empty if the corresponding flag is not set.
+		
+		"""
+		if evaluation_data:
+			n_data = len(evaluation_data)
+		n = len(training_data)
+		evaluation_cost, evaluation_accuracy = [], []
+		training_cost, training_accuracy = [], []
+		for j in xrange(epochs):
+			random.shuffle(training_data)
+			mini_batches = [
+				training_data[k:k+mini_batch_size]
+				for k in xrange(0, n, mini_batch_size)]
+			for mini_batch in mini_batches:
+				self.update_mini_batch(
+					mini_batch, eta, lmbda, len(training_data))
+			print "Epoch %s training complete" % j
+			if monitor_training_cost:
+				cost = self.total_cost(training_data, lmbda)
+				training_cost.append(cost)
+				print "Cost on training data: {}".format(cost)
+			if monitor_training_accuracy:
+				accuracy = self.accuracy(training_data, convert=True)
+				training_accuracy.append(accuracy)
+				print "Accuracy on training data: {} / {}".format(accuracy, n)
+			if monitor_evaluation_cost:
+				cost = self.total_cost(evaluation_data, lmbda, convert=True)
+				evaluation_cost.append(cost)
+				print "Cost on evaluation data: {}".format(cost)
+			if monitor_evaluation_accuracy:
+				accuracy = self.accuracy(evaluation_data)
+				evaluation_accuracy.append(accuracy)
+				print "Accuracy on evaluation data: {} / {}".format(self.accuracy(evaluation_data), n_data)
+			print
+		return evaluation_cost, evaluation_accuracy, training_cost, training_accuracy
+
+	def update_mini_batch(self, mini_batch, eta, lmbda, n):
+		"""Update the network's weights and biases by applying gradient
+		descent using backpropagation to a single mini batch.  The
+		``mini_batch`` is a list of tuples ``(x, y)``, ``eta`` is the
+		learning rate, ``lmbda`` is the regularization parameter, and
+		``n`` is the total size of the training data set.
+		
+		"""
+		nabla_b = [np.zeros(b.shape) for b in self.biases]
+		nabla_w = [np.zeros(w.shape) for w in self.weights]
+		for x, y in mini_batch:
+			delta_nabla_b, delta_nabla_w = self.backprop(x, y)
+			nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
+			nabla_w = [nw+dnw for nw, dnw in zip(nabla_w, delta_nabla_w)]
+		self.weights = [(1-eta*(lmbda/n))*w-(eta/len(mini_batch))*nw
+						for w, nw in zip(self.weights, nabla_w)]
+		self.biases = [b-(eta/len(mini_batch))*nb
+						for b, nb in zip(self.biases, nabla_b)]
+
+	def backprop(self, x, y):
+		"""Return a tuple ``(nabla_b, nabla_w)`` representing the
+		gradient for the cost function C_x.  ``nabla_b`` and
+		``nabla_w`` are layer-by-layer lists of numpy arrays, similar
+		to ``self.biases`` and ``self.weights``."""
+		nabla_b = [np.zeros(b.shape) for b in self.biases]
+		nabla_w = [np.zeros(w.shape) for w in self.weights]
+		# feedforward
+		activation = x
+		activations = [x] # list to store all the activations, layer by layer
+		zs = [] # list to store all the z vectors, layer by layer
+		for b, w in zip(self.biases, self.weights):
+			z = np.dot(w, activation)+b
+			zs.append(z)
+			activation = sigmoid(z)
+			activations.append(activation)
+		# backward pass
+		delta = (self.cost).delta(zs[-1], activations[-1], y)
+		nabla_b[-1] = delta
+		nabla_w[-1] = np.dot(delta, activations[-2].transpose())
+		# Note that the variable l in the loop below is used a little
+		# differently to the notation in Chapter 2 of the book.  Here,
+		# l = 1 means the last layer of neurons, l = 2 is the
+		# second-last layer, and so on.  It's a renumbering of the
+		# scheme in the book, used here to take advantage of the fact
+		# that Python can use negative indices in lists.
+		for l in xrange(2, self.num_layers):
+			z = zs[-l]
+			sp = sigmoid_prime(z)
+			delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
+			nabla_b[-l] = delta
+			nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
+		return (nabla_b, nabla_w)
+	
+	def accuracy(self, data, convert=False):
+		"""Return the number of inputs in ``data`` for which the neural
+		network outputs the correct result. The neural network's
+		output is assumed to be the index of whichever neuron in the
+		final layer has the highest activation.
+		
+		The flag ``convert`` should be set to False if the data set is
+		validation or test data (the usual case), and to True if the
+		data set is the training data. The need for this flag arises
+		due to differences in the way the results ``y`` are
+		represented in the different data sets.  In particular, it
+		flags whether we need to convert between the different
+		representations.  It may seem strange to use different
+		representations for the different data sets.  Why not use the
+		same representation for all three data sets?  It's done for
+		efficiency reasons -- the program usually evaluates the cost
+		on the training data and the accuracy on other data sets.
+		These are different types of computations, and using different
+		representations speeds things up.  More details on the
+		representations can be found in
+		mnist_loader.load_data_wrapper.
+		
+		"""
+		if convert:
+			results = [(np.argmax(self.feedforward(x)), np.argmax(y)) for (x, y) in data]
+		else:
+			results = [(np.argmax(self.feedforward(x)), y)	for (x, y) in data]
+		return sum(int(x == y) for (x, y) in results)
+	
+	def total_cost(self, data, lmbda, convert=False):
+		"""Return the total cost for the data set ``data``.  The flag
+		``convert`` should be set to False if the data set is the
+		training data (the usual case), and to True if the data set is
+		the validation or test data.  See comments on the similar (but
+		reversed) convention for the ``accuracy`` method, above.
+		"""
+		cost = 0.0
+		for x, y in data:
+			a = self.feedforward(x)
+		if convert:
+			y = vectorized_result(y)
+		cost += self.cost.fn(a, y)/len(data)
+		cost += 0.5*(lmbda/len(data))*sum(np.linalg.norm(w)**2 for w in self.weights)
+		return cost
+	
+	def save(self, filename):
+		"""Save the neural network to the file ``filename``."""
+		data = {"sizes": self.sizes,
+			"weights": [w.tolist() for w in self.weights],
+			"biases": [b.tolist() for b in self.biases],
+			"cost": str(self.cost.__name__)}
+		f = open(filename, "w")
+		json.dump(data, f)
+		f.close()
+		
+	#### Loading a Network
+	def load(filename):
+		"""Load a neural network from the file ``filename``.  Returns an
+		instance of Network.
+		
+		"""
+		f = open(filename, "r")
+		data = json.load(f)
+		f.close()
+		cost = getattr(sys.modules[__name__], data["cost"])
+		net = Network(data["sizes"], cost=cost)
+		net.weights = [np.array(w) for w in data["weights"]]
+		net.biases = [np.array(b) for b in data["biases"]]
+		return net
+	
+	#### Miscellaneous functions
+	def vectorized_result(j):
+		"""Return a 10-dimensional unit vector with a 1.0 in the j'th position
+		and zeroes elsewhere.  This is used to convert a digit (0...9)
+		into a corresponding desired output from the neural network.
+		
+		"""
+		e = np.zeros((10, 1))
+		e[j] = 1.0
+		return e
+	
+	def sigmoid(z):
+		"""The sigmoid function."""
+		return 1.0/(1.0+np.exp(-z))
+	
+	def sigmoid_prime(z):
+		"""Derivative of the sigmoid function."""
+		return sigmoid(z)*(1-sigmoid(z))
+\end{lstlisting}
+One of the more interesting changes in the code is to include L2 regularization. Although this is a major conceptual change, it's so trivial to implement that it's easy to miss in the code. For the most part it just involves passing the parameter \inline{lmbda} to various methods, notably the \inline{Network.SGD} method. The real work is done in a single line of the program, the fourth-last line of the \inline{Network.update_mini_batch} method. That's where we modify the gradient descent update rule to include weight decay. But although the modification is tiny, it has a big impact on results!
+
+This is, by the way, common when implementing new techniques in neural networks. We've spent thousands of words discussing regularization. It's conceptually quite subtle and difficult to understand. And yet it was trivial to add to our program! It occurs surprisingly often that sophisticated techniques can be implemented with small changes to code.
+
+Another small but important change to our code is the addition of several optional flags to the stochastic gradient descent method, Network.SGD. These flags make it possible to monitor the cost and accuracy either on the \inline{training_data} or on a set of \inline{evaluation_data} which can be passed to \inline{Network.SGD}. We've used these flags often earlier in the chapter, but let me give an example of how it works, just to remind you:
+\begin{lstlisting}
+>>> import mnist_loader
+>>> training_data, validation_data, test_data =  mnist_loader.load_data_wrapper()
+>>> import network2
+>>> net = network2.Network([784, 30, 10], cost=network2.CrossEntropyCost)
+>>> net.SGD(training_data, 30, 10, 0.5, lmbda = 5.0, evaluation_data=validation_data,
+... monitor_evaluation_accuracy=True, monitor_evaluation_cost=True, monitor_training_accuracy=True,
+... monitor_training_cost=True)
+\end{lstlisting}
+Here, we're setting the \inline{evaluation_data} to be the \inline{validation_data}. But we could also have monitored performance on the \inline{test_data} or any other data set. We also have four flags telling us to monitor the cost and accuracy on both the \inline{evaluation_data} and the \inline{training_data}. Those flags are False by default, but they've been turned on here in order to monitor our \inline{Network}'s performance. Furthermore, \inline{network2.py}'s \inline{Network.SGD} method returns a four-element tuple representing the results of the monitoring. We can use this as follows:
+\begin{lstlisting}
+>>> evaluation_cost, evaluation_accuracy,  training_cost, training_accuracy = net.SGD(training_data, 30, 10, 0.5,  lmbda = 5.0, evaluation_data=validation_data, monitor_evaluation_accuracy=True, monitor_evaluation_cost=True, monitor_training_accuracy=True, monitor_training_cost=True)
+\end{lstlisting}
+
+So, for example, \inline{evaluation_cost} will be a 30-element list containing the cost on the evaluation data at the end of each epoch. This sort of information is extremely useful in understanding a network's behaviour. It can, for example, be used to draw graphs showing how the network learns over time. Indeed, that's exactly how I constructed all the graphs earlier in the chapter. Note, however, that if any of the monitoring flags are not set, then the corresponding element in the tuple will be the empty list.
+
+Other additions to the code include a \inline{Network.save} method, to save \inline{Network} objects to disk, and a function to load them back in again later. Note that the saving and loading is done using JSON, not Python's pickle or cPickle modules, which are the usual way we save and load objects to and from disk in Python. Using JSON requires more code than pickle or cPickle would. To understand why I've used JSON, imagine that at some time in the future we decided to change our \inline{Network} class to allow neurons other than sigmoid neurons. To implement that change we'd most likely change the attributes defined in the \inline{Network.__init__} method. If we've simply pickled the objects that would cause our load function to fail. Using JSON to do the serialization explicitly makes it easy to ensure that old Networks will still load.
+
+There are many other minor changes in the code for \inline{network2.py}, but they're all simple variations on \inline{network.py}. The net result is to expand our 74-line program to a far more capable 152 lines.
+
+\subsection*{Problems}
+\begin{itemize}
+\item Modify the code above to implement L1 regularization, and use L1 regularization to classify MNIST digits using a 30 hidden neuron network. Can you find a regularization parameter that enables you to do better than running unregularized?
+\item Take a look at the \inline{Network.cost_derivative} method in \inline{network.py}. That method was written for the quadratic cost. How would you rewrite the method for the cross-entropy cost? Can you think of a problem that might arise in the cross-entropy version? In \inline{network2.py} we've eliminated the \inline{Network.cost_derivative} method entirely, instead incorporating its functionality into the \inline{CrossEntropyCost.delta} method. How does this solve the problem you've just identified?
+\end{itemize}
+\section{How to choose a neural network's hyper-parameters?}
+
+
 \end{document}

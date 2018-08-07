@@ -418,7 +418,7 @@ Incidentally, when I described the MNIST data earlier, I said it was split into 
 
 Apart from the MNIST data we also need a Python library called Numpy, for doing fast linear algebra. If you don't already have Numpy installed, you can get it [link]here.
 
-Let me explain the core features of the neural networks code, before giving a full listing, below. The centerpiece is a \texttt{Network} class, which we use to represent a neural network. Here's the code we use to initialize a Network object:
+Let me explain the core features of the neural networks code, before giving a full listing, below. The centerpiece is a \inline{Network} class, which we use to represent a neural network. Here's the code we use to initialize a Network object:
 
 \begin{lstlisting}
 class Network(object):
@@ -428,14 +428,14 @@ class Network(object):
 		self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
 		self.weights = [np.random.randn(y, x) for x, y in zip(sizes[:-1], sizes[1:])]
 \end{lstlisting}
-In this code, the list \texttt{sizes} contains the number of neurons in the respective layers. So, for example, if we want to create a \texttt{Network} object with 2 neurons in the first layer, 3 neurons in the second layer, and 1 neuron in the final layer, we'd do this with the code:
+In this code, the list \inline{sizes} contains the number of neurons in the respective layers. So, for example, if we want to create a \inline{Network} object with 2 neurons in the first layer, 3 neurons in the second layer, and 1 neuron in the final layer, we'd do this with the code:
 
 \begin{lstlisting}
 net = Network([2, 3, 1])
 \end{lstlisting}
-The biases and weights in the \texttt{Network} object are all initialized randomly, using the Numpy \texttt{np.random.randn} function to generate Gaussian distributions with mean 0 and standard deviation 1. This random initialization gives our stochastic gradient descent algorithm a place to start from. In later chapters we'll find better ways of initializing the weights and biases, but this will do for now. Note that the Network initialization code assumes that the first layer of neurons is an input layer, and omits to set any biases for those neurons, since biases are only ever used in computing the outputs from later layers.
+The biases and weights in the \inline{Network} object are all initialized randomly, using the Numpy \inline{np.random.randn} function to generate Gaussian distributions with mean 0 and standard deviation 1. This random initialization gives our stochastic gradient descent algorithm a place to start from. In later chapters we'll find better ways of initializing the weights and biases, but this will do for now. Note that the Network initialization code assumes that the first layer of neurons is an input layer, and omits to set any biases for those neurons, since biases are only ever used in computing the outputs from later layers.
 
-Note also that the biases and weights are stored as lists of Numpy matrices. So, for example \texttt{net.weights[1]} is a Numpy matrix storing the weights connecting the second and third layers of neurons. (It's not the first and second layers, since Python's list indexing starts at 0.) Since \texttt{net.weights[1]} is rather verbose, let's just denote that matrix w. It's a matrix such that $w_{jk}$ is the weight for the connection between the $k^\mathrm{th}$ neuron in the second layer, and the $j^\mathrm{th}$ neuron in the third layer. This ordering of the $j$ and $k$ indices may seem strange -- surely it'd make more sense to swap the $j$ and $k$ indices around? The big advantage of using this ordering is that it means that the vector of activations of the third layer of neurons is:
+Note also that the biases and weights are stored as lists of Numpy matrices. So, for example \inline{net.weights[1]} is a Numpy matrix storing the weights connecting the second and third layers of neurons. (It's not the first and second layers, since Python's list indexing starts at 0.) Since \inline{net.weights[1]} is rather verbose, let's just denote that matrix w. It's a matrix such that $w_{jk}$ is the weight for the connection between the $k^\mathrm{th}$ neuron in the second layer, and the $j^\mathrm{th}$ neuron in the third layer. This ordering of the $j$ and $k$ indices may seem strange -- surely it'd make more sense to swap the $j$ and $k$ indices around? The big advantage of using this ordering is that it means that the vector of activations of the third layer of neurons is:
 \begin{equation}
 	a' = \sigma(w a + b).
 	\label{eq:22}
@@ -453,9 +453,9 @@ With all this in mind, it's easy to write code computing the output from a Netwo
 def sigmoid(z):
 	return 1.0/(1.0+np.exp(-z))
 \end{lstlisting}
-Note that when the input \texttt{z} is a vector or Numpy array, Numpy automatically applies the function \texttt{sigmoid} elementwise, that is, in vectorized form.
+Note that when the input \inline{z} is a vector or Numpy array, Numpy automatically applies the function \inline{sigmoid} elementwise, that is, in vectorized form.
 
-We then add a \texttt{feedforward} method to the \texttt{Network} class, which, given an input a for the network, returns the corresponding output\footnote{It is assumed that the input a is an (n, 1) Numpy ndarray, not a (n,) vector. Here, n is the number of inputs to the network. If you try to use an (n,) vector as input you'll get strange results. Although using an (n,) vector appears the more natural choice, using an (n, 1) ndarray makes it particularly easy to modify the code to feedforward multiple inputs at once, and that is sometimes convenient.}. All the method does is applies Equation \ref{eq:22} for each layer:
+We then add a \inline{feedforward} method to the \inline{Network} class, which, given an input a for the network, returns the corresponding output\footnote{It is assumed that the input a is an (n, 1) Numpy ndarray, not a (n,) vector. Here, n is the number of inputs to the network. If you try to use an (n,) vector as input you'll get strange results. Although using an (n,) vector appears the more natural choice, using an (n, 1) ndarray makes it particularly easy to modify the code to feedforward multiple inputs at once, and that is sometimes convenient.}. All the method does is applies Equation \ref{eq:22} for each layer:
 \begin{lstlisting}
 def feedforward(self, a):
 	"""Return the output of the network if "a" is input."""
@@ -464,7 +464,7 @@ def feedforward(self, a):
 	return a
 \end{lstlisting}
 
-Of course, the main thing we want our \texttt{Network} objects to do is to learn. To that end we'll give them an \texttt{SGD} method which implements stochastic gradient descent. Here's the code. It's a little mysterious in a few places, but I'll break it down below, after the listing.
+Of course, the main thing we want our \inline{Network} objects to do is to learn. To that end we'll give them an \inline{SGD} method which implements stochastic gradient descent. Here's the code. It's a little mysterious in a few places, but I'll break it down below, after the listing.
 \begin{lstlisting}
 def SGD(self, training_data, epochs, mini_batch_size, eta, test_data=None):
 	"""Train the neural network using mini-batch stochastic gradient descent.  The "training_data" is a list of tuples "(x, y)" representing the training inputs and the desired outputs.  The other non-optional parameters are self-explanatory.  If "test_data" is provided then the network will be evaluated against the test data after each epoch, and partial progress printed out.  This is useful for tracking progress, but slows things down substantially."""
@@ -482,9 +482,9 @@ def SGD(self, training_data, epochs, mini_batch_size, eta, test_data=None):
 		print "Epoch {0} complete".format(j)
 \end{lstlisting}
 
-The \texttt{training\_data} is a list of tuples \texttt{(x, y)} representing the training inputs and corresponding desired outputs. The variables \texttt{epochs} and  \texttt{mini\_batch\_size}  are what you'd expect -- the number of epochs to train for, and the size of the mini-batches to use when sampling. \texttt{eta} is the learning rate, $\eta$. If the optional argument \texttt{test\_data} is supplied, then the program will evaluate the network after each epoch of training, and print out partial progress. This is useful for tracking progress, but slows things down substantially.
+The \inline{training_data} is a list of tuples \inline{(x, y)} representing the training inputs and corresponding desired outputs. The variables \inline{epochs} and  \inline{mini_batch_size}  are what you'd expect -- the number of epochs to train for, and the size of the mini-batches to use when sampling. \inline{eta} is the learning rate, $\eta$. If the optional argument \inline{test_data} is supplied, then the program will evaluate the network after each epoch of training, and print out partial progress. This is useful for tracking progress, but slows things down substantially.
 
-The code works as follows. In each epoch, it starts by randomly shuffling the training data, and then partitions it into mini-batches of the appropriate size. This is an easy way of sampling randomly from the training data. Then for each \texttt{mini\_batch} we apply a single step of gradient descent. This is done by the code \texttt{self.update\_mini\_batch(mini\_batch, eta)}, which updates the network weights and biases according to a single iteration of gradient descent, using just the training data in \texttt{mini\_batch}. Here's the code for the \texttt{update\_mini\_batch} method:
+The code works as follows. In each epoch, it starts by randomly shuffling the training data, and then partitions it into mini-batches of the appropriate size. This is an easy way of sampling randomly from the training data. Then for each \inline{mini_batch} we apply a single step of gradient descent. This is done by the code \inline{self.update_mini_batch(mini_batch, eta)}, which updates the network weights and biases according to a single iteration of gradient descent, using just the training data in \inline{mini_batch}. Here's the code for the \inline{update_mini_batch} method:
 
 \begin{lstlisting}
 def update_mini_batch(self, mini_batch, eta):
@@ -503,11 +503,11 @@ Most of the work is done by the line
 \begin{lstlisting}
 delta_nabla_b, delta_nabla_w = self.backprop(x, y)
 \end{lstlisting}
-This invokes something called the \textit{backpropagation} algorithm, which is a fast way of computing the gradient of the cost function. So  \texttt{update\_mini\_batch} works simply by computing these gradients for every training example in the \texttt{mini\_batch}, and then updating \texttt{self.weights} and \texttt{self.biases} appropriately.
+This invokes something called the \textit{backpropagation} algorithm, which is a fast way of computing the gradient of the cost function. So  \inline{update_mini_batch} works simply by computing these gradients for every training example in the \inline{mini_batch}, and then updating \inline{self.weights} and \inline{self.biases} appropriately.
 
-I'm not going to show the code for \texttt{self.backprop} right now. We'll study how backpropagation works in the next chapter, including the code for \texttt{self.backprop}. For now, just assume that it behaves as claimed, returning the appropriate gradient for the cost associated to the training example x.
+I'm not going to show the code for \inline{self.backprop} right now. We'll study how backpropagation works in the next chapter, including the code for \inline{self.backprop}. For now, just assume that it behaves as claimed, returning the appropriate gradient for the cost associated to the training example x.
 
-Let's look at the full program, including the documentation strings, which I omitted above. Apart from \texttt{self.backprop} the program is self-explanatory -- all the heavy lifting is done in \texttt{self.SGD} and \texttt{self.update\_mini\_batch}, which we've already discussed. The \texttt{self.backprop} method makes use of a few extra functions to help in computing the gradient, namely \texttt{sigmoid\_prime}, which computes the derivative of the $\sigma$ function, and \texttt{self.cost\_derivative} , which I won't describe here. You can get the gist of these (and perhaps the details) just by looking at the code and documentation strings. We'll look at them in detail in the next chapter. Note that while the program appears lengthy, much of the code is documentation strings intended to make the code easy to understand. In fact, the program contains just 74 lines of non-whitespace, non-comment code. All the code may be found on GitHub [link]here.
+Let's look at the full program, including the documentation strings, which I omitted above. Apart from \inline{self.backprop} the program is self-explanatory -- all the heavy lifting is done in \inline{self.SGD} and \inline{self.update_mini_batch}, which we've already discussed. The \inline{self.backprop} method makes use of a few extra functions to help in computing the gradient, namely \inline{sigmoid_prime}, which computes the derivative of the $\sigma$ function, and \inline{self.cost_derivative} , which I won't describe here. You can get the gist of these (and perhaps the details) just by looking at the code and documentation strings. We'll look at them in detail in the next chapter. Note that while the program appears lengthy, much of the code is documentation strings intended to make the code easy to understand. In fact, the program contains just 74 lines of non-whitespace, non-comment code. All the code may be found on GitHub [link]here.
 \begin{lstlisting}
 """
 network.py
@@ -644,7 +644,7 @@ class Network(object):
 		"""Derivative of the sigmoid function."""
 		return sigmoid(z)*(1-sigmoid(z))
 \end{lstlisting}
-How well does the program recognize handwritten digits? Well, let's start by loading in the MNIST data. I'll do this using a little helper program, \texttt{mnist\_loader.py}, to be described below. We execute the following commands in a Python shell,
+How well does the program recognize handwritten digits? Well, let's start by loading in the MNIST data. I'll do this using a little helper program, \inline{mnist_loader.py}, to be described below. We execute the following commands in a Python shell,
 \begin{lstlisting}
 >>> import mnist_loader
 >>> training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
@@ -659,7 +659,7 @@ After loading the MNIST data, we'll set up a Network with 30 hidden neurons. We 
 >>> net = network.Network([784, 30, 10])
 \end{lstlisting}
 
-Finally, we'll use stochastic gradient descent to learn from the MNIST \texttt{training\_data} over 30 epochs, with a mini-batch size of 10, and a learning rate of $\eta=3.0$,
+Finally, we'll use stochastic gradient descent to learn from the MNIST \inline{training_data} over 30 epochs, with a mini-batch size of 10, and a learning rate of $\eta=3.0$,
 
 \begin{lstlisting}
 >>> net.SGD(training_data, 30, 10, 3.0, test_data=test_data)
