@@ -1164,7 +1164,6 @@ You can further speed up experimentation by stripping your network down to the s
 
 You can get another speed up in experimentation by increasing the frequency of monitoring. In \inline{network2.py} we monitor performance at the end of each training epoch. With 50,000 images per epoch, that means waiting a little while - about ten seconds per epoch, on my laptop, when training a [784, 30, 10] network - before getting feedback on how well the network is learning. Of course, ten seconds isn't very long, but if you want to trial dozens of hyper-parameter choices it's annoying, and if you want to trial hundreds or thousands of choices it starts to get debilitating. We can get feedback more quickly by monitoring the validation accuracy more often, say, after every 1,000 training images. Furthermore, instead of using the full 10,000 image validation set to monitor performance, we can get a much faster estimate using just 100 validation images. All that matters is that the network sees enough images to do real learning, and to get a pretty good rough estimate of performance. Of course, our program \inline{network2.py} doesn't currently do this kind of monitoring. But as a kludge to achieve a similar effect for the purposes of illustration, we'll strip down our training data to just the first 1,000 MNIST training images. Let's try it and see what happens. (To keep the code below simple I haven't implemented the idea of using only 0 and 1 images. Of course, that can be done with just a little more work.)
 \begin{lstlisting}
-
 >>> net = network2.Network([784, 10])
 >>> net.SGD(training_data[:1000], 30, 10, 10.0, lmbda = 1000.0, \
 ... evaluation_data=validation_data[:100], \
@@ -1178,13 +1177,11 @@ Accuracy on evaluation data: 10 / 100
 Epoch 2 training complete
 Accuracy on evaluation data: 10 / 100
 ...
-
 \end{lstlisting}
 We're still getting pure noise! But there's a big win: we're now getting feedback in a fraction of a second, rather than once every ten seconds or so. That means you can more quickly experiment with other choices of hyper-parameter, or even conduct experiments trialling many different choices of hyper-parameter nearly simultaneously.
 
 In the above example I left $\lambda$ as $\lambda=1000.0$, as we used earlier. But since we changed the number of training examples we should really change $\lambda$ to keep the weight decay the same. That means changing $\lambda$ to 20.0. If we do that then this is what happens:
 \begin{lstlisting}
-
 >>> net = network2.Network([784, 10])
 >>> net.SGD(training_data[:1000], 30, 10, 10.0, lmbda = 20.0, \
 ... evaluation_data=validation_data[:100], \
@@ -1201,12 +1198,10 @@ Accuracy on evaluation data: 25 / 100
 Epoch 3 training complete
 Accuracy on evaluation data: 18 / 100
 ...
-
 \end{lstlisting}
 Ahah! We have a signal. Not a terribly good signal, but a signal nonetheless. That's something we can build on, modifying the hyper-parameters to try to get further improvement. Maybe we guess that our learning rate needs to be higher. (As you perhaps realize, that's a silly guess, for reasons we'll discuss shortly, but please bear with me.) So to test our guess we try dialing $\eta$ up to 100.0:
 
 \begin{lstlisting}
-
 >>> net = network2.Network([784, 10])
 >>> net.SGD(training_data[:1000], 30, 10, 100.0, lmbda = 20.0, \
 ... evaluation_data=validation_data[:100], \
@@ -1223,12 +1218,10 @@ Accuracy on evaluation data: 10 / 100
 Epoch 3 training complete
 Accuracy on evaluation data: 10 / 100
 ...
-
 \end{lstlisting}
 That's no good! It suggests that our guess was wrong, and the problem wasn't that the learning rate was too low. So instead we try dialing $\eta$ down to $\eta=1.0$:
 
 \begin{lstlisting}
-
 >>> net = network2.Network([784, 10])
 >>> net.SGD(training_data[:1000], 30, 10, 1.0, lmbda = 20.0, \
 ... evaluation_data=validation_data[:100], \

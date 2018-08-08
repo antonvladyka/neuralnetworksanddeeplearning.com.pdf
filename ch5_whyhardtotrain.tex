@@ -76,39 +76,31 @@ This network has 784 neurons in the input layer, corresponding to the $28\times2
 
 Let's try training our network for 30 complete epochs, using mini-batches of 10 training examples at a time, a learning rate η=0.1, and regularization parameter $\lambda=5.0$. As we train we'll monitor the classification accuracy on the \inline{validation_data}\footnote{Note that the networks is likely to take some minutes to train, depending on the speed of your machine. So if you're running the code you may wish to continue reading and return later, not wait for the code to finish executing.}:
 \begin{lstlisting}
-
 >>> net.SGD(training_data, 30, 10, 0.1, lmbda=5.0, 
 ... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
-
 \end{lstlisting}
 We get a classification accuracy of 96.48 percent (or thereabouts -- it'll vary a bit from run to run), comparable to our earlier results with a similar configuration.
 
 Now, let's add another hidden layer, also with 30 neurons in it, and try training with the same hyper-parameters:
 
 \begin{lstlisting}
-
 >>> net = network2.Network([784, 30, 30, 10])
 >>> net.SGD(training_data, 30, 10, 0.1, lmbda=5.0, 
 ... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
-
 \end{lstlisting}
 This gives an improved classification accuracy, 96.90 percent. That's encouraging: a little more depth is helping. Let's add another 30-neuron hidden layer:
 
 \begin{lstlisting}
-
 >>> net = network2.Network([784, 30, 30, 30, 10])
 >>> net.SGD(training_data, 30, 10, 0.1, lmbda=5.0, 
 ... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
-
 \end{lstlisting}
 That doesn't help at all. In fact, the result drops back down to 96.57 percent, close to our original shallow network. And suppose we insert one further hidden layer:
 
 \begin{lstlisting}
-
 >>> net = network2.Network([784, 30, 30, 30, 30, 10])
 >>> net.SGD(training_data, 30, 10, 0.1, lmbda=5.0, 
 ... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
-
 \end{lstlisting}
 The classification accuracy drops again, to 96.53 percent. That's probably not a statistically significant drop, but it's not encouraging, either.
 
@@ -169,8 +161,6 @@ I'll start by simply showing you the expression for $\partial C/\partial b_1$. I
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz38}
 \end{center}
-
-
 The structure in the expression is as follows: there is a $\sigma'(z_j)$ term in the product for each neuron in the network; a weight $w_j$ term for each weight in the network; and a final $\partial C/\partial a_4$ term, corresponding to the cost function at the end. Notice that I've placed each term in the expression above the corresponding part of the network. So the network itself is a mnemonic for the expression.
 
 You're welcome to take this expression for granted, and skip to the discussion of how it relates to the vanishing gradient problem. There's no harm in doing this, since the expression is a special case of our earlier discussion of backpropagation. But there's also a simple explanation of why the expression is true, and so it's fun (and perhaps enlightening) to take a look at that explanation.
@@ -183,10 +173,7 @@ Imagine we make a small change $\delta b_1$ in the bias $b_1$. That will set off
 This suggests that we can figure out an expression for the gradient $\partial C/\partial b_1$ by carefully tracking the effect of each step in this cascade.
 
 
-
-
-
-To do this, let's think about how $\delta b_1$ causes the output a1 from the first hidden neuron to change. We have $a_1=\sigma(z_1)=\sigma(w_1a_0+b1)$, so
+To do this, let's think about how $\delta b_1$ causes the output $a_1$ from the first hidden neuron to change. We have $a_1=\sigma(z_1)=\sigma(w_1a_0+b_1)$, so
 %\delta a_1≈=\partial \sigma(w1a0+b1)\partial b1\delta b_1\sigma'(z1)\delta b_1.(115)(116)
 \begin{eqnarray}
 \Delta a_1 \approx \frac{\partial \sigma(w_1 a_0+b_1)}{\partial b_1} \Delta b_1 = \sigma'(z_1) \Delta b_1. \label{eq:116}
@@ -240,7 +227,7 @@ Of course, this is an informal argument, not a rigorous proof that the vanishing
 
 \textbf{The exploding gradient problem:} Let's look at an explicit example where exploding gradients occur. The example is somewhat contrived: I'm going to fix parameters in the network in just the right way to ensure we get an exploding gradient. But even though the example is contrived, it has the virtue of firmly establishing that exploding gradients aren't merely a hypothetical possibility, they really can happen.
 
-There are two steps to getting an exploding gradient. First, we choose all the weights in the network to be large, say $w_1=w_2=w_3=w_4=100$. Second, we'll choose the biases so that the $\sigma'(z_j)$ terms are not too small. That's actually pretty easy to do: all we need do is choose the biases to ensure that the weighted input to each neuron is $z_j=0$ (and so $\sigma'(z_j)=1/4$). So, for instance, we want $z_1=w_1a_0+b1=0$. We can achieve this by setting $b_1=−100\ast a0$. We can use the same idea to select the other biases. When we do this, we see that all the terms $w_j\sigma'(z_j)$ are equal to $100\ast1/4=25$. With these choices we get an exploding gradient.
+There are two steps to getting an exploding gradient. First, we choose all the weights in the network to be large, say $w_1=w_2=w_3=w_4=100$. Second, we'll choose the biases so that the $\sigma'(z_j)$ terms are not too small. That's actually pretty easy to do: all we need do is choose the biases to ensure that the weighted input to each neuron is $z_j=0$ (and so $\sigma'(z_j)=1/4$). So, for instance, we want $z_1=w_1a_0+b_1=0$. We can achieve this by setting $b_1=−100\ast a_0$. We can use the same idea to select the other biases. When we do this, we see that all the terms $w_j\sigma'(z_j)$ are equal to $100\times1/4=25$. With these choices we get an exploding gradient.
 
 \textbf{The unstable gradient problem:} The fundamental problem here isn't so much the vanishing gradient problem or the exploding gradient problem. It's that the gradient in early layers is the product of terms from all the later layers. When there are many layers, that's an intrinsically unstable situation. The only way all layers can learn at close to the same speed is if all those products of terms come close to balancing out. Without some mechanism or underlying reason for that balancing to occur, it's highly unlikely to happen simply by chance. In short, the real problem here is that neural networks suffer from an unstable gradient problem. As a result, if we use standard gradient-based learning techniques, different layers in the network will tend to learn at wildly different speeds.
 
@@ -255,7 +242,7 @@ There are two steps to getting an exploding gradient. First, we choose all the w
 %	2|w|ln(|w|(1+1−4/|w|−−−−−−−−√)2−1).(123)
 	\frac2{|w|}\ln\left(\frac{|w|(1+\sqrt{1-4/|w|})}{2}-1\right).\label{eq:123}
 \end{equation}
-(3) Show numerically that the above expression bounding the width of the range is greatest at $|w|\approx6.9$, where it takes a value ≈0.45. And so even given that everything lines up just perfectly, we still have a fairly narrow range of input activations which can avoid the vanishing gradient problem.
+(3) Show numerically that the above expression bounding the width of the range is greatest at $|w|\approx6.9$, where it takes a value $\approx0.45$. And so even given that everything lines up just perfectly, we still have a fairly narrow range of input activations which can avoid the vanishing gradient problem.
 \item \textbf{Identity neuron:} Consider a neuron with a single input, $x$, a corresponding weight, $w_1$, a bias $b$, and a weight $w_2$ on the output. Show that by choosing the weights and bias appropriately, we can ensure $w_2\sigma(w_1x+b)\approx x$ for $x\in[0,1]$. Such a neuron can thus be used as a kind of identity neuron, that is, a neuron whose output is the same (up to rescaling by a weight factor) as its input. \textit{Hint: It helps to rewrite $x=1/2+\Delta$, to assume $w_1$ is small, and to use a Taylor series expansion in $w_1\Delta$.}
 \end{exercize}
 \section{Unstable gradients in more complex networks}

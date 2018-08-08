@@ -90,11 +90,11 @@ A big advantage of sharing weights and biases is that it greatly reduces the num
 
 Of course, we can't really do a direct comparison between the number of parameters, since the two models are different in essential ways. But, intuitively, it seems likely that the use of translation invariance by the convolutional layer will reduce the number of parameters it needs to get the same performance as the fully-connected model. That, in turn, will result in faster training for the convolutional model, and, ultimately, will help us build deep networks using convolutional layers.
 
-Incidentally, the name convolutional comes from the fact that the operation in Equation (125) is sometimes known as a convolution. A little more precisely, people sometimes write that equation as $a^1=\sigma(b+w\ast a^0)$, where a1 denotes the set of output activations from one feature map, $a^0$ is the set of input activations, and $\ast$ is called a convolution operation. We're not going to make any deep use of the mathematics of convolutions, so you don't need to worry too much about this connection. But it's worth at least knowing where the name comes from.
+Incidentally, the name convolutional comes from the fact that the operation in Equation (125) is sometimes known as a convolution. A little more precisely, people sometimes write that equation as $a^1=\sigma(b+w\ast a^0)$, where $a_1$ denotes the set of output activations from one feature map, $a^0$ is the set of input activations, and $\ast$ is called a convolution operation. We're not going to make any deep use of the mathematics of convolutions, so you don't need to worry too much about this connection. But it's worth at least knowing where the name comes from.
 
 \textbf{Pooling layers:} In addition to the convolutional layers just described, convolutional neural networks also contain pooling layers. Pooling layers are usually used immediately after convolutional layers. What the pooling layers do is simplify the information in the output from the convolutional layer.
 
-In detail, a pooling layer takes each feature map* *The nomenclature is being used loosely here. In particular, I'm using ``feature map'' to mean not the function computed by the convolutional layer, but rather the activation of the hidden neurons output from the layer. This kind of mild abuse of nomenclature is pretty common in the research literature. output from the convolutional layer and prepares a condensed feature map. For instance, each unit in the pooling layer may summarize a region of (say) $2\times2$ neurons in the previous layer. As a concrete example, one common procedure for pooling is known as max-pooling. In max-pooling, a pooling unit simply outputs the maximum activation in the $2\times2$ input region, as illustrated in the following diagram:
+In detail, a pooling layer takes each feature map\footnote{The nomenclature is being used loosely here. In particular, I'm using ``feature map'' to mean not the function computed by the convolutional layer, but rather the activation of the hidden neurons output from the layer. This kind of mild abuse of nomenclature is pretty common in the research literature.} output from the convolutional layer and prepares a condensed feature map. For instance, each unit in the pooling layer may summarize a region of (say) $2\times2$ neurons in the previous layer. As a concrete example, one common procedure for pooling is known as max-pooling. In max-pooling, a pooling unit simply outputs the maximum activation in the $2\times2$ input region, as illustrated in the following diagram:
 \begin{center}
 	\includegraphics[height=0.3\linewidth]{figures/ch6/tikz47}
 \end{center}
@@ -122,6 +122,6 @@ In particular, just as earlier in the book, we will train our network using stoc
 
 \begin{exercize}{Problem}
 	\item Backpropagation in a convolutional network The core equations of backpropagation in a network with fully-connected layers are (BP1)-(BP4) [link]. Suppose we have a network containing a convolutional layer, a max-pooling layer, and a fully-connected output layer, as in the network discussed above. How are the equations of backpropagation modified?
-\end{exercize}Problem
+\end{exercize}
 \section{Convolutional neural networks in practice}
 \end{document}
