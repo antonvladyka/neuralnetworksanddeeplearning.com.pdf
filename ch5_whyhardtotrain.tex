@@ -49,52 +49,66 @@ To answer that question, let's first revisit the case of a network with just a s
 
 If you wish, you can follow along by training networks on your computer. It is also, of course, fine to just read along. If you do wish to follow live, then you'll need Python 2.7, Numpy, and a copy of the code, which you can get by cloning the relevant repository from the command line:
 
-\begin{lstlisting}
-git clone https://github.com/mnielsen/neural-networks-and-deep-learning.git
+\begin{lstlisting}
+
+git clone https://github.com/mnielsen/neural-networks-and-deep-learning.git
+
 \end{lstlisting}
 If you don't use git then you can download the data and code here. You'll need to change into the \inline{src} subdirectory.
 Then, from a Python shell we load the MNIST data:
 
-\begin{lstlisting}
+\begin{lstlisting}
+
 >>> import mnist_loader
 >>> training_data, validation_data, test_data = \
-... mnist_loader.load_data_wrapper()
+... mnist_loader.load_data_wrapper()
+
 \end{lstlisting}
 We set up our network:
 
-\begin{lstlisting}
+\begin{lstlisting}
+
 >>> import network2
->>> net = network2.Network([784, 30, 10])
+>>> net = network2.Network([784, 30, 10])
+
 \end{lstlisting}
 This network has 784 neurons in the input layer, corresponding to the $28\times28=784$ pixels in the input image. We use 30 hidden neurons, as well as 10 output neurons, corresponding to the 10 possible classifications for the MNIST digits (`0', `1', `2',..., `9').
 
 Let's try training our network for 30 complete epochs, using mini-batches of 10 training examples at a time, a learning rate η=0.1, and regularization parameter $\lambda=5.0$. As we train we'll monitor the classification accuracy on the \inline{validation_data}\footnote{Note that the networks is likely to take some minutes to train, depending on the speed of your machine. So if you're running the code you may wish to continue reading and return later, not wait for the code to finish executing.}:
-\begin{lstlisting}
+\begin{lstlisting}
+
 >>> net.SGD(training_data, 30, 10, 0.1, lmbda=5.0, 
-... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
+... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
+
 \end{lstlisting}
 We get a classification accuracy of 96.48 percent (or thereabouts -- it'll vary a bit from run to run), comparable to our earlier results with a similar configuration.
 
 Now, let's add another hidden layer, also with 30 neurons in it, and try training with the same hyper-parameters:
 
-\begin{lstlisting}
+\begin{lstlisting}
+
 >>> net = network2.Network([784, 30, 30, 10])
 >>> net.SGD(training_data, 30, 10, 0.1, lmbda=5.0, 
-... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
+... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
+
 \end{lstlisting}
 This gives an improved classification accuracy, 96.90 percent. That's encouraging: a little more depth is helping. Let's add another 30-neuron hidden layer:
 
-\begin{lstlisting}
+\begin{lstlisting}
+
 >>> net = network2.Network([784, 30, 30, 30, 10])
 >>> net.SGD(training_data, 30, 10, 0.1, lmbda=5.0, 
-... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
+... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
+
 \end{lstlisting}
 That doesn't help at all. In fact, the result drops back down to 96.57 percent, close to our original shallow network. And suppose we insert one further hidden layer:
 
-\begin{lstlisting}
+\begin{lstlisting}
+
 >>> net = network2.Network([784, 30, 30, 30, 30, 10])
 >>> net.SGD(training_data, 30, 10, 0.1, lmbda=5.0, 
-... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
+... evaluation_data=validation_data, monitor_evaluation_accuracy=True)
+
 \end{lstlisting}
 The classification accuracy drops again, to 96.53 percent. That's probably not a statistically significant drop, but it's not encouraging, either.
 
@@ -234,31 +248,40 @@ There are two steps to getting an exploding gradient. First, we choose all the w
 \item In our discussion of the vanishing gradient problem, we made use of the fact that $|\sigma'(z)|<1/4$. Suppose we used a different activation function, one whose derivative could be much larger. Would that help us avoid the unstable gradient problem?
 \end{exercize}
 \textbf{The prevalence of the vanishing gradient problem:} We've seen that the gradient can either vanish or explode in the early layers of a deep network. In fact, when using sigmoid neurons the gradient will usually vanish. To see why, consider again the expression $|w\sigma'(z)|$. To avoid the vanishing gradient problem we need $|w\sigma'(z)|\geq1$. You might think this could happen easily if w is very large. However, it's more difficult than it looks. The reason is that the $\sigma'(z)$ term also depends on w: $\sigma'(z)=\sigma'(wa+b)$, where a is the input activation. So when we make w large, we need to be careful that we're not simultaneously making $\sigma'(wa+b)$ small. That turns out to be a considerable constraint. The reason is that when we make w large we tend to make wa+b very large. Looking at the graph of $\sigma'$ you can see that this puts us off in the ``wings'' of the $\sigma'$ function, where it takes very small values. The only way to avoid this is if the input activation falls within a fairly narrow range of values (this qualitative explanation is made quantitative in the first problem below). Sometimes that will chance to happen. More often, though, it does not happen. And so in the generic case we have vanishing gradients.
-%
-%Problems
-%Consider the product |w\sigma'(wa+b)|. Suppose |w\sigma'(wa+b)|≥1. (1) Argue that this can only ever occur if |w|≥4. (2) Supposing that |w|≥4, consider the set of input activations a for which |w\sigma'(wa+b)|≥1. Show that the set of a satisfying that constraint can range over an interval no greater in width than
-%2|w|ln(|w|(1+1−4/|w|−−−−−−−−√)2−1).(123)
-%(3) Show numerically that the above expression bounding the width of the range is greatest at |w|≈6.9, where it takes a value ≈0.45. And so even given that everything lines up just perfectly, we still have a fairly narrow range of input activations which can avoid the vanishing gradient problem.
-%Identity neuron: Consider a neuron with a single input, x, a corresponding weight, w1, a bias b, and a weight w2 on the output. Show that by choosing the weights and bias appropriately, we can ensure w2\sigma(w1x+b)≈x for x∈[0,1]. Such a neuron can thus be used as a kind of identity neuron, that is, a neuron whose output is the same (up to rescaling by a weight factor) as its input. Hint: It helps to rewrite x=1/2+\delta, to assume w1 is small, and to use a Taylor series expansion in w1\delta.
-%Unstable gradients in more complex networks
-%We've been studying toy networks, with just one neuron in each hidden layer. What about more complex deep networks, with many neurons in each hidden layer?
-%
-%
-%In fact, much the same behaviour occurs in such networks. In the earlier chapter on backpropagation we saw that the gradient in the lth layer of an L layer network is given by:
-%
+
+\begin{exercize}{Problems}
+\item Consider the product $|w\sigma'(wa+b)|$. Suppose $|w\sigma'(wa+b)|\geq1$. (1) Argue that this can only ever occur if $|w|≥\geq4$. (2) Supposing that $|w|\geq4$, consider the set of input activations a for which $|w\sigma'(wa+b)|\geq1$. Show that the set of a satisfying that constraint can range over an interval no greater in width than
+\begin{equation}
+%	2|w|ln(|w|(1+1−4/|w|−−−−−−−−√)2−1).(123)
+	\frac2{|w|}\ln\left(\frac{|w|(1+\sqrt{1-4/|w|})}{2}-1\right).\label{eq:123}
+\end{equation}
+(3) Show numerically that the above expression bounding the width of the range is greatest at $|w|\approx6.9$, where it takes a value ≈0.45. And so even given that everything lines up just perfectly, we still have a fairly narrow range of input activations which can avoid the vanishing gradient problem.
+\item \textbf{Identity neuron:} Consider a neuron with a single input, $x$, a corresponding weight, $w_1$, a bias $b$, and a weight $w_2$ on the output. Show that by choosing the weights and bias appropriately, we can ensure $w_2\sigma(w_1x+b)\approx x$ for $x\in[0,1]$. Such a neuron can thus be used as a kind of identity neuron, that is, a neuron whose output is the same (up to rescaling by a weight factor) as its input. \textit{Hint: It helps to rewrite $x=1/2+\Delta$, to assume $w_1$ is small, and to use a Taylor series expansion in $w_1\Delta$.}
+\end{exercize}
+\section{Unstable gradients in more complex networks}
+We've been studying toy networks, with just one neuron in each hidden layer. What about more complex deep networks, with many neurons in each hidden layer?
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz40}
+\end{center}
+In fact, much the same behaviour occurs in such networks. In the earlier chapter on backpropagation we saw that the gradient in the $l$-th layer of an L layer network is given by:
+
 %\deltal=\sigma'(zl)(wl+1)T\sigma'(zl+1)(wl+2)T…\sigma'(zL)∇aC(124)
-%Here, \sigma'(zl) is a diagonal matrix whose entries are the \sigma'(z) values for the weighted inputs to the lth layer. The wl are the weight matrices for the different layers. And ∇aC is the vector of partial derivatives of C with respect to the output activations.
-%
-%This is a much more complicated expression than in the single-neuron case. Still, if you look closely, the essential form is very similar, with lots of pairs of the form (w_j)T\sigma'(z_j). What's more, the matrices \sigma'(z_j) have small entries on the diagonal, none larger than 14. Provided the weight matrices w_j aren't too large, each additional term (w_j)T\sigma'(zl) tends to make the gradient vector smaller, leading to a vanishing gradient. More generally, the large number of terms in the product tends to lead to an unstable gradient, just as in our earlier example. In practice, empirically it is typically found in sigmoid networks that gradients vanish exponentially quickly in earlier layers. As a result, learning slows down in those layers. This slowdown isn't merely an accident or an inconvenience: it's a fundamental consequence of the approach we're taking to learning.
-%
-%Other obstacles to deep learning
-%In this chapter we've focused on vanishing gradients - and, more generally, unstable gradients - as an obstacle to deep learning. In fact, unstable gradients are just one obstacle to deep learning, albeit an important fundamental obstacle. Much ongoing research aims to better understand the challenges that can occur when training deep networks. I won't comprehensively summarize that work here, but just want to briefly mention a couple of papers, to give you the flavor of some of the questions people are asking.
-%
-%As a first example, in 2010 Glorot and Bengio* *Understanding the difficulty of training deep feedforward neural networks, by Xavier Glorot and Yoshua Bengio (2010). See also the earlier discussion of the use of sigmoids in Efficient BackProp, by Yann LeCun, Léon Bottou, Genevieve Orr and Klaus-Robert Müller (1998). found evidence suggesting that the use of sigmoid activation functions can cause problems training deep networks. In particular, they found evidence that the use of sigmoids will cause the activations in the final hidden layer to saturate near 0 early in training, substantially slowing down learning. They suggested some alternative activation functions, which appear not to suffer as much from this saturation problem.
-%
-%As a second example, in 2013 Sutskever, Martens, Dahl and Hinton* *On the importance of initialization and momentum in deep learning, by Ilya Sutskever, James Martens, George Dahl and Geoffrey Hinton (2013). studied the impact on deep learning of both the random weight initialization and the momentum schedule in momentum-based stochastic gradient descent. In both cases, making good choices made a substantial difference in the ability to train deep networks.
-%
-%These examples suggest that "What makes deep networks hard to train?" is a complex question. In this chapter, we've focused on the instabilities associated to gradient-based learning in deep networks. The results in the last two paragraphs suggest that there is also a role played by the choice of activation function, the way weights are initialized, and even details of how learning by gradient descent is implemented. And, of course, choice of network architecture and other hyper-parameters is also important. Thus, many factors can play a role in making deep networks hard to train, and understanding all those factors is still a subject of ongoing research. This all seems rather downbeat and pessimism-inducing. But the good news is that in the next chapter we'll turn that around, and develop several approaches to deep learning that to some extent manage to overcome or route around all these challenges.
-%
-%
+\begin{eqnarray}
+\delta^l = \Sigma'(z^l) (w^{l+1})^T \Sigma'(z^{l+1}) (w^{l+2})^T \ldots\Sigma'(z^L) \nabla_a C
+\label{eq:124}
+\end{eqnarray}
+Here, $\Sigma'(z^l)$ is a diagonal matrix whose entries are the $\sigma'(z)$ values for the weighted inputs to the $l$-th layer. The $w^l$ are the weight matrices for the different layers. And $\nabla_aC$ is the vector of partial derivatives of $C$ with respect to the output activations.
+
+This is a much more complicated expression than in the single-neuron case. Still, if you look closely, the essential form is very similar, with lots of pairs of the form $(w^j)^T\Sigma'(z^j)$. What's more, the matrices $\Sigma'(z^j)$ have small entries on the diagonal, none larger than 1/4. Provided the weight matrices $w^j$ aren't too large, each additional term $(w^j)^T\Sigma'(z^l)$ tends to make the gradient vector smaller, leading to a vanishing gradient. More generally, the large number of terms in the product tends to lead to an unstable gradient, just as in our earlier example. In practice, empirically it is typically found in sigmoid networks that gradients vanish exponentially quickly in earlier layers. As a result, learning slows down in those layers. This slowdown isn't merely an accident or an inconvenience: it's a fundamental consequence of the approach we're taking to learning.
+
+\section{Other obstacles to deep learning}
+In this chapter we've focused on vanishing gradients - and, more generally, unstable gradients - as an obstacle to deep learning. In fact, unstable gradients are just one obstacle to deep learning, albeit an important fundamental obstacle. Much ongoing research aims to better understand the challenges that can occur when training deep networks. I won't comprehensively summarize that work here, but just want to briefly mention a couple of papers, to give you the flavor of some of the questions people are asking.
+
+As a first example, in 2010 Glorot and Bengio\footnote{[link]Understanding the difficulty of training deep feedforward neural networks, by Xavier Glorot and Yoshua Bengio (2010). See also the earlier discussion of the use of sigmoids in Efficient BackProp, by Yann LeCun, L\'eon Bottou, Genevieve Orr and Klaus-Robert M\"uller (1998).} found evidence suggesting that the use of sigmoid activation functions can cause problems training deep networks. In particular, they found evidence that the use of sigmoids will cause the activations in the final hidden layer to saturate near 0 early in training, substantially slowing down learning. They suggested some alternative activation functions, which appear not to suffer as much from this saturation problem.
+
+As a second example, in 2013 Sutskever, Martens, Dahl and Hinton\footnote{[link]On the importance of initialization and momentum in deep learning, by Ilya Sutskever, James Martens, George Dahl and Geoffrey Hinton (2013).} studied the impact on deep learning of both the random weight initialization and the momentum schedule in momentum-based stochastic gradient descent. In both cases, making good choices made a substantial difference in the ability to train deep networks.
+
+These examples suggest that ``What makes deep networks hard to train?'' is a complex question. In this chapter, we've focused on the instabilities associated to gradient-based learning in deep networks. The results in the last two paragraphs suggest that there is also a role played by the choice of activation function, the way weights are initialized, and even details of how learning by gradient descent is implemented. And, of course, choice of network architecture and other hyper-parameters is also important. Thus, many factors can play a role in making deep networks hard to train, and understanding all those factors is still a subject of ongoing research. This all seems rather downbeat and pessimism-inducing. But the good news is that in the next chapter we'll turn that around, and develop several approaches to deep learning that to some extent manage to overcome or route around all these challenges.
+
+
 \end{document}
