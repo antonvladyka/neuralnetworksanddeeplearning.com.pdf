@@ -16,7 +16,7 @@ No matter what the function, there is guaranteed to be a neural network so that 
 \end{center}
 This result holds even if the function has many inputs, $f=f(x_1,\ldots,x_m)$, and many outputs. For instance, here's a network computing a function with $m=3$ inputs and $n=2$ outputs:
 \begin{center}
-	\includegraphics[width=0.55\linewidth]{figures/ch4/tikz401}
+	\includegraphics[width=0.45\linewidth]{figures/ch4/tikz401}
 \end{center}
 This result tells us that neural networks have a kind of \textit{universality}. No matter what function we want to compute, we know that there is a neural network which can do the job.
 
@@ -38,13 +38,13 @@ Before explaining why the universality theorem is true, I want to mention two ca
 
 First, this doesn't mean that a network can be used to \textit{exactly} compute any function. Rather, we can get an \textit{approximation} that is as good as we want. By increasing the number of hidden neurons we can improve the approximation. For instance, [link]earlier I illustrated a network computing some function $f(x)$ using three hidden neurons. For most functions only a low-quality approximation will be possible using three hidden neurons. By increasing the number of hidden neurons (say, to five) we can typically get a better approximation:
 \begin{center}
-	\includegraphics[width=0.55\linewidth]{figures/ch4/tikz402}
+	\includegraphics[width=0.45\linewidth]{figures/ch4/tikz402}
 \end{center}
 And we can do still better by further increasing the number of hidden neurons.
 
 To make this statement more precise, suppose we're given a function $f(x)$ which we'd like to compute to within some desired accuracy $\epsilon>0$. The guarantee is that by using enough hidden neurons we can always find a neural network whose output $g(x)$ satisfies $|g(x)-f(x)|<\epsilon$, for all inputs $x$. In other words, the approximation will be good to within the desired accuracy for every possible input.
 
-The second caveat is that the class of functions which can be approximated in the way described are the continuous functions. If a function is discontinuous, i.e., makes sudden, sharp jumps, then it won't in general be possible to approximate using a neural net. This is not surprising, since our neural networks compute continuous functions of their input. However, even if the function we'd really like to compute is discontinuous, it's often the case that a continuous approximation is good enough. If that's so, then we can use a neural network. In practice, this is not usually an important limitation.
+The second caveat is that the class of functions which can be approximated in the way described are the \textit{continuous} functions. If a function is discontinuous, i.e., makes sudden, sharp jumps, then it won't in general be possible to approximate using a neural net. This is not surprising, since our neural networks compute continuous functions of their input. However, even if the function we'd really like to compute is discontinuous, it's often the case that a continuous approximation is good enough. If that's so, then we can use a neural network. In practice, this is not usually an important limitation.
 
 Summing up, a more precise statement of the universality theorem is that neural networks with a single hidden layer can be used to approximate any continuous function to any desired precision. In this chapter we'll actually prove a slightly weaker version of this result, using two hidden layers instead of one. In the problems I'll briefly outline how the explanation can, with a few tweaks, be adapted to give a proof which uses only a single hidden layer.
 
@@ -61,12 +61,13 @@ It turns out that this is the core of the problem of universality. Once we've un
 
 To build insight into how to construct a network to compute $f$, let's start with a network containing just a single hidden layer, with two hidden neurons, and an output layer containing a single output neuron:
 \begin{center}
-	\includegraphics[width=0.45\linewidth]{figures/ch4/tikz403}
+	\includegraphics[width=0.45\linewidth]{figures/ch4/tikz403x}
 \end{center}
 To get a feel for how components in the network work, let's focus on the top hidden neuron. In the diagram below, click on the weight, $w$, and drag the mouse a little ways to the right to increase $w$. You can immediately see how the function computed by the top hidden neuron changes:
 \begin{center}
 \begin{tikzpicture}[declare function = {sigma(\x) = 1/(1+exp(-\x)); f(\x,\w,\b) = sigma(\w*\x+\b);}]
-\pgfplotsset{every axis legend/.append style={at={(1.03,1)},anchor=north west}}
+\pgfplotsset{every axis legend/.append style={at={(1.03,1)},anchor=north west}}
+
 \begin{axis}[width=0.75\linewidth,height=0.45\linewidth,title={Output from neuron},axis x line=bottom,axis y line=left,xtick={0,1},ytick={0,1},xmax=1.05,ymax=1.05]
 \addplot[blue!90!red,domain=0:1,samples=101]{f(x,7,-6)};
 \addplot[blue!75!red,domain=0:1,samples=101]{f(x,7,-5)};
@@ -83,7 +84,8 @@ To get a feel for how components in the network work, let's focus on the top hid
 \end{center}
 \begin{center}
 	\begin{tikzpicture}[declare function = {sigma(\x) = 1/(1+exp(-\x)); f(\x,\w,\b) = sigma(\w*\x+\b);}]
-	\pgfplotsset{every axis legend/.append style={at={(1.03,1)},anchor=north west}}
+	\pgfplotsset{every axis legend/.append style={at={(1.03,1)},anchor=north west}}
+
 	\begin{axis}[width=0.75\linewidth,height=0.45\linewidth,title={Output from neuron},axis x line=bottom,axis y line=left,xtick={0,1},ytick={0,1},xmax=1.05,ymax=1.05]
 	\addplot[blue!90!red,domain=0:1,samples=101]{f(x,9,-4)};
 	\addplot[blue!75!red,domain=0:1,samples=101]{f(x,8,-4)};
@@ -99,21 +101,22 @@ To get a feel for how components in the network work, let's focus on the top hid
 	\end{tikzpicture}
 \end{center}
 As we learnt earlier in the book, what's being computed by the hidden neuron is $\sigma(wx+b)$, where $\sigma(z)\equiv1/(1+e^{-z})$ is the sigmoid function. Up to now, we've made frequent use of this algebraic form. But for the proof of universality we will obtain more insight by ignoring the algebra entirely, and instead manipulating and observing the shape shown in the graph. This won't just give us a better feel for what's going on, it will also give us a proof\footnote{Strictly speaking, the visual approach I'm taking isn't what's traditionally thought of as a proof. But I believe the visual approach gives more insight into why the result is true than a traditional proof. And, of course, that kind of insight is the real purpose behind a proof. Occasionally, there will be small gaps in the reasoning I present: places where I make a visual argument that is plausible, but not quite rigorous. If this bothers you, then consider it a challenge to fill in the missing steps. But don't lose sight of the real purpose: to understand why the universality theorem is true.} of universality that applies to activation functions other than the sigmoid function.
-%
-%To get started on this proof, try clicking on the bias, $b$, in the diagram above, and dragging to the right to increase it. You'll see that as the bias increases the graph moves to the left, but its shape doesn't change.
-%
-%Next, click and drag to the left in order to decrease the bias. You'll see that as the bias decreases the graph moves to the right, but, again, its shape doesn't change.
-%
-%Next, decrease the weight to around 2 or 3. You'll see that as you decrease the weight, the curve broadens out. You might need to change the bias as well, in order to keep the curve in-frame.
-%
-%Finally, increase the weight up past w=100. As you do, the curve gets steeper, until eventually it begins to look like a step function. Try to adjust the bias so the step occurs near $x=0.3$. The following short clip shows what your result should look like. Click on the play button to play (or replay) the video:
-%
-%
-%We can simplify our analysis quite a bit by increasing the weight so much that the output really is a step function, to a very good approximation. Below I've plotted the output from the top hidden neuron when the weight is $w=999$. Note that this plot is static, and you can't change parameters such as the weight.
-%
-%
-%
-It's actually quite a bit easier to work with step functions than general sigmoid functions. The reason is that in the output layer we add up contributions from all the hidden neurons. It's easy to analyze the sum of a bunch of step functions, but rather more difficult to reason about what happens when you add up a bunch of sigmoid shaped curves. And so it makes things much easier to assume that our hidden neurons are outputting step functions. More concretely, we do this by fixing the weight w to be some very large value, and then setting the position of the step by modifying the bias. Of course, treating the output as a step function is an approximation, but it's a very good approximation, and for now we'll treat it as exact. I'll come back later to discuss the impact of deviations from this approximation.
+
+To get started on this proof, try clicking on the bias, $b$, in the diagram above, and dragging to the right to increase it. You'll see that as the bias increases the graph moves to the left, but its shape doesn't change.
+
+Next, click and drag to the left in order to decrease the bias. You'll see that as the bias decreases the graph moves to the right, but, again, its shape doesn't change.
+
+Next, decrease the weight to around 2 or 3. You'll see that as you decrease the weight, the curve broadens out. You might need to change the bias as well, in order to keep the curve in-frame.
+
+Finally, increase the weight up past w=100. As you do, the curve gets steeper, until eventually it begins to look like a step function. Try to adjust the bias so the step occurs near $x=0.3$. The following short clip shows what your result should look like. Click on the play button to play (or replay) the video:
+\begin{lstlisting}
+ANIMATION
+\end{lstlisting}
+We can simplify our analysis quite a bit by increasing the weight so much that the output really is a step function, to a very good approximation. Below I've plotted the output from the top hidden neuron when the weight is $w=999$. Note that this plot is static, and you can't change parameters such as the weight.
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{figures/ch4/high_weight_function}
+\end{center}
+It's actually quite a bit easier to work with step functions than general sigmoid functions. The reason is that in the output layer we add up contributions from all the hidden neurons. It's easy to analyze the sum of a bunch of step functions, but rather more difficult to reason about what happens when you add up a bunch of sigmoid shaped curves. And so it makes things much easier to assume that our hidden neurons are outputting step functions. More concretely, we do this by fixing the weight $w$ to be some very large value, and then setting the position of the step by modifying the bias. Of course, treating the output as a step function is an approximation, but it's a very good approximation, and for now we'll treat it as exact. I'll come back later to discuss the impact of deviations from this approximation.
 
 At what value of $x$ does the step occur? Put another way, how does the position of the step depend upon the weight and bias?
 
@@ -121,16 +124,19 @@ To answer this question, try modifying the weight and bias in the diagram above 
 
 In fact, the step is at position $s=-b/w$, as you can see by modifying the weight and bias in the following diagram:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch4/tikz421}
+	\includegraphics[width=0.7\linewidth]{figures/ch4/tikz404}
 \end{center}
 It will greatly simplify our lives to describe hidden neurons using just a single parameter, $s$, which is the step position, $s=-b/w$. Try modifying s in the following diagram, in order to get used to the new parameterization:
-\begin{lstlisting}
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{figures/ch4/tikz405}
+\end{center}
+\begin{lstlisting}
 ANIMATIOIN
 \end{lstlisting}
 As noted above, we've implicitly set the weight w on the input to be some large value - big enough that the step function is a very good approximation. We can easily convert a neuron parameterized in this way back into the conventional model, by choosing the bias $b=-ws$.
 
 Up to now we've been focusing on the output from just the top hidden neuron. Let's take a look at the behavior of the entire network. In particular, we'll suppose the hidden neurons are computing step functions parameterized by step points $s_1$ (top neuron) and $s_2$ (bottom neuron). And they'll have respective output weights $w_1$ and $w_2$. Here's the network:
-\begin{lstlisting}
+\begin{lstlisting}
 ANIMATIOIN
 \end{lstlisting}
 What's being plotted on the right is the weighted output $w_1a_1+w_2a_2$ from the hidden layer. Here, $a_1$ and $a_2$ are the outputs from the top and bottom hidden neurons, respectively\footnote{Note, by the way, that the output from the whole network is $\sigma(w_1a_1+w_2a_2+b)$, where $b$ is the bias on the output neuron. Obviously, this isn't the same as the weighted output from the hidden layer, which is what we're plotting here. We're going to focus on the weighted output from the hidden layer right now, and only later will we think about how that relates to the output from the whole network.}. These outputs are denoted with as because they're often known as the neurons' activations.
@@ -146,34 +152,37 @@ Finally, try setting $w_1$ to be 0.8 and $w_2$ to be -0.8. You get a ``bump'' fu
 	\includegraphics[width=0.7\linewidth]{figures/ch4/bump_function}
 \end{center}
 Of course, we can rescale the bump to have any height at all. Let's use a single parameter, $h$, to denote the height. To reduce clutter I'll also remove the ``$s_1=\ldots$'' and ``$w_1=\ldots$'' notations.
-\begin{lstlisting}
+\begin{lstlisting}
+
 ANIMATION
 \end{lstlisting}%
 Try changing the value of $h$ up and down, to see how the height of the bump changes. Try changing the height so it's negative, and observe what happens. And try changing the step points to see how that changes the shape of the bump.
 
 You'll notice, by the way, that we're using our neurons in a way that can be thought of not just in graphical terms, but in more conventional programming terms, as a kind of \texttt{if-then-else} statement, e.g.:
-\begin{lstlisting}
+\begin{lstlisting}
 if input >= step point:
 	add 1 to the weighted output
 else:
-	add 0 to the weighted output
+	add 0 to the weighted output
 \end{lstlisting}
 For the most part I'm going to stick with the graphical point of view. But in what follows you may sometimes find it helpful to switch points of view, and think about things in terms of \texttt{if-then-else}.
 
 We can use our bump-making trick to get two bumps, by gluing two pairs of hidden neurons together into the same network:
-\begin{lstlisting}
+\begin{lstlisting}
+
 ANIMATION
 \end{lstlisting}%
 
 I've suppressed the weights here, simply writing the $h$ values for each pair of hidden neurons. Try increasing and decreasing both h values, and observe how it changes the graph. Move the bumps around by changing the step points.
 
 More generally, we can use this idea to get as many peaks as we want, of any height. In particular, we can divide the interval [0,1] up into a large number, $N$, of subintervals, and use $N$ pairs of hidden neurons to set up peaks of any desired height. Let's see how this works for $N=5$. That's quite a few neurons, so I'm going to pack things in a bit. Apologies for the complexity of the diagram: I could hide the complexity by abstracting away further, but I think it's worth putting up with a little complexity, for the sake of getting a more concrete feel for how these networks work.
-\begin{lstlisting}
+\begin{lstlisting}
+
 ANIMATION
 \end{lstlisting}%
 You can see that there are five pairs of hidden neurons. The step points for the respective pairs of neurons are 0,1/5, then 1/5,2/5, and so on, out to 4/5,5/5. These values are fixed - they make it so we get five evenly spaced bumps on the graph.
 
-Each pair of neurons has a value of $h$ associated to it. Remember, the connections output from the neurons have weights $h$ and $-h$ (not marked). Click on one of the $h$ values, and drag the mouse to the right or left to change the value. As you do so, watch the function change. By changing the output weights we're actually designing the function!
+Each pair of neurons has a value of $h$ associated to it. Remember, the connections output from the neurons have weights $h$ and $-h$ (not marked). Click on one of the $h$ values, and drag the mouse to the right or left to change the value. As you do so, watch the function change. By changing the output weights we're actually \textit{designing} the function!
 
 Contrariwise, try clicking on the graph, and dragging up or down to change the height of any of the bump functions. As you change the heights, you can see the corresponding change in $h$ values. And, although it's not shown, there is also a change in the corresponding output weights, which are $+h$ and $-h$.
 
@@ -213,11 +222,10 @@ If we can do this, then the output from the network as a whole will be a good ap
 
 Your challenge, then, is to design a neural network to approximate the goal function shown just above. To learn as much as possible, I want you to solve the problem twice. The first time, please click on the graph, directly adjusting the heights of the different bump functions. You should find it fairly easy to get a good match to the goal function. How well you're doing is measured by the average deviation between the goal function and the function the network is actually computing. Your challenge is to drive the average deviation as low as possible. You complete the challenge when you drive the average deviation to 0.40 or below.
 
-Once you've done that, click on "Reset" to randomly re-initialize the bumps. The second time you solve the problem, resist the urge to click on the graph. Instead, modify the h values on the left-hand side, and again attempt to drive the average deviation to 0.40 or below.
-\begin{lstlisting}
+Once you've done that, click on ``Reset'' to randomly re-initialize the bumps. The second time you solve the problem, resist the urge to click on the graph. Instead, modify the h values on the left-hand side, and again attempt to drive the average deviation to 0.40 or below.
+\begin{lstlisting}
 ANIMATION
 \end{lstlisting}
-
 You've now figured out all the elements necessary for the network to approximately compute the function $f(x)$! It's only a coarse approximation, but we could easily do much better, merely by increasing the number of pairs of hidden neurons, allowing more bumps.
 
 In particular, it's easy to convert all the data we have found back into the standard parameterization used for neural networks. Let me just recap quickly how that works.
@@ -229,64 +237,186 @@ The biases on the hidden neurons are just $b=-ws$. So, for instance, for the sec
 The final layer of weights are determined by the $h$ values. So, for instance, the value you've chosen above for the first $h$, $h= -0.6$, means that the output weights from the top two hidden neurons are $-0.6$ and 0.6, respectively. And so on, for the entire layer of output weights.
 
 Finally, the bias on the output neuron is 0.
-%
-%That's everything: we now have a complete description of a neural network which does a pretty good job computing our original goal function. And we understand how to improve the quality of the approximation by improving the number of hidden neurons.
-%
-%What's more, there was nothing special about our original goal function, f(x)=0.2+0.4x2+0.3sin(15x)+0.05cos(50x). We could have used this procedure for any continuous function from [0,1] to [0,1]. In essence, we're using our single-layer neural networks to build a lookup table for the function. And we'll be able to build on this idea to provide a general proof of universality.
-%\section{Many input variables}
-%
-%Let's extend our results to the case of many input variables. This sounds complicated, but all the ideas we need can be understood in the case of just two inputs. So let's address the two-input case.
-%
-%We'll start by considering what happens when we have two inputs to a neuron:
-%
-%Here, we have inputs x and y, with corresponding weights w1 and w2, and a bias b on the neuron. Let's set the weight w2 to 0, and then play around with the first weight, w1, and the bias, b, to see how they affect the output from the neuron:
+
+That's everything: we now have a complete description of a neural network which does a pretty good job computing our original goal function. And we understand how to improve the quality of the approximation by improving the number of hidden neurons.
+
+What's more, there was nothing special about our original goal function, $f(x)=0.2+0.4x^2+0.3\sin(15x)+0.05\cos(50x)$. We could have used this procedure for any continuous function from [0,1] to [0,1]. In essence, we're using our single-layer neural networks to build a lookup table for the function. And we'll be able to build on this idea to provide a general proof of universality.
+
+\section{Many input variables}
+Let's extend our results to the case of many input variables. This sounds complicated, but all the ideas we need can be understood in the case of just two inputs. So let's address the two-input case.
+
+We'll start by considering what happens when we have two inputs to a neuron:
+\begin{center}
+	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz411}
+\end{center}
+Here, we have inputs $x$ and $y$, with corresponding weights $w_1$ and $w_2$, and a bias $b$ on the neuron. Let's set the weight $w_2$ to 0, and then play around with the first weight, $w_1$, and the bias, $b$, to see how they affect the output from the neuron:
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)}, grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$w_1=8,b=-8$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-(8*x-8)))};
+			\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$w_1=8,b=-5$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-(8*x-5)))};
+		\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$w_1=8,b=-2$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-(8*x-2)))};
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$w_1=11,b=-5$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-(11*x-5)))};
+			\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$w_1=8,b=-5$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-(8*x-5)))};
+		\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$w_1=5,b=-5$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-(5*x-5)))};
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
 %
 %x=1y=1Output
 %
-%As you can see, with w2=0 the input y makes no difference to the output from the neuron. It's as though x is the only input.
-%
-%Given this, what do you think happens when we increase the weight w1 to w1=100, with w2 remaining 0? If you don't immediately see the answer, ponder the question for a bit, and see if you can figure out what happens. Then try it out and see if you're right. I've shown what happens in the following movie:
-%
-%
-%Just as in our earlier discussion, as the input weight gets larger the output approaches a step function. The difference is that now the step function is in three dimensions. Also as before, we can move the location of the step point around by modifying the bias. The actual location of the step point is sx≡-b/w1.
-%
-%Let's redo the above using the position of the step as the parameter:
-%
-%x=1y=1Output
-%
-%Here, we assume the weight on the x input has some large value - I've used w1=1000 - and the weight w2=0. The number on the neuron is the step point, and the little x above the number reminds us that the step is in the x direction. Of course, it's also possible to get a step function in the y direction, by making the weight on the y input very large (say, w2=1000), and the weight on the x equal to 0, i.e., w1=0:
-%
-%x=1y=1Output
-%
-%The number on the neuron is again the step point, and in this case the little y above the number reminds us that the step is in the y direction. I could have explicitly marked the weights on the x and y inputs, but decided not to, since it would make the diagram rather cluttered. But do keep in mind that the little y marker implicitly tells us that the y weight is large, and the x weight is 0.
-%
-%We can use the step functions we've just constructed to compute a three-dimensional bump function. To do this, we use two neurons, each computing a step function in the x direction. Then we combine those step functions with weight h and -h, respectively, where h is the desired height of the bump. It's all illustrated in the following diagram:
+As you can see, with $w_2=0$ the input $y$ makes no difference to the output from the neuron. It's as though $x$ is the only input.
+
+Given this, what do you think happens when we increase the weight $w_1$ to $w_1=100$, with $w_2$ remaining 0? If you don't immediately see the answer, ponder the question for a bit, and see if you can figure out what happens. Then try it out and see if you're right. I've shown what happens in the following movie:
+
+
+Just as in our earlier discussion, as the input weight gets larger the output approaches a step function. The difference is that now the step function is in three dimensions. Also as before, we can move the location of the step point around by modifying the bias. The actual location of the step point is $s_x\equiv-b/w_1$.
+
+Let's redo the above using the position of the step as the parameter:
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s_x=0.25$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(x-0.25)))};
+			\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s_x=0.5$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(x-0.5)))};
+		\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s_x=0.7$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(x-0.7)))};
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+Here, we assume the weight on the $x$ input has some large value -- I've used $w_1=1000$ -- and the weight $w_2=0$. The number on the neuron is the step point, and the little $x$ above the number reminds us that the step is in the x direction. Of course, it's also possible to get a step function in the $y$ direction, by making the weight on the $y$ input very large (say, $w_2=1000$), and the weight on the $x$ equal to 0, i.e., $w_1=0$:
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s_y=0.25$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(y-0.25)))};
+			\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s_y=0.5$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(y-0.5)))};
+		\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s_y=0.7$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(y-0.7)))};
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+The number on the neuron is again the step point, and in this case the little $y$ above the number reminds us that the step is in the $y$ direction. I could have explicitly marked the weights on the $x$ and $y$ inputs, but decided not to, since it would make the diagram rather cluttered. But do keep in mind that the little $y$ marker implicitly tells us that the $y$ weight is large, and the $x$ weight is 0.
+
+We can use the step functions we've just constructed to compute a three-dimensional bump function. To do this, we use two neurons, each computing a step function in the $x$ direction. Then we combine those step functions with weight $h$ and $-h$, respectively, where $h$ is the desired height of the bump. It's all illustrated in the following diagram:
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s^1_x=0.25,s^2_x=0.75, h=1$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-100*(x-0.25)))-1/(1+exp(-100*(x-0.75)))};
+			\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_x=0.25,s^2_x=0.75, h=0.75$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.75/(1+exp(-100*(x-0.25)))-0.75/(1+exp(-100*(x-0.75)))};
+		\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_x=0.5,s^2_x=0.75, h=1$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-100*(x-0.5)))-1/(1+exp(-100*(x-0.75)))};
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
 %
 %x=1y=1Weighted output from hidden layer
 %
-%Try changing the value of the height, h. Observe how it relates to the weights in the network. And see how it changes the height of the bump function on the right.
-%
-%Also, try changing the step point 0.30 associated to the top hidden neuron. Witness how it changes the shape of the bump. What happens when you move it past the step point 0.70 associated to the bottom hidden neuron?
-%
-%We've figured out how to make a bump function in the x direction. Of course, we can easily make a bump function in the y direction, by using two step functions in the y direction. Recall that we do this by making the weight large on the y input, and the weight 0 on the x input. Here's the result:
+Try changing the value of the height, h. Observe how it relates to the weights in the network. And see how it changes the height of the bump function on the right.
+
+Also, try changing the step point 0.30 associated to the top hidden neuron. Witness how it changes the shape of the bump. What happens when you move it past the step point 0.70 associated to the bottom hidden neuron?
+
+We've figured out how to make a bump function in the $x$ direction. Of course, we can easily make a bump function in the $y$ direction, by using two step functions in the $y$ direction. Recall that we do this by making the weight large on the $y$ input, and the weight 0 on the $x$ input. Here's the result:
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s^1_y=0.25,s^2_y=0.75, h=1$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-100*(y-0.25)))-1/(1+exp(-100*(y-0.75)))};
+			\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_y=0.25,s^2_y=0.75, h=0.75$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.75/(1+exp(-100*(y-0.25)))-0.75/(1+exp(-100*(y-0.75)))};
+		\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_y=0.25,s^2_y=0.45, h=0.8$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.8/(1+exp(-100*(y-0.25)))-0.8/(1+exp(-100*(y-0.45)))};
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
 %
 %x=1y=1Weighted output from hidden layer
 %
-%This looks nearly identical to the earlier network! The only thing explicitly shown as changing is that there's now little y markers on our hidden neurons. That reminds us that they're producing y step functions, not x step functions, and so the weight is very large on the y input, and zero on the x input, not vice versa. As before, I decided not to show this explicitly, in order to avoid clutter.
+This looks nearly identical to the earlier network! The only thing explicitly shown as changing is that there's now little $y$ markers on our hidden neurons. That reminds us that they're producing y step functions, not x step functions, and so the weight is very large on the y input, and zero on the x input, not vice versa. As before, I decided not to show this explicitly, in order to avoid clutter.
 %
-%Let's consider what happens when we add up two bump functions, one in the x direction, the other in the y direction, both of height h:
+Let's consider what happens when we add up two bump functions, one in the $x$ direction, the other in the $y$ direction, both of height $h$:
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s^1_x=0.4,s^2_x=0.6,s^1_y=0.3,s^2_y=0.7, h=0.5$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.5/(1+exp(-100*(y-0.3)))-0.5/(1+exp(-100*(y-0.7)))+0.5/(1+exp(-100*(x-0.4)))-0.5/(1+exp(-100*(x-0.6)))};
+			\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.8]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_x=0.4,s^2_x=0.6,s^1_y=0.3,s^2_y=0.7, h=1$},zmin=0,zmax=1]
+			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.25/(1+exp(-100*(y-0.3)))-0.25/(1+exp(-100*(y-0.7)))+0.25/(1+exp(-100*(x-0.4)))-0.25/(1+exp(-100*(x-0.6)))};
+		\end{axis}
+	\end{tikzpicture}
+
+\end{center}
+To simplify the diagram I've dropped the connections with zero weight. For now, I've left in the little x and y markers on the hidden neurons, to remind you in what directions the bump functions are being computed. We'll drop even those markers later, since they're implied by the input variable.
 %
-%x=1y=1Weighted output from hidden layer
+Try varying the parameter $h$. As you can see, this causes the output weights to change, and also the heights of both the x and y bump functions.
 %
-%To simplify the diagram I've dropped the connections with zero weight. For now, I've left in the little x and y markers on the hidden neurons, to remind you in what directions the bump functions are being computed. We'll drop even those markers later, since they're implied by the input variable.
-%
-%Try varying the parameter h. As you can see, this causes the output weights to change, and also the heights of both the x and y bump functions.
-%
-%What we've built looks a little like a tower function:
+What we've built looks a little like a \textit{tower} function:
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+			\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={Tower function},zmin=0,zmax=1]
+				\addplot3[surf, domain=0:1,samples=41,shader=faceted]{(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.6))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.6))))};
+				\end{axis}
+		\end{tikzpicture}
+\end{center}
 %
 %x=1y=1Tower function
-%If we could build such tower functions, then we could use them to approximate arbitrary functions, just by adding up many towers of different heights, and in different locations:
-%
+If we could build such tower functions, then we could use them to approximate arbitrary functions, just by adding up many towers of different heights, and in different locations:
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+			\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={Tower function},zmin=0,zmax=1]
+				\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.2*(1/(1+exp(-100*(y-0.1)))-1/(1+exp(-100*(y-0.4))))*(1/(1+exp(-100*(x-0.1)))-1/(1+exp(-100*(x-0.4))))+0.4*(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.7))))*(1/(1+exp(-100*(x-0.1)))-1/(1+exp(-100*(x-0.4))))+0.6*(1/(1+exp(-100*(y-0.1)))-1/(1+exp(-100*(y-0.4))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.7))))+0.8*(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.7))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.7))))};
+				\end{axis}
+		\end{tikzpicture}
+\end{center}
 %x=1y=1Many towers
 %Of course, we haven't yet figured out how to build a tower function. What we have constructed looks like a central tower, of height 2h, with a surrounding plateau, of height h.
 %
@@ -345,18 +475,19 @@ Finally, the bias on the output neuron is 0.
 \section{Extension beyond sigmoid neurons}
 We've proved that networks made up of sigmoid neurons can compute any function. Recall that in a sigmoid neuron the inputs $x_1,x_2,\ldots$ result in the output $\sigma$($\sum_jw_jx_j+b$), where $w_j$ are the weights, $b$ is the bias, and $\sigma$ is the sigmoid function:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch4/tikz411}
+	\includegraphics[width=0.7\linewidth]{figures/ch4/tikz451}
 \end{center}
 What if we consider a different type of neuron, one using some other activation function, $s(z)$:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch4/tikz412}
+	\includegraphics[width=0.7\linewidth]{figures/ch4/tikz452}
 \end{center}
 That is, we'll assume that if our neurons have inputs $x_1,x_2,\ldots$, weights $w_1,w_2,\ldots$ and bias $b$, then the output is $s(\sum_jw_jx_j+b)$.
 
 We can use this activation function to get a step function, just as we did with the sigmoid. Try ramping up the weight in the following, say to $w=100$:
 
 \begin{tikzpicture}[declare function = {sigma(\x) = 1/(1+exp(-\x)); neuron(\x) = sigma(\x)+0.2*sin(10*deg(\x))*exp(-abs(\x)); f(\x,\w,\b) = neuron(\w*\x+\b);}]
-	\pgfplotsset{every axis legend/.append style={at={(1.03,1)},anchor=north west}}
+	\pgfplotsset{every axis legend/.append style={at={(1.03,1)},anchor=north west}}
+
 		\begin{axis}[width=0.75\linewidth,height=0.45\linewidth,title={Output from neuron},axis x line=bottom,axis y line=left,xtick={0,1},ytick={0,1},xmax=1.05,ymax=1.05]
 		\addplot[blue!90!red,domain=0:1,samples=101]{f(x,9,-3)};
 		\addplot[blue!75!red,domain=0:1,samples=101]{f(x,8,-3)};
@@ -398,7 +529,7 @@ What properties does s(z) need to satisfy in order for this to work? We do need 
 \section{Fixing up the step functions}
 Up to now, we've been assuming that our neurons can produce step functions exactly. That's a pretty good approximation, but it is only an approximation. In fact, there will be a narrow window of failure, illustrated in the following graph, in which the function behaves very differently from a step function:
 \begin{center}
-	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz413}
+	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz453}
 \end{center}
 In these windows of failure the explanation I've given for universality will fail.
 
@@ -410,21 +541,21 @@ In fact, the problem turns out to be easy to fix. Let's look at the fix for neur
 
 In particular, suppose we want our network to compute some function, f. As before, we do this by trying to design our network so that the weighted output from our hidden layer of neurons is $\sigma^{-1}\circ f(x)$:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch4/tikz414}
+	\includegraphics[width=0.6\linewidth]{figures/ch4/tikz454}
 \end{center}
 If we were to do this using the technique described earlier, we'd use the hidden neurons to produce a sequence of bump functions:
 \begin{center}
-	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz415}
+	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz455}
 \end{center}
 Again, I've exaggerated the size of the windows of failure, in order to make them easier to see. It should be pretty clear that if we add all these bump functions up we'll end up with a reasonable approximation to $\sigma^{-1}\circ f(x)$, except within the windows of failure.
 
 Suppose that instead of using the approximation just described, we use a set of hidden neurons to compute an approximation to half our original goal function, i.e., to $\sigma^{-1}\circ f(x)/2$. Of course, this looks just like a scaled down version of the last graph:
 \begin{center}
-	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz416}
+	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz456}
 \end{center}
 And suppose we use another set of hidden neurons to compute an approximation to $\sigma^{-1}\circ f(x)/2$, but with the bases of the bumps \textit{shifted} by half the width of a bump:
 \begin{center}
-	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz417}
+	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz457}
 \end{center}
 Now we have two different approximations to $\sigma^{-1}\circ f(x)/2$. If we add up the two approximations we'll get an overall approximation to $\sigma^{-1}\circ f(x)/$. That overall approximation will still have failures in small windows. But the problem will be much less than before. The reason is that points in a failure window for one approximation won't be in a failure window for the other. And so the approximation will be a factor roughly 2 better in those windows.
 
