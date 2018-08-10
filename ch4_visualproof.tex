@@ -450,22 +450,31 @@ else:
 \end{lstlisting}
 If we choose the threshold appropriately --- say, a value of $3h/2$, which is sandwiched between the height of the plateau and the height of the central tower -- we could squash the plateau down to zero, and leave just the tower standing.
 
-Can you see how to do this? Try experimenting with the following network to figure it out. Note that we're now plotting the output from the entire network, not just the weighted output from the hidden layer. This means we add a bias term to the weighted output from the hidden layer, and apply the sigma function. Can you find values for h and b which produce a tower? This is a bit tricky, so if you think about this for a while and remain stuck, here's two hints: (1) To get the output neuron to show the right kind of if-then-else behaviour, we need the input weights (all $h$ or $-h$) to be large; and (2) the value of b determines the scale of the if-then-else threshold.
-\begin{lstlisting}
-ANIMATION
-\end{lstlisting}
+Can you see how to do this? Try experimenting with the following network to figure it out. Note that we're now plotting the output from the entire network, not just the weighted output from the hidden layer. This means we add a bias term to the weighted output from the hidden layer, and apply the sigma function. Can you find values for h and b which produce a tower? This is a bit tricky, so if you think about this for a while and remain stuck, here's two hints: (1) To get the output neuron to show the right kind of \texttt{if-then-else} behaviour, we need the input weights (all $h$ or $-h$) to be large; and (2) the value of $b$ determines the scale of the \texttt{if-then-else} threshold.
+\begin{center}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/tikz436}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction1}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction2}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction3}
+\end{center}
 With our initial parameters, the output looks like a flattened version of the earlier diagram, with its tower and plateau. To get the desired behaviour, we increase the parameter $h$ until it becomes large. That gives the if-then-else thresholding behaviour. Second, to get the threshold right, we'll choose $b\approx-3h/2$. Try it, and see how it works!
 
-Here's what it looks like, when we use h=10:
-\begin{lstlisting}
-ANIMATION
-\end{lstlisting}
+Here's what it looks like, when we use $h=10$:
+\begin{center}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction4}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction5}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction6}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction7}
+\end{center}
 Even for this relatively modest value of $h$, we get a pretty good tower function. And, of course, we can make it as good as we want by increasing $h$ still further, and keeping the bias as $b=-3h/2$.
 
 Let's try gluing two such networks together, in order to compute two different tower functions. To make the respective roles of the two sub-networks clear I've put them in separate boxes, below: each box computes a tower function, using the technique described above. The graph on the right shows the weighted output from the second hidden layer, that is, it's a weighted combination of tower functions.
-\begin{lstlisting}
-ANIMATION
-\end{lstlisting}
+\begin{center}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/tikz437}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/twotowers1}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/twotowers2}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/twotowers3}
+\end{center}
 %
 %x=1y=1Weighted output
 %

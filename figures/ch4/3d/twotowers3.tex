@@ -1,0 +1,11 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\usepackage[charter]{mathdesign}
+\begin{document}
+\begin{tikzpicture}[declare function = {sigma(\x)=1/(1+exp(-\x));step(\x,\s,\t) = 0.5*sign(\x-\s)-0.5*sign(\x-\t);}]
+	\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=6cm,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$w_1=0.2,w_2=0.9$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+		\addplot3[surf,domain=0:1, samples=61, shader=faceted]{0.2*(step(x,0.1,0.2)*step(y,0.8,0.9))+0.5*(step(x,0.7,0.8)*step(y,0.2,0.9))};
+	\end{axis}
+\end{tikzpicture}
+\end{document}
+		
