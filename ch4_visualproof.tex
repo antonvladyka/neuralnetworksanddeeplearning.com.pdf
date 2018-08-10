@@ -253,17 +253,17 @@ We'll start by considering what happens when we have two inputs to a neuron:
 Here, we have inputs $x$ and $y$, with corresponding weights $w_1$ and $w_2$, and a bias $b$ on the neuron. Let's set the weight $w_2$ to 0, and then play around with the first weight, $w_1$, and the bias, $b$, to see how they affect the output from the neuron:
 \begin{center}
 	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)}, grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$w_1=8,b=-8$},zmin=0,zmax=1]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)}, grid=major,width=5cm,height=6cm,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$w_1=8,b=-8$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
 			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-(8*x-8)))};
 			\end{axis}
 	\end{tikzpicture}
 	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$w_1=8,b=-5$},zmin=0,zmax=1]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=6cm,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$w_1=8,b=-5$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
 			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-(8*x-5)))};
 		\end{axis}
 	\end{tikzpicture}
 	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$w_1=8,b=-2$},zmin=0,zmax=1]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=6cm,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$w_1=8,b=-2$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
 			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-(8*x-2)))};
 		\end{axis}
 	\end{tikzpicture}
@@ -271,17 +271,17 @@ Here, we have inputs $x$ and $y$, with corresponding weights $w_1$ and $w_2$, an
 
 \begin{center}
 	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$w_1=11,b=-5$},zmin=0,zmax=1]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=6cm,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$w_1=11,b=-5$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
 			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-(11*x-5)))};
 			\end{axis}
 	\end{tikzpicture}
 	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$w_1=8,b=-5$},zmin=0,zmax=1]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=6cm,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$w_1=8,b=-5$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
 			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-(8*x-5)))};
 		\end{axis}
 	\end{tikzpicture}
 	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$w_1=5,b=-5$},zmin=0,zmax=1]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=6cm,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$w_1=5,b=-5$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
 			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-(5*x-5)))};
 		\end{axis}
 	\end{tikzpicture}
@@ -298,59 +298,67 @@ Just as in our earlier discussion, as the input weight gets larger the output ap
 
 Let's redo the above using the position of the step as the parameter:
 \begin{center}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s_x=0.25$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(x-0.25)))};
-			\end{axis}
-	\end{tikzpicture}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s_x=0.5$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(x-0.5)))};
-		\end{axis}
-	\end{tikzpicture}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s_x=0.7$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(x-0.7)))};
-		\end{axis}
-	\end{tikzpicture}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepx1}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepx2}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepx3}
+%	\begin{tikzpicture}[scale=0.8]
+%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s_x=0.25$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(x-0.25)))};
+%			\end{axis}
+%	\end{tikzpicture}
+%	\begin{tikzpicture}[scale=0.8]
+%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s_x=0.5$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(x-0.5)))};
+%		\end{axis}
+%	\end{tikzpicture}
+%	\begin{tikzpicture}[scale=0.8]
+%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s_x=0.7$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(x-0.7)))};
+%		\end{axis}
+%	\end{tikzpicture}
 \end{center}
 Here, we assume the weight on the $x$ input has some large value -- I've used $w_1=1000$ -- and the weight $w_2=0$. The number on the neuron is the step point, and the little $x$ above the number reminds us that the step is in the x direction. Of course, it's also possible to get a step function in the $y$ direction, by making the weight on the $y$ input very large (say, $w_2=1000$), and the weight on the $x$ equal to 0, i.e., $w_1=0$:
 \begin{center}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s_y=0.25$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(y-0.25)))};
-			\end{axis}
-	\end{tikzpicture}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s_y=0.5$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(y-0.5)))};
-		\end{axis}
-	\end{tikzpicture}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s_y=0.7$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(y-0.7)))};
-		\end{axis}
-	\end{tikzpicture}
+%	\begin{tikzpicture}[scale=0.8]
+%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s_y=0.25$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(y-0.25)))};
+%			\end{axis}
+%	\end{tikzpicture}
+%	\begin{tikzpicture}[scale=0.8]
+%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s_y=0.5$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(y-0.5)))};
+%		\end{axis}
+%	\end{tikzpicture}
+%	\begin{tikzpicture}[scale=0.8]
+%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s_y=0.7$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(y-0.7)))};
+%		\end{axis}
+%	\end{tikzpicture}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepy1}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepy2}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepy3}
 \end{center}
 The number on the neuron is again the step point, and in this case the little $y$ above the number reminds us that the step is in the $y$ direction. I could have explicitly marked the weights on the $x$ and $y$ inputs, but decided not to, since it would make the diagram rather cluttered. But do keep in mind that the little $y$ marker implicitly tells us that the $y$ weight is large, and the $x$ weight is 0.
 
 We can use the step functions we've just constructed to compute a three-dimensional bump function. To do this, we use two neurons, each computing a step function in the $x$ direction. Then we combine those step functions with weight $h$ and $-h$, respectively, where $h$ is the desired height of the bump. It's all illustrated in the following diagram:
 \begin{center}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s^1_x=0.25,s^2_x=0.75, h=1$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-100*(x-0.25)))-1/(1+exp(-100*(x-0.75)))};
-			\end{axis}
-	\end{tikzpicture}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_x=0.25,s^2_x=0.75, h=0.75$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.75/(1+exp(-100*(x-0.25)))-0.75/(1+exp(-100*(x-0.75)))};
-		\end{axis}
-	\end{tikzpicture}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_x=0.5,s^2_x=0.75, h=1$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-100*(x-0.5)))-1/(1+exp(-100*(x-0.75)))};
-		\end{axis}
-	\end{tikzpicture}
+%	\begin{tikzpicture}[scale=0.8]
+%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s^1_x=0.25,s^2_x=0.75, h=1$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-100*(x-0.25)))-1/(1+exp(-100*(x-0.75)))};
+%			\end{axis}
+%	\end{tikzpicture}
+%	\begin{tikzpicture}[scale=0.8]
+%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_x=0.25,s^2_x=0.75, h=0.75$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.75/(1+exp(-100*(x-0.25)))-0.75/(1+exp(-100*(x-0.75)))};
+%		\end{axis}
+%	\end{tikzpicture}
+%%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_x=0.5,s^2_x=0.75, h=1$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-100*(x-0.5)))-1/(1+exp(-100*(x-0.75)))};
+%		\end{axis}
+%	\end{tikzpicture}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpx1}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpx2}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpx3}
 \end{center}
 %
 %x=1y=1Weighted output from hidden layer
@@ -361,21 +369,24 @@ Also, try changing the step point 0.30 associated to the top hidden neuron. Witn
 
 We've figured out how to make a bump function in the $x$ direction. Of course, we can easily make a bump function in the $y$ direction, by using two step functions in the $y$ direction. Recall that we do this by making the weight large on the $y$ input, and the weight 0 on the $x$ input. Here's the result:
 \begin{center}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s^1_y=0.25,s^2_y=0.75, h=1$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-100*(y-0.25)))-1/(1+exp(-100*(y-0.75)))};
-			\end{axis}
-	\end{tikzpicture}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_y=0.25,s^2_y=0.75, h=0.75$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.75/(1+exp(-100*(y-0.25)))-0.75/(1+exp(-100*(y-0.75)))};
-		\end{axis}
-	\end{tikzpicture}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_y=0.25,s^2_y=0.45, h=0.8$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.8/(1+exp(-100*(y-0.25)))-0.8/(1+exp(-100*(y-0.45)))};
-		\end{axis}
-	\end{tikzpicture}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpy1}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpy2}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpy3}
+%	\begin{tikzpicture}[scale=0.8]
+%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s^1_y=0.25,s^2_y=0.75, h=1$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-100*(y-0.25)))-1/(1+exp(-100*(y-0.75)))};
+%			\end{axis}
+%	\end{tikzpicture}
+%	\begin{tikzpicture}[scale=0.8]
+%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_y=0.25,s^2_y=0.75, h=0.75$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.75/(1+exp(-100*(y-0.25)))-0.75/(1+exp(-100*(y-0.75)))};
+%		\end{axis}
+%	\end{tikzpicture}
+%	\begin{tikzpicture}[scale=0.8]
+%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_y=0.25,s^2_y=0.45, h=0.8$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.8/(1+exp(-100*(y-0.25)))-0.8/(1+exp(-100*(y-0.45)))};
+%		\end{axis}
+%	\end{tikzpicture}
 \end{center}
 %
 %x=1y=1Weighted output from hidden layer
@@ -384,17 +395,18 @@ This looks nearly identical to the earlier network! The only thing explicitly sh
 %
 Let's consider what happens when we add up two bump functions, one in the $x$ direction, the other in the $y$ direction, both of height $h$:
 \begin{center}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s^1_x=0.4,s^2_x=0.6,s^1_y=0.3,s^2_y=0.7, h=1$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.5/(1+exp(-100*(y-0.3)))-0.5/(1+exp(-100*(y-0.7)))+0.5/(1+exp(-100*(x-0.4)))-0.5/(1+exp(-100*(x-0.6)))};
-			\end{axis}
-	\end{tikzpicture}
-	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_x=0.4,s^2_x=0.6,s^1_y=0.3,s^2_y=0.7, h=0.5$},zmin=0,zmax=1]
-			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.25/(1+exp(-100*(y-0.3)))-0.25/(1+exp(-100*(y-0.7)))+0.25/(1+exp(-100*(x-0.4)))-0.25/(1+exp(-100*(x-0.6)))};
-		\end{axis}
-	\end{tikzpicture}
-
+%	\begin{tikzpicture}[scale=0.8]
+%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s^1_x=0.4,s^2_x=0.6,s^1_y=0.3,s^2_y=0.7, h=1$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.5/(1+exp(-100*(y-0.3)))-0.5/(1+exp(-100*(y-0.7)))+0.5/(1+exp(-100*(x-0.4)))-0.5/(1+exp(-100*(x-0.6)))};
+%			\end{axis}
+%	\end{tikzpicture}
+%	\begin{tikzpicture}[scale=0.8]
+%		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_x=0.4,s^2_x=0.6,s^1_y=0.3,s^2_y=0.7, h=0.5$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.25/(1+exp(-100*(y-0.3)))-0.25/(1+exp(-100*(y-0.7)))+0.25/(1+exp(-100*(x-0.4)))-0.25/(1+exp(-100*(x-0.6)))};
+%		\end{axis}
+%	\end{tikzpicture}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpxy1}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpxy2}
 \end{center}
 To simplify the diagram I've dropped the connections with zero weight. For now, I've left in the little x and y markers on the hidden neurons, to remind you in what directions the bump functions are being computed. We'll drop even those markers later, since they're implied by the input variable.
 %
@@ -402,21 +414,22 @@ Try varying the parameter $h$. As you can see, this causes the output weights to
 %
 What we've built looks a little like a \textit{tower} function:
 \begin{center}
-	\begin{tikzpicture}[scale=0.8]
-			\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={Tower function},zmin=0,zmax=1]
-				\addplot3[surf, domain=0:1,samples=26,shader=faceted]{(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.6))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.6))))};
-				\end{axis}
-		\end{tikzpicture}
+\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/towerfunction}%	\begin{tikzpicture}[scale=0.8]
+%			\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={Tower function},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%				\addplot3[surf, domain=0:1,samples=26,shader=faceted]{(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.6))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.6))))};
+%				\end{axis}
+%		\end{tikzpicture}
 \end{center}
 %
 %x=1y=1Tower function
 If we could build such tower functions, then we could use them to approximate arbitrary functions, just by adding up many towers of different heights, and in different locations:
 \begin{center}
-	\begin{tikzpicture}[scale=0.8]
-			\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={Tower function},zmin=0,zmax=1]
-				\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.2*(1/(1+exp(-100*(y-0.1)))-1/(1+exp(-100*(y-0.4))))*(1/(1+exp(-100*(x-0.1)))-1/(1+exp(-100*(x-0.4))))+0.4*(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.7))))*(1/(1+exp(-100*(x-0.1)))-1/(1+exp(-100*(x-0.4))))+0.6*(1/(1+exp(-100*(y-0.1)))-1/(1+exp(-100*(y-0.4))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.7))))+0.8*(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.7))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.7))))};
-				\end{axis}
-		\end{tikzpicture}
+\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/manytowers}
+%	\begin{tikzpicture}[scale=0.8]
+%			\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={Many towers},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
+%				\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.2*(1/(1+exp(-100*(y-0.1)))-1/(1+exp(-100*(y-0.4))))*(1/(1+exp(-100*(x-0.1)))-1/(1+exp(-100*(x-0.4))))+0.4*(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.7))))*(1/(1+exp(-100*(x-0.1)))-1/(1+exp(-100*(x-0.4))))+0.6*(1/(1+exp(-100*(y-0.1)))-1/(1+exp(-100*(y-0.4))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.7))))+0.8*(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.7))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.7))))};
+%				\end{axis}
+%		\end{tikzpicture}
 \end{center}
 %x=1y=1Many towers
 Of course, we haven't yet figured out how to build a tower function. What we have constructed looks like a central tower, of height $2h$, with a surrounding plateau, of height $h$.
@@ -459,22 +472,26 @@ ANIMATION
 In particular, you can see that by modifying the weights in the final layer you can change the height of the output towers.
 
 The same idea can be used to compute as many towers as we like. We can also make them as thin as we like, and whatever height we like. As a result, we can ensure that the weighted output from the second hidden layer approximates any desired function of two variables:
+\begin{lstlisting}
+ANIMATION
+\end{lstlisting}
 %
 %x=1y=1Many towers
-%In particular, by making the weighted output from the second hidden layer a good approximation to $\sigma$-1$\circ$f, we ensure the output from our network will be a good approximation to any desired function, f.
-%
-%What about functions of more than two variables?
-%
-%Let's try three variables x1,x2,x3. The following network can be used to compute a tower function in four dimensions:
-%
-%
-%Here, the x1,x2,x3 denote inputs to the network. The s1,t1 and so on are step points for neurons - that is, all the weights in the first layer are large, and the biases are set to give the step points s1,t1,s2,$\ldots$. The weights in the second layer alternate +h,-h, where h is some very large number. And the output bias is -5h/2.
-%
-%This network computes a function which is 1 provided three conditions are met: x1 is between s1 and t1; x2 is between s2 and t2; and x3 is between s3 and t3. The network is 0 everywhere else. That is, it's a kind of tower which is 1 in a little region of input space, and 0 everywhere else.
-%
-%By gluing together many such networks we can get as many towers as we want, and so approximate an arbitrary function of three variables. Exactly the same idea works in m dimensions. The only change needed is to make the output bias (-m+1/2)h, in order to get the right kind of sandwiching behavior to level the plateau.
-%
-%Okay, so we now know how to use neural networks to approximate a real-valued function of many variables. What about vector-valued functions $f(x_1,\ldots,x_m)\in R^n$? Of course, such a function can be regarded as just n separate real-valued functions, $f^1(x_1,\ldots,x_m)$,$f^2(x_1,\ldots,x_m)$, and so on. So we create a network approximating $f^1$, another network for $f^2$, and so on. And then we simply glue all the networks together. So that's also easy to cope with.
+In particular, by making the weighted output from the second hidden layer a good approximation to $\sigma^{-1}\circ f$, we ensure the output from our network will be a good approximation to any desired function, $f$.
+
+What about functions of more than two variables?
+
+Let's try three variables $x_1,x_2,x_3$. The following network can be used to compute a tower function in four dimensions:
+\begin{center}
+\includegraphics[width=0.35\linewidth]{figures/ch4/tikz441}
+\end{center}
+Here, the $x_1,x_2,x_3$ denote inputs to the network. The $s_1,t_1$ and so on are step points for neurons -- that is, all the weights in the first layer are large, and the biases are set to give the step points $s_1,t_1,s_2,\ldots$. The weights in the second layer alternate $+h$,$-h$, where $h$ is some very large number. And the output bias is $-5h/2$.
+
+This network computes a function which is 1 provided three conditions are met: $x_1$ is between $s_1$ and $t_1$; $x_2$ is between $s_2$ and $t_2$; and $x_3$ is between $s_3$ and $t_3$. The network is 0 everywhere else. That is, it's a kind of tower which is 1 in a little region of input space, and 0 everywhere else.
+
+By gluing together many such networks we can get as many towers as we want, and so approximate an arbitrary function of three variables. Exactly the same idea works in $m$ dimensions. The only change needed is to make the output bias $(-m+1/2)h$, in order to get the right kind of sandwiching behavior to level the plateau.
+
+Okay, so we now know how to use neural networks to approximate a real-valued function of many variables. What about vector-valued functions $f(x_1,\ldots,x_m)\in R^n$? Of course, such a function can be regarded as just n separate real-valued functions, $f^1(x_1,\ldots,x_m)$,$f^2(x_1,\ldots,x_m)$, and so on. So we create a network approximating $f^1$, another network for $f^2$, and so on. And then we simply glue all the networks together. So that's also easy to cope with.
 
 \begin{exercize}{Problem}
 \item We've seen how to use networks with two hidden layers to approximate an arbitrary function. Can you find a proof showing that it's possible with just a single hidden layer? As a hint, try working in the case of just two input variables, and showing that: (a) it's possible to get step functions not just in the x or y directions, but in an arbitrary direction; (b) by adding up many of the constructions from part (a) it's possible to approximate a tower function which is circular in shape, rather than rectangular; (c) using these circular towers, it's possible to approximate an arbitrary function. To do part (c) it may help to use ideas from a bit later in this chapter.

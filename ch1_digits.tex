@@ -252,7 +252,7 @@ Now, with all that said, this is all just a heuristic. Nothing says that the thr
 \section{Learning with gradient descent}
 Now that we have a design for our neural network, how can it learn to recognize digits? The first thing we'll need is a data set to learn from - a so-called training data set. We'll use the MNIST data set, which contains tens of thousands of scanned images of handwritten digits, together with their correct classifications. MNIST's name comes from the fact that it is a modified subset of two data sets collected by NIST, the United States' National Institute of Standards and Technology. Here's a few images from MNIST:
 \begin{center}
-	\includegraphics[scale=0.65]{./figures/ch1/digits_separate}
+	\includegraphics[scale=0.5]{./figures/ch1/digits_separate}
 \end{center}
 As you can see, these digits are, in fact, the same as those shown at the beginning of this chapter as a challenge to recognize. Of course, when testing our network we'll ask it to recognize images which aren't in the training set!
 
@@ -805,7 +805,7 @@ I said above that our program gets pretty good results. What does that mean? Goo
 What about a less trivial baseline? Let's try an extremely simple idea: we'll look at how dark an image is. For instance, an image of a 2 will typically be quite a bit darker than an image of a 1, just because more pixels are blackened out, as the following examples illustrate:
 
 \begin{center}
-	\includegraphics[scale=0.25]{./figures/ch1/mnist_2_and_1}
+	\includegraphics[scale=0.18]{./figures/ch1/mnist_2_and_1}
 \end{center}
 This suggests using the training data to compute average darknesses for each digit, 0,1,2,$\ldots$,9. When presented with a new image, we compute how dark the image is, and then guess that it's whichever digit has the closest average darkness. This is a simple procedure, and is easy to code up, so I won't explicitly write out the code -- if you're interested it's in the [link]GitHub repository. But it's a big improvement over random guessing, getting 2,225 of the 10,000 test images correct, i.e., 22.25 percent accuracy.
 
@@ -851,7 +851,7 @@ If the answers to several of these questions are ``yes'', or even just ``probabl
 Of course, this is just a rough heuristic, and it suffers from many deficiencies. Maybe the person is bald, so they have no hair. Maybe we can only see part of the face, or the face is at an angle, so some of the facial features are obscured. Still, the heuristic suggests that if we can solve the sub-problems using neural networks, then perhaps we can build a neural network for face-detection, by combining the networks for the sub-problems. Here's a possible architecture, with rectangles denoting the sub-networks. Note that this isn't intended as a realistic approach to solving the face-detection problem; rather, it's to help us build intuition about how networks function. Here's the architecture:
 
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz14}
+	\includegraphics[width=\linewidth]{./figures/ch1/tikz14}
 \end{center}
 It's also plausible that the sub-networks can be decomposed. Suppose we're considering the question: ``Is there an eye in the top left?'' This can be decomposed into questions such as: ``Is there an eyebrow?''; ``Are there eyelashes?''; ``Is there an iris?''; and so on. Of course, these questions should really include positional information, as well - ``Is the eyebrow in the top left, and above the iris?'', that kind of thing -- but let's keep it simple. The network to answer the question ``Is there an eye in the top left?'' can now be decomposed:
 

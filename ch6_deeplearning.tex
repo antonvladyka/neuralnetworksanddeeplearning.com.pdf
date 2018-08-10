@@ -30,7 +30,7 @@ In earlier chapters, we taught our neural networks to do a pretty good job recog
 \end{center}
 We did this using networks in which adjacent network layers are fully connected to one another. That is, every neuron in the network is connected to every neuron in adjacent layers:
 \begin{center}
-	\includegraphics[width=0.85\linewidth]{figures/ch6/tikz41}
+	\includegraphics[width=\linewidth]{figures/ch6/tikz41}
 \end{center}
 In particular, for each pixel in the input image, we encoded the pixel's intensity as the value for a corresponding neuron in the input layer. For the $28\times28$ pixel images we've been using, this means our network has 784 ($=28\times28$) input neurons. We then trained the network's weights and biases so that the network's output would -- we hope! -- correctly identify the input image: `0', `1', `2', ..., `8', or `9'.
 

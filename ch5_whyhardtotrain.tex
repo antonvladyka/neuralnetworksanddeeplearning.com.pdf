@@ -24,14 +24,12 @@ So deep circuits make the process of design easier. But they're not just helpful
 
 Up to now, this book has approached neural networks like the crazy customer. Almost all the networks we've worked with have just a single hidden layer of neurons (plus the input and output layers):
 \begin{center}
-	\includegraphics[width=0.5\linewidth]{figures/ch5/tikz35}
+	\includegraphics[width=0.6\linewidth]{figures/ch5/tikz35}
 \end{center}
-
 These simple networks have been remarkably useful: in earlier chapters we used networks like this to classify handwritten digits with better than 98 percent accuracy! Nonetheless, intuitively we'd expect networks with many more hidden layers to be more powerful:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz36}
+	\includegraphics[width=\linewidth]{figures/ch5/tikz36}
 \end{center}
-
 Such networks could use the intermediate layers to build up multiple layers of abstraction, just as we do in Boolean circuits. For instance, if we're doing visual pattern recognition, then the neurons in the first layer might learn to recognize edges, the neurons in the second layer could learn to recognize more complex shapes, say triangle or rectangles, built up from edges. The third layer would then recognize still more complex shapes. And so on. These multiple layers of abstraction seem likely to give deep networks a compelling advantage in learning to solve complex pattern recognition problems. Moreover, just as in the case of circuits, there are theoretical results suggesting that deep networks are intrinsically more powerful than shallow networks\footnote{For certain problems and network architectures this is proved in [link]On the number of response regions of deep feed forward networks with piece-wise linear activations, by Razvan Pascanu, Guido Mont\'ufar, and Yoshua Bengio (2014). See also the more informal discussion in section 2 of [link]Learning deep architectures for AI, by Yoshua Bengio (2009).}.
 
 How can we train such deep networks? In this chapter, we'll try training deep networks using our workhorse learning algorithm - stochastic gradient descent by backpropagation. But we'll run into trouble, with our deep networks not performing much (if at all) better than shallow networks.
@@ -112,7 +110,7 @@ To get some insight into what's going wrong, let's visualize how the network lea
 
 To keep the diagram simple, I've shown just the top six neurons in the two hidden layers. I've omitted the input neurons, since they've got no weights or biases to learn. I've also omitted the output neurons, since we're doing layer-wise comparisons, and it makes most sense to compare layers with the same number of neurons. The results are plotted at the very beginning of training, i.e., immediately after the network is initialized. Here they are\footnote{The data plotted is generated using the program \inline{generate_gradient.py}. The same program is also used to generate the results quoted later in this section.}:
 \begin{center}
-	\includegraphics[width=0.5\linewidth]{figures/ch5/tikz500}
+	\includegraphics[width=0.45\linewidth]{figures/ch5/tikz500}
 \end{center}
 The network was initialized randomly, and so it's not surprising that there's a lot of variation in how rapidly the neurons learn. Still, one thing that jumps out is that the bars in the second hidden layer are mostly much larger than the bars in the first hidden layer. As a result, the neurons in the second hidden layer will learn quite a bit faster than the neurons in the first hidden layer. Is this merely a coincidence, or are the neurons in the second hidden layer likely to learn faster than neurons in the first hidden layer in general?
 
@@ -248,7 +246,7 @@ There are two steps to getting an exploding gradient. First, we choose all the w
 \section{Unstable gradients in more complex networks}
 We've been studying toy networks, with just one neuron in each hidden layer. What about more complex deep networks, with many neurons in each hidden layer?
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz40}
+	\includegraphics[width=\linewidth]{figures/ch5/tikz40}
 \end{center}
 In fact, much the same behaviour occurs in such networks. In the earlier chapter on backpropagation we saw that the gradient in the $l$-th layer of an L layer network is given by:
 
