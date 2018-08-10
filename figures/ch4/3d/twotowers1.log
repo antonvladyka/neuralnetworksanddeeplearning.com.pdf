@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6600 64-bit) (preloaded format=pdflatex 2018.5.6)  10 AUG 2018 16:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6600 64-bit) (preloaded format=pdflatex 2018.5.6)  10 AUG 2018 20:14
 entering extended mode
-**./towerconstruction3.tex
-(towerconstruction3.tex
+**./twotowers1.tex
+(twotowers1.tex
 LaTeX2e <2017-04-15>
 Babel <3.17> and hyphenation patterns for 75 language(s) loaded.
 
@@ -631,8 +631,8 @@ File: t1mdbch.fd 2013/08/29 Fontinst v1.933 font definitions for T1/mdbch.
 )
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
 (Font)              scaled to size 9.60007pt on input line 105.
-)) (towerconstruction3.aux)
-\openout1 = `towerconstruction3.aux'.
+)) (twotowers1.aux)
+\openout1 = `twotowers1.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 4.
 LaTeX Font Info:    ... okay on input line 4.
@@ -801,25 +801,24 @@ LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
 (Font)              scaled to size 4.80003pt on input line 8.
  [1
 
-{C:/Users/vladykaa/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] (towerco
-nstruction3.aux) ) 
+{C:/Users/vladykaa/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] (twotowe
+rs1.aux) ) 
 Here is how much of TeX's memory you used:
- 23545 strings out of 493303
- 611185 string characters out of 3138848
- 2943268 words of memory out of 3000000
- 26683 multiletter control sequences out of 15000+200000
- 16355 words of font info for 42 fonts, out of 3000000 for 9000
+ 23532 strings out of 493303
+ 610794 string characters out of 3138848
+ 2756192 words of memory out of 3000000
+ 26669 multiletter control sequences out of 15000+200000
+ 16622 words of font info for 43 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,10n,96p,749b,2341s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips
-/ly1/texnansi.enc}<C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/type1/bit
-strea/charter/bchr8a.pfb><C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/ty
-pe1/bitstrea/charter/bchri8a.pfb><C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/
-fonts/type1/mathdesign/mdbch/md-chr7t.pfb><C:/Users/vladykaa/AppData/Roaming/Mi
-KTeX/2.9/fonts/type1/mathdesign/mdbch/md-chr7y.pfb>
-Output written on towerconstruction3.pdf (1 page, 89219 bytes).
+ 62i,10n,96p,741b,2337s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/ly1/tex
+nansi.enc}<C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/type1/bitstrea/ch
+arter/bchr8a.pfb><C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/type1/bits
+trea/charter/bchri8a.pfb><C:/Users/vladykaa/AppData/Roaming/MiKTeX/2.9/fonts/ty
+pe1/mathdesign/mdbch/md-chr7t.pfb>
+Output written on twotowers1.pdf (1 page, 86402 bytes).
 PDF statistics:
- 26 PDF objects out of 1000 (max. 8388607)
+ 22 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

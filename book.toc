@@ -1,0 +1,53 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}Using neural nets to recognize handwritten digits}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Perceptrons}{2}{section.1.1}
+\contentsline {section}{\numberline {1.2}Sigmoid neurons}{7}{section.1.2}
+\contentsline {section}{\numberline {1.3}The architecture of neural networks}{10}{section.1.3}
+\contentsline {section}{\numberline {1.4}A simple network to classify handwritten digits}{12}{section.1.4}
+\contentsline {section}{\numberline {1.5}Learning with gradient descent}{15}{section.1.5}
+\contentsline {section}{\numberline {1.6}Implementing our network to classify digits}{23}{section.1.6}
+\contentsline {section}{\numberline {1.7}Toward deep learning}{33}{section.1.7}
+\contentsline {chapter}{\numberline {2}How the backpropagation algorithm works}{37}{chapter.2}
+\contentsline {section}{\numberline {2.1}Warm up: a fast matrix-based approach to computing the output from a neural network}{38}{section.2.1}
+\contentsline {section}{\numberline {2.2}The two assumptions we need about the cost function}{39}{section.2.2}
+\contentsline {section}{\numberline {2.3}The Hadamard product, $s\odot {}t$}{41}{section.2.3}
+\contentsline {section}{\numberline {2.4}The four fundamental equations behind backpropagation}{41}{section.2.4}
+\contentsline {section}{\numberline {2.5}Proof of the four fundamental equations (optional)}{45}{section.2.5}
+\contentsline {section}{\numberline {2.6}The backpropagation algorithm}{47}{section.2.6}
+\contentsline {section}{\numberline {2.7}The code for backpropagation}{48}{section.2.7}
+\contentsline {section}{\numberline {2.8}In what sense is backpropagation a fast algorithm?}{49}{section.2.8}
+\contentsline {section}{\numberline {2.9}Backpropagation: the big picture}{50}{section.2.9}
+\contentsline {chapter}{\numberline {3}Improving the way neural networks learn}{55}{chapter.3}
+\contentsline {section}{\numberline {3.1}The cross-entropy cost function}{55}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Introducing the cross-entropy cost function}{58}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Using the cross-entropy to classify MNIST digits}{63}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {3.1.3}What does the cross-entropy mean? Where does it come from?}{64}{subsection.3.1.3}
+\contentsline {subsection}{\numberline {3.1.4}Softmax}{66}{subsection.3.1.4}
+\contentsline {section}{\numberline {3.2}Overfitting and regularization}{69}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Regularization}{74}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Why does regularization help reduce overfitting?}{79}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Other techniques for regularization}{83}{subsection.3.2.3}
+\contentsline {section}{\numberline {3.3}Weight initialization}{90}{section.3.3}
+\contentsline {section}{\numberline {3.4}Handwriting recognition revisited: the code}{94}{section.3.4}
+\contentsline {section}{\numberline {3.5}How to choose a neural network's hyper-parameters?}{102}{section.3.5}
+\contentsline {section}{\numberline {3.6}Other techniques}{112}{section.3.6}
+\contentsline {subsection}{\numberline {3.6.1}Variations on stochastic gradient descent}{112}{subsection.3.6.1}
+\contentsline {chapter}{\numberline {4}A visual proof that neural nets can compute any function}{121}{chapter.4}
+\contentsline {section}{\numberline {4.1}Two caveats}{123}{section.4.1}
+\contentsline {section}{\numberline {4.2}Universality with one input and one output}{124}{section.4.2}
+\contentsline {section}{\numberline {4.3}Many input variables}{131}{section.4.3}
+\contentsline {section}{\numberline {4.4}Extension beyond sigmoid neurons}{139}{section.4.4}
+\contentsline {section}{\numberline {4.5}Fixing up the step functions}{140}{section.4.5}
+\contentsline {chapter}{\numberline {5}Why are deep neural networks hard to train?}{145}{chapter.5}
+\contentsline {section}{\numberline {5.1}The vanishing gradient problem}{148}{section.5.1}
+\contentsline {section}{\numberline {5.2}What's causing the vanishing gradient problem? Unstable gradients in deep neural nets}{153}{section.5.2}
+\contentsline {section}{\numberline {5.3}Unstable gradients in more complex networks}{157}{section.5.3}
+\contentsline {section}{\numberline {5.4}Other obstacles to deep learning}{158}{section.5.4}
+\contentsline {chapter}{\numberline {6}Deep learning}{159}{chapter.6}
+\contentsline {section}{\numberline {6.1}Introducing convolutional networks}{161}{section.6.1}
+\contentsline {section}{\numberline {6.2}Convolutional neural networks in practice}{168}{section.6.2}
+\contentsline {section}{\numberline {6.3}The code for our convolutional networks}{177}{section.6.3}
+\contentsline {section}{\numberline {6.4}Recent progress in image recognition}{186}{section.6.4}
+\contentsline {section}{\numberline {6.5}Other approaches to deep neural nets}{192}{section.6.5}
+\contentsline {section}{\numberline {6.6}On the future of neural networks}{195}{section.6.6}
+\contentsline {chapter}{\numberline {A}Is there a simple algorithm for intelligence?}{199}{appendix.A}

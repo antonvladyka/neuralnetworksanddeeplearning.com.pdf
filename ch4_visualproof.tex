@@ -169,11 +169,19 @@ else:
 For the most part I'm going to stick with the graphical point of view. But in what follows you may sometimes find it helpful to switch points of view, and think about things in terms of \texttt{if-then-else}.
 
 We can use our bump-making trick to get two bumps, by gluing two pairs of hidden neurons together into the same network:
-\begin{lstlisting}
-
-ANIMATION
-\end{lstlisting}%
-
+\begin{center}
+	\includegraphics[width=0.32\linewidth]{figures/ch4/tikz421}
+	\begin{tikzpicture}[declare function = {step(\x,\s,\t)=0.5*(sign(\x-\s)-sign(\x-\t));twobumps(\x,\s,\t,\h,\ss,\tt,\hh) = \h*step(\x,\s,\t)+\hh*step(\x,\ss,\tt); }]
+	\begin{axis}[width=0.32\linewidth,height=0.4\linewidth,align=center,title={Weighted output\\$s_1=0.4,s_2=0.6,h_1=-1.2$\\$s_1=0.7,s_2=0.9,h_2=0.3$},axis x line=bottom,axis y line=left,xtick={0,1},ytick={-1,0,1},xmax=1.05,ymax=1.25,ymin=-1.25]
+	\addplot[blue!90!red,domain=0:1,samples=201]{twobumps(x,0.4,0.6,-1.2,0.7,0.9,0.3};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[declare function = {step(\x,\s,\t)=0.5*(sign(\x-\s)-sign(\x-\t));twobumps(\x,\s,\t,\h,\ss,\tt,\hh) = \h*step(\x,\s,\t)+\hh*step(\x,\ss,\tt); }]
+	\begin{axis}[width=0.32\linewidth,height=0.4\linewidth,align=center,title={Weighted output\\$s_1=0.2,s_2=0.5,h_1=0.75$\\$s_1=0.7,s_2=0.95,h_2=-0.9$},axis x line=bottom,axis y line=left,xtick={0,1},ytick={-1,0,1},xmax=1.05,ymax=1.25,ymin=-1.25]
+	\addplot[blue!90!red,domain=0:1,samples=201]{twobumps(x,0.2,0.5,0.75,0.7,0.95,-0.9};
+	\end{axis}
+	\end{tikzpicture}
+\end{center}
 I've suppressed the weights here, simply writing the $h$ values for each pair of hidden neurons. Try increasing and decreasing both h values, and observe how it changes the graph. Move the bumps around by changing the step points.
 
 More generally, we can use this idea to get as many peaks as we want, of any height. In particular, we can divide the interval [0,1] up into a large number, $N$, of subintervals, and use $N$ pairs of hidden neurons to set up peaks of any desired height. Let's see how this works for $N=5$. That's quite a few neurons, so I'm going to pack things in a bit. Apologies for the complexity of the diagram: I could hide the complexity by abstracting away further, but I think it's worth putting up with a little complexity, for the sake of getting a more concrete feel for how these networks work.
@@ -481,10 +489,13 @@ Let's try gluing two such networks together, in order to compute two different t
 In particular, you can see that by modifying the weights in the final layer you can change the height of the output towers.
 
 The same idea can be used to compute as many towers as we like. We can also make them as thin as we like, and whatever height we like. As a result, we can ensure that the weighted output from the second hidden layer approximates any desired function of two variables:
-\begin{lstlisting}
-ANIMATION
-\end{lstlisting}
-%
+\begin{center}
+\includegraphics[width=0.32\linewidth]{figures/ch4/3d/manytowers2}
+\end{center}
+%\begin{lstlisting}
+%ANIMATION
+%\end{lstlisting}
+%%
 %x=1y=1Many towers
 In particular, by making the weighted output from the second hidden layer a good approximation to $\sigma^{-1}\circ f$, we ensure the output from our network will be a good approximation to any desired function, $f$.
 
