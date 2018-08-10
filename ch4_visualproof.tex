@@ -109,7 +109,8 @@ Next, click and drag to the left in order to decrease the bias. You'll see that 
 Next, decrease the weight to around 2 or 3. You'll see that as you decrease the weight, the curve broadens out. You might need to change the bias as well, in order to keep the curve in-frame.
 
 Finally, increase the weight up past w=100. As you do, the curve gets steeper, until eventually it begins to look like a step function. Try to adjust the bias so the step occurs near $x=0.3$. The following short clip shows what your result should look like. Click on the play button to play (or replay) the video:
-\begin{lstlisting}
+\begin{lstlisting}
+
 ANIMATION
 \end{lstlisting}
 We can simplify our analysis quite a bit by increasing the weight so much that the output really is a step function, to a very good approximation. Below I've plotted the output from the top hidden neuron when the weight is $w=999$. Note that this plot is static, and you can't change parameters such as the weight.
@@ -384,12 +385,12 @@ This looks nearly identical to the earlier network! The only thing explicitly sh
 Let's consider what happens when we add up two bump functions, one in the $x$ direction, the other in the $y$ direction, both of height $h$:
 \begin{center}
 	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s^1_x=0.4,s^2_x=0.6,s^1_y=0.3,s^2_y=0.7, h=0.5$},zmin=0,zmax=1]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s^1_x=0.4,s^2_x=0.6,s^1_y=0.3,s^2_y=0.7, h=1$},zmin=0,zmax=1]
 			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.5/(1+exp(-100*(y-0.3)))-0.5/(1+exp(-100*(y-0.7)))+0.5/(1+exp(-100*(x-0.4)))-0.5/(1+exp(-100*(x-0.6)))};
 			\end{axis}
 	\end{tikzpicture}
 	\begin{tikzpicture}[scale=0.8]
-		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_x=0.4,s^2_x=0.6,s^1_y=0.3,s^2_y=0.7, h=1$},zmin=0,zmax=1]
+		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},title={$s^1_x=0.4,s^2_x=0.6,s^1_y=0.3,s^2_y=0.7, h=0.5$},zmin=0,zmax=1]
 			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.25/(1+exp(-100*(y-0.3)))-0.25/(1+exp(-100*(y-0.7)))+0.25/(1+exp(-100*(x-0.4)))-0.25/(1+exp(-100*(x-0.6)))};
 		\end{axis}
 	\end{tikzpicture}
@@ -403,7 +404,7 @@ What we've built looks a little like a \textit{tower} function:
 \begin{center}
 	\begin{tikzpicture}[scale=0.8]
 			\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=0.40\linewidth,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={Tower function},zmin=0,zmax=1]
-				\addplot3[surf, domain=0:1,samples=41,shader=faceted]{(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.6))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.6))))};
+				\addplot3[surf, domain=0:1,samples=26,shader=faceted]{(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.6))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.6))))};
 				\end{axis}
 		\end{tikzpicture}
 \end{center}
@@ -418,40 +419,46 @@ If we could build such tower functions, then we could use them to approximate ar
 		\end{tikzpicture}
 \end{center}
 %x=1y=1Many towers
-%Of course, we haven't yet figured out how to build a tower function. What we have constructed looks like a central tower, of height 2h, with a surrounding plateau, of height h.
-%
-%But we can make a tower function. Remember that earlier we saw neurons can be used to implement a type of if-then-else statement:
-%
-%if input >= threshold: 
-%output 1
-%else:
-%output 0
-%That was for a neuron with just a single input. What we want is to apply a similar idea to the combined output from the hidden neurons:
-%
-%if combined output from hidden neurons >= threshold:
-%output 1
-%else:
-%output 0
-%If we choose the threshold appropriately - say, a value of 3h/2, which is sandwiched between the height of the plateau and the height of the central tower - we could squash the plateau down to zero, and leave just the tower standing.
-%
-%Can you see how to do this? Try experimenting with the following network to figure it out. Note that we're now plotting the output from the entire network, not just the weighted output from the hidden layer. This means we add a bias term to the weighted output from the hidden layer, and apply the sigma function. Can you find values for h and b which produce a tower? This is a bit tricky, so if you think about this for a while and remain stuck, here's two hints: (1) To get the output neuron to show the right kind of if-then-else behaviour, we need the input weights (all h or -h) to be large; and (2) the value of b determines the scale of the if-then-else threshold.
-%
-%x=1y=1Output
-%
-%With our initial parameters, the output looks like a flattened version of the earlier diagram, with its tower and plateau. To get the desired behaviour, we increase the parameter h until it becomes large. That gives the if-then-else thresholding behaviour. Second, to get the threshold right, we'll choose b≈-3h/2. Try it, and see how it works!
-%
-%Here's what it looks like, when we use h=10:
-%
-%
-%Even for this relatively modest value of h, we get a pretty good tower function. And, of course, we can make it as good as we want by increasing h still further, and keeping the bias as b=-3h/2.
-%
-%Let's try gluing two such networks together, in order to compute two different tower functions. To make the respective roles of the two sub-networks clear I've put them in separate boxes, below: each box computes a tower function, using the technique described above. The graph on the right shows the weighted output from the second hidden layer, that is, it's a weighted combination of tower functions.
+Of course, we haven't yet figured out how to build a tower function. What we have constructed looks like a central tower, of height $2h$, with a surrounding plateau, of height $h$.
+
+But we can make a tower function. Remember that earlier we saw neurons can be used to implement a type of 'inline{if-then-else} statement:
+\begin{lstlisting}
+if input >= threshold: 
+	output 1
+else:
+	output 0
+\end{lstlisting}
+That was for a neuron with just a single input. What we want is to apply a similar idea to the combined output from the hidden neurons:
+\begin{lstlisting}
+if combined output from hidden neurons >= threshold:
+	output 1
+else:
+	output 0
+\end{lstlisting}
+If we choose the threshold appropriately --- say, a value of $3h/2$, which is sandwiched between the height of the plateau and the height of the central tower -- we could squash the plateau down to zero, and leave just the tower standing.
+
+Can you see how to do this? Try experimenting with the following network to figure it out. Note that we're now plotting the output from the entire network, not just the weighted output from the hidden layer. This means we add a bias term to the weighted output from the hidden layer, and apply the sigma function. Can you find values for h and b which produce a tower? This is a bit tricky, so if you think about this for a while and remain stuck, here's two hints: (1) To get the output neuron to show the right kind of if-then-else behaviour, we need the input weights (all $h$ or $-h$) to be large; and (2) the value of b determines the scale of the if-then-else threshold.
+\begin{lstlisting}
+ANIMATION
+\end{lstlisting}
+With our initial parameters, the output looks like a flattened version of the earlier diagram, with its tower and plateau. To get the desired behaviour, we increase the parameter $h$ until it becomes large. That gives the if-then-else thresholding behaviour. Second, to get the threshold right, we'll choose $b\approx-3h/2$. Try it, and see how it works!
+
+Here's what it looks like, when we use h=10:
+\begin{lstlisting}
+ANIMATION
+\end{lstlisting}
+Even for this relatively modest value of $h$, we get a pretty good tower function. And, of course, we can make it as good as we want by increasing $h$ still further, and keeping the bias as $b=-3h/2$.
+
+Let's try gluing two such networks together, in order to compute two different tower functions. To make the respective roles of the two sub-networks clear I've put them in separate boxes, below: each box computes a tower function, using the technique described above. The graph on the right shows the weighted output from the second hidden layer, that is, it's a weighted combination of tower functions.
+\begin{lstlisting}
+ANIMATION
+\end{lstlisting}
 %
 %x=1y=1Weighted output
 %
-%In particular, you can see that by modifying the weights in the final layer you can change the height of the output towers.
-%
-%The same idea can be used to compute as many towers as we like. We can also make them as thin as we like, and whatever height we like. As a result, we can ensure that the weighted output from the second hidden layer approximates any desired function of two variables:
+In particular, you can see that by modifying the weights in the final layer you can change the height of the output towers.
+
+The same idea can be used to compute as many towers as we like. We can also make them as thin as we like, and whatever height we like. As a result, we can ensure that the weighted output from the second hidden layer approximates any desired function of two variables:
 %
 %x=1y=1Many towers
 %In particular, by making the weighted output from the second hidden layer a good approximation to $\sigma$-1$\circ$f, we ensure the output from our network will be a good approximation to any desired function, f.
