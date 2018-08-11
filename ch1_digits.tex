@@ -31,7 +31,6 @@ So how do perceptrons work? A perceptron takes several binary inputs, $x_1, x_2,
 \begin{center}
 	\includegraphics[scale=0.5]{./figures/ch1/tikz0}
 \end{center}
-
 In the example shown the perceptron has three inputs, $x_1$, $x_2$, $x_3$. In general it could have more or fewer inputs. Rosenblatt proposed a simple rule to compute the output. He introduced \textit{weights}, $w_1$,$w_2$, $\ldots$, real numbers expressing the importance of the respective inputs to the output. The neuron's output, 0 or 1, is determined by whether the weighted sum  $\sum_j w_jx_j$ is less than or greater than some \textit{threshold value}. Just like the weights, the threshold is a real number which is a parameter of the neuron. To put it in more precise algebraic terms:
 \begin{equation}
 \textrm{output} = \begin{cases}
@@ -57,7 +56,6 @@ Obviously, the perceptron isn't a complete model of human decision-making! But w
 \begin{center}
 	\includegraphics[scale=0.5]{./figures/ch1/tikz1}
 \end{center}	
-
 In this network, the first column of perceptrons--what we'll call the first \textit{layer} of perceptrons--is making three very simple decisions, by weighing the input evidence. What about the perceptrons in the second layer? Each of those perceptrons is making a decision by weighing up the results from the first layer of decision-making. In this way a perceptron in the second layer can make a decision at a more complex and more abstract level than perceptrons in the first layer. And even more complex decisions can be made by the perceptron in the third layer. In this way, a many-layer network of perceptrons can engage in sophisticated decision making.
 
 Incidentally, when I defined perceptrons I said that a perceptron has just a single output. In the network above the perceptrons look like they have multiple outputs. In fact, they're still single output. The multiple output arrows are merely a useful way of indicating that the output from a perceptron is being used as the input to several other perceptrons. It's less unwieldy than drawing a single output line which then splits.
@@ -121,7 +119,7 @@ Okay, let me describe the sigmoid neuron. We'll depict sigmoid neurons in the sa
 \begin{center}
 	\includegraphics[scale=0.5]{./figures/ch1/tikz9}
 \end{center}	
-Just like a perceptron, the sigmoid neuron has inputs, $x_1, x_2, \ldots$. But instead of being just 0 or 1, these inputs can also take on any values between 0 and 1. So, for instance, $0.638lcdots$ is a valid input for a sigmoid neuron. Also just like a perceptron, the sigmoid neuron has weights for each input, $w_1,w_2,\ldots$, and an overall bias, $b$. But the output is not 0 or 1. Instead, it's $\sigma(w⋅x+b)$, where $\sigma$ is called the sigmoid function\footnote{Incidentally, $\sigma$ is sometimes called the logistic function, and this new class of neurons called logistic neurons. It's useful to remember this terminology, since these terms are used by many people working with neural nets. However, we'll stick with the sigmoid terminology.}, and is defined by:
+Just like a perceptron, the sigmoid neuron has inputs, $x_1, x_2, \ldots$. But instead of being just 0 or 1, these inputs can also take on any values between 0 and 1. So, for instance, $0.638\ldots$ is a valid input for a sigmoid neuron. Also just like a perceptron, the sigmoid neuron has weights for each input, $w_1,w_2,\ldots$, and an overall bias, $b$. But the output is not 0 or 1. Instead, it's $\sigma(w⋅x+b)$, where $\sigma$ is called the sigmoid function\footnote{Incidentally, $\sigma$ is sometimes called the logistic function, and this new class of neurons called logistic neurons. It's useful to remember this terminology, since these terms are used by many people working with neural nets. However, we'll stick with the sigmoid terminology.}, and is defined by:
 
 \begin{equation}
 \sigma(z) \equiv \frac1{1+e^{-z}}.
@@ -137,21 +135,21 @@ At first sight, sigmoid neurons appear very different to perceptrons. The algebr
 To understand the similarity to the perceptron model, suppose $z\equiv w\cdot x+b$ is a large positive number. Then $e^{-z}\approx0$ and so $\sigma(z)\approx 1$. In other words, when $z=w\cdot x+b$ is large and positive, the output from the sigmoid neuron is approximately 1, just as it would have been for a perceptron. Suppose on the other hand that$z=w\cdot x+b$ is very negative. Then $e^{-z}\to\infty$, and $\sigma(z)\approx0$. So when $z=w\cdot x+b$ is very negative, the behaviour of a sigmoid neuron also closely approximates a perceptron. It's only when $w\cdot x+b$ is of modest size that there's much deviation from the perceptron model.
 
 What about the algebraic form of $\sigma$? How can we understand that? In fact, the exact form of $\sigma$ isn't so important -- what really matters is the shape of the function when plotted. Here's the shape:
-
+\begin{center}
 \begin{tikzpicture}[scale=0.75]
 \begin{axis}[title={Sigmoid function}]
 \addplot[blue,domain=-5:5,samples=81]{1/(1+exp(-x)};
 \end{axis}
 \end{tikzpicture}
-
+\end{center}
 This shape is a smoothed out version of a step function:
-
+\begin{center} 
 \begin{tikzpicture}[scale=0.75]
 \begin{axis}[title={Step function}]
 \addplot[domain=-5:5,samples=161,blue]{1/(1+exp(-1000*x)};
 \end{axis}
 \end{tikzpicture}
-
+\end{center}
 If $\sigma$ had in fact been a step function, then the sigmoid neuron would be a perceptron, since the output would be 1 or 0 depending on whether $w\cdot x + b$ was positive or negative\footnote{Actually, when $w\cdot x+b = 0$ the perceptron outputs 0, while the step function outputs 1. So, strictly speaking, we'd need to modify the step function at that one point. But you get the idea.}. By using the actual $\sigma$ function we get, as already implied above, a smoothed out perceptron. Indeed, it's the smoothness of the $\sigma$ function that is the crucial fact, not its detailed form. The smoothness of $\sigma$ means that small changes $\Delta{}w_j$ in the weights and $\Delta{}b$ in the bias will produce a small change $\Delta\textrm{output}$ in the output from the neuron. In fact, calculus tells us that $\Delta\textrm{output}$ is well approximated by
 \begin{equation}
 \Delta\textrm{output}\approx \sum_j\frac{\partial\textrm{output}}{\partial w_j}\Delta w_j + \frac{\partial\textrm{output}}{\partial b}\Delta b
@@ -265,7 +263,6 @@ What we'd like is an algorithm which lets us find weights and biases so that the
 	C(w,b) \equiv\frac1{2n}\sum_x\|y(x)-a\|^2
 	\label{eq:6}
 \end{equation}
-
 Here, $w$ denotes the collection of all weights in the network, $b$ all the biases, $n$ is the total number of training inputs, $a$ is the vector of outputs from the network when $x$ is input, and the sum is over all training inputs, $x$. Of course, the output a depends on $x$, $w$ and $b$, but to keep the notation simple I haven't explicitly indicated this dependence. The notation $\|v\|$ just denotes the usual length function for a vector $v$. We'll call $C$ the \textit{quadratic} cost function; it's also sometimes known as the \textit{mean squared error} or just MSE. Inspecting the form of the quadratic cost function, we see that $C(w,b)$ is non-negative, since every term in the sum is non-negative. Furthermore, the cost $C(w,b)$ becomes small, i.e., $C(w,b)\approx0$, precisely when $y(x)$ is approximately equal to the output, $a$, for all training inputs, $x$. So our training algorithm has done a good job if it can find weights and biases so that $C(w,b)\approx0$. By contrast, it's not doing so well when $C(w,b)$ is large -- that would mean that $y(x)$ is not close to the output a for a large number of inputs. So the aim of our training algorithm will be to minimize the cost $C(w,b)$ as a function of the weights and biases. In other words, we want to find a set of weights and biases which make the cost as small as possible. We'll do that using an algorithm known as \textit{gradient descent}.
 
 Why introduce the quadratic cost? After all, aren't we primarily interested in the number of images correctly classified by the network? Why not try to maximize that number directly, rather than minimizing a proxy measure like the quadratic cost? The problem with that is that the number of images correctly classified is not a smooth function of the weights and biases in the network. For the most part, making small changes to the weights and biases won't cause any change at all in the number of training images classified correctly. That makes it difficult to figure out how to change the weights and biases to get improved performance. If we instead use a smooth cost function like the quadratic cost it turns out to be easy to figure out how to make small changes in the weights and biases so as to get an improvement in the cost. That's why we focus first on minimizing the quadratic cost, and only after that will we examine the classification accuracy.
@@ -308,7 +305,6 @@ With these definitions, the expression \ref{eq:7} for $\Delta C$ can be rewritte
 	\Delta C \approx \nabla C \cdot \Delta v
 	\label{eq:9}
 \end{equation}
-
 This equation helps explain why $\nabla C$ is called the gradient vector: $\nabla C$ relates changes in $v$ to changes in $C$, just as we'd expect something called a gradient to do. But what's really exciting about the equation is that it lets us see how to choose $\Delta v$ so as to make $\Delta C$ negative. In particular, suppose we choose
 \begin{equation}
 	 \Delta v = -\eta \nabla C,
@@ -342,7 +338,6 @@ Just as for the two variable case, we can choose
 \begin{equation}
 \Delta v = -\eta \nabla C, \label{eq:14}
 \end{equation}
-
 and we're guaranteed that our (approximate) expression \ref{eq:12} for $\Delta C$ will be negative. This gives us a way of following the gradient to a minimum, even when $C$ is a function of many variables, by repeatedly applying the update rule
 \begin{equation}
 v \rightarrow v' = v-\eta \nabla C.
@@ -364,8 +359,6 @@ How can we apply gradient descent to learn in a neural network? The idea is to u
 w_k & \to & w_k' = w_k-\eta \frac{\partial C}{\partial w_k}\\
 b_l & \to & b_l' = b_l-\eta \frac{\partial C}{\partial b_l}.
 \end{eqnarray}
-
-
 By repeatedly applying this update rule we can ``roll down the hill'', and hopefully find a minimum of the cost function. In other words, this is a rule which can be used to learn in a neural network.
 
 There are a number of challenges in applying the gradient descent rule. We'll look into those in depth in later chapters. But for now I just want to mention one problem. To understand what the problem is, let's look back at the quadratic cost in Equation \ref{eq:6}. Notice that this cost function has the form $C = \frac{1}{n} \sum_x C_x$, that is, it's an average over costs $C_x \equiv \frac{\|y(x)-a\|^2}{2}$ for individual training examples. In practice, to compute the gradient $\nabla C$ we need to  compute the gradients $\nabla C_x$separately for each training input, x, and then average them, $\nabla C = \frac{1}{n}\sum_x \nabla C_x$. Unfortunately, when the number of training inputs is very large this can take a long time, and learning thus occurs slowly.
@@ -377,7 +370,6 @@ To make these ideas more precise, stochastic gradient descent works by randomly 
 	\frac{\sum_{j=1}^m \nabla C_{X_{j}}}{m} \approx \frac{\sum_x \nabla C_x}{n} = \nabla C,
 	\label{eq:18}
 \end{equation}
-
 where the second sum is over the entire set of training data. Swapping sides we get
 \begin{equation}
 \nabla C \approx \frac{1}{m} \sum_{j=1}^m \nabla C_{X_{j}},
@@ -435,7 +427,6 @@ Note also that the biases and weights are stored as lists of Numpy matrices. So,
 	a' = \sigma(w a + b).
 	\label{eq:22}
 \end{equation}
-
 There's quite a bit going on in this equation, so let's unpack it piece by piece. $a$ is the vector of activations of the second layer of neurons. To obtain $a'$ we multiply $a$ by the weight matrix $w$, and add the vector $b$ of biases. We then apply the function $\sigma$ elementwise to every entry in the vector $wa+b$. (This is called \textit{vectorizing} the function $\sigma$.) It's easy to verify that Equation \ref{eq:22} gives the same result as our earlier rule, Equation \ref{eq:4}, for computing the output of a sigmoid neuron.
 
 \begin{exercize}{Exercise}
