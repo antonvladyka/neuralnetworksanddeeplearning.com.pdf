@@ -601,7 +601,7 @@ And suppose we use another set of hidden neurons to compute an approximation to 
 \begin{center}
 	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz457}
 \end{center}
-Now we have two different approximations to $\sigma^{-1}\circ f(x)/2$. If we add up the two approximations we'll get an overall approximation to $\sigma^{-1}\circ f(x)/$. That overall approximation will still have failures in small windows. But the problem will be much less than before. The reason is that points in a failure window for one approximation won't be in a failure window for the other. And so the approximation will be a factor roughly 2 better in those windows.
+Now we have two different approximations to $\sigma^{-1}\circ f(x)/2$. If we add up the two approximations we'll get an overall approximation to $\sigma^{-1}\circ f(x)$. That overall approximation will still have failures in small windows. But the problem will be much less than before. The reason is that points in a failure window for one approximation won't be in a failure window for the other. And so the approximation will be a factor roughly 2 better in those windows.
 
 We could do even better by adding up a large number, $M$, of overlapping approximations to the function $\sigma^{-1}\circ f(x)/M$. Provided the windows of failure are narrow enough, a point will only ever be in one window of failure. And provided we're using a large enough number $M$ of overlapping approximations, the result will be an excellent overall approximation.
 
