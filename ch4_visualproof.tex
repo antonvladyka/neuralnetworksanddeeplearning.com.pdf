@@ -108,7 +108,7 @@ Next, click and drag to the left in order to decrease the bias. You'll see that 
 
 Next, decrease the weight to around 2 or 3. You'll see that as you decrease the weight, the curve broadens out. You might need to change the bias as well, in order to keep the curve in-frame.
 
-Finally, increase the weight up past w=100. As you do, the curve gets steeper, until eventually it begins to look like a step function. Try to adjust the bias so the step occurs near $x=0.3$. The following short clip shows what your result should look like. Click on the play button to play (or replay) the video:
+Finally, increase the weight up past $w=100$. As you do, the curve gets steeper, until eventually it begins to look like a step function. Try to adjust the bias so the step occurs near $x=0.3$. The following short clip shows what your result should look like. Click on the play button to play (or replay) the video:
 \begin{lstlisting}
 
 ANIMATION
@@ -153,10 +153,19 @@ Finally, try setting $w_1$ to be 0.8 and $w_2$ to be -0.8. You get a ``bump'' fu
 	\includegraphics[width=0.7\linewidth]{figures/ch4/bump_function}
 \end{center}
 Of course, we can rescale the bump to have any height at all. Let's use a single parameter, $h$, to denote the height. To reduce clutter I'll also remove the ``$s_1=\ldots$'' and ``$w_1=\ldots$'' notations.
-\begin{lstlisting}
-
-ANIMATION
-\end{lstlisting}%
+\begin{center}
+	\includegraphics[width=0.32\linewidth]{figures/ch4/tikz406}
+	\begin{tikzpicture}[declare function = {bump(\x,\s,\t,\h)=0.5*\h*(sign(\x-\s)-sign(\x-\t));}]
+	\begin{axis}[width=0.32\linewidth,height=0.3\linewidth,align=center,title={Weighted output\\$s_1=0.4,s_2=0.6,h=0.6$},axis x line=middle,axis y line=middle,xtick={0,1},ytick={-1,0,1},xmax=1.25,ymax=1.25,ymin=-1.25,xlabel={$x$}]
+	\addplot[blue!90!red,domain=0:1,samples=201]{bump(x,0.4,0.6,0.6};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[declare function = {bump(\x,\s,\t,\h)=0.5*\h*(sign(\x-\s)-sign(\x-\t));}]
+		\begin{axis}[width=0.32\linewidth,height=0.3\linewidth,align=center,title={Weighted output\\$s_1=0.2,s_2=0.5,h=-0.9$},axis x line=middle,axis y line=middle,xtick={0,1},ytick={-1,0,1},xmax=1.25,ymax=1.25,ymin=-1.25,xlabel={$x$}]
+		\addplot[blue!90!red,domain=0:1,samples=201]{bump(x,0.2,0.5,-0.9};
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
 Try changing the value of $h$ up and down, to see how the height of the bump changes. Try changing the height so it's negative, and observe what happens. And try changing the step points to see how that changes the shape of the bump.
 
 You'll notice, by the way, that we're using our neurons in a way that can be thought of not just in graphical terms, but in more conventional programming terms, as a kind of \texttt{if-then-else} statement, e.g.:
@@ -172,12 +181,12 @@ We can use our bump-making trick to get two bumps, by gluing two pairs of hidden
 \begin{center}
 	\includegraphics[width=0.32\linewidth]{figures/ch4/tikz421}
 	\begin{tikzpicture}[declare function = {step(\x,\s,\t)=0.5*(sign(\x-\s)-sign(\x-\t));twobumps(\x,\s,\t,\h,\ss,\tt,\hh) = \h*step(\x,\s,\t)+\hh*step(\x,\ss,\tt); }]
-	\begin{axis}[width=0.32\linewidth,height=0.4\linewidth,align=center,title={Weighted output\\$s_1=0.4,s_2=0.6,h_1=-1.2$\\$s_1=0.7,s_2=0.9,h_2=0.3$},axis x line=bottom,axis y line=left,xtick={0,1},ytick={-1,0,1},xmax=1.05,ymax=1.25,ymin=-1.25]
+	\begin{axis}[width=0.32\linewidth,height=0.4\linewidth,align=center,title={Weighted output\\$s_1=0.4,s_2=0.6,h_1=-1.2$\\$s_1=0.7,s_2=0.9,h_2=0.3$},axis x line=bottom,axis y line=left,xtick={0,1},ytick={-1,0,1},xmax=1.15,ymax=1.25,ymin=-1.25]
 	\addplot[blue!90!red,domain=0:1,samples=201]{twobumps(x,0.4,0.6,-1.2,0.7,0.9,0.3};
 	\end{axis}
 	\end{tikzpicture}
 	\begin{tikzpicture}[declare function = {step(\x,\s,\t)=0.5*(sign(\x-\s)-sign(\x-\t));twobumps(\x,\s,\t,\h,\ss,\tt,\hh) = \h*step(\x,\s,\t)+\hh*step(\x,\ss,\tt); }]
-	\begin{axis}[width=0.32\linewidth,height=0.4\linewidth,align=center,title={Weighted output\\$s_1=0.2,s_2=0.5,h_1=0.75$\\$s_1=0.7,s_2=0.95,h_2=-0.9$},axis x line=bottom,axis y line=left,xtick={0,1},ytick={-1,0,1},xmax=1.05,ymax=1.25,ymin=-1.25]
+	\begin{axis}[width=0.32\linewidth,height=0.4\linewidth,align=center,title={Weighted output\\$s_1=0.2,s_2=0.5,h_1=0.75$\\$s_1=0.7,s_2=0.95,h_2=-0.9$},axis x line=bottom,axis y line=left,xtick={0,1},ytick={-1,0,1},xmax=1.15,ymax=1.25,ymin=-1.25]
 	\addplot[blue!90!red,domain=0:1,samples=201]{twobumps(x,0.2,0.5,0.75,0.7,0.95,-0.9};
 	\end{axis}
 	\end{tikzpicture}
@@ -188,7 +197,7 @@ More generally, we can use this idea to get as many peaks as we want, of any hei
 \begin{center}
 \includegraphics[height=0.65\linewidth]{./figures/ch4/tikz438}
 \begin{tikzpicture}[declare function = {step(\x,\s,\t)=0.5*(sign(\x-\s)-sign(\x-\t));}]
-\begin{axis}[width=0.42\linewidth,height=0.65\linewidth,align=center,title={Weighted output},axis x line=middle,axis y line=left,xtick={0,1},ytick={-1,0,1},xmax=1.05,ymax=2.2,ymin=-1.5]
+\begin{axis}[width=0.42\linewidth,height=0.65\linewidth,align=center,title={Weighted output},axis x line=middle,axis y line=left,xtick={0,1},ytick={-1,0,1},xmax=1.15,ymax=2.2,ymin=-1.5]
 	\addplot[blue!90!red,domain=0:1.05,samples=201]{step(x,0,0.2)};
 	\addplot[blue!90!red,domain=0:1.05,samples=201]{-0.5*step(x,0.2,0.4)};
 	\addplot[blue!90!red,domain=0:1.05,samples=201]{+1.5*step(x,0.4,0.6)};
@@ -196,7 +205,8 @@ More generally, we can use this idea to get as many peaks as we want, of any hei
 	\addplot[blue!90!red,domain=0:1.05,samples=201]{-0.2*step(x,0.8,1.0)};
 	\end{axis}
 \end{tikzpicture}	
-\end{center}You can see that there are five pairs of hidden neurons. The step points for the respective pairs of neurons are 0,1/5, then 1/5,2/5, and so on, out to 4/5,5/5. These values are fixed - they make it so we get five evenly spaced bumps on the graph.
+\end{center}
+You can see that there are five pairs of hidden neurons. The step points for the respective pairs of neurons are 0,1/5, then 1/5,2/5, and so on, out to 4/5,5/5. These values are fixed - they make it so we get five evenly spaced bumps on the graph.
 
 Each pair of neurons has a value of $h$ associated to it. Remember, the connections output from the neurons have weights $h$ and $-h$ (not marked). Click on one of the $h$ values, and drag the mouse to the right or left to change the value. As you do so, watch the function change. By changing the output weights we're actually \textit{designing} the function!
 
@@ -229,7 +239,7 @@ In our networks above we've been analyzing the weighted combination $\sum_jw_ja_
 The solution is to design a neural network whose hidden layer has a weighted output given by $\sigma^{-1} \circ f(x)$, where $\sigma^{-1}$ is just the inverse of the $\sigma$ function. That is, we want the weighted output from the hidden layer to be:
 \begin{center} 
 	\begin{tikzpicture}
-	\begin{axis}[axis lines=middle,width=0.65\linewidth,height=0.5\linewidth,ymin=-2.05,ymax=2.25,scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-0.05,xmax=1.05, xtick={0,1}]
+	\begin{axis}[axis lines=middle,width=0.6\linewidth,height=0.5\linewidth,ymin=-2.05,ymax=2.25,scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-0.05,xmax=1.05, xtick={0,1}]
 	\addplot[blue,domain=0:1,samples=101]{4*(-0.3 + 0.4*x*x + 0.3*x*sin(15*deg(x)) + 0.05*cos(50*deg(x))) };
 	\node[anchor=north,align=center] at (axis cs: 0.5,2) {$\sigma^{-1}\circ f(x)$};
 	\end{axis}
