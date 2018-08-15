@@ -4,7 +4,7 @@
 \chapter{How the backpropagation algorithm works}
 In the last chapter we saw how neural networks can learn their weights and biases using the gradient descent algorithm. There was, however, a gap in our explanation: we didn't discuss how to compute the gradient of the cost function. That's quite a gap! In this chapter I'll explain a fast algorithm for computing such gradients, an algorithm known as\textit{ backpropagation}.
 
-The backpropagation algorithm was originally introduced in the 1970s, but its importance wasn't fully appreciated until a famous 1986 [link]paper by David Rumelhart, Geoffrey Hinton, and Ronald Williams. That paper describes several neural networks where backpropagation works far faster than earlier approaches to learning, making it possible to use neural nets to solve problems which had previously been insoluble. Today, the backpropagation algorithm is the workhorse of learning in neural networks.
+The backpropagation algorithm was originally introduced in the 1970s, but its importance wasn't fully appreciated until a famous 1986 \href{http://www.nature.com/nature/journal/v323/n6088/pdf/323533a0.pdf}{paper} by David Rumelhart, Geoffrey Hinton, and Ronald Williams. That paper describes several neural networks where backpropagation works far faster than earlier approaches to learning, making it possible to use neural nets to solve problems which had previously been insoluble. Today, the backpropagation algorithm is the workhorse of learning in neural networks.
 
 This chapter is more mathematically involved than the rest of the book. If you're not crazy about mathematics you may be tempted to skip the chapter, and to treat backpropagation as a black box whose details you're willing to ignore. Why take the time to study those details?
 
@@ -13,7 +13,7 @@ The reason, of course, is understanding. At the heart of backpropagation is an e
 With that said, if you want to skim the chapter, or jump straight to the next chapter, that's fine. I've written the rest of the book to be accessible even if you treat backpropagation as a black box. There are, of course, points later in the book where I refer back to results from this chapter. But at those points you should still be able to understand the main conclusions, even if you don't follow all the reasoning.
 
 \section{Warm up: a fast matrix-based approach to computing the output from a neural network}
-Before discussing backpropagation, let's warm up with a fast matrix-based algorithm to compute the output from a neural network. We actually already briefly saw this algorithm near the end of the last chapter, but I described it quickly, so it's worth revisiting in detail. In particular, this is a good way of getting comfortable with the notation used in backpropagation, in a familiar context.
+Before discussing backpropagation, let's warm up with a fast matrix-based algorithm to compute the output from a neural network. We actually already briefly saw this algorithm near the end of the last chapter\ref{sec:1.7}, but I described it quickly, so it's worth revisiting in detail. In particular, this is a good way of getting comfortable with the notation used in backpropagation, in a familiar context.
 
 Let's begin with a notation which lets us refer to weights in the network in an unambiguous way. We'll use $w^l_{jk}$ to denote the weight for the connection from the $k$-th neuron in the $(l-1)$-th layer to the $j$-th neuron in the $l$-th layer. So, for example, the diagram below shows the weight on a connection from the fourth neuron in the second layer to the second neuron in the third layer of a network:
 
@@ -45,7 +45,7 @@ With these notations in mind, Equation \ref{eq:23} can be rewritten in the beaut
 a^{l} = \sigma(w^l a^{l-1}+b^l).
 \label{eq:25}
 \end{equation}
-This expression gives us a much more global way of thinking about how the activations in one layer relate to activations in the previous layer: we just apply the weight matrix to the activations, then add the bias vector, and finally apply the $\sigma$ function\footnote{By the way, it's this expression that motivates the quirk in the $w^l_{jk}$ notation mentioned earlier. If we used $j$ to index the input neuron, and $k$ to index the output neuron, then we'd need to replace the weight matrix in Equation \ref{eq:25} by the transpose of the weight matrix. That's a small change, but annoying, and we'd lose the easy simplicity of saying (and thinking) ``apply the weight matrix to the activations''.}. That global view is often easier and more succinct (and involves fewer indices!) than the neuron-by-neuron view we've taken to now. Think of it as a way of escaping index hell, while remaining precise about what's going on. The expression is also useful in practice, because most matrix libraries provide fast ways of implementing matrix multiplication, vector addition, and vectorization. Indeed, the code in the last chapter made implicit use of this expression to compute the behaviour of the network.
+This expression gives us a much more global way of thinking about how the activations in one layer relate to activations in the previous layer: we just apply the weight matrix to the activations, then add the bias vector, and finally apply the $\sigma$ function\footnote{By the way, it's this expression that motivates the quirk in the $w^l_{jk}$ notation mentioned earlier. If we used $j$ to index the input neuron, and $k$ to index the output neuron, then we'd need to replace the weight matrix in Equation \ref{eq:25} by the transpose of the weight matrix. That's a small change, but annoying, and we'd lose the easy simplicity of saying (and thinking) ``apply the weight matrix to the activations''.}. That global view is often easier and more succinct (and involves fewer indices!) than the neuron-by-neuron view we've taken to now. Think of it as a way of escaping index hell, while remaining precise about what's going on. The expression is also useful in practice, because most matrix libraries provide fast ways of implementing matrix multiplication, vector addition, and vectorization. Indeed, the code\ref{sec:1.7} in the last chapter made implicit use of this expression to compute the behaviour of the network.
 
 When using Equation \ref{eq:25} to compute $a^l$, we compute the intermediate quantity $z^l \equiv w^l a^{l-1}+b^l$ along the way. This quantity turns out to be useful enough to be worth naming: we call $z^l$ the weighted input to the neurons in layer $l$. We'll make considerable use of the weighted input $z^l$ later in the chapter. Equation \ref{eq:25} is sometimes written in terms of the weighted input, as $a^l=\sigma(z^l)$. It's also worth noting that $z^l$ has components $z^l_j= \sum_k w^l_{jk} a^{l-1}_k+b^l_j$, that is, $z^l_j$ is just the weighted input to the activation function for neuron $j$ in layer $l$.
 
@@ -84,6 +84,7 @@ The backpropagation algorithm is based on common linear algebraic operations - t
 This kind of elementwise multiplication is sometimes called the \textit{Hadamard product} or \textit{Schur product}. We'll refer to it as the Hadamard product. Good matrix libraries usually provide fast implementations of the Hadamard product, and that comes in handy when implementing backpropagation.
 
 \section{The four fundamental equations behind backpropagation}
+\label{sec:2.4}
 Backpropagation is about understanding how changing the weights and biases in a network changes the cost function. Ultimately, this means computing the partial derivatives $\partial{}C/\partial{}w^l_{jk}$ and $\partial{}C/\partial{}b^l_j$. But to compute those, we first introduce an intermediate quantity, $\delta^l_j$, which we call the \textit{error} in the $j$-th neuron in the $l$-th layer. Backpropagation will give us a procedure to compute the error $\delta^l_j$, and then will relate $\delta^l_j$ to $\partial{}C/\partial{}w^l_{jk}$ and $\partial{}C/\partial{}b^l_j$.
 
 To understand how the error is defined, imagine there is a demon in our neural network:
@@ -105,7 +106,7 @@ You might wonder why the demon is changing the weighted input $z^l_j$. Surely it
 
 \textbf{Plan of attack}: Backpropagation is based around four fundamental equations. Together, those equations give us a way of computing both the error $\delta{}^l$ and the gradient of the cost function. I state the four equations below. Be warned, though: you shouldn't expect to instantaneously assimilate the equations. Such an expectation will lead to disappointment. In fact, the backpropagation equations are so rich that understanding them well requires considerable time and patience as you gradually delve deeper into the equations. The good news is that such patience is repaid many times over. And so the discussion in this section is merely a beginning, helping you on the way to a thorough understanding of the equations.
 
-Here's a preview of the ways we'll delve more deeply into the equations later in the chapter: I'll give a short proof of the equations, which helps explain why they are true; we'll restate the equations in algorithmic form as pseudocode, and see how the pseudocode can be implemented as real, running Python code; and, in the final section of the chapter, we'll develop an intuitive picture of what the backpropagation equations mean, and how someone might discover them from scratch. Along the way we'll return repeatedly to the four fundamental equations, and as you deepen your understanding those equations will come to seem comfortable and, perhaps, even beautiful and natural.
+Here's a preview of the ways we'll delve more deeply into the equations later in the chapter: I'll give a short proof of the equations\ref{sec:2.5}, which helps explain why they are true; we'll restate the equations in algorithmic form as pseudocode\ref{sec:2.6}, and see how the pseudocode can be implemented as real, running Python code\ref{sec:2.7}; and, in the final section of the chapter, we'll develop an intuitive picture of what the backpropagation equations mean, and how someone might discover them from scratch\ref{sec:2.9}. Along the way we'll return repeatedly to the four fundamental equations, and as you deepen your understanding those equations will come to seem comfortable and, perhaps, even beautiful and natural.
 
 An equation for the error in the output layer, $\delta^L$: The components of $\delta^L$ are given by
 \begin{equation}
@@ -210,6 +211,7 @@ None of these observations is too greatly surprising. Still, they help improve o
 	\end{enumerate}
 \end{exercize}
 \section{Proof of the four fundamental equations (optional)}
+\label{sec:2.5}
 We'll now prove the four fundamental equations (\ref{eq:BP1})-(\ref{eq:BP4}). All four are consequences of the chain rule from multivariable calculus. If you're comfortable with the chain rule, then I strongly encourage you to attempt the derivation yourself before reading on.
 
 Let's begin with Equation (\ref{eq:BP1}), which gives an expression for the output error, $\delta^l$. To prove this equation, recall that by definition
@@ -269,6 +271,7 @@ The final two equations we want to prove are (\ref{eq:BP3}) and (\ref{eq:BP4}). 
 That completes the proof of the four fundamental equations of backpropagation. The proof may seem complicated. But it's really just the outcome of carefully applying the chain rule. A little less succinctly, we can think of backpropagation as a way of computing the gradient of the cost function by systematically applying the chain rule from multi-variable calculus. That's all there really is to backpropagation -- the rest is details.
 
 \section{The backpropagation algorithm}
+\label{sec:2.6}
 The backpropagation equations provide us with a way of computing the gradient of the cost function. Let's explicitly write this out in the form of an algorithm:
 \begin{enumerate}
 \item \textbf{Input} $x$: Set the corresponding activation $a^1$ for the input layer.
@@ -297,9 +300,9 @@ w^l-\frac{\eta}{m} \sum_x \delta^{x,l} (a^{x,l-1})^T$, and the biases according 
 \end{enumerate}
 Of course, to implement stochastic gradient descent in practice you also need an outer loop generating mini-batches of training examples, and an outer loop stepping through multiple epochs of training. I've omitted those for simplicity.
 \section{The code for backpropagation}
+\label{sec:2.7}
 Having understood backpropagation in the abstract, we can now understand the code used in the last chapter to implement backpropagation. Recall from that chapter that the code was contained in the \inline{update_mini_batch} and \inline{backprop} methods of the \inline{Network} class. The code for these methods is a direct translation of the algorithm described above. In particular, the \inline{update_mini_batch}  method updates the \inline{Network}'s weights and biases by computing the gradient for the current \inline{mini_batch} of training examples:
 \begin{lstlisting}
-
 class Network(object):
 ...
 	def update_mini_batch(self, mini_batch, eta):
@@ -375,6 +378,7 @@ class Network(object):
 \item \textbf{Fully matrix-based approach to backpropagation over a mini-batch} Our implementation of stochastic gradient descent loops over training examples in a mini-batch. It's possible to modify the backpropagation algorithm so that it computes the gradients for all training examples in a mini-batch simultaneously. The idea is that instead of beginning with a single input vector, $x$, we can begin with a matrix $X=[x_1x_2\ldots{}x_m]$ whose columns are the vectors in the mini-batch. We forward-propagate by multiplying by the weight matrices, adding a suitable matrix for the bias terms, and applying the sigmoid function everywhere. We backpropagate along similar lines. Explicitly write out pseudocode for this approach to the backpropagation algorithm. Modify \inline{network.py} so that it uses this fully matrix-based approach. The advantage of this approach is that it takes full advantage of modern libraries for linear algebra. As a result it can be quite a bit faster than looping over the mini-batch. (On my laptop, for example, the speedup is about a factor of two when run on MNIST classification problems like those we considered in the last chapter.) In practice, all serious libraries for backpropagation use this fully matrix-based approach or some variant.
 \end{exercize}
 \section{In what sense is backpropagation a fast algorithm?}
+\label{sec:2.8}
 In what sense is backpropagation a fast algorithm? To answer this question, let's consider another approach to computing the gradient. Imagine it's the early days of neural networks research. Maybe it's the 1950s or 1960s, and you're the first person in the world to think of using gradient descent to learn! But to make the idea work you need a way of computing the gradient of the cost function. You think back to your knowledge of calculus, and decide to see if you can use the chain rule to compute the gradient. But after playing around a bit, the algebra looks complicated, and you get discouraged. So you try to find another approach. You decide to regard the cost as a function of the weights $C=C(w)$ alone (we'll get back to the biases in a moment). You number the weights $w_1,w_2,\ldots$, and want to compute $\partial{}C/\partial{}w_j$ for some particular weight $w_j$. An obvious way of doing that is to use the approximation
 \begin{equation}
 	\frac{\partial C}{\partial w_{j}} \approx \frac{C(w+\epsilon e_j)-C(w)}{\epsilon},
@@ -392,6 +396,7 @@ What's clever about backpropagation is that it enables us to simultaneously comp
 This speedup was first fully appreciated in 1986, and it greatly expanded the range of problems that neural networks could solve. That, in turn, caused a rush of people using neural networks. Of course, backpropagation is not a panacea. Even in the late 1980s people ran up against limits, especially when attempting to use backpropagation to train deep neural networks, i.e., networks with many hidden layers. Later in the book we'll see how modern computers and some clever new ideas now make it possible to use backpropagation to train such deep neural networks.
 %
 \section{Backpropagation: the big picture}
+\label{sec:2.9}
 As I've explained it, backpropagation presents two mysteries. First, what's the algorithm really doing? We've developed a picture of the error being backpropagated from the output. But can we go any deeper, and build up more intuition about what is going on when we do all these matrix and vector multiplications? The second mystery is how someone could ever have discovered backpropagation in the first place? It's one thing to follow the steps in an algorithm, or even to follow the proof that the algorithm works. But that doesn't mean you understand the problem so well that you could have discovered the algorithm in the first place. Is there a plausible line of reasoning that could have led you to discover the backpropagation algorithm? In this section I'll address both these mysteries.
 
 To improve our intuition about what the algorithm is doing, let's imagine that we've made a small change $\Delta{}w^l_{jk}$ to some weight in the network, $w^l_{jk}$:
