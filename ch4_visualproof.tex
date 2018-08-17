@@ -134,7 +134,7 @@ It will greatly simplify our lives to describe hidden neurons using just a singl
 \begin{lstlisting}
 ANIMATIOIN
 \end{lstlisting}
-As noted above, we've implicitly set the weight w on the input to be some large value - big enough that the step function is a very good approximation. We can easily convert a neuron parameterized in this way back into the conventional model, by choosing the bias $b=-ws$.
+As noted above, we've implicitly set the weight w on the input to be some large value -- big enough that the step function is a very good approximation. We can easily convert a neuron parameterized in this way back into the conventional model, by choosing the bias $b=-ws$.
 
 Up to now we've been focusing on the output from just the top hidden neuron. Let's take a look at the behavior of the entire network. In particular, we'll suppose the hidden neurons are computing step functions parameterized by step points $s_1$ (top neuron) and $s_2$ (bottom neuron). And they'll have respective output weights $w_1$ and $w_2$. Here's the network:
 \begin{lstlisting}
@@ -206,7 +206,7 @@ More generally, we can use this idea to get as many peaks as we want, of any hei
 	\end{axis}
 \end{tikzpicture}	
 \end{center}
-You can see that there are five pairs of hidden neurons. The step points for the respective pairs of neurons are 0,1/5, then 1/5,2/5, and so on, out to 4/5,5/5. These values are fixed - they make it so we get five evenly spaced bumps on the graph.
+You can see that there are five pairs of hidden neurons. The step points for the respective pairs of neurons are 0,1/5, then 1/5,2/5, and so on, out to 4/5,5/5. These values are fixed -- they make it so we get five evenly spaced bumps on the graph.
 
 Each pair of neurons has a value of $h$ associated to it. Remember, the connections output from the neurons have weights $h$ and $-h$ (not marked). Click on one of the $h$ values, and drag the mouse to the right or left to change the value. As you do so, watch the function change. By changing the output weights we're actually \textit{designing} the function!
 
@@ -606,7 +606,7 @@ Up to now, we've been assuming that our neurons can produce step functions exact
 \end{center}
 In these windows of failure the explanation I've given for universality will fail.
 
-Now, it's not a terrible failure. By making the weights input to the neurons big enough we can make these windows of failure as small as we like. Certainly, we can make the window much narrower than I've shown above - narrower, indeed, than our eye could see. So perhaps we might not worry too much about this problem.
+Now, it's not a terrible failure. By making the weights input to the neurons big enough we can make these windows of failure as small as we like. Certainly, we can make the window much narrower than I've shown above -- narrower, indeed, than our eye could see. So perhaps we might not worry too much about this problem.
 
 Nonetheless, it'd be nice to have some way of addressing the problem.
 
