@@ -193,11 +193,11 @@ Recurrent neural nets have been less influential than feedforward networks, in p
 \section{A simple network to classify handwritten digits}
 Having defined neural networks, let's return to handwriting recognition. We can split the problem of recognizing handwritten digits into two sub-problems. First, we'd like a way of breaking an image containing many digits into a sequence of separate images, each containing a single digit. For example, we'd like to break the image
 \begin{center}
-	\includegraphics[scale=0.35]{./figures/ch1/digits}
+	\includegraphics[scale=0.25]{./figures/ch1/digits}
 \end{center}
 into six separate images,
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/digits_separate}
+	\includegraphics[scale=0.4]{./figures/ch1/digits_separate}
 \end{center}
 We humans solve this \textit{segmentation problem} with ease, but it's challenging for a computer program to correctly break up the image. Once the image has been segmented, the program then needs to classify each individual digit. So, for instance, we'd like our program to recognize that the first digit above,
 \begin{center}
@@ -223,7 +223,6 @@ To understand why we do this, it helps to think about what the neural network is
 \begin{center}
 	\includegraphics[height=0.1\linewidth]{./figures/ch1/mnist_top_left_feature}
 \end{center}
-
 It can do this by heavily weighting input pixels which overlap with the image, and only lightly weighting the other inputs. In a similar way, let's suppose for the sake of argument that the second, third, and fourth neurons in the hidden layer detect whether or not the following images are present:
 \begin{center}
 	\includegraphics[height=0.1\linewidth]{./figures/ch1/mnist_other_features}
@@ -251,7 +250,7 @@ Now, with all that said, this is all just a heuristic. Nothing says that the thr
 \label{sec:1.5}
 Now that we have a design for our neural network, how can it learn to recognize digits? The first thing we'll need is a data set to learn from--a so-called training data set. We'll use the \href{http://yann.lecun.com/exdb/mnist/}{MNIST data set}, which contains tens of thousands of scanned images of handwritten digits, together with their correct classifications. MNIST's name comes from the fact that it is a modified subset of two data sets collected by NIST, the United States' National Institute of Standards and Technology. Here's a few images from MNIST:
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/digits_separate}
+	\includegraphics[scale=0.4]{./figures/ch1/digits_separate}
 \end{center}
 As you can see, these digits are, in fact, the same as those shown at the beginning of this chapter as a challenge to recognize. Of course, when testing our network we'll ask it to recognize images which aren't in the training set!
 
@@ -276,12 +275,11 @@ Okay, let's suppose we're trying to minimize some function, $C(v)$. This could b
 \begin{center}
 	\includegraphics[width=0.5\linewidth]{./figures/ch1/valley}
 \end{center}
-
 What we'd like is to find where $C$ achieves its global minimum. Now, of course, for the function plotted above, we can eyeball the graph and find the minimum. In that sense, I've perhaps shown slightly too simple a function! A general function, $C$, may be a complicated function of many variables, and it won't usually be possible to just eyeball the graph to find the minimum.
 
 One way of attacking the problem is to use calculus to try to find the minimum analytically. We could compute derivatives and then try using them to find places where $C$ is an extremum. With some luck that might work when $C$ is a function of just one or a few variables. But it'll turn into a nightmare when we have many more variables. And for neural networks we'll often want far more variables -- the biggest neural networks have cost functions which depend on billions of weights and biases in an extremely complicated way. Using calculus to minimize that just won't work!
 
-(After asserting that we'll gain insight by imagining $C$ as a function of just two variables, I've turned around twice in two paragraphs and said, ``hey, but what if it's a function of many more than two variables?'' Sorry about that. Please believe me when I say that it really does help to imagine C as a function of two variables. It just happens that sometimes that picture breaks down, and the last two paragraphs were dealing with such breakdowns. Good thinking about mathematics often involves juggling multiple intuitive pictures, learning when it's appropriate to use each picture, and when it's not.)
+(After asserting that we'll gain insight by imagining $C$ as a function of just two variables, I've turned around twice in two paragraphs and said, ``hey, but what if it's a function of many more than two variables?'' Sorry about that. Please believe me when I say that it really does help to imagine $C$ as a function of two variables. It just happens that sometimes that picture breaks down, and the last two paragraphs were dealing with such breakdowns. Good thinking about mathematics often involves juggling multiple intuitive pictures, learning when it's appropriate to use each picture, and when it's not.)
 
 
 Okay, so calculus doesn't work. Fortunately, there is a beautiful analogy which suggests an algorithm which works pretty well. We start by thinking of our function as a kind of a valley. If you squint just a little at the plot above, that shouldn't be too hard. And we imagine a ball rolling down the slope of the valley. Our everyday experience tells us that the ball will eventually roll to the bottom of the valley. Perhaps we can use this idea as a way to find a minimum for the function? We'd randomly choose a starting point for an (imaginary) ball, and then simulate the motion of the ball as it rolled down to the bottom of the valley. We could do this simulation simply by computing derivatives (and perhaps some second derivatives) of $C$ -- those derivatives would tell us everything we need to know about the local ``shape'' of the valley, and therefore how our ball should roll.
@@ -467,7 +465,6 @@ def SGD(self, training_data, epochs, mini_batch_size, eta, test_data=None):
 	else:
 		print "Epoch {0} complete".format(j)
 \end{lstlisting}
-
 The \inline{training_data} is a list of tuples \inline{(x, y)} representing the training inputs and corresponding desired outputs. The variables \inline{epochs} and  \inline{mini_batch_size}  are what you'd expect -- the number of epochs to train for, and the size of the mini-batches to use when sampling. \inline{eta} is the learning rate, $\eta$. If the optional argument \inline{test_data} is supplied, then the program will evaluate the network after each epoch of training, and print out partial progress. This is useful for tracking progress, but slows things down substantially.
 
 The code works as follows. In each epoch, it starts by randomly shuffling the training data, and then partitions it into mini-batches of the appropriate size. This is an easy way of sampling randomly from the training data. Then for each \inline{mini_batch} we apply a single step of gradient descent. This is done by the code \inline{self.update_mini_batch(mini_batch, eta)}, which updates the network weights and biases according to a single iteration of gradient descent, using just the training data in \inline{mini_batch}. Here's the code for the \inline{update_mini_batch} method:
@@ -484,7 +481,6 @@ def update_mini_batch(self, mini_batch, eta):
 	self.weights = [w-(eta/len(mini_batch))*nw for w, nw in zip(self.weights, nabla_w)]
 	self.biases = [b-(eta/len(mini_batch))*nb for b, nb in zip(self.biases, nabla_b)]
 \end{lstlisting}
-
 Most of the work is done by the line
 \begin{lstlisting}
 delta_nabla_b, delta_nabla_w = self.backprop(x, y)
@@ -644,13 +640,11 @@ After loading the MNIST data, we'll set up a Network with 30 hidden neurons. We 
 >>> import network
 >>> net = network.Network([784, 30, 10])
 \end{lstlisting}
-
 Finally, we'll use stochastic gradient descent to learn from the MNIST \inline{training_data} over 30 epochs, with a mini-batch size of 10, and a learning rate of $\eta=3.0$,
 
 \begin{lstlisting}
 >>> net.SGD(training_data, 30, 10, 3.0, test_data=test_data)
 \end{lstlisting}
-
 Note that if you're running the code as you read along, it will take some time to execute -- for a typical machine (as of 2015) it will likely take a few minutes to run. I suggest you set things running, continue to read, and periodically check the output from the code. If you're in a rush you can speed things up by decreasing the number of epochs, by decreasing the number of hidden neurons, or by using only part of the training data. Note that production code would be much, much faster: these Python scripts are intended to help you understand how neural nets work, not to be high-performance code! And, of course, once we've trained a network it can be run very quickly indeed, on almost any computing platform. For example, once we've learned a good set of weights and biases for a network, it can easily be ported to run in Javascript in a web browser, or as a native app on a mobile device. In any case, here is a partial transcript of the output of one training run of the neural network. The transcript shows the number of test images correctly recognized by the neural network after each epoch of training. As you can see, after just a single epoch this has reached 9,129 out of 10,000, and the number continues to grow,
 \begin{lstlisting}			
 Epoch 0: 9129 / 10000
@@ -675,7 +669,6 @@ Of course, to obtain these accuracies I had to make specific choices for the num
 >>> net = network.Network([784, 100, 10])
 >>> net.SGD(training_data, 30, 10, 0.001, test_data=test_data)
 \end{lstlisting}
-
 The results are much less encouraging,
 \begin{lstlisting}
 Epoch 0: 1139 / 10000
@@ -686,7 +679,6 @@ Epoch 27: 2101 / 10000
 Epoch 28: 2123 / 10000
 Epoch 29: 2142 / 10000
 \end{lstlisting}
-
 However, you can see that the performance of the network is getting slowly better over time. That suggests increasing the learning rate, say to $\eta =0.01$. If we do that, we get better results, which suggests increasing the learning rate again. (If making a change improves things, try doing more!) If we do that several times over, we'll end up with a learning rate of something like $\eta=1.0$ (and perhaps fine tune to 3.0), which is close to our earlier experiments. So even though we initially made a poor choice of hyper-parameters, we at least got enough information to help us improve our choice of hyper-parameters.
 In general, debugging a neural network can be challenging. This is especially true when the initial choice of hyper-parameters produces results no better than random noise. Suppose we try the successful 30 hidden neuron network architecture from earlier, but with the learning rate changed to $\eta=100.0$:
 \begin{lstlisting}
@@ -705,7 +697,6 @@ Epoch 27: 982 / 10000
 Epoch 28: 982 / 10000
 Epoch 29: 982 / 10000
 \end{lstlisting}
-
 Now imagine that we were coming to this problem for the first time. Of course, we know from our earlier experiments that the right thing to do is to decrease the learning rate. But if we were coming to this problem for the first time then there wouldn't be much in the output to guide us on what to do. We might worry not only about the learning rate, but about every other aspect of our neural network. We might wonder if we've initialized the weights and biases in a way that makes it hard for the network to learn? Or maybe we don't have enough training data to get meaningful learning? Perhaps we haven't run for enough epochs? Or maybe it's impossible for a neural network with this architecture to learn to recognize handwritten digits? Maybe the learning rate is too low? Or, maybe, the learning rate is too high? When you're coming to a problem for the first time, you're not always sure.
 
 The lesson to take away from this is that debugging a neural network is not trivial, and, just as for ordinary programming, there is an art to it. You need to learn that art of debugging in order to get good results from neural networks. More generally, we need to develop heuristics for choosing good hyper-parameters and a good architecture. We'll discuss all these at length through the book, including how I chose the hyper-parameters above.
@@ -813,7 +804,6 @@ In fact, they can. At present, well-designed neural networks outperform every ot
 \begin{center}
 	\includegraphics[scale=0.35]{./figures/ch1/mnist_really_bad_images}
 \end{center}
-
 I trust you'll agree that those are tough to classify! With images like these in the MNIST data set it's remarkable that neural networks can accurately classify all but 21 of the 10,000 test images. Usually, when programming we believe that solving a complicated problem like recognizing the MNIST digits requires a sophisticated algorithm. But even the neural networks in the Wan et al paper just mentioned involve quite simple algorithms, variations on the algorithm we've seen in this chapter. All the complexity is learned, automatically, from the training data. In some sense, the moral of both our results and those in more sophisticated papers, is that for some problems:
 \begin{center}
 sophisticated algorithm $\le$ simple learning algorithm + good training data.
@@ -833,8 +823,6 @@ To address these questions, let's think back to the interpretation of artificial
 	}
 	\caption{Credits: 1. Ester Inbar. 2. Unknown. 3. NASA, ESA, G. Illingworth, D. Magee, and P. Oesch (University of California, Santa Cruz), R. Bouwens (Leiden University), and the HUDF09 Team.}
 \end{figure}
-
-
 We could attack this problem the same way we attacked handwriting recognition--by using the pixels in the image as input to a neural network, with the output from the network a single neuron indicating either ``Yes, it's a face'' or ``No, it's not a face''.
 
 Let's suppose we do this, but that we're not using a learning algorithm. Instead, we're going to try to design a network by hand, choosing appropriate weights and biases. How might we go about it? Forgetting neural networks entirely for the moment, a heuristic we could use is to decompose the problem into sub-problems: does the image have an eye in the top left? Does it have an eye in the top right? Does it have a nose in the middle? Does it have a mouth in the bottom middle? Is there hair on top? And so on.
