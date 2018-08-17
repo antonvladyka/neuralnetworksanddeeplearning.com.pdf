@@ -102,21 +102,28 @@ To get a feel for how components in the network work, let's focus on the top hid
 	\end{tikzpicture}
 \end{center}
 As we learnt earlier in the book, what's being computed by the hidden neuron is $\sigma(wx+b)$, where $\sigma(z)\equiv1/(1+e^{-z})$ is the sigmoid function. Up to now, we've made frequent use of this algebraic form. But for the proof of universality we will obtain more insight by ignoring the algebra entirely, and instead manipulating and observing the shape shown in the graph. This won't just give us a better feel for what's going on, it will also give us a proof\footnote{Strictly speaking, the visual approach I'm taking isn't what's traditionally thought of as a proof. But I believe the visual approach gives more insight into why the result is true than a traditional proof. And, of course, that kind of insight is the real purpose behind a proof. Occasionally, there will be small gaps in the reasoning I present: places where I make a visual argument that is plausible, but not quite rigorous. If this bothers you, then consider it a challenge to fill in the missing steps. But don't lose sight of the real purpose: to understand why the universality theorem is true.} of universality that applies to activation functions other than the sigmoid function.
-
-To get started on this proof, try clicking on the bias, $b$, in the diagram above, and dragging to the right to increase it. You'll see that as the bias increases the graph moves to the left, but its shape doesn't change.
-
-Next, click and drag to the left in order to decrease the bias. You'll see that as the bias decreases the graph moves to the right, but, again, its shape doesn't change.
-
-Next, decrease the weight to around 2 or 3. You'll see that as you decrease the weight, the curve broadens out. You might need to change the bias as well, in order to keep the curve in-frame.
-
-Finally, increase the weight up past $w=100$. As you do, the curve gets steeper, until eventually it begins to look like a step function. Try to adjust the bias so the step occurs near $x=0.3$. The following short clip shows what your result should look like. Click on the play button to play (or replay) the video:
-\begin{lstlisting}
-
-ANIMATION
-\end{lstlisting}
-We can simplify our analysis quite a bit by increasing the weight so much that the output really is a step function, to a very good approximation. Below I've plotted the output from the top hidden neuron when the weight is $w=999$. Note that this plot is static, and you can't change parameters such as the weight.
+%
+%To get started on this proof, try clicking on the bias, $b$, in the diagram above, and dragging to the right to increase it. You'll see that as the bias increases the graph moves to the left, but its shape doesn't change.
+%
+%Next, click and drag to the left in order to decrease the bias. You'll see that as the bias decreases the graph moves to the right, but, again, its shape doesn't change.
+%
+%Next, decrease the weight to around 2 or 3. You'll see that as you decrease the weight, the curve broadens out. You might need to change the bias as well, in order to keep the curve in-frame.
+%
+%Finally, increase the weight up past $w=100$. As you do, the curve gets steeper, until eventually it begins to look like a step function. Try to adjust the bias so the step occurs near $x=0.3$. The following short clip shows what your result should look like. Click on the play button to play (or replay) the video:
+%\begin{lstlisting}
+%ANIMATION
+%\end{lstlisting}
+We can simplify our analysis quite a bit by increasing the weight so much that the output really is a step function, to a very good approximation. Below I've plotted the output from the top hidden neuron when the weight is $w=999$. %Note that this plot is static, and you can't change parameters such as the weight.
+%\begin{center}
+%	\includegraphics[width=0.7\linewidth]{figures/ch4/high_weight_function}
+%\end{center}
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch4/high_weight_function}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz403y}
+	\begin{tikzpicture}[declare function = {sigma(\x,\w,\b) = 1/(1+exp(-\w*\x-\b));}]
+		\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Output from top hidden neuron},axis x line=middle,axis y line=middle,xtick={0,1},ytick={0,1},xmax=1.15,ymax=1.15,ymin=-0.15,xlabel={$x$}]
+		\addplot[blue!90!red,domain=0:1,samples=201]{sigma(x,999,-400)};
+		\end{axis}
+	\end{tikzpicture}
 \end{center}
 It's actually quite a bit easier to work with step functions than general sigmoid functions. The reason is that in the output layer we add up contributions from all the hidden neurons. It's easy to analyze the sum of a bunch of step functions, but rather more difficult to reason about what happens when you add up a bunch of sigmoid shaped curves. And so it makes things much easier to assume that our hidden neurons are outputting step functions. More concretely, we do this by fixing the weight $w$ to be some very large value, and then setting the position of the step by modifying the bias. Of course, treating the output as a step function is an approximation, but it's a very good approximation, and for now we'll treat it as exact. I'll come back later to discuss the impact of deviations from this approximation.
 
@@ -126,21 +133,39 @@ To answer this question, try modifying the weight and bias in the diagram above 
 
 In fact, the step is at position $s=-b/w$, as you can see by modifying the weight and bias in the following diagram:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch4/tikz404}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz404x}
+	\begin{tikzpicture}[declare function = {sigma(\x,\w,\b) = 1/(1+exp(-\w*\x-\b));}]
+		\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Output from top hidden neuron},axis x line=middle,axis y line=middle,xtick={0,0.4,1},xticklabels={0,$-b/w=0.4$,1},ytick={0,1},xmax=1.15,ymax=1.15,ymin=-0.15,xlabel={$x$}]
+		\addplot[blue!90!red,domain=0:1,samples=201]{sigma(x,100,-40)};
+		\end{axis}
+	\end{tikzpicture}
 \end{center}
 It will greatly simplify our lives to describe hidden neurons using just a single parameter, $s$, which is the step position, $s=-b/w$. Try modifying s in the following diagram, in order to get used to the new parameterization:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch4/tikz405}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz405}
+	\begin{tikzpicture}[declare function = {step(\x,\s)=0.5*(sign(\x-\s)+1);}]
+		\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Output from top hidden neuron},axis x line=middle,axis y line=middle,xtick={0,0.4,1},xticklabels={0,$s$,1},ytick={0,1},xmax=1.15,ymax=1.15,ymin=-0.15,xlabel={$x$}]
+		\addplot[blue!90!red,domain=0:1,samples=201]{step(x,0.4)};
+		\end{axis}
+	\end{tikzpicture}
 \end{center}
-\begin{lstlisting}
-ANIMATIOIN
-\end{lstlisting}
-As noted above, we've implicitly set the weight w on the input to be some large value -- big enough that the step function is a very good approximation. We can easily convert a neuron parameterized in this way back into the conventional model, by choosing the bias $b=-ws$.
+%\begin{lstlisting}
+%ANIMATIOIN
+%\end{lstlisting}
+As noted above, we've implicitly set the weight $w$ on the input to be some large value -- big enough that the step function is a very good approximation. We can easily convert a neuron parameterized in this way back into the conventional model, by choosing the bias $b=-ws$.
 
 Up to now we've been focusing on the output from just the top hidden neuron. Let's take a look at the behavior of the entire network. In particular, we'll suppose the hidden neurons are computing step functions parameterized by step points $s_1$ (top neuron) and $s_2$ (bottom neuron). And they'll have respective output weights $w_1$ and $w_2$. Here's the network:
-\begin{lstlisting}
-ANIMATIOIN
-\end{lstlisting}
+\begin{center}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz407}
+	\begin{tikzpicture}[declare function = {step(\x,\s,\h)=0.5*\h*(sign(\x-\s)+1);}]
+		\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Weighted output from hidden layer},axis x line=middle,axis y line=middle,xtick={0,0.4,0.6,1},xticklabels={0,$s_1$,$s_2$,1},ytick={0,0.6,1,1.8},yticklabels={0,$w_1$,1,$w_1+w_2$},xmax=1.15,ymax=2.15,ymin=-0.15,xlabel={$x$}]
+		\addplot[blue!90!red,domain=0:1,samples=201]{step(x,0.4,0.6)+step(x,0.6,1.2)};
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+%\begin{lstlisting}
+%ANIMATIOIN
+%\end{lstlisting}
 What's being plotted on the right is the weighted output $w_1a_1+w_2a_2$ from the hidden layer. Here, $a_1$ and $a_2$ are the outputs from the top and bottom hidden neurons, respectively\footnote{Note, by the way, that the output from the whole network is $\sigma(w_1a_1+w_2a_2+b)$, where $b$ is the bias on the output neuron. Obviously, this isn't the same as the weighted output from the hidden layer, which is what we're plotting here. We're going to focus on the weighted output from the hidden layer right now, and only later will we think about how that relates to the output from the whole network.}. These outputs are denoted with as because they're often known as the neurons' activations.
 
 Try increasing and decreasing the step point s1 of the top hidden neuron. Get a feel for how this changes the weighted output from the hidden layer. It's particularly worth understanding what happens when $s_1$ goes past $s_2$. You'll see that the graph changes shape when this happens, since we have moved from a situation where the top hidden neuron is the first to be activated to a situation where the bottom hidden neuron is the first to be activated.
@@ -151,20 +176,20 @@ Try increasing and decreasing each of the output weights. Notice how this rescal
 
 Finally, try setting $w_1$ to be 0.8 and $w_2$ to be -0.8. You get a ``bump'' function, which starts at point $s_1$, ends at point $s_2$, and has height 0.8. For instance, the weighted output might look like this:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch4/bump_function}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz408}
+	\begin{tikzpicture}[declare function = {step(\x,\s,\h)=0.5*\h*(sign(\x-\s)+1);}]
+		\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Weighted output from hidden layer},axis x line=middle,axis y line=middle,xtick={0,0.4,0.6,1},xticklabels={0,$s_1$,$s_2$,1},ytick={0,0.8,1},yticklabels={0,$w_1=-w_2$,1},xmax=1.15,ymax=2.15,ymin=-0.15,xlabel={$x$}]
+		\addplot[blue!90!red,domain=0:1,samples=201]{step(x,0.4,0.8)+step(x,0.6,-0.8)};
+		\end{axis}
+	\end{tikzpicture}
 \end{center}
 Of course, we can rescale the bump to have any height at all. Let's use a single parameter, $h$, to denote the height. To reduce clutter I'll also remove the ``$s_1=\ldots$'' and ``$w_1=\ldots$'' notations.
 \begin{center}
-	\includegraphics[width=0.32\linewidth]{figures/ch4/tikz406}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz406}
 	\begin{tikzpicture}[declare function = {bump(\x,\s,\t,\h)=0.5*\h*(sign(\x-\s)-sign(\x-\t));}]
-	\begin{axis}[width=0.32\linewidth,height=0.3\linewidth,align=center,title={Weighted output\\$s_1=0.4,s_2=0.6,h=0.6$},axis x line=middle,axis y line=middle,xtick={0,1},ytick={-1,0,1},xmax=1.25,ymax=1.25,ymin=-1.25,xlabel={$x$}]
+	\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Weighted output from hidden layer},axis x line=middle,axis y line=middle,xtick={0,0.4,0.6,1},xticklabels={0,$s_1$,$s_2$,1},ytick={-1,0,0.6,1},yticklabels={$-1$,0,$h$,1},xmax=1.25,ymax=1.25,ymin=-1.25,xlabel={$x$}]
 	\addplot[blue!90!red,domain=0:1,samples=201]{bump(x,0.4,0.6,0.6};
 	\end{axis}
-	\end{tikzpicture}
-	\begin{tikzpicture}[declare function = {bump(\x,\s,\t,\h)=0.5*\h*(sign(\x-\s)-sign(\x-\t));}]
-		\begin{axis}[width=0.32\linewidth,height=0.3\linewidth,align=center,title={Weighted output\\$s_1=0.2,s_2=0.5,h=-0.9$},axis x line=middle,axis y line=middle,xtick={0,1},ytick={-1,0,1},xmax=1.25,ymax=1.25,ymin=-1.25,xlabel={$x$}]
-		\addplot[blue!90!red,domain=0:1,samples=201]{bump(x,0.2,0.5,-0.9};
-		\end{axis}
 	\end{tikzpicture}
 \end{center}
 Try changing the value of $h$ up and down, to see how the height of the bump changes. Try changing the height so it's negative, and observe what happens. And try changing the step points to see how that changes the shape of the bump.
@@ -180,15 +205,10 @@ For the most part I'm going to stick with the graphical point of view. But in wh
 
 We can use our bump-making trick to get two bumps, by gluing two pairs of hidden neurons together into the same network:
 \begin{center}
-	\includegraphics[width=0.32\linewidth]{figures/ch4/tikz421}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz421}
 	\begin{tikzpicture}[declare function = {step(\x,\s,\t)=0.5*(sign(\x-\s)-sign(\x-\t));twobumps(\x,\s,\t,\h,\ss,\tt,\hh) = \h*step(\x,\s,\t)+\hh*step(\x,\ss,\tt); }]
-	\begin{axis}[width=0.32\linewidth,height=0.4\linewidth,align=center,title={Weighted output\\$s_1=0.4,s_2=0.6,h_1=-1.2$\\$s_1=0.7,s_2=0.9,h_2=0.3$},axis x line=bottom,axis y line=left,xtick={0,1},ytick={-1,0,1},xmax=1.15,ymax=1.25,ymin=-1.25]
+	\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Weighted output from hidden layer},axis x line=bottom,axis y line=left,xtick={0,0.4,0.6,0.7,0.9,1},xticklabels={0,$s_1^1$,$s_2^1$,$s_1^2$,$s_2^2$,1},ytick={-1.2,-1,0,0.3,1},yticklabels={$h_1$,$-1$,0,$h_2$,1},xmax=1.15,ymax=1.25,ymin=-1.25]
 	\addplot[blue!90!red,domain=0:1,samples=201]{twobumps(x,0.4,0.6,-1.2,0.7,0.9,0.3};
-	\end{axis}
-	\end{tikzpicture}
-	\begin{tikzpicture}[declare function = {step(\x,\s,\t)=0.5*(sign(\x-\s)-sign(\x-\t));twobumps(\x,\s,\t,\h,\ss,\tt,\hh) = \h*step(\x,\s,\t)+\hh*step(\x,\ss,\tt); }]
-	\begin{axis}[width=0.32\linewidth,height=0.4\linewidth,align=center,title={Weighted output\\$s_1=0.2,s_2=0.5,h_1=0.75$\\$s_1=0.7,s_2=0.95,h_2=-0.9$},axis x line=bottom,axis y line=left,xtick={0,1},ytick={-1,0,1},xmax=1.15,ymax=1.25,ymin=-1.25]
-	\addplot[blue!90!red,domain=0:1,samples=201]{twobumps(x,0.2,0.5,0.75,0.7,0.95,-0.9};
 	\end{axis}
 	\end{tikzpicture}
 \end{center}
@@ -248,9 +268,9 @@ The solution is to design a neural network whose hidden layer has a weighted out
 \end{center}
 If we can do this, then the output from the network as a whole will be a good approximation to $f(x)$\footnote{Note that I have set the bias on the output neuron to 0.}.
 
-Your challenge, then, is to design a neural network to approximate the goal function shown just above. To learn as much as possible, I want you to solve the problem twice. The first time, please click on the graph, directly adjusting the heights of the different bump functions. You should find it fairly easy to get a good match to the goal function. How well you're doing is measured by the average deviation between the goal function and the function the network is actually computing. Your challenge is to drive the average deviation as low as possible. You complete the challenge when you drive the average deviation to 0.40 or below.
+Your challenge, then, is to design a neural network to approximate the goal function shown just above. To learn as much as possible, I want you to solve the problem twice. The first time, please click on the graph, directly adjusting the heights of the different bump functions. You should find it fairly easy to get a good match to the goal function. How well you're doing is measured by the average deviation between the goal function and the function the network is actually computing. Your challenge is to drive the average deviation as low as possible. You complete the challenge when you drive the average deviation to 0.40 or below\footnote{This paragraph refers to interactive element, available online. The graph shows the final result of manual minimization of average deviation.}
 
-Once you've done that, click on ``Reset'' to randomly re-initialize the bumps. The second time you solve the problem, resist the urge to click on the graph. Instead, modify the h values on the left-hand side, and again attempt to drive the average deviation to 0.40 or below.
+%Once you've done that, click on ``Reset'' to randomly re-initialize the bumps. The second time you solve the problem, resist the urge to click on the graph. Instead, modify the h values on the left-hand side, and again attempt to drive the average deviation to 0.40 or below.
 \begin{center} 
 \includegraphics[height=0.65\textwidth]{./figures/ch4/tikz439}
 \begin{tikzpicture}[declare function = {step(\x,\s,\t)=0.5*(sign(\x-\s)-sign(\x-\t));}]

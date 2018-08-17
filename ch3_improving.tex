@@ -579,11 +579,11 @@ I've glossed over an issue in the above discussion, which is that the partial de
 
 Suppose we're trying to train a network:
 \begin{center}
-	\includegraphics[width=0.55\linewidth]{figures/ch3/tikz30}
+	\includegraphics[width=0.45\linewidth]{figures/ch3/tikz30}
 \end{center}
 In particular, suppose we have a training input $x$ and corresponding desired output $y$. Ordinarily, we'd train by forward-propagating $x$ through the network, and then backpropagating to determine the contribution to the gradient. With dropout, this process is modified. We start by randomly (and temporarily) deleting half the hidden neurons in the network, while leaving the input and output neurons untouched. After doing this, we'll end up with a network along the following lines. Note that the dropout neurons, i.e., the neurons which have been temporarily deleted, are still ghosted in:
 \begin{center}
-	\includegraphics[width=0.55\linewidth]{figures/ch3/tikz31}
+	\includegraphics[width=0.45\linewidth]{figures/ch3/tikz31}
 \end{center}
 We forward-propagate the input $x$ through the modified network, and then backpropagate the result, also through the modified network. After doing this over a mini-batch of examples, we update the appropriate weights and biases. We then repeat the process, first restoring the dropout neurons, then choosing a new random subset of hidden neurons to delete, estimating the gradient for a different mini-batch, and updating the weights and biases in the network.
 
@@ -600,21 +600,21 @@ Of course, the true measure of dropout is that it has been very successful in im
 
 \textbf{Artificially expanding the training data:} We saw earlier that our MNIST classification accuracy dropped down to percentages in the mid-80s when we used only 1,000 training images. It's not surprising that this is the case, since less training data means our network will be exposed to fewer variations in the way human beings write digits. Let's try training our 30 hidden neuron network with a variety of different training data set sizes, to see how performance varies. We train using a mini-batch size of 10, a learning rate $\eta=0.5$, a regularization parameter $\lambda=5.0$, and the cross-entropy cost function. We will train for 30 epochs when the full training data set is used, and scale up the number of epochs proportionally when smaller training sets are used. To ensure the weight decay factor remains the same across training sets, we will use a regularization parameter of $\lambda=5.0$ when the full training data set is used, and scale down $\lambda$ proportionally when smaller training sets are used\footnote{This and the next two graph are produced with the program \inline{more_data.py}.}.
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/more_data}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/more_data}
 \end{center}
 As you can see, the classification accuracies improve considerably as we use more training data. Presumably this improvement would continue still further if more data was available. Of course, looking at the graph above it does appear that we're getting near saturation. Suppose, however, that we redo the graph with the training set size plotted logarithmically:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/more_data_log}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/more_data_log}
 \end{center}
 It seems clear that the graph is still going up toward the end. This suggests that if we used vastly more training data -- say, millions or even billions of handwriting samples, instead of just 50,000 -- then we'd likely get considerably better performance, even from this very small network.
 
 Obtaining more training data is a great idea. Unfortunately, it can be expensive, and so is not always possible in practice. However, there's another idea which can work nearly as well, and that's to artificially expand the training data. Suppose, for example, that we take an MNIST training image of a five,
 \begin{center}
-	\includegraphics[width=0.2\linewidth]{figures/ch3/more_data_5}
+	\includegraphics[width=0.15\linewidth]{figures/ch3/more_data_5}
 \end{center}
 and rotate it by a small amount, let's say 15 degrees:
 \begin{center}
-	\includegraphics[width=0.2\linewidth]{figures/ch3/more_data_rotated_5}
+	\includegraphics[width=0.15\linewidth]{figures/ch3/more_data_rotated_5}
 \end{center}
 It's still recognizably the same digit. And yet at the pixel level it's quite different to any image currently in the MNIST training data. It's conceivable that adding this image to the training data might help our network learn more about how to classify digits. What's more, obviously we're not limited to adding just this one image. We can expand our training data by making \textit{many} small rotations of \textit{all} the MNIST training images, and then using the expanded training data to improve our network's performance.
 
@@ -628,11 +628,11 @@ Variations on this idea can be used to improve performance on many learning task
 \end{exercize}
 \textbf{An aside on big data and what it means to compare classification accuracies:} Let's look again at how our neural network's accuracy varies with training set size:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/more_data_log}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/more_data_log}
 \end{center}
 Suppose that instead of using a neural network we use some other machine learning technique to classify digits. For instance, let's try using the support vector machines (SVM) which we met briefly back in Chapter 1. As was the case in Chapter 1, don't worry if you're not familiar with SVMs, we don't need to understand their details. Instead, we'll use the SVM supplied by the scikit-learn library. Here's how SVM performance varies as a function of training set size. I've plotted the neural net results as well, to make comparison easy\footnote{This graph was produced with the program \inline{more_data.py} (as were the last few graphs).}:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/more_data_comparison}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/more_data_comparison}
 \end{center}
 Probably the first thing that strikes you about this graph is that our neural network outperforms the SVM for every training set size. That's nice, although you shouldn't read too much into it, since I just used the out-of-the-box settings from scikit-learn's SVM, while we've done a fair bit of work improving our neural network. A more subtle but more interesting fact about the graph is that if we train our SVM using 50,000 images then it actually has better performance (94.48 percent accuracy) than our neural network does when trained using 5,000 images (93.24 percent accuracy). In other words, more training data can sometimes compensate for differences in the machine learning algorithm used.
 
@@ -655,24 +655,25 @@ It turns out that we can do quite a bit better than initializing with normalized
 	\includegraphics[width=0.35\linewidth]{figures/ch3/tikz32}
 \end{center}
 We'll suppose for simplicity that we're trying to train using a training input $x$ in which half the input neurons are on, i.e., set to 1, and half the input neurons are off, i.e., set to 0. The argument which follows applies more generally, but you'll get the gist from this special case. Let's consider the weighted sum $z=\sum_jw_jx_j+b$ of inputs to our hidden neuron. 500 terms in this sum vanish, because the corresponding input $x_j$ is zero. And so $z$ is a sum over a total of 501 normalized Gaussian random variables, accounting for the 500 weight terms and the 1 extra bias term. Thus $z$ is itself distributed as a Gaussian with mean zero and standard deviation $\sqrt{501}\approx 22.4$. That is, $z$ has a very broad Gaussian distribution, not sharply peaked at all:
-
+\begin{center}
 \begin{tikzpicture}
-\begin{axis}[axis lines=middle,width=\linewidth,height=0.35\linewidth,ymin=0,ymax=0.022,ytick={0,0.01,0.02},scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-32,xmax=32]
+\begin{axis}[axis lines=middle,width=0.9\linewidth,height=0.35\linewidth,ymin=0,ymax=0.022,ytick={0,0.01,0.02},scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-32,xmax=32]
 \addplot[blue,domain=-30:30,samples=81]{exp(-x^2/2/501)/sqrt(2*pi*501)};
 \end{axis}
 \end{tikzpicture}
-
+\end{center}
 In particular, we can see from this graph that it's quite likely that $|z|$ will be pretty large, i.e., either $z\gg1$ or $z\ll−1$. If that's the case then the output $\sigma(z)$ from the hidden neuron will be very close to either 1 or 0. That means our hidden neuron will have saturated. And when that happens, as we know, making small changes in the weights will make only absolutely miniscule changes in the activation of our hidden neuron. That miniscule change in the activation of the hidden neuron will, in turn, barely affect the rest of the neurons in the network at all, and we'll see a correspondingly miniscule change in the cost function. As a result, those weights will only learn very slowly when we use the gradient descent algorithm\footnote{We discussed this in more detail in Chapter 2, where we used the equations of backpropagation to show that weights input to saturated neurons learned slowly.}. It's similar to the problem we discussed earlier in this chapter, in which output neurons which saturated on the wrong value caused learning to slow down. We addressed that earlier problem with a clever choice of cost function. Unfortunately, while that helped with saturated output neurons, it does nothing at all for the problem with saturated hidden neurons.
 
 I've been talking about the weights input to the first hidden layer. Of course, similar arguments apply also to later hidden layers: if the weights in later hidden layers are initialized using normalized Gaussians, then activations will often be very close to 0 or 1, and learning will proceed very slowly.
 
 Is there some way we can choose better initializations for the weights and biases, so that we don't get this kind of saturation, and so avoid a learning slowdown? Suppose we have a neuron with $_\mathrm{in}$ input weights. Then we shall initialize those weights as Gaussian random variables with mean 0 and standard deviation $1/\sqrt{n_\mathrm{in}}$. That is, we'll squash the Gaussians down, making it less likely that our neuron will saturate. We'll continue to choose the bias as a Gaussian with mean 0 and standard deviation 1, for reasons I'll return to in a moment. With these choices, the weighted sum $z=\sum_jw_jx_j+b$ will again be a Gaussian random variable with mean 0, but it'll be much more sharply peaked than it was before. Suppose, as we did earlier, that 500 of the inputs are zero and 500 are 1. Then it's easy to show (see the exercise below) that $z$ has a Gaussian distribution with mean 0 and standard deviation $\sqrt{3/2}=1.22\ldots$. This is much more sharply peaked than before, so much so that even the graph below understates the situation, since I've had to rescale the vertical axis, when compared to the earlier graph:
+\begin{center}
 \begin{tikzpicture}
-\begin{axis}[axis lines=middle,width=\linewidth,height=0.35\linewidth,ymin=0,ymax=0.45,ytick={0,0.4},scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-32,xmax=32]
+\begin{axis}[axis lines=middle,width=0.9\linewidth,height=0.35\linewidth,ymin=0,ymax=0.45,ytick={0,0.4},scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-32,xmax=32]
 \addplot[blue,domain=-10:10,samples=201]{exp(-x^2/2/1.5)/sqrt(2*pi*1.5)};
 \end{axis}
 \end{tikzpicture}
-
+\end{center}
 Such a neuron is much less likely to saturate, and correspondingly much less likely to have problems with a learning slowdown.
 
 \begin{exercize}{Exercise}
@@ -698,11 +699,11 @@ We can also train using the new approach to weight initialization. This is actua
 \end{lstlisting}
 Plotting the results\footnote{The program used to generate this and the next graph is \inline{weight_initialization.py}.}, we obtain:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/weight_initialization_30}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/weight_initialization_30}
 \end{center}
 In both cases, we end up with a classification accuracy somewhat over 96 percent. The final classification accuracy is almost exactly the same in the two cases. But the new initialization technique brings us there much, much faster. At the end of the first epoch of training the old approach to weight initialization has a classification accuracy under 87 percent, while the new approach is already almost 93 percent. What appears to be going on is that our new approach to weight initialization starts us off in a much better regime, which lets us get good results much more quickly. The same phenomenon is also seen if we plot results with 100 hidden neurons:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/weight_initialization_100}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/weight_initialization_100}
 \end{center}
 In this case, the two curves don't quite meet. However, my experiments suggest that with just a few more epochs of training (not shown) the accuracies become almost exactly the same. So on the basis of these experiments it looks as though the improved weight initialization only speeds up learning, it doesn't change the final performance of our networks. However, in Chapter 4 we'll see examples of neural networks where the long-run behaviour is significantly better with the $1/\sqrt{n_{\rm in}}$ weight initialization. Thus it's not only the speed of learning which is improved, it's sometimes also the final performance.
 
