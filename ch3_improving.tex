@@ -44,13 +44,13 @@ where $a$ is the neuron's output when the training input $x=1$ is used, and $y=0
 \label{eq:56}
 \end{eqnarray}
 where I have substituted $x=1$ and $y=0$. To understand the behaviour of these expressions, let's look more closely at the $\sigma{}'(z)$ term on the right-hand side. Recall the shape of the $\sigma{}$ function:
-
+\begin{center}
 \begin{tikzpicture}[scale=0.75]
 \begin{axis}[title={Sigmoid function}]
 \addplot[blue,domain=-5:5,samples=81]{1/(1+exp(-x)};
 \end{axis}
 \end{tikzpicture}
-
+\end{center}
 We can see from this graph that when the neuron's output is close to 1, the curve gets very flat, and so $\sigma{}'(z)$ gets very small. Equations \ref{eq:55} and \ref{eq:56} then tell us that $\partial{}C/\partial{}w$ and $\partial{}C/\partial{}b$ get very small. This is the origin of the learning slowdown. What's more, as we shall see a little later, the learning slowdown occurs for essentially the same reason in more general neural networks, not just the toy example we've been playing with.
 
 \subsection{Introducing the cross-entropy cost function}
@@ -109,15 +109,13 @@ Again, this avoids the learning slowdown caused by the $\sigma'(z)$ term in the 
 \begin{exercize}{Exercise}
 	\item Verify that $\sigma'(z) = \sigma(z)(1-\sigma(z))$
 \end{exercize}
-Let's return to the toy example we played with earlier, and explore what happens when we use the cross-entropy instead of the quadratic cost. To re-orient ourselves, we'll begin with the case where the quadratic cost did just fine, with starting weight 0.6 and starting bias 0.9
-%. Press "Run" to see what happens when we replace the quadratic cost by the cross-entropy
-:
+Let's return to the toy example we played with earlier, and explore what happens when we use the cross-entropy instead of the quadratic cost. To re-orient ourselves, we'll begin with the case where the quadratic cost did just fine, with starting weight 0.6 and starting bias 0.9:
 \begin{center}%
-	\includegraphics[width=0.75\linewidth]{./figures/ch3/animation_33}
+	\includegraphics[width=0.8\linewidth]{./figures/ch3/animation_33}
 \end{center}
 Unsurprisingly, the neuron learns perfectly well in this instance, just as it did earlier. And now let's look at the case where our neuron got stuck before, with the weight and bias both starting at 2.0:
 \begin{center}%
-	\includegraphics[width=0.75\linewidth]{./figures/ch3/animation_34}
+	\includegraphics[width=0.8\linewidth]{./figures/ch3/animation_34}
 \end{center}
 Success! This time the neuron learned quickly, just as we hoped. If you observe closely you can see that the slope of the cost curve was much steeper initially than the initial flat region on the corresponding curve for the quadratic cost. It's that steepness which the cross-entropy buys us, preventing us from getting stuck just when we'd expect our neuron to learn fastest, i.e., when the neuron starts out badly wrong.
 
@@ -210,19 +208,19 @@ Let's begin with the last of these questions: what could have motivated us to th
 \frac{\partial C}{\partial w_j} & = & x_j(a-y) \label{eq:71}\\
 \frac{\partial C}{\partial b } & = & (a-y).
 \label{eq:72}\end{eqnarray}
-%\partial{}C\partial{}wj\partial{}C\partial{}b==x_j(a−y)(a−y).(71)(72)
+%\partial{}C\partial{}wj\partial{}C\partial{}b==x_j(a-y)(a-y).(71)(72)
 If we could choose the cost function to make these equations true, then they would capture in a simple way the intuition that the greater the initial error, the faster the neuron learns. They'd also eliminate the problem of a learning slowdown. In fact, starting from these equations we'll now show that it's possible to derive the form of the cross-entropy, simply by following our mathematical noses. To see this, note that from the chain rule we have
 \begin{equation}
 	\frac{\partial C}{\partial b} = \frac{\partial C}{\partial a} \sigma'(z).
 	\label{eq:73}
 \end{equation}
 %\partial{}C\partial{}b=\partial{}C\partial{}a\sigma'(z).(73)
-Using $\sigma'(z)=\sigma(z)(1−\sigma(z))=a(1−a)$ the last equation becomes
+Using $\sigma'(z)=\sigma(z)(1-\sigma(z))=a(1-a)$ the last equation becomes
 \begin{eqnarray}
 \frac{\partial C}{\partial b} = \frac{\partial C}{\partial a} 
 a(1-a).
 \label{eq:74}\end{eqnarray}
-%\partial{}C\partial{}b=\partial{}C\partial{}aa(1−a).(74)
+%\partial{}C\partial{}b=\partial{}C\partial{}aa(1-a).(74)
 Comparing to Equation~\ref{eq:72} we obtain
 \begin{eqnarray}
 \frac{\partial C}{\partial a} = \frac{a-y}{a(1-a)}. \label{eq:75}\end{eqnarray}
@@ -230,7 +228,7 @@ Integrating this expression with respect to $a$ gives
 \begin{eqnarray}
 C = -[y \ln a + (1-y) \ln (1-a)]+ {\rm constant},
 \label{eq:76}\end{eqnarray}
-%C=−[ylna+(1−y)ln(1−a)]+constant,(76)
+%C=-[ylna+(1-y)ln(1-a)]+constant,(76)
 for some constant of integration. This is the contribution to the cost from a single training example, $x$. To get the full cost function we must average over training examples, obtaining
 \begin{eqnarray}
 C = -\frac{1}{n} \sum_x [y \ln a +(1-y) \ln(1-a)] + {\rm constant},
@@ -247,7 +245,7 @@ What about the intuitive meaning of the cross-entropy? How should we think about
 \subsection{Softmax}
 In this chapter we'll mostly use the cross-entropy cost to address the problem of learning slowdown. However, I want to briefly describe another approach to the problem, based on what are called \textit{softmax} layers of neurons. We're not actually going to use softmax layers in the remainder of the chapter, so if you're in a great hurry, you can skip to the next section. However, softmax is still worth understanding, in part because it's intrinsically interesting, and in part because we'll use softmax layers in Chapter 6, in our discussion of deep neural networks.
 
-The idea of softmax is to define a new type of output layer for our neural networks. It begins in the same way as with a sigmoid layer, by forming the weighted inputs\footnote{In describing the softmax we'll make frequent use of notation introduced in the last chapter. You may wish to revisit that chapter if you need to refresh your memory about the meaning of the notation.} $z^L_j=\sum_kw^L_{jk}a^{L−1}_k+b^L_j$. However, we don't apply the sigmoid function to get the output. Instead, in a softmax layer we apply the so-called softmax function to the $z^L_j$. According to this function, the activation $a^L_j$ of the $j$-th output neuron is
+The idea of softmax is to define a new type of output layer for our neural networks. It begins in the same way as with a sigmoid layer, by forming the weighted inputs\footnote{In describing the softmax we'll make frequent use of notation introduced in the last chapter. You may wish to revisit that chapter if you need to refresh your memory about the meaning of the notation.} $z^L_j=\sum_kw^L_{jk}a^{L-1}_k+b^L_j$. However, we don't apply the sigmoid function to get the output. Instead, in a softmax layer we apply the so-called softmax function to the $z^L_j$. According to this function, the activation $a^L_j$ of the $j$-th output neuron is
 \begin{equation}
 	a^L_j = \frac{e^{x^L_j}}{\sum_ke^{z^L_k}}
 	\label{eq:78}
@@ -289,7 +287,7 @@ We're starting to build up some feel for the softmax function and the way softma
 	\item \textbf{Inverting the softmax layer} Suppose we have a neural network with a softmax output layer, and the activations $a^L_j$ are known. Show that the corresponding weighted inputs have the form $z^L_j=\ln a^L_j+C$, for some constant $C$ that is independent of $j$.
 \end{exercize}
 \textbf{The learning slowdown problem:} We've now built up considerable familiarity with softmax layers of neurons. But we haven't yet seen how a softmax layer lets us address the learning slowdown problem. To understand that, let's define the \textit{log-likelihood} cost function. We'll use $x$ to denote a training input to the network, and $y$ to denote the corresponding desired output. Then the log-likelihood cost associated to this training input is
-%C≡−lnaLy.(80)
+%C≡-lnaLy.(80)
 \begin{equation}
 	C \equiv -\ln a^L_j
 \label{eq:80}
@@ -297,7 +295,7 @@ We're starting to build up some feel for the softmax function and the way softma
 So, for instance, if we're training with MNIST images, and input an image of a 7, then the log-likelihood cost is $-\ln a^L_7$. To see that this makes intuitive sense, consider the case when the network is doing a good job, that is, it is confident the input is a 7. In that case it will estimate a value for the corresponding probability $a^L_7$ which is close to 1, and so the cost $-\ln a^L_7$ will be small. By contrast, when the network isn't doing such a good job, the probability $a^L_7$ will be smaller, and the cost $-\ln a^L_7$ will be larger. So the log-likelihood cost behaves as we'd expect a cost function to behave.
 
 What about the learning slowdown problem? To analyze that, recall that the key to the learning slowdown is the behaviour of the quantities $\partial C/\partial w^L_{jk}$ and $\partial C/\partial b^L_j$. I won't go through the derivation explicitly -- I'll ask you to do in the problems, below -- but with a little algebra you can show that\footnote{Note that I'm abusing notation here, using $y$ in a slightly different way to last paragraph. In the last paragraph we used $y$ to denote the desired output from the network -- e.g., output a ``7'' if an image of a 7 was input. But in the equations which follow I'm using $y$ to denote the vector of output activations which corresponds to 7, that is, a vector which is all 0s, except for a 1 in the 7th location.}
-%\partial C\partial b^L_j\partial C\partial w^L_{jk}==a^L_j−yjaL−1k(a^L_j−yj)(81)(82)
+%\partial C\partial b^L_j\partial C\partial w^L_{jk}==a^L_j-yjaL-1k(a^L_j-yj)(81)(82)
 \begin{eqnarray}
 \frac{\partial C}{\partial b^L_j} & = & a^L_j-y_j  \label{eq:81}\\
 \frac{\partial C}{\partial w^L_{jk}} & = & a^{L-1}_k (a^L_j-y_j)\label{eq:82}
@@ -344,25 +342,25 @@ Let's sharpen this problem up by constructing a situation where our network does
 Using the results we can plot the way the cost changes as the network learns\footnote{This and the next four graphs were generated by the program \href{https://github.com/mnielsen/neural-networks-and-deep-learning/blob/master/fig/overfitting.py}{overfitting.py}.} :
 
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/overfitting1}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting1}
 \end{center}
 This looks encouraging, showing a smooth decrease in the cost, just as we expect. Note that I've only shown training epochs 200 through 399. This gives us a nice up-close view of the later stages of learning, which, as we'll see, turns out to be where the interesting action is.
 
 Let's now look at how the classification accuracy on the test data changes over time:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/overfitting2}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting2}
 \end{center}
 Again, I've zoomed in quite a bit. In the first 200 epochs (not shown) the accuracy rises to just under 82 percent. The learning then gradually slows down. Finally, at around epoch 280 the classification accuracy pretty much stops improving. Later epochs merely see small stochastic fluctuations near the value of the accuracy at epoch 280. Contrast this with the earlier graph, where the cost associated to the training data continues to smoothly drop. If we just look at that cost, it appears that our model is still getting ``better''. But the test accuracy results show the improvement is an illusion. Just like the model that Fermi disliked, what our network learns after epoch 280 no longer generalizes to the test data. And so it's not useful learning. We say the network is \textit{overfitting} or \textit{overtraining} beyond epoch 280.
 
 You might wonder if the problem here is that I'm looking at the cost on the training data, as opposed to the \textit{classification accuracy} on the test data. In other words, maybe the problem is that we're making an apples and oranges comparison. What would happen if we compared the cost on the training data with the cost on the test data, so we're comparing similar measures? Or perhaps we could compare the classification accuracy on both the training data and the test data? In fact, essentially the same phenomenon shows up no matter how we do the comparison. The details do change, however. For instance, let's look at the cost on the test data:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/overfitting3}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting3}
 \end{center}
 We can see that the cost on the test data improves until around epoch 15, but after that it actually starts to get worse, even though the cost on the training data is continuing to get better. This is another sign that our model is overfitting. It poses a puzzle, though, which is whether we should regard epoch 15 or epoch 280 as the point at which overfitting is coming to dominate learning? From a practical point of view, what we really care about is improving classification accuracy on the test data, while the cost on the test data is no more than a proxy for classification accuracy. And so it makes most sense to regard epoch 280 as the point beyond which overfitting is dominating learning in our neural network.
 
 Another sign of overfitting may be seen in the classification accuracy on the training data:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/overfitting4}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting4}
 \end{center}
 The accuracy rises all the way up to 100 percent. That is, our network correctly classifies all 1,000 training images! Meanwhile, our test accuracy tops out at just 82.27 percent. So our network really is learning about peculiarities of the training set, not just recognizing digits in general. It's almost as though our network is merely memorizing the training set, without understanding digits well enough to generalize to the test set.
 
@@ -374,19 +372,18 @@ In fact, we'll use a variation on this strategy. Recall that when we load in the
 \begin{lstlisting}
 >>> import mnist_loader 
 >>> training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
-
 \end{lstlisting}
-Up to now we've been using the \inline{training_data} and \inline{test_data}, and ignoring the \inline{validation_data}. The \inline{validation_data} contains 10,000 images of digits, images which are different from the 50,000 images in the MNIST training set, and the 10,000 images in the MNIST test set. Instead of using the \inline{test_data} to prevent overfitting, we will use the \inline{validation_data}. To do this, we'll use much the same strategy as was described above for the \inline{test_data}. That is, we'll compute the classification accuracy on the \inline{validation_data} at the end of each epoch. Once the classification accuracy on the \inline{validation_data} has saturated, we stop training. This strategy is called early stopping. Of course, in practice we won't immediately know when the accuracy has saturated. Instead, we continue training until we're confident that the accuracy has saturated\footnote{It requires some judgment to determine when to stop. In my earlier graphs I identified epoch 280 as the place at which accuracy saturated. It's possible that was too pessimistic. Neural networks sometimes plateau for a while in training, before continuing to improve. I wouldn't be surprised if more learning could have occurred even after epoch 400, although the magnitude of any further improvement would likely be small. So it's possible to adopt more or less aggressive strategies for early stopping.}.
+Up to now we've been using the \inline{training_data} and \inline{test_data}, and ignoring the \texttt{validation\_data}. The \inline{validation_data} contains 10,000 images of digits, images which are different from the 50,000 images in the MNIST training set, and the 10,000 images in the MNIST test set. Instead of using the \inline{test_data} to prevent overfitting, we will use the \inline{validation_data}. To do this, we'll use much the same strategy as was described above for the \inline{test_data}. That is, we'll compute the classification accuracy on the \inline{validation_data} at the end of each epoch. Once the classification accuracy on the \inline{validation_data} has saturated, we stop training. This strategy is called early stopping. Of course, in practice we won't immediately know when the accuracy has saturated. Instead, we continue training until we're confident that the accuracy has saturated\footnote{It requires some judgment to determine when to stop. In my earlier graphs I identified epoch 280 as the place at which accuracy saturated. It's possible that was too pessimistic. Neural networks sometimes plateau for a while in training, before continuing to improve. I wouldn't be surprised if more learning could have occurred even after epoch 400, although the magnitude of any further improvement would likely be small. So it's possible to adopt more or less aggressive strategies for early stopping.}.
 
 Why use the \inline{validation_data} to prevent overfitting, rather than the \inline{test_data}? In fact, this is part of a more general strategy, which is to use the \inline{validation_data} to evaluate different trial choices of hyper-parameters such as the number of epochs to train for, the learning rate, the best network architecture, and so on. We use such evaluations to find and set good values for the hyper-parameters. Indeed, although I haven't mentioned it until now, that is, in part, how I arrived at the hyper-parameter choices made earlier in this book. (More on this later.)
 
-Of course, that doesn't in any way answer the question of why we're using the \inline{validation_data} to prevent overfitting, rather than the \inline{test_data}. Instead, it replaces it with a more general question, which is why we're using the \inline{validation_data} rather than the \inline{test_data} to set good hyper-parameters? To understand why, consider that when setting hyper-parameters we're likely to try many different choices for the hyper-parameters. If we set the hyper-parameters based on evaluations of the \inline{test_data} it's possible we'll end up overfitting our hyper-parameters to the \inline{test_data}. That is, we may end up finding hyper-parameters which fit particular peculiarities of the \inline{test_data}, but where the performance of the network won't generalize to other data sets. We guard against that by figuring out the hyper-parameters using the \inline{validation_data}. Then, once we've got the hyper-parameters we want, we do a final evaluation of accuracy using the \inline{test_data}. That gives us confidence that our results on the \inline{test_data} are a true measure of how well our neural network generalizes. To put it another way, you can think of the validation data as a type of training data that helps us learn good hyper-parameters. This approach to finding good hyper-parameters is sometimes known as the hold out method, since the \inline{validation_data} is kept apart or ``held out'' from the \inline{training_data}.
+Of course, that doesn't in any way answer the question of why we're using the \texttt{validation\_data} to prevent overfitting, rather than the \inline{test_data}. Instead, it replaces it with a more general question, which is why we're using the \inline{validation_data} rather than the \inline{test_data} to set good hyper-parameters? To understand why, consider that when setting hyper-parameters we're likely to try many different choices for the hyper-parameters. If we set the hyper-parameters based on evaluations of the \inline{test_data} it's possible we'll end up overfitting our hyper-parameters to the \inline{test_data}. That is, we may end up finding hyper-parameters which fit particular peculiarities of the \inline{test_data}, but where the performance of the network won't generalize to other data sets. We guard against that by figuring out the hyper-parameters using the \inline{validation_data}. Then, once we've got the hyper-parameters we want, we do a final evaluation of accuracy using the \inline{test_data}. That gives us confidence that our results on the \inline{test_data} are a true measure of how well our neural network generalizes. To put it another way, you can think of the validation data as a type of training data that helps us learn good hyper-parameters. This approach to finding good hyper-parameters is sometimes known as the hold out method, since the \inline{validation_data} is kept apart or ``held out'' from the \inline{training_data}.
 
 Now, in practice, even after evaluating performance on the \inline{test_data} we may change our minds and want to try another approach -- perhaps a different network architecture -- which will involve finding a new set of hyper-parameters. If we do this, isn't there a danger we'll end up overfitting to the \inline{test_data} as well? Do we need a potentially infinite regress of data sets, so we can be confident our results will generalize? Addressing this concern fully is a deep and difficult problem. But for our practical purposes, we're not going to worry too much about this question. Instead, we'll plunge ahead, using the basic hold out method, based on the \inline{training_data}, \inline{validation_data}, and \inline{test_data}, as described above.
 
 We've been looking so far at overfitting when we're just using 1,000 training images. What happens when we use the full training set of 50,000 images? We'll keep all the other parameters the same (30 hidden neurons, learning rate 0.5, mini-batch size of 10), but train using all 50,000 images for 30 epochs. Here's a graph showing the results for the classification accuracy on both the training data and the test data. Note that I've used the test data here, rather than the validation data, in order to make the results more directly comparable with the earlier graphs.
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/overfitting_full}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting_full}
 \end{center}
 As you can see, the accuracy on the test and training data remain much closer together than when we were using 1,000 training examples. In particular, the best classification accuracy of 97.86 percent on the training data is only 2.53 percent higher than the 95.33 percent on the test data. That's compared to the 17.73 percent gap we had earlier! Overfitting is still going on, but it's been greatly reduced. Our network is generalizing much better from the training data to the test data. In general, one of the best ways of reducing overfitting is to increase the size of the training data. With enough training data it is difficult for even a very large network to overfit. Unfortunately, training data can be expensive or difficult to acquire, so this is not always a practical option.
 
@@ -399,13 +396,13 @@ Fortunately, there are other techniques which can reduce overfitting, even when 
 C = -\frac{1}{n} \sum_{xj} \left[ y_j \ln a^L_j+(1-y_j) \ln (1-a^L_j)\right] + \frac{\lambda}{2n} \sum_w w^2.
 \label{eq:85}
 \end{eqnarray}
-%C=−1n∑xj[yjlnaLj+(1−yj)ln(1−aLj)]+\lambda 2n∑ww2.(85)
+%C=-1n∑xj[yjlnaLj+(1-yj)ln(1-aLj)]+\lambda 2n∑ww2.(85)
 The first term is just the usual expression for the cross-entropy. But we've added a second term, namely the sum of the squares of all the weights in the network. This is scaled by a factor $\lambda/2n$, where $\lambda>0$ is known as the \textit{regularization parameter}, and $n$ is, as usual, the size of our training set. I'll discuss later how $\lambda$ is chosen. It's also worth noting that the regularization term doesn't include the biases. I'll also come back to that below.
 
 Of course, it's possible to regularize other cost functions, such as the quadratic cost. This can be done in a similar way:
 \begin{eqnarray} C = \frac{1}{2n} \sum_x \|y-a^L\|^2 + \frac{\lambda}{2n} \sum_w w^2.
 \label{eq:86}\end{eqnarray}
-%C=12n∑x∥y−aL∥2+\lambda 2n∑ww2.(86)
+%C=12n∑x∥y-aL∥2+\lambda 2n∑ww2.(86)
 In both cases we can write the regularized cost function as
 %C=C0+\lambda 2n∑ww2,(87)
 \begin{eqnarray}  C = C_0 + \frac{\lambda}{2n}\sum_w w^2,
@@ -432,21 +429,21 @@ The learning rule for the weights becomes:
 w & \rightarrow & w-\eta \frac{\partial C_0}{\partial w}-\frac{\eta \lambda}{n} w  = \left(1-\frac{\eta \lambda}{n}\right) w -\eta \frac{\partial	C_0}{\partial w}. 
 \label{eq:92}
 \end{eqnarray}
-%w→=w−\eta\partial{}C0\partial{}w−\eta\lambda nw(1−\eta\lambda n)w−\eta\partial{}C0\partial{}w.(91)(92)
-This is exactly the same as the usual gradient descent learning rule, except we first rescale the weight $w$ by a factor $1−\eta\frac{\lambda}{n}$. This rescaling is sometimes referred to as \textit{weight decay}, since it makes the weights smaller. At first glance it looks as though this means the weights are being driven unstoppably toward zero. But that's not right, since the other term may lead the weights to increase, if so doing causes a decrease in the unregularized cost function.
+%w→=w-\eta\partial{}C0\partial{}w-\eta\lambda nw(1-\eta\lambda n)w-\eta\partial{}C0\partial{}w.(91)(92)
+This is exactly the same as the usual gradient descent learning rule, except we first rescale the weight $w$ by a factor $1-\eta\frac{\lambda}{n}$. This rescaling is sometimes referred to as \textit{weight decay}, since it makes the weights smaller. At first glance it looks as though this means the weights are being driven unstoppably toward zero. But that's not right, since the other term may lead the weights to increase, if so doing causes a decrease in the unregularized cost function.
 
 Okay, that's how gradient descent works. What about stochastic gradient descent? Well, just as in unregularized stochastic gradient descent, we can estimate $\partial{}C_0/\partial{}w$ by averaging over a mini-batch of $m$ training examples. Thus the regularized learning rule for stochastic gradient descent becomes (c.f. Equation (\ref{eq:20}))
 \begin{eqnarray} 
 w \rightarrow \left(1-\frac{\eta \lambda}{n}\right) w -\frac{\eta}{m} \sum_x \frac{\partial C_x}{\partial w}, 
 \label{eq:93}
 \end{eqnarray}
-%w→(1−\eta\lambda n)w−\etam∑x\partial{}Cx\partial{}w,(93)
-where the sum is over training examples $x$ in the mini-batch, and $C_x$ is the (unregularized) cost for each training example. This is exactly the same as the usual rule for stochastic gradient descent, except for the $1−\eta\lambda/n$ weight decay factor. Finally, and for completeness, let me state the regularized learning rule for the biases. This is, of course, exactly the same as in the unregularized case (c.f. Equation (\ref{eq:21})),
+%w→(1-\eta\lambda n)w-\etam∑x\partial{}Cx\partial{}w,(93)
+where the sum is over training examples $x$ in the mini-batch, and $C_x$ is the (unregularized) cost for each training example. This is exactly the same as the usual rule for stochastic gradient descent, except for the $1-\eta\lambda/n$ weight decay factor. Finally, and for completeness, let me state the regularized learning rule for the biases. This is, of course, exactly the same as in the unregularized case (c.f. Equation \ref{eq:21}),
 \begin{eqnarray}
 	b \to b - \frac{\eta}{m} \sum_x \frac{\partial C_x}{\partial b},
 	\label{eq:94}
 \end{eqnarray}
-%b→b−\etam∑x\partial{}Cx\partial{}b,(94)
+%b→b-\etam∑x\partial{}Cx\partial{}b,(94)
 where the sum is over training examples $x$ in the mini-batch.
 
 Let's see how regularization changes the performance of our neural network. We'll use a network with 30 hidden neurons, a mini-batch size of 10, a learning rate of 0.5, and the cross-entropy cost function. However, this time we'll use a regularization parameter of $\lambda =0.1$. Note that in the code, we use the variable name \inline{lmbda}, because \inline{lambda} is a reserved word in Python, with an unrelated meaning. I've also used the \inline{test_data} again, not the \inline{validation_data}. Strictly speaking, we should use the \inline{validation_data}, for all the reasons we discussed earlier. But I decided to use the \inline{test_data} because it makes the results more directly comparable with our earlier, unregularized results. You can easily change the code to use the \inline{validation_data} instead, and you'll find that it gives similar results.
@@ -460,32 +457,29 @@ Let's see how regularization changes the performance of our neural network. We'l
 >>> net.large_weight_initializer()
 >>> net.SGD(training_data[:1000], 400, 10, 0.5, evaluation_data=test_data, lmbda = 0.1, \
 ... monitor_evaluation_cost=True, monitor_evaluation_accuracy=True, monitor_training_cost=True, monitor_training_accuracy=True)
-
 \end{lstlisting}
 The cost on the training data decreases over the whole time, much as it did in the earlier, unregularized case\footnote{This and the next two graphs were produced with the program \inline{overfitting.py.}}:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/regularized1}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/regularized1}
 \end{center}
 But this time the accuracy on the \inline{test_data} continues to increase for the entire 400 epochs:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/regularized2}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/regularized2}
 \end{center}
 Clearly, the use of regularization has suppressed overfitting. What's more, the accuracy is considerably higher, with a peak classification accuracy of 87.1 percent, compared to the peak of 82.27 percent obtained in the unregularized case. Indeed, we could almost certainly get considerably better results by continuing to train past 400 epochs. It seems that, empirically, regularization is causing our network to generalize better, and considerably reducing the effects of overfitting.
 
-What happens if we move out of the artificial environment of just having 1,000 training images, and return to the full 50,000 image training set? Of course, we've seen already that overfitting is much less of a problem with the full 50,000 images. Does regularization help any further? Let's keep the hyper-parameters the same as before -- 30 epochs, learning rate 0.5, mini-batch size of 10. However, we need to modify the regularization parameter. The reason is because the size n of the training set has changed from $n$=1,000 to $n$=50,000, and this changes the weight decay factor $1−\eta\lambda/n$. If we continued to use $\lambda =0.1$ that would mean much less weight decay, and thus much less of a regularization effect. We compensate by changing to $\lambda =5.0$.
+What happens if we move out of the artificial environment of just having 1,000 training images, and return to the full 50,000 image training set? Of course, we've seen already that overfitting is much less of a problem with the full 50,000 images. Does regularization help any further? Let's keep the hyper-parameters the same as before -- 30 epochs, learning rate 0.5, mini-batch size of 10. However, we need to modify the regularization parameter. The reason is because the size n of the training set has changed from $n$=1,000 to $n$=50,000, and this changes the weight decay factor $1-\eta\lambda/n$. If we continued to use $\lambda =0.1$ that would mean much less weight decay, and thus much less of a regularization effect. We compensate by changing to $\lambda =5.0$.
 
 Okay, let's train our network, stopping first to re-initialize the weights:
 
 \begin{lstlisting}
-
 >>> net.large_weight_initializer()
 >>> net.SGD(training_data, 30, 10, 0.5, evaluation_data=test_data, lmbda = 5.0,
 ... monitor_evaluation_accuracy=True, monitor_training_accuracy=True)
-
 \end{lstlisting}
 We obtain the results:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/regularized_full}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/regularized_full}
 \end{center}
 There's lots of good news here. First, our classification accuracy on the test data is up, from 95.49 percent when running unregularized, to 96.49 percent. That's a big improvement. Second, we can see that the gap between results on the training and test data is much narrower than before, running at under a percent. That's still a significant gap, but we've obviously made substantial progress reducing overfitting.
 
@@ -565,12 +559,12 @@ To do that, we'll look at the partial derivatives of the cost function. Differen
 %\partial{}C\partial{}w=\partial{}C0\partial{}w+\lambdansgn(w),(96)
 where ${\rm sgn}(w)$ is the sign of $w$, that is, $+1$ if $w$ is positive, and $-1$ if $w$ is negative. Using this expression, we can easily modify backpropagation to do stochastic gradient descent using L1 regularization. The resulting update rule for an L1 regularized network is
 \begin{eqnarray}  w \to w' = w-\frac{\eta \lambda}{n} \mbox{sgn}(w) - \eta \frac{\partial C_0}{\partial w}, \label{eq:97}\end{eqnarray}
-%w→w′=w−\eta\lambdansgn(w)−\eta\partial{}C0\partial{}w,(97)
+%w→w′=w-\eta\lambdansgn(w)-\eta\partial{}C0\partial{}w,(97)
 where, as per usual, we can estimate $\partial{}C_0/\partial{}w$ using a mini-batch average, if we wish. Compare that to the update rule for L2 regularization (c.f. Equation (\ref{eq:93})),
 \begin{eqnarray}
 w \to w' = w\left(1 - \frac{\eta \lambda}{n} \right) - \eta \frac{\partial C_0}{\partial w}.
 \label{eq:98}\end{eqnarray}
-%w→w′=w(1−\eta\lambdan)−\eta\partial{}C0\partial{}w.(98)
+%w→w′=w(1-\eta\lambdan)-\eta\partial{}C0\partial{}w.(98)
 In both expressions the effect of regularization is to shrink the weights. This accords with our intuition that both kinds of regularization penalize large weights. But the way the weights shrink is different. In L1 regularization, the weights shrink by a constant amount toward 0. In L2 regularization, the weights shrink by an amount which is proportional to $w$. And so when a particular weight has a large magnitude, $|w|$, L1 regularization shrinks the weight much less than L2 regularization does. By contrast, when $|w|$ is small, L1 regularization shrinks the weight much more than L2 regularization. The net result is that L1 regularization tends to concentrate the weight of the network in a relatively small number of high-importance connections, while the other weights are driven toward zero.
 
 I've glossed over an issue in the above discussion, which is that the partial derivative $\partial{}C/\partial{}w$ isn't defined when $w=0$. The reason is that the function $|w|$ has a sharp ``corner'' at $w=0$, and so isn't differentiable at that point. That's okay, though. What we'll do is just apply the usual (unregularized) rule for stochastic gradient descent when $w=0$. That should be okay -- intuitively, the effect of regularization is to shrink weights, and obviously it can't shrink a weight which is already 0. To put it more precisely, we'll use Equations (\ref{eq:96}) and (\ref{eq:97}) with the convention that ${\rm sgn}(0)=0$. That gives a nice, compact rule for doing stochastic gradient descent with L1 regularization.
@@ -662,7 +656,7 @@ We'll suppose for simplicity that we're trying to train using a training input $
 \end{axis}
 \end{tikzpicture}
 \end{center}
-In particular, we can see from this graph that it's quite likely that $|z|$ will be pretty large, i.e., either $z\gg1$ or $z\ll−1$. If that's the case then the output $\sigma(z)$ from the hidden neuron will be very close to either 1 or 0. That means our hidden neuron will have saturated. And when that happens, as we know, making small changes in the weights will make only absolutely miniscule changes in the activation of our hidden neuron. That miniscule change in the activation of the hidden neuron will, in turn, barely affect the rest of the neurons in the network at all, and we'll see a correspondingly miniscule change in the cost function. As a result, those weights will only learn very slowly when we use the gradient descent algorithm\footnote{We discussed this in more detail in Chapter 2, where we used the equations of backpropagation to show that weights input to saturated neurons learned slowly.}. It's similar to the problem we discussed earlier in this chapter, in which output neurons which saturated on the wrong value caused learning to slow down. We addressed that earlier problem with a clever choice of cost function. Unfortunately, while that helped with saturated output neurons, it does nothing at all for the problem with saturated hidden neurons.
+In particular, we can see from this graph that it's quite likely that $|z|$ will be pretty large, i.e., either $z\gg1$ or $z\ll-1$. If that's the case then the output $\sigma(z)$ from the hidden neuron will be very close to either 1 or 0. That means our hidden neuron will have saturated. And when that happens, as we know, making small changes in the weights will make only absolutely miniscule changes in the activation of our hidden neuron. That miniscule change in the activation of the hidden neuron will, in turn, barely affect the rest of the neurons in the network at all, and we'll see a correspondingly miniscule change in the cost function. As a result, those weights will only learn very slowly when we use the gradient descent algorithm\footnote{We discussed this in more detail in Chapter 2, where we used the equations of backpropagation to show that weights input to saturated neurons learned slowly.}. It's similar to the problem we discussed earlier in this chapter, in which output neurons which saturated on the wrong value caused learning to slow down. We addressed that earlier problem with a clever choice of cost function. Unfortunately, while that helped with saturated output neurons, it does nothing at all for the problem with saturated hidden neurons.
 
 I've been talking about the weights input to the first hidden layer. Of course, similar arguments apply also to later hidden layers: if the weights in later hidden layers are initialized using normalized Gaussians, then activations will often be very close to 0 or 1, and learning will proceed very slowly.
 
@@ -759,7 +753,7 @@ Let's break this down. The first thing to observe is that even though the cross-
 \begin{equation}
 	\delta^L=a^L-y.\label{eq:99}
 \end{equation}
-%δL=aL−y.(99)
+%δL=aL-y.(99)
 For this reason we define a second method, \inline{CrossEntropyCost.delta}, whose purpose is to tell our network how to compute the output error. And then we bundle these two methods up into a single class containing everything our networks need to know about the cost function.
 
 In a similar way, \inline{network2.py} also contains a class to represent the quadratic cost function. This is included for comparison with the results of Chapter 1, since going forward we'll mostly use the cross entropy. The code is just below. The \inline{QuadraticCost.fn} method is a straightforward computation of the quadratic cost associated to the actual output, \inline{a}, and the desired output, \inline{y}. The value returned by \inline{QuadraticCost.delta} is based on the expression (\ref{eq:30}) for the output error for the quadratic cost, which we derived back in Chapter 2.
@@ -1308,7 +1302,7 @@ The obvious worry about online learning is that using mini-batches which contain
 Based on this argument, it sounds as though we should use online learning. In fact, the situation turns out to be more complicated than that. In a problem in the last chapter\ref{backprop_over_minibatch} I pointed out that it's possible to use matrix techniques to compute the gradient update for all examples in a mini-batch simultaneously, rather than looping over them. Depending on the details of your hardware and linear algebra library this can make it quite a bit faster to compute the gradient estimate for a mini-batch of (for example) size 100, rather than computing the mini-batch gradient estimate by looping over the 100 training examples separately. It might take (say) only 50 times as long, rather than 100 times as long.
 
 Now, at first it seems as though this doesn't help us that much. With our mini-batch of size 100 the learning rule for the weights looks like:
-%w→w′=w−\eta1100∑x∇Cx,(100)
+%w→w′=w-\eta1100∑x∇Cx,(100)
 \begin{eqnarray}
 w \to w' = w-\eta \frac{1}{100} \sum_x \nabla C_x,
 \label{eq:100}\end{eqnarray}
@@ -1316,9 +1310,9 @@ where the sum is over training examples in the mini-batch. This is versus
 \begin{eqnarray}
 w \rightarrow w' = w-\eta \nabla C_x
 \label{eq:101}\end{eqnarray}
-%w→w′=w−\eta∇Cx(101)
+%w→w′=w-\eta∇Cx(101)
 for online learning. Even if it only takes 50 times as long to do the mini-batch update, it still seems likely to be better to do online learning, because we'd be updating so much more frequently. Suppose, however, that in the mini-batch case we increase the learning rate by a factor 100, so the update rule becomes
-%w→w′=w−\eta∑x∇Cx.(102)
+%w→w′=w-\eta∑x∇Cx.(102)
 \begin{eqnarray}
 w \rightarrow w' = w-\eta \sum_x \nabla C_x.
 \label{eq:102}\end{eqnarray}
@@ -1369,12 +1363,12 @@ Using calculus we can show that the expression on the right-hand side can be min
 \Delta w = -H^{-1} \nabla C.
 \label{eq:106}
 \end{eqnarray}
-%Δw=−H−1∇C.(106)
+%Δw=-H-1∇C.(106)
 Provided (\ref{eq:105}) is a good approximate expression for the cost function, then we'd expect that moving from the point $w$ to $w+\Delta w = w-H^{-1} \nabla C$ should significantly decrease the cost function. That suggests a possible algorithm for minimizing the cost:
 \begin{itemize}
 \item Choose a starting point, $w$.
 \item Update $w$ to a new point$w' = w-H^{-1} \nabla C$, where the Hessian $H$ and $\nabla C$ are computed at $w$.
-\item Update $w'$ to a new point $w''=w'−H'^{−1}\nabla'C$, where the Hessian $H'$ and $\nabla'C$ are computed at $w'$.
+\item Update $w'$ to a new point $w''=w'-H'^{-1}\nabla'C$, where the Hessian $H'$ and $\nabla'C$ are computed at $w'$.
 \item $\ldots$
 \end{itemize}
 In practice, (\ref{eq:105}) is only an approximation, and it's better to take smaller steps. We do this by repeatedly changing $w$ by an amount $\Delta w = -\eta H^{-1}\nabla C$, where $\eta$ is known as the learning rate.
@@ -1387,7 +1381,7 @@ If Hessian optimization is so great, why aren't we using it in our neural networ
 \textbf{Momentum-based gradient descent:} Intuitively, the advantage Hessian optimization has is that it incorporates not just information about the gradient, but also information about how the gradient is changing. Momentum-based gradient descent is based on a similar intuition, but avoids large matrices of second derivatives. To understand the momentum technique, think back to our original picture of gradient descent\ref{gradient_descent}, in which we considered a ball rolling down into a valley. At the time, we observed that gradient descent is, despite its name, only loosely similar to a ball falling to the bottom of a valley. The momentum technique modifies gradient descent in two ways that make it more similar to the physical picture. First, it introduces a notion of ``velocity'' for the parameters we're trying to optimize. The gradient acts to change the velocity, not (directly) the ``position'', in much the same way as physical forces change the velocity, and only indirectly affect position. Second, the momentum method introduces a kind of friction term, which tends to gradually reduce the velocity.
 
 Let's give a more precise mathematical description. We introduce velocity variables $v=v_1,v_2,\ldots$, one for each corresponding $w_j$ variable\footnote{In a neural net the $w_j$ variables would, of course, include all weights and biases.}. Then we replace the gradient descent update rule $w \to w'= w-\eta \nabla C$ by
-%vw→→v′=\muv−\eta∇Cw′=w+v′.(107)(108)
+%vw→→v′=\muv-\eta∇Cw′=w+v′.(107)(108)
 \begin{eqnarray} 
 v & \to  & v' = \mu v - \eta \nabla C \label{eq:107}\\
 w & \to & w' = w+v'.\label{eq:108}
@@ -1425,7 +1419,7 @@ where $\tanh$ is, of course, the hyperbolic tangent function. It turns out that 
 \tanh(z) \equiv \frac{e^z-e^{-z}}{e^z+e^{-z}}.
 \label{eq:110}
 \end{eqnarray}
-%tanh(z)≡ez−e−zez+e−z.(110)
+%tanh(z)≡ez-e-zez+e-z.(110)
 With a little algebra it can easily be verified that
 \begin{eqnarray} 
 \sigma(z) = \frac{1+\tanh(z/2)}{2},\label{eq:111}

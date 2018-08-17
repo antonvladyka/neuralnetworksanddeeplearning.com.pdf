@@ -90,7 +90,7 @@ Backpropagation is about understanding how changing the weights and biases in a 
 To understand how the error is defined, imagine there is a demon in our neural network:
 
 \begin{center}
-	\includegraphics[width=0.5\linewidth]{./figures/ch2/tikz19}
+	\includegraphics[width=0.6\linewidth]{./figures/ch2/tikz19}
 \end{center}
 The demon sits at the $j$-th neuron in layer $l$. As the input to the neuron comes in, the demon messes with the neuron's operation. It adds a little change $\delta{}z^l_j$ to the neuron's weighted input, so that instead of outputting $\sigma(z^l_j)$, the neuron instead outputs $\sigma(z^l_j+\delta{}z^l_j)$. This change propagates through later layers in the network, finally causing the overall cost to change by an amount $\partial{}C\partial{}z^l_j\delta{}z^l_j$.
 
@@ -275,10 +275,10 @@ That completes the proof of the four fundamental equations of backpropagation. T
 The backpropagation equations provide us with a way of computing the gradient of the cost function. Let's explicitly write this out in the form of an algorithm:
 \begin{enumerate}
 \item \textbf{Input} $x$: Set the corresponding activation $a^1$ for the input layer.
-\item \textbf{Feedforward:} For each $l=2,3,\ldots{},L$ compute $z^l=w^la{l-1}+b^l$ and $a^l=\sigma(z_l)$.
+\item \textbf{Feedforward:} For each $l=2,3,\ldots{},L$ compute $z^l=w^la^{l-1}+b^l$ and $a^l=\sigma(z_l)$.
 \item \textbf{Output error} $\delta^L$: Compute the vector $\delta^{L} = \nabla_a C \odot \sigma'(z^L)$.
 \item \textbf{Backpropagate the error}: For each $l = L-1, L-2,\ldots, 2$ compute $\delta^{l} = ((w^{l+1})^T \delta^{l+1}) \odot \sigma'(z^{l})$.
-\item \textbf{Output}: The gradient of the cost function is given by $\partial{}C\partial{}w^l_{jk}=a^{l-1}_k\delta^l_j$ and $\partial{}C\partial{}b^l_j=\delta^l_j$.
+\item \textbf{Output}: The gradient of the cost function is given by $\frac{\partial{}C}{\partial{}w^l_{jk}}=a^{l-1}_k\delta^l_j$ and $\frac{\partial{}C}{\partial{}b^l_j}=\delta^l_j$.
 \end{enumerate}
 Examining the algorithm you can see why it's called\textit{ back}propagation. We compute the error vectors $\delta^l$ backward, starting from the final layer. It may seem peculiar that we're going through the network backward. But if you think about the proof of backpropagation, the backward movement is a consequence of the fact that the cost is a function of outputs from the network. To understand how the cost varies with earlier weights and biases we need to repeatedly apply the chain rule, working backward through the layers to obtain usable expressions.
 

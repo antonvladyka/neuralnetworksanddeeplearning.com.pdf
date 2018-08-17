@@ -151,7 +151,7 @@ To get insight into why the vanishing gradient problem occurs, let's consider th
 \begin{center}
 	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz37}
 \end{center}
-Here, $w_1,w_2,\ldots$ are the weights, $b_1,b_2,\ldots$ are the biases, and $C$ is some cost function. Just to remind you how this works, the output $a_j$ from the $j$-th neuron is $\sigma(z_j)$, where $\sigma$ is the usual sigmoid activation function, and $z_j=w_ja_{j−1}+b_j$ is the weighted input to the neuron. I've drawn the cost $C$ at the end to emphasize that the cost is a function of the network's output, $a_4$: if the actual output from the network is close to the desired output, then the cost will be low, while if it's far away, the cost will be high.
+Here, $w_1,w_2,\ldots$ are the weights, $b_1,b_2,\ldots$ are the biases, and $C$ is some cost function. Just to remind you how this works, the output $a_j$ from the $j$-th neuron is $\sigma(z_j)$, where $\sigma$ is the usual sigmoid activation function, and $z_j=w_ja_{j-1}+b_j$ is the weighted input to the neuron. I've drawn the cost $C$ at the end to emphasize that the cost is a function of the network's output, $a_4$: if the actual output from the network is close to the desired output, then the cost will be low, while if it's far away, the cost will be high.
 
 We're going to study the gradient $\partial C/\partial b_1$ associated to the first hidden neuron. We'll figure out an expression for $\partial C/\partial b_1$, and by studying that expression we'll understand why the vanishing gradient problem occurs.
 
@@ -237,7 +237,7 @@ There are two steps to getting an exploding gradient. First, we choose all the w
 \begin{exercize}{Problems}
 \item Consider the product $|w\sigma'(wa+b)|$. Suppose $|w\sigma'(wa+b)|\geq1$. (1) Argue that this can only ever occur if $|w|≥\geq4$. (2) Supposing that $|w|\geq4$, consider the set of input activations a for which $|w\sigma'(wa+b)|\geq1$. Show that the set of a satisfying that constraint can range over an interval no greater in width than
 \begin{equation}
-%	2|w|ln(|w|(1+1−4/|w|−−−−−−−−√)2−1).(123)
+%	2|w|ln(|w|(1+1-4/|w|--------√)2-1).(123)
 	\frac2{|w|}\ln\left(\frac{|w|(1+\sqrt{1-4/|w|})}{2}-1\right).\label{eq:123}
 \end{equation}
 (3) Show numerically that the above expression bounding the width of the range is greatest at $|w|\approx6.9$, where it takes a value $\approx0.45$. And so even given that everything lines up just perfectly, we still have a fairly narrow range of input activations which can avoid the vanishing gradient problem.
