@@ -30,7 +30,7 @@ With these notations, the activation $a^l_j$ of the $j$-th neuron in the $l$-th 
 \begin{equation}
 	a^{l}_j = \sigma\left( \sum_k w^{l}_{jk} a^{l-1}_k + b^l_j \right),\label{eq:23}
 \end{equation}
-where the sum is over all neurons $k$ in the $(l-1)$-th layer. To rewrite this expression in a matrix form we define a weight matrix $w_l$ for each layer, $l$. The entries of the weight matrix $w_l$ are just the weights connecting to the $l$-th layer of neurons, that is, the entry in the $j$-th row and $k$-th column is $w^l_{jk}$. Similarly, for each layer $l$ we define a \textit{bias vector}, $b^l$. You can probably guess how this works -- the components of the bias vector are just the values $b^l_j$, one component for each neuron in the $l$-th layer. And finally, we define an activation vector al whose components are the activations $a^l_j$.
+where the sum is over all neurons $k$ in the $(l-1)$-th layer. To rewrite this expression in a matrix form we define a \textit{weight matrix} $w^l$ for each layer, $l$. The entries of the weight matrix $w^l$ are just the weights connecting to the $l$-th layer of neurons, that is, the entry in the $j$-th row and $k$-th column is $w^l_{jk}$. Similarly, for each layer $l$ we define a \textit{bias vector}, $b^l$. You can probably guess how this works -- the components of the bias vector are just the values $b^l_j$, one component for each neuron in the $l$-th layer. And finally, we define an activation vector al whose components are the activations $a^l_j$.
 The last ingredient we need to rewrite \ref{eq:23} in a matrix form is the idea of vectorizing a function such as $\sigma$. We met vectorization briefly in the last chapter, but to recap, the idea is that we want to apply a function such as $\sigma$ to every element in a vector $v$. We use the obvious notation $\sigma(v)$ to denote this kind of elementwise application of a function. That is, the components of $\sigma(v)$ are just $\sigma(v)_j = \sigma(v_j)$. As an example, if we have the function $f(x)=x^2$ then the vectorized form of $f$ has the effect
 \begin{equation}
 f\left(\left[ \begin{array}{c} 2 \\ 3 \end{array} \right] \right)
@@ -100,7 +100,7 @@ Motivated by this story, we define the error $\delta^l_j$ of neuron $j$ in layer
 \begin{equation}
 	\delta^l_j\equiv\frac{\partial{}C}{\partial{}z^l_j}.\label{eq:29}
 \end{equation}
-As per our usual conventions, we use $\delta{}l$ to denote the vector of errors associated with layer $l$. Backpropagation will give us a way of computing $\delta{}l$ for every layer, and then relating those errors to the quantities of real interest, $\partial{}C/\partial{}w^l_{jk}$ and $\partial{}C/\partial{}b^l_j$.
+As per our usual conventions, we use $\delta{}^l$ to denote the vector of errors associated with layer $l$. Backpropagation will give us a way of computing $\delta{}^l$ for every layer, and then relating those errors to the quantities of real interest, $\partial{}C/\partial{}w^l_{jk}$ and $\partial{}C/\partial{}b^l_j$.
 
 You might wonder why the demon is changing the weighted input $z^l_j$. Surely it'd be more natural to imagine the demon changing the output activation $a^l_j$, with the result that we'd be using $\frac{\partial{}C}{\partial{}a^l_j}$ as our measure of error. In fact, if you do this things work out quite similarly to the discussion below. But it turns out to make the presentation of backpropagation a little more algebraically complicated. So we'll stick with $\delta^l_j=\frac{\partial{}C}{\partial{}z^l_j}$ as our measure of error\footnote{In classification problems like MNIST the term ``error'' is sometimes used to mean the classification failure rate. E.g., if the neural net correctly classifies 96.0 percent of the digits, then the error is 4.0 percent. Obviously, this has quite a different meaning from our $\delta$ vectors. In practice, you shouldn't have trouble telling which meaning is intended in any given usage.}.
 
@@ -212,7 +212,7 @@ None of these observations is too greatly surprising. Still, they help improve o
 \end{exercize}
 \section{Proof of the four fundamental equations (optional)}
 \label{sec:2.5}
-We'll now prove the four fundamental equations (\ref{eq:BP1})-(\ref{eq:BP4}). All four are consequences of the chain rule from multivariable calculus. If you're comfortable with the chain rule, then I strongly encourage you to attempt the derivation yourself before reading on.
+We'll now prove the four fundamental equations (\ref{eq:BP1})--(\ref{eq:BP4}). All four are consequences of the chain rule from multivariable calculus. If you're comfortable with the chain rule, then I strongly encourage you to attempt the derivation yourself before reading on.
 
 Let's begin with Equation (\ref{eq:BP1}), which gives an expression for the output error, $\delta^l$. To prove this equation, recall that by definition
 %$\delta^l$j=\partial{}C\partial{}z^L_j.(36)

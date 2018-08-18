@@ -48,31 +48,25 @@ To answer that question, let's first revisit the case of a network with just a s
 If you wish, you can follow along by training networks on your computer. It is also, of course, fine to just read along. If you do wish to follow live, then you'll need Python 2.7, Numpy, and a copy of the code, which you can get by cloning the relevant repository from the command line:
 
 \begin{lstlisting}
-
 git clone https://github.com/mnielsen/neural-networks-and-deep-learning.git
-
 \end{lstlisting}
 If you don't use git then you can download the data and code \href{https://github.com/mnielsen/neural-networks-and-deep-learning/archive/master.zip}{here}. You'll need to change into the \inline{src} subdirectory.
 Then, from a Python shell we load the MNIST data:
 
 \begin{lstlisting}
-
 >>> import mnist_loader
 >>> training_data, validation_data, test_data = \
 ... mnist_loader.load_data_wrapper()
-
 \end{lstlisting}
 We set up our network:
 
 \begin{lstlisting}
-
 >>> import network2
 >>> net = network2.Network([784, 30, 10])
-
 \end{lstlisting}
 This network has 784 neurons in the input layer, corresponding to the $28\times28=784$ pixels in the input image. We use 30 hidden neurons, as well as 10 output neurons, corresponding to the 10 possible classifications for the MNIST digits (`0', `1', `2',..., `9').
 
-Let's try training our network for 30 complete epochs, using mini-batches of 10 training examples at a time, a learning rate η=0.1, and regularization parameter $\lambda=5.0$. As we train we'll monitor the classification accuracy on the \inline{validation_data}\footnote{Note that the networks is likely to take some minutes to train, depending on the speed of your machine. So if you're running the code you may wish to continue reading and return later, not wait for the code to finish executing.}:
+Let's try training our network for 30 complete epochs, using mini-batches of 10 training examples at a time, a learning rate $\eta=0.1$, and regularization parameter $\lambda=5.0$. As we train we'll monitor the classification accuracy on the \inline{validation_data}\footnote{Note that the networks is likely to take some minutes to train, depending on the speed of your machine. So if you're running the code you may wish to continue reading and return later, not wait for the code to finish executing.}:
 \begin{lstlisting}
 >>> net.SGD(training_data, 30, 10, 0.1, lmbda=5.0, 
 ... evaluation_data=validation_data, monitor_evaluation_accuracy=True)

@@ -1,0 +1,255 @@
+% PAGE DIMENSIONS
+% FOR 17x24cm
+%\usepackage[inner=30mm, outer=20mm,top=24mm,headsep=10mm,bottom=20mm,paperwidth=170mm,paperheight=240mm]{geometry}
+% FOR A5 = small margins, easy to read at smartphone
+%\usepackage[inner=14mm, outer=14mm,top=9mm,headsep=4mm,bottom=5mm,paperwidth=148mm,paperheight=210mm]{geometry}
+%FOr 16:9
+\usepackage[inner=3mm, outer=3mm,top=15mm,headsep=7mm,bottom=11mm,paperwidth=126mm,paperheight=224mm]{geometry}
+% DRAWINGS (for chapter title)
+\usepackage{tikz}
+% TYPOGRAPHY: 
+\usepackage[protrusion=true,final,factor=1500]{microtype}
+
+% SOME extra math symbols
+\usepackage{amssymb}
+
+
+
+
+% CAPTIONS of figures/table styling
+\usepackage[font={stretch=1.1,small},labelfont=bf]{caption} % order matters: stretch, then size
+%\usepackage[font={small,sf},labelfont=bf]{caption} % small sans-serif + bold
+
+% FONT  SIZES
+\usepackage{fix-cm} % FOR ANY font sizes, not predefined
+\renewcommand\footnotesize{\fontsize{7pt}{7pt}\selectfont}
+\renewcommand\small{\fontsize{6pt}{6pt}\selectfont}
+\renewcommand\normalsize{\fontsize{9pt}{9pt}\selectfont}
+\renewcommand\large{\fontsize{10pt}{10pt}\selectfont}
+\renewcommand\Large{\fontsize{11pt}{11pt}\selectfont}
+\renewcommand\Huge{\fontsize{24pt}{24pt}\selectfont}
+
+% LINE spacing
+\renewcommand{\baselinestretch}{1.25}
+
+% FONTS for LaTeX/XeLaTeX
+\usepackage{ifxetex}
+\ifxetex
+			\usepackage{mathspec}
+			\usepackage{polyglossia}
+			\setdefaultlanguage[variant=uk]{english}
+			\defaultfontfeatures{Ligatures=TeX} % To support LaTeX quoting style
+			\setmainfont{Minion Pro} 
+			\setsansfont{Myriad Pro}
+			\setmathsfont(Digits,Greek,Latin)[Numbers={Proportional}]{Minion Pro}
+			\setmathrm{Minion Pro}
+			\usepackage[italic]{mathastext}
+			%\setmainfont[BoldFont={SwiftNeueLTW01-Bold},ItalicFont={SwiftNeueLTW01-Italic}]{SwiftNeueLTW01} 
+			%\setsansfont{UniversLTW01-55Roman}
+\else
+			%\usepackage[T1]{fontenc}
+			%\usepackage[utf8]{inputenc}
+			\usepackage[english]{babel}
+			%\usepackage{fouriernc} % UTOPIA + FOURIER
+			%\usepackage{mathpple} % palatino
+			%\usepackage[sc]{mathpazo}
+			\usepackage[charter]{mathdesign} %utopia, garamond
+			\usepackage[scaled]{helvet}
+			%\usepackage{newtxtt}
+			\def\ttdefault{cmvtt}
+			%\usepackage[light]{roboto}
+			%\renewcommand{\sfdefault}{ua1}
+\fi
+
+\usepackage{hyperref}
+% HEADER/FOOTER
+\usepackage{fancyhdr}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyhf{}
+\makeatletter
+	\let\ps@plain\ps@empty
+\makeatother
+% PLAIN: for first page of chapter
+\fancypagestyle{plain}{
+	\renewcommand{\headrulewidth}{0pt}
+	\fancyhf{}
+	\fancyhead[RO]{
+		%\makebox[2cm][l]{
+		%	\makebox[4cm][c]{\normalsize
+				%\hskip0.25em
+				~~$\left|\vphantom{\int_a^b}\right.$~~\thepage
+			%}
+		%}
+	}
+	\fancyhead[LE]{
+		%\makebox[2cm][r]{
+		%	\makebox[4cm][c]{\normalsize
+				%\hskip0.45em
+				\thepage~~$\left|\vphantom{\int_a^b}\right.$~~
+			%}
+		%}
+	}
+}
+% REGULAR pages
+\fancyhead[RO]{
+	%\makebox[2cm][l]{
+	%	\makebox[4cm][c]{\normalsize
+			%\hskip0.25em
+			\nouppercase\rightmark~~$\left|\vphantom{\int_a^b}\right.$~~\thepage
+		%}
+	%}
+}
+\fancyhead[LE]{
+	%\makebox[2cm][r]{
+	%	\makebox[4cm][c]{\normalsize
+			%\hskip0.45em
+			\thepage~~$\left|\vphantom{\int_a^b}\right.$~~\nouppercase\leftmark
+		%}
+	%}
+}
+
+% MARGIN labels, except chapter=0 (intro; conclusion; bibliography etc.)
+% AND \setcouter{chapter}{0} has to be set explicitely in required chapters
+%\fancyfoot[RO]{
+%	\ifnum\value{chapter}>0
+%	\begin{tikzpicture}[remember picture, overlay]
+%	\node[rounded corners=2mm,inner sep=3mm,anchor=north east,black,fill=black!15,draw=black!75] at ([xshift=2mm,yshift=-\arabic{chapter}*1.3cm-1.1cm]current page.north east) {\fontsize{1cm}{1cm}\selectfont\thechapter};
+%	\end{tikzpicture}
+%	\fi
+%}
+%\fancyfoot[LE]{
+%	\ifnum\value{chapter}>0
+%	\begin{tikzpicture}[remember picture, overlay]
+%	\node[rounded corners=2mm,inner sep=3mm,anchor=north west,black,fill=black!15,draw=black!75] at ([xshift=-2mm,yshift=-\arabic{chapter}*1.3cm-1.1cm]current page.north west) {\fontsize{1cm}{1cm}\selectfont\thechapter};
+%	\end{tikzpicture}
+%	\fi
+%}
+
+
+
+\pagestyle{fancy}
+% HEADER contents - chapter name and section name
+%\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\, #1}{}}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\, #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\, #1}}
+
+
+% FLOATING objects
+\usepackage{float}
+% PICTURES
+\usepackage{graphicx}
+% NOT USED
+\usepackage{setspace}
+
+% SPACINGS in lists
+\usepackage{enumitem}
+% VERICAL: topsep partopsep parsep itemsep
+% HORIZONTAL: leftmargin rightmargin listparindent labelwidth labelsep itemindent
+% GLOBAL: \setlist[enumerate]{labelsep=*, leftmargin=1.5pc}
+%\setlist{noitemsep}
+\setlist{nosep}
+
+
+
+
+% TABLES: nicer rulers
+% AND nicer spacing between lines in tables
+\usepackage{booktabs}
+\renewcommand{\arraystretch}{1.2}
+
+
+% TITLES styling
+\usepackage[toctitles,explicit,raggedright]{titlesec}
+\newcommand*\chapterlabel{}
+% CHAPTER in frontmatter|backmatter
+\titleformat{name=\chapter,numberless}[display]
+	{\normalfont\rmfamily\Huge\bfseries}{}{1ex}
+	{\flushright{\chapterlabel#1}}
+% CHAPTER in mainmatter
+\titleformat{\chapter}
+{\gdef\chapterlabel{}\normalfont\rmfamily\Huge\bfseries}
+{\gdef\chapterlabel{}}{-10em}
+{
+	\flushright{
+		\begin{tikzpicture}
+			%\draw[help lines,step=5mm] (0,-3) grid (-\linewidth,3);
+			\node[black!50,anchor=east,inner sep=0mm] (a) at (0,0) {\fontsize{7cm}{8cm}\selectfont\thechapter};
+			\begin{scope}[cm={1,0,-0.6,0.15,(0,0)}].
+					\node[transform shape,black!30,anchor=south,inner sep=0mm] at (a.south) {\fontsize{7cm}{8cm}\selectfont{}\thechapter};
+					%\node[transform shape,black!30,anchor=south east,inner sep=0mm] at (a.south) {\fontsize{3cm}{8cm}\selectfont{}\chaptername};
+			\end{scope}
+			\node[black!50,anchor=east,inner sep=0mm] (a) at (0,0) {\fontsize{7cm}{8cm}\selectfont\thechapter};
+			\node[black!35,anchor=east,inner sep=0.20mm,scale=0.98] at (0,0) {\fontsize{7cm}{8cm}\selectfont\thechapter};
+			\node[black!20,anchor=east,inner sep=0.40mm,scale=0.96] at (0,0) {\fontsize{7cm}{8cm}\selectfont\thechapter};
+			%\node[black!20,scale=0.97] at (a) {\fontsize{6cm}{8cm}\selectfont\thechapter};
+			%\node[anchor=east,black!45] at (0,-1) {\resizebox{\linewidth}{!}{\chaptername}};
+			%\node[anchor=north east,inner sep=0mm] at (a.north east) {\parbox{\linewidth}{\raggedleft\chapterlabel#1}};
+			\node[anchor=east,inner sep=0mm] at (0,0) {\parbox{\linewidth}{\raggedleft\chapterlabel#1}};
+		\end{tikzpicture}
+		%\chapterlabel#1
+	}
+}
+% SPACING: chapter by default uses \@makechapterhead with extra spacing before and after the chapter title
+\titlespacing*{\chapter}{0pt}{-25pt}{30pt}
+
+%\titleformat{\section}[block]{\Large}{\bfseries\thesection.\,\,#1}{1em}{}
+%\titleformat{\subsection}[block]{\large}{\bfseries\thesubsection.\,\,#1}{1em}{}
+%\titleformat{\subsection}{\no}{\itshape\thesubsection.\,#1}{1em}{}
+
+
+% GREEK letters in section/chapter titles AND in PDF bookmarks
+%\usepackage[artemisia]{textgreek}
+
+
+
+
+\usepackage{listings}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5.1}
+\usepgfplotslibrary{colormaps}
+\lstset{ 
+	backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+	basicstyle=\small\ttfamily,
+	belowcaptionskip=0em,        % the size of the fonts that are used for the code
+	belowskip=-2em,
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=b,                    % sets the caption-position to bottom
+	commentstyle=\color{mygreen},    % comment style
+	deletekeywords={...},            % if you want to delete keywords from the given language
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	frame=single,	                   % adds a frame around the code
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\color{blue},       % keyword style
+	language=Python,                 % the language of the code
+	morekeywords={*,...},            % if you want to add more keywords to the set
+	numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+	rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+	stringstyle=\color{mymauve},     % string literal style
+	tabsize=2,	                   % sets default tabsize to 2 spaces
+	title=\lstname 			          % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+\def\inline{\lstinline[basicstyle=\ttfamily,keywordstyle={}]} %https://tex.stackexchange.com/questions/44702/can-you-change-lstinline-without-changing-the-global-lstset
+
+% https://tex.stackexchange.com/questions/31085/is-there-a-standard-way-to-title-a-list-of-bullets
+% name is purpose
+\newenvironment{exercize}[1]{%
+\vspace{0.2em}\noindent{\Large\textbf{#1}}
+	\begin{itemize}}
+	{\end{itemize}}
+
+\usepackage{changepage}   % for the adjustwidth environment
+
+\interfootnotelinepenalty=10000

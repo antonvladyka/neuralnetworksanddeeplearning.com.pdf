@@ -583,16 +583,22 @@ We can use this activation function to get a step function, just as we did with 
 	\pgfplotsset{every axis legend/.append style={at={(1.03,1)},anchor=north west}}
 
 		\begin{axis}[width=0.75\linewidth,height=0.45\linewidth,title={Output from neuron},axis x line=bottom,axis y line=left,xtick={0,1},ytick={0,1},xmax=1.05,ymax=1.05]
-		\addplot[blue!90!red,domain=0:1,samples=101]{f(x,9,-3)};
-		\addplot[blue!75!red,domain=0:1,samples=101]{f(x,8,-3)};
-		\addplot[blue!50!red,domain=0:1,samples=101]{f(x,6,-3)};
-		\addplot[blue!25!red,domain=0:1,samples=101]{f(x,4,-3)};
-		\addplot[blue!10!red,domain=0:1,samples=101]{f(x,3,-3)};
-		\addlegendentry{$w=9, b = -3$}
+		%\addplot[blue!90!red,domain=0:1,samples=101]{f(x,9,-3)};
+		\addplot[black,domain=0:0.2,samples=200]{f(x,100,-3)};
+		\addplot[blue!90!red,domain=0:1,samples=200]{f(x,15,-3)};
+		\addplot[blue!75!red,domain=0:1,samples=100]{f(x,8,-3)};
+		\addplot[blue!50!red,domain=0:1,samples=100]{f(x,6,-3)};
+		\addplot[blue!25!red,domain=0:1,samples=100]{f(x,4,-3)};
+		\addplot[black,domain=0.2:1,samples=50]{1};
+		%\addplot[blue!10!red,domain=0:1,samples=101]{f(x,3,-3)};
+		\addlegendentry{$w=100, b = -3$}
+		\addlegendentry{$w=15, b = -3$}
+		%\addlegendentry{$w=9, b = -3$}
 		\addlegendentry{$w=8, b = -3$}
 		\addlegendentry{$w=6, b = -3$}
 		\addlegendentry{$w=4, b = -3$}
-		\addlegendentry{$w=3, b = -3$}
+		%\addlegendentry{$w=3, b = -3$}
+		
 	\end{axis}
 \end{tikzpicture}
 
@@ -600,14 +606,14 @@ We can use this activation function to get a step function, just as we did with 
 \pgfplotsset{every axis legend/.append style={at={(1.03,1)},anchor=north west}}
 \begin{axis}[width=0.75\linewidth,height=0.45\linewidth,axis x line=bottom,axis y line=left,xtick={0,1},ytick={0,1},xmax=1.05,ymax=1.05]
 	\addplot[blue!90!red,domain=0:1,samples=101]{f(x,6,-5)};
-	\addplot[blue!75!red,domain=0:1,samples=101]{f(x,6,-4)};
+	%\addplot[blue!75!red,domain=0:1,samples=101]{f(x,6,-4)};
 	\addplot[blue!50!red,domain=0:1,samples=101]{f(x,6,-3)};
-	\addplot[blue!25!red,domain=0:1,samples=101]{f(x,6,-2)};
+	%\addplot[blue!25!red,domain=0:1,samples=101]{f(x,6,-2)};
 	\addplot[blue!10!red,domain=0:1,samples=101]{f(x,6,-1)};
 	\addlegendentry{$w=6, b = -5$}
-	\addlegendentry{$w=6, b = -4$}
+	%\addlegendentry{$w=6, b = -4$}
 	\addlegendentry{$w=6, b = -3$}
-	\addlegendentry{$w=6, b = -2$}
+	%\addlegendentry{$w=6, b = -2$}
 	\addlegendentry{$w=6, b = -1$}
 \end{axis}
 \end{tikzpicture}

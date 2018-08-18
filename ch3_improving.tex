@@ -145,7 +145,7 @@ When should we use the cross-entropy instead of the quadratic cost? In fact, the
 		C = -\frac{1}{n} \sum_x [y \ln y+(1-y) \ln(1-y)].
 		\label{eq:64}
 	\end{equation}
-	The quantity $-[y \ln y+(1-y) \ln(1-y)]$ is sometimes known as the \textit{binary entropy}.
+	The quantity $-\left[y \ln y+(1-y) \ln(1-y)\right]$ is sometimes known as the \textit{binary entropy}.
 \end{exercize}
 
 \begin{exercize}{Problems}
@@ -1273,7 +1273,7 @@ This no-improvement-in-ten rule is good for initial exploration of MNIST. Howeve
 We haven't used early stopping in our MNIST experiments to date. The reason is that we've been doing a lot of comparisons between different approaches to learning. For such comparisons it's helpful to use the same number of epochs in each case. However, it's well worth modifying \inline{network2.py} to implement early stopping:
 
 \begin{exercize}{Problem}
-\item Modify \inline{network2.py} so that it implements early stopping using a no-improvement-in-n epochs strategy, where n is a parameter that can be set.
+\item Modify \inline{network2.py} so that it implements early stopping using a no-improvement-in-$n$ epochs strategy, where $n$ is a parameter that can be set.
 \item Can you think of a rule for early stopping other than no-improvement-in-$n$? Ideally, the rule should compromise between getting high validation accuracies and not training too long. Add your rule to \inline{network2.py}, and run three experiments comparing the validation accuracies and number of epochs of training to no-improvement-in-10.
 \end{exercize}
 \textbf{Learning rate schedule:} We've been holding the learning rate $\eta$ constant. However, it's often advantageous to vary the learning rate. Early on during the learning process it's likely that the weights are badly wrong. And so it's best to use a large learning rate that causes the weights to change quickly. Later, we can reduce the learning rate as we make more fine-tuned adjustments to our weights.
@@ -1367,7 +1367,7 @@ Using calculus we can show that the expression on the right-hand side can be min
 Provided (\ref{eq:105}) is a good approximate expression for the cost function, then we'd expect that moving from the point $w$ to $w+\Delta w = w-H^{-1} \nabla C$ should significantly decrease the cost function. That suggests a possible algorithm for minimizing the cost:
 \begin{itemize}
 \item Choose a starting point, $w$.
-\item Update $w$ to a new point$w' = w-H^{-1} \nabla C$, where the Hessian $H$ and $\nabla C$ are computed at $w$.
+\item Update $w$ to a new point $w' = w-H^{-1} \nabla C$, where the Hessian $H$ and $\nabla C$ are computed at $w$.
 \item Update $w'$ to a new point $w''=w'-H'^{-1}\nabla'C$, where the Hessian $H'$ and $\nabla'C$ are computed at $w'$.
 \item $\ldots$
 \end{itemize}
