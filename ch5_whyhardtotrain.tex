@@ -157,38 +157,36 @@ The structure in the expression is as follows: there is a $\sigma'(z_j)$ term in
 
 You're welcome to take this expression for granted, and skip to the discussion of how it relates to the vanishing gradient problem. There's no harm in doing this, since the expression is a special case of our earlier discussion of backpropagation. But there's also a simple explanation of why the expression is true, and so it's fun (and perhaps enlightening) to take a look at that explanation.
 
-Imagine we make a small change $\delta b_1$ in the bias $b_1$. That will set off a cascading series of changes in the rest of the network. First, it causes a change $\delta a_1$ in the output from the first hidden neuron. That, in turn, will cause a change $\delta z_2$ in the weighted input to the second hidden neuron. Then a change $\delta a_2$ in the output from the second hidden neuron. And so on, all the way through to a change $\delta C$ in the cost at the output. We have
+Imagine we make a small change $\Delta b_1$ in the bias $b_1$. That will set off a cascading series of changes in the rest of the network. First, it causes a change $\Delta a_1$ in the output from the first hidden neuron. That, in turn, will cause a change $\Delta z_2$ in the weighted input to the second hidden neuron. Then a change $\Delta a_2$ in the output from the second hidden neuron. And so on, all the way through to a change $\Delta C$ in the cost at the output. We have
 %$\partial C\partial b1≈\deltaC\delta b_1.(114)
 \begin{eqnarray}
 \frac{\partial C}{\partial b_1} \approx \frac{\Delta C}{\Delta b_1}.\label{eq:114}
 \end{eqnarray}
 This suggests that we can figure out an expression for the gradient $\partial C/\partial b_1$ by carefully tracking the effect of each step in this cascade.
 
-
-To do this, let's think about how $\delta b_1$ causes the output $a_1$ from the first hidden neuron to change. We have $a_1=\sigma(z_1)=\sigma(w_1a_0+b_1)$, so
+To do this, let's think about how $\Delta b_1$ causes the output $a_1$ from the first hidden neuron to change. We have $a_1=\sigma(z_1)=\sigma(w_1a_0+b_1)$, so
 %\delta a_1≈=\partial \sigma(w1a0+b1)\partial b1\delta b_1\sigma'(z1)\delta b_1.(115)(116)
 \begin{eqnarray}
 \Delta a_1 \approx \frac{\partial \sigma(w_1 a_0+b_1)}{\partial b_1} \Delta b_1 = \sigma'(z_1) \Delta b_1. \label{eq:116}
 \end{eqnarray}
 
-That $\sigma'(z_1)$ term should look familiar: it's the first term in our claimed expression for the gradient $\partial C/\partial b_1$. Intuitively, this term converts a change $\delta b_1$ in the bias into a change $\delta a_1$ in the output activation. That change $\delta a_1$ in turn causes a change in the weighted input $z_2=w_2a_1+b_2$ to the second hidden neuron:
+That $\sigma'(z_1)$ term should look familiar: it's the first term in our claimed expression for the gradient $\partial C/\partial b_1$. Intuitively, this term converts a change $\Delta b_1$ in the bias into a change $\Delta a_1$ in the output activation. That change $\Delta a_1$ in turn causes a change in the weighted input $z_2=w_2a_1+b_2$ to the second hidden neuron:
 \begin{eqnarray}
-\Delta z_2 & \approx \frac{\partial z_2}{\partial a_1} \Delta a_1 =  w_2 \Delta a_1. \label{eq:118}
+\Delta z_2  \approx \frac{\partial z_2}{\partial a_1} \Delta a_1 =  w_2 \Delta a_1. \label{eq:118}
 \end{eqnarray}
-
-Combining our expressions for $\delta z_2$ and $\delta a_1$, we see how the change in the bias $b_1$ propagates along the network to affect $z_2$:
+Combining our expressions for $\Delta z_2$ and $\Delta a_1$, we see how the change in the bias $b_1$ propagates along the network to affect $z_2$:
 \begin{eqnarray}
 \Delta z_2 \approx \sigma'(z_1) w_2 \Delta b_1.\label{eq:119}
 \end{eqnarray}
 %\delta z_2≈\sigma'(z1)w2\delta b_1.(119)
 Again, that should look familiar: we've now got the first two terms in our claimed expression for the gradient $\partial C/\partial b_1$.
 
-We can keep going in this fashion, tracking the way changes propagate through the rest of the network. At each neuron we pick up a $\sigma'(z_j)$ term, and through each weight we pick up a $w_j$ term. The end result is an expression relating the final change $\delta C$ in cost to the initial change $\delta b_1$ in the bias:
+We can keep going in this fashion, tracking the way changes propagate through the rest of the network. At each neuron we pick up a $\sigma'(z_j)$ term, and through each weight we pick up a $w_j$ term. The end result is an expression relating the final change $\Delta C$ in cost to the initial change $\Delta b_1$ in the bias:
 \begin{eqnarray}
 \Delta C  \approx  \sigma'(z_1) w_2 \sigma'(z_2) \ldots \sigma'(z_4) \frac{\partial C}{\partial a_4} \Delta b_1. \label{eq:120}
 \end{eqnarray}
 %\deltaC≈\sigma'(z1)w2\sigma'(z2)…\sigma'(z4)\partial C\partial a4\delta b_1.(120)
-Dividing by $\delta b_1$ we do indeed get the desired expression for the gradient:
+Dividing by $\Delta b_1$ we do indeed get the desired expression for the gradient:
 %\partial C\partial b1=\sigma'(z1)w2\sigma'(z2)…\sigma'(z4)\partial C\partial a4.(121)
 \begin{eqnarray}
 \frac{\partial C}{\partial b_1} = \sigma'(z_1) w_2 \sigma'(z_2) \ldots \sigma'(z_4) \frac{\partial C}{\partial a_4}. \label{eq:121}
@@ -201,7 +199,7 @@ Dividing by $\delta b_1$ we do indeed get the desired expression for the gradien
 Excepting the very last term, this expression is a product of terms of the form $w_j\sigma'(z_j)$. To understand how each of those terms behave, let's look at a plot of the function $\sigma'$:
 \begin{center} 
 \begin{tikzpicture}
-\begin{axis}[title={$\sigma'(z)$},axis x line=bottom,axis y line=left,width=0.75\linewidth,height=0.35\linewidth,ymin=0,ymax=0.27,scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-5.5,xmax=5.5]
+\begin{axis}[title={Derivative of sigmoid function},axis x line=bottom,axis y line=left,width=0.75\linewidth,height=0.35\linewidth,ymin=0,ymax=0.27,scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-5.5,xmax=5.5]
 \addplot[blue,domain=-5:5,samples=101]{exp(-x)/(1+exp(-x))/(1+exp(-x))};
 \end{axis}
 \end{tikzpicture}
@@ -221,12 +219,12 @@ Of course, this is an informal argument, not a rigorous proof that the vanishing
 
 There are two steps to getting an exploding gradient. First, we choose all the weights in the network to be large, say $w_1=w_2=w_3=w_4=100$. Second, we'll choose the biases so that the $\sigma'(z_j)$ terms are not too small. That's actually pretty easy to do: all we need do is choose the biases to ensure that the weighted input to each neuron is $z_j=0$ (and so $\sigma'(z_j)=1/4$). So, for instance, we want $z_1=w_1a_0+b_1=0$. We can achieve this by setting $b_1=-100\times a_0$. We can use the same idea to select the other biases. When we do this, we see that all the terms $w_j\sigma'(z_j)$ are equal to $100\times1/4=25$. With these choices we get an exploding gradient.
 
-\textbf{The unstable gradient problem:} The fundamental problem here isn't so much the vanishing gradient problem or the exploding gradient problem. It's that the gradient in early layers is the product of terms from all the later layers. When there are many layers, that's an intrinsically unstable situation. The only way all layers can learn at close to the same speed is if all those products of terms come close to balancing out. Without some mechanism or underlying reason for that balancing to occur, it's highly unlikely to happen simply by chance. In short, the real problem here is that neural networks suffer from an unstable gradient problem. As a result, if we use standard gradient-based learning techniques, different layers in the network will tend to learn at wildly different speeds.
+\textbf{The unstable gradient problem:} The fundamental problem here isn't so much the vanishing gradient problem or the exploding gradient problem. It's that the gradient in early layers is the product of terms from all the later layers. When there are many layers, that's an intrinsically unstable situation. The only way all layers can learn at close to the same speed is if all those products of terms come close to balancing out. Without some mechanism or underlying reason for that balancing to occur, it's highly unlikely to happen simply by chance. In short, the real problem here is that neural networks suffer from an \textit{unstable gradient problem}. As a result, if we use standard gradient-based learning techniques, different layers in the network will tend to learn at wildly different speeds.
 
 \begin{exercize}{Exercise}
 \item In our discussion of the vanishing gradient problem, we made use of the fact that $|\sigma'(z)|<1/4$. Suppose we used a different activation function, one whose derivative could be much larger. Would that help us avoid the unstable gradient problem?
 \end{exercize}
-\textbf{The prevalence of the vanishing gradient problem:} We've seen that the gradient can either vanish or explode in the early layers of a deep network. In fact, when using sigmoid neurons the gradient will usually vanish. To see why, consider again the expression $|w\sigma'(z)|$. To avoid the vanishing gradient problem we need $|w\sigma'(z)|\geq1$. You might think this could happen easily if w is very large. However, it's more difficult than it looks. The reason is that the $\sigma'(z)$ term also depends on w: $\sigma'(z)=\sigma'(wa+b)$, where $a$ is the input activation. So when we make $w$ large, we need to be careful that we're not simultaneously making $\sigma'(wa+b)$ small. That turns out to be a considerable constraint. The reason is that when we make $w$ large we tend to make $wa+b$ very large. Looking at the graph of $\sigma'$ you can see that this puts us off in the ``wings'' of the $\sigma'$ function, where it takes very small values. The only way to avoid this is if the input activation falls within a fairly narrow range of values (this qualitative explanation is made quantitative in the first problem below). Sometimes that will chance to happen. More often, though, it does not happen. And so in the generic case we have vanishing gradients.
+\textbf{The prevalence of the vanishing gradient problem:} We've seen that the gradient can either vanish or explode in the early layers of a deep network. In fact, when using sigmoid neurons the gradient will usually vanish. To see why, consider again the expression $|w\sigma'(z)|$. To avoid the vanishing gradient problem we need $|w\sigma'(z)|\geq1$. You might think this could happen easily if $w$ is very large. However, it's more difficult than it looks. The reason is that the $\sigma'(z)$ term also depends on $w$: $\sigma'(z)=\sigma'(wa+b)$, where $a$ is the input activation. So when we make $w$ large, we need to be careful that we're not simultaneously making $\sigma'(wa+b)$ small. That turns out to be a considerable constraint. The reason is that when we make $w$ large we tend to make $wa+b$ very large. Looking at the graph of $\sigma'$ you can see that this puts us off in the ``wings'' of the $\sigma'$ function, where it takes very small values. The only way to avoid this is if the input activation falls within a fairly narrow range of values (this qualitative explanation is made quantitative in the first problem below). Sometimes that will chance to happen. More often, though, it does not happen. And so in the generic case we have vanishing gradients.
 
 \begin{exercize}{Problems}
 \item Consider the product $|w\sigma'(wa+b)|$. Suppose $|w\sigma'(wa+b)|\geq1$. (1) Argue that this can only ever occur if $|w|≥\geq4$. (2) Supposing that $|w|\geq4$, consider the set of input activations a for which $|w\sigma'(wa+b)|\geq1$. Show that the set of a satisfying that constraint can range over an interval no greater in width than
