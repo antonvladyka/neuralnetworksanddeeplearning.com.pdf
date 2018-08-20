@@ -13,7 +13,7 @@ One of the most striking facts about neural networks is that they can compute an
 \label{basic_network_precursor}%
 No matter what the function, there is guaranteed to be a neural network so that for every possible input, $x$, the value $f(x)$ (or some close approximation) is output from the network, e.g.:
 \begin{center}
-	\includegraphics[width=0.55\linewidth]{figures/ch4/tikz400}
+	\includegraphics[width=0.43\linewidth]{figures/ch4/tikz400}
 \end{center}
 This result holds even if the function has many inputs, $f=f(x_1,\ldots,x_m)$, and many outputs. For instance, here's a network computing a function with $m=3$ inputs and $n=2$ outputs:
 \begin{center}
@@ -39,7 +39,7 @@ Before explaining why the universality theorem is true, I want to mention two ca
 
 First, this doesn't mean that a network can be used to \textit{exactly} compute any function. Rather, we can get an \textit{approximation} that is as good as we want. By increasing the number of hidden neurons we can improve the approximation. For instance, earlier\ref{basic_network_precursor} I illustrated a network computing some function $f(x)$ using three hidden neurons. For most functions only a low-quality approximation will be possible using three hidden neurons. By increasing the number of hidden neurons (say, to five) we can typically get a better approximation:
 \begin{center}
-	\includegraphics[width=0.45\linewidth]{figures/ch4/tikz402}
+	\includegraphics[width=0.43\linewidth]{figures/ch4/tikz402}
 \end{center}
 And we can do still better by further increasing the number of hidden neurons.
 
@@ -70,16 +70,16 @@ To get a feel for how components in the network work, let's focus on the top hid
 \pgfplotsset{every axis legend/.append style={at={(1.03,1)},anchor=north west}}
 
 \begin{axis}[width=0.75\linewidth,height=0.45\linewidth,title={Output from neuron},axis x line=bottom,axis y line=left,xtick={0,1},ytick={0,1},xmax=1.05,ymax=1.05]
-\addplot[blue!90!red,domain=0:1,samples=101]{f(x,7,-6)};
-\addplot[blue!75!red,domain=0:1,samples=101]{f(x,7,-5)};
-\addplot[blue!50!red,domain=0:1,samples=101]{f(x,7,-4)};
-\addplot[blue!25!red,domain=0:1,samples=101]{f(x,7,-3)};
 \addplot[blue!10!red,domain=0:1,samples=101]{f(x,7,-2)};
-\addlegendentry{$w=7, b = -6$}
-\addlegendentry{$w=7, b = -5$}
-\addlegendentry{$w=7, b = -4$}
-\addlegendentry{$w=7, b = -3$}
+\addplot[blue!25!red,domain=0:1,samples=101]{f(x,7,-3)};
+\addplot[blue!50!red,domain=0:1,samples=101]{f(x,7,-4)};
+\addplot[blue!75!red,domain=0:1,samples=101]{f(x,7,-5)};
+\addplot[blue!90!red,domain=0:1,samples=101]{f(x,7,-6)};
 \addlegendentry{$w=7, b = -2$}
+\addlegendentry{$w=7, b = -3$}
+\addlegendentry{$w=7, b = -4$}
+\addlegendentry{$w=7, b = -5$}
+\addlegendentry{$w=7, b = -6$}
 \end{axis}
 \end{tikzpicture}
 \end{center}
@@ -268,7 +268,7 @@ The solution is to design a neural network whose hidden layer has a weighted out
 \end{center}
 If we can do this, then the output from the network as a whole will be a good approximation to $f(x)$\footnote{Note that I have set the bias on the output neuron to 0.}.
 
-Your challenge, then, is to design a neural network to approximate the goal function shown just above. To learn as much as possible, I want you to solve the problem twice. The first time, please click on the graph, directly adjusting the heights of the different bump functions. You should find it fairly easy to get a good match to the goal function. How well you're doing is measured by the average deviation between the goal function and the function the network is actually computing. Your challenge is to drive the average deviation as low as possible. You complete the challenge when you drive the average deviation to 0.40 or below\footnote{This paragraph refers to interactive element, available online. The graph shows the final result of manual minimization of average deviation.}
+Your challenge, then, is to design a neural network to approximate the goal function shown just above. To learn as much as possible, I want you to solve the problem twice. The first time, please click on the graph, directly adjusting the heights of the different bump functions. You should find it fairly easy to get a good match to the goal function. How well you're doing is measured by the average deviation between the goal function and the function the network is actually computing. Your challenge is to drive the average deviation as low as possible. You complete the challenge when you drive the average deviation to 0.40 or below\footnote{This paragraph refers to interactive element, available online. The graph shows the final result of manual minimization of average deviation. }
 
 %Once you've done that, click on ``Reset'' to randomly re-initialize the bumps. The second time you solve the problem, resist the urge to click on the graph. Instead, modify the h values on the left-hand side, and again attempt to drive the average deviation to 0.40 or below.
 \begin{center} 
@@ -561,7 +561,7 @@ This network computes a function which is 1 provided three conditions are met: $
 
 By gluing together many such networks we can get as many towers as we want, and so approximate an arbitrary function of three variables. Exactly the same idea works in $m$ dimensions. The only change needed is to make the output bias $(-m+1/2)h$, in order to get the right kind of sandwiching behavior to level the plateau.
 
-Okay, so we now know how to use neural networks to approximate a real-valued function of many variables. What about vector-valued functions $f(x_1,\ldots,x_m)\in R^n$? Of course, such a function can be regarded as just n separate real-valued functions, $f^1(x_1,\ldots,x_m)$,$f^2(x_1,\ldots,x_m)$, and so on. So we create a network approximating $f^1$, another network for $f^2$, and so on. And then we simply glue all the networks together. So that's also easy to cope with.
+Okay, so we now know how to use neural networks to approximate a real-valued function of many variables. What about vector-valued functions $f(x_1,\ldots,x_m)\in R^n$? Of course, such a function can be regarded as just $n$ separate real-valued functions, $f^1(x_1,\ldots,x_m)$,$f^2(x_1,\ldots,x_m)$, and so on. So we create a network approximating $f^1$, another network for $f^2$, and so on. And then we simply glue all the networks together. So that's also easy to cope with.
 
 \begin{exercize}{Problem}
 \item We've seen how to use networks with two hidden layers to approximate an arbitrary function. Can you find a proof showing that it's possible with just a single hidden layer? As a hint, try working in the case of just two input variables, and showing that: (a) it's possible to get step functions not just in the x or y directions, but in an arbitrary direction; (b) by adding up many of the constructions from part (a) it's possible to approximate a tower function which is circular in shape, rather than rectangular; (c) using these circular towers, it's possible to approximate an arbitrary function. To do part (c) it may help to use ideas from a bit later in this chapter.
