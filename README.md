@@ -11,7 +11,10 @@ This is an attempt to convert [online version](http://neuralnetworksanddeeplearn
 6. Chapter 6: done
 
 Can be compiled into any desired format, using XeLaTeX — with any desired font.
+
 As a general design, I used my PhD thesis style: 17x24 cm paper, 9pt font, Charter/Mathdesign.
+
 Typography adjusted (- → –, "" → “ ”)
+
 Bibliography — maybe to coolect all cited research papers?
 
