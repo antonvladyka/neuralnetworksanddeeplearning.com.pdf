@@ -254,6 +254,32 @@ The idea of softmax is to define a new type of output layer for our neural netwo
 where in the denominator we sum over all the output neurons.
 
 If you're not familiar with the softmax function, Equation (\ref{eq:78}) may look pretty opaque. It's certainly not obvious why we'd want to use this function. And it's also not obvious that this will help us address the learning slowdown problem. To better understand Equation (\ref{eq:78}), suppose we have a network with four output neurons, and four corresponding weighted inputs, which we'll denote $z^L_1,z^L_2,z^L_3,$ and $z^L_4$. Figure~\ref{fig:softmax} shows  a graph of the corresponding output activations for different inputs\footnote{This paragraph is an adaptation of an animation from online version of the book.}.
+%\begin{center}
+%\begin{tikzpicture}
+%\begin{axis}[xmin=-5,xmax=5,ymin=0,ymax=1,xlabel={$z_4$},ylabel={$a_j$},width=0.9\linewidth,height=0.4\linewidth,legend cell align={left}]
+%	\addplot[domain=-5:5,samples=101,blue!75] {exp(-1)/(exp(x)+exp(1)+exp(0)+exp(-1))};
+%	\addplot[domain=-5:5,samples=101,orange!75] {exp(0)/(exp(x)+exp(1)+exp(0)+exp(-1))};
+%	\addplot[domain=-5:5,samples=101,green!75!black] {exp(1)/(exp(x)+exp(1)+exp(0)+exp(-1))};
+%	\addplot[domain=-5:5,samples=101,red!75] {exp(x)/(exp(x)+exp(1)+exp(0)+exp(-1))};
+%	\addlegendentry{$a_1,z_1=-1$};
+%	\addlegendentry{$a_2,z_2=0$};
+%	\addlegendentry{$a_3,z_3=1$};
+%	\addlegendentry{$a_4$};	
+%\end{axis}
+%\end{tikzpicture}
+%%\begin{tikzpicture}
+%%\begin{axis}[xmin=-5,xmax=5,ymin=0,ymax=1,xlabel={$z_4$},ylabel={$a_j$},width=0.49\linewidth,height=0.35\linewidth,legend cell align={left}]
+%%	\addplot[domain=-5:5,samples=101,blue!75] {exp(-0.5)/(exp(x)+exp(1.5)+exp(0.5)+exp(-1.5))};
+%%	\addplot[domain=-5:5,samples=101,orange!75] {exp(0.5)/(exp(x)+exp(1.5)+exp(0.5)+exp(-1.5))};
+%%	\addplot[domain=-5:5,samples=101,green!75!black] {exp(1.5)/(exp(x)+exp(1.5)+exp(0.5)+exp(-1.5))};
+%%	\addplot[domain=-5:5,samples=101,red!75] {exp(x)/(exp(x)+exp(1.5)+exp(0.5)+exp(-1.5))};
+%%	\addlegendentry{$a_1,z_1=-0.5$};
+%%	\addlegendentry{$a_2,z_2=0.5$};
+%%	\addlegendentry{$a_3,z_3=1.5$};
+%%	\addlegendentry{$a_4$};	
+%%\end{axis}
+%%\end{tikzpicture}
+%\end{center}
 \begin{figure}
 \includegraphics[width=\linewidth]{./figures/ch3/animation_softmax}
 \caption{Equation~\ref{eq:78} for different fixed values of $z^L_{1,2,3}$ and variable $z^L_4$. $L$ index avoided for clarity. }
@@ -279,7 +305,7 @@ We're starting to build up some feel for the softmax function and the way softma
 
 
 \begin{exercize}{Exercises}
-\item \textbf{Monotonicity of softmax} Show that $\partial a^L_j / \partial z^L_k $is positive if $j=k$ and negative if $j\ne k$. As a consequence, increasing $z^L_j$ is guaranteed to increase the corresponding output activation, $a^L_j$, and will decrease all the other output activations. We already saw this empirically with the sliders, but this is a rigorous proof.
+\item \textbf{Monotonicity of softmax} Show that $\partial a^L_j / \partial z^L_k $ is positive if $j=k$ and negative if $j\ne k$. As a consequence, increasing $z^L_j$ is guaranteed to increase the corresponding output activation, $a^L_j$, and will decrease all the other output activations. We already saw this empirically with the sliders, but this is a rigorous proof.
 \item \textbf{Non-locality of softmax} A nice thing about sigmoid layers is that the output $a^L_j$ is a function of the corresponding weighted input, $a^L_j=\sigma(z^L_j)$. Explain why this is not the case for a softmax layer: any particular output activation $a^L_j$ depends on all the weighted inputs.
 \end{exercize}
 
@@ -504,16 +530,40 @@ Why is this going on? Heuristically, if the cost function is unregularized, then
 \subsection{Why does regularization help reduce overfitting?}
 We've seen empirically that regularization helps reduce overfitting. That's encouraging but, unfortunately, it's not obvious why regularization helps! A standard story people tell to explain what's going on is along the following lines: smaller weights are, in some sense, lower complexity, and so provide a simpler and more powerful explanation for the data, and should thus be preferred. That's a pretty terse story, though, and contains several elements that perhaps seem dubious or mystifying. Let's unpack the story and examine it critically. To do that, let's suppose we have a simple data set for which we wish to build a model:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting1}
+\begin{tikzpicture}
+\begin{axis}[xmin=0,xmax=5.5,ymin=0,ymax=11,xlabel={$x$},ylabel={$y$},width=0.85\linewidth,height=0.5\linewidth]
+	\addplot[only marks,blue!65!green!75] coordinates {( 0.7, 1.8) ( 1.3, 2.2)   ( 1.9, 4.0) ( 2.6, 5.0)  ( 2.9, 6.1) ( 3.6, 7.0) ( 3.8, 7.4)   ( 3.95, 8.0)   ( 4.4, 9.1)  ( 4.9, 10.0)};
+\end{axis}
+\end{tikzpicture}
 \end{center}
+%\begin{center}
+%	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting1}
+%\end{center}
 Implicitly, we're studying some real-world phenomenon here, with $x$ and $y$ representing real-world data. Our goal is to build a model which lets us predict $y$ as a function of $x$. We could try using neural networks to build such a model, but I'm going to do something even simpler: I'll try to model $y$ as a polynomial in $x$. I'm doing this instead of using neural nets because using polynomials will make things particularly transparent. Once we've understood the polynomial case, we'll translate to neural networks. Now, there are ten points in the graph above, which means we can find a unique 9-th-order polynomial $y=a_0x^9+a_1x^8+\ldots+a_9$ which fits the data exactly. Here's the graph of that polynomial\footnote{I won't show the coefficients explicitly, although they are easy to find using a routine such as Numpy's \inline{polyfit}.You can view the exact form of the polynomial in the \href{http://neuralnetworksanddeeplearning.com/js/polynomial_model.js}{source code for the graph} if you're curious. It's the function $p(x)$ defined starting on line 14 of the program which produces the graph.} :
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting2}
-	\end{center}
+\begin{tikzpicture}
+% here the code as a bit hacked, since pgfplots badly behaves at large numbers, and causes a lot of rounding errors. That's why first points were centered around 0, interpolated, and than paramaters from the interpolation are taken
+\begin{axis}[xmin=0,xmax=5.5,ymin=0,ymax=11,xlabel={$x$},ylabel={$y$},width=0.85\linewidth,height=0.5\linewidth]
+	\addplot[only marks,blue!65!green!75] coordinates {( 0.7, 1.8) ( 1.3, 2.2)   ( 1.9, 4.0) ( 2.6, 5.0)  ( 2.9, 6.1) ( 3.6, 7.0) ( 3.8, 7.4)   ( 3.95, 8.0)   ( 4.4, 9.1)  ( 4.9, 10.0)};
+	\addplot[domain=0.6:5.0,samples=163,black] {((((((((0.22054*(x-2.8)+0.066159)*(x-2.8)-1.9786)*(x-2.8)-0.5296)*(x-2.8)+5.6811)*(x-2.8)+1.26589)*(x-2.8)-5.896288)*(x-2.8)-0.92050732)*(x-2.8)+3.751559)*(x-2.8)+5.73976};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+%\begin{center}
+%	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting2}
+%	\end{center}
 That provides an exact fit. But we can also get a good fit using the linear model $y=2x$:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting3}
+\begin{tikzpicture}
+\begin{axis}[xmin=0,xmax=5.5,ymin=0,ymax=11,xlabel={$x$},ylabel={$y$},width=0.85\linewidth,height=0.5\linewidth]
+	\addplot[only marks,blue!65!green!75] coordinates {( 0.7, 1.8) ( 1.3, 2.2)   ( 1.9, 4.0) ( 2.6, 5.0)  ( 2.9, 6.1) ( 3.6, 7.0) ( 3.8, 7.4)   ( 3.95, 8.0)   ( 4.4, 9.1)  ( 4.9, 10.0)};
+	\addplot[domain=0:5.5,samples=111,black] {2*x};
+\end{axis}
+\end{tikzpicture}
 \end{center}
+%\begin{center}
+%	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting3}
+%\end{center}
 Which of these is the better model? Which is more likely to be true? And which model is more likely to generalize well to other examples of the same underlying real-world phenomenon?
 
 These are difficult questions. In fact, we can't determine with certainty the answer to any of the above questions, without much more information about the underlying real-world phenomenon. But let's consider two possibilities: (1) the 9th order polynomial is, in fact, the model which truly describes the real-world phenomenon, and the model will therefore generalize perfectly; (2) the correct model is $y=2x$, but there's a little additional noise due to, say, measurement error, and that's why the model isn't an exact fit.
