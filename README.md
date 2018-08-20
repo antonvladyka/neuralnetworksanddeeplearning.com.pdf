@@ -12,7 +12,7 @@ This is an attempt to convert [online version](http://neuralnetworksanddeeplearn
 
 Can be compiled into any desired format, using XeLaTeX — with any desired font.
 
-As a general design, I used my PhD thesis style: 17x24 cm paper, 9pt font, Charter/Mathdesign.
+As a general design, I used my PhD thesis style: 17x24 cm paper, 9pt font, Charter/Mathdesign, own designed charper titles, chapter labels etc.
 
 Typography adjusted (- → –, "" → “ ”)
 
