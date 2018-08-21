@@ -172,11 +172,11 @@ When should we use the cross-entropy instead of the quadratic cost? In fact, the
 		\label{eq:68}
 	\end{equation}%δL=aL-y.(68)
 	Similarly to the previous problem, use this expression to show that the partial derivatives with respect to the weights and biases in the output layer are given by
-	\begin{eqnarray}
-	\frac{\partial C}{\partial w^L_{jk}} & = & \frac{1}{n} \sum_x a^{L-1}_k  (a^L_j-y_j)\\
-	\frac{\partial C}{\partial b^L_{j}} & = & \frac{1}{n} \sum_x (a^L_j-y_j).
+	\begin{align}
+	\frac{\partial C}{\partial w^L_{jk}} &=  \frac{1}{n} \sum_x a^{L-1}_k  (a^L_j-y_j)\label{eq:69}\\
+	\frac{\partial C}{\partial b^L_{j}} &=  \frac{1}{n} \sum_x (a^L_j-y_j).
 	\label{eq:70}
-	\end{eqnarray}
+	\end{align}
 	%\partial{}C\partial{}w^L_{jk}\partial{}C\partial{}b^L_j==1n∑xaL-1k(a^L_j-yj)1n∑x(a^L_j-yj).(69)(70)
 	This shows that if the output neurons are linear neurons then the quadratic cost will not give rise to any problems with a learning slowdown. In this case the quadratic cost is, in fact, an appropriate cost function to use.
 \end{exercize}
@@ -1479,7 +1479,7 @@ that is, tanh is just a rescaled version of the sigmoid function. We can also se
 \begin{center} 
 \begin{tikzpicture}
 \begin{axis}[title={tanh function},axis lines=middle,width=0.85\linewidth,height=0.5\linewidth,ymin=-1.1,ymax=1.1,scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-5.5,xmax=5.5]
-\addplot[blue,domain=-5:5,samples=101]{(exp(x)-exp(-x))/(exp(x)+exp(-x))};
+\addplot[thick,blue,domain=-5:5,samples=101]{(exp(x)-exp(-x))/(exp(x)+exp(-x))};
 \end{axis}
 \end{tikzpicture}
 \end{center}
@@ -1503,8 +1503,8 @@ Another variation on the sigmoid neuron is the \textit{rectified linear neuron} 
 Graphically, the rectifying function $\max(0,z)$ looks like this:
 \begin{center} 
 	\begin{tikzpicture}
-	\begin{axis}[title={$\max(0,z)$},width=0.85\linewidth,height=0.5\linewidth,ymin=-5,ymax=5,scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-5.5,xmax=5.5,axis x line=middle,	axis y line=left, x label style = {at = {(6,0)}}]
-	\addplot[blue,domain=-5:5,samples=101]{max(0,x)};
+	\begin{axis}[title={$\max(0,z)$},width=0.85\linewidth,height=0.5\linewidth,ymin=-5,ymax=5,scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-5.5,xmax=5.5,axis x line=middle,	axis y line=left, xlabel={$z$}]
+	\addplot[thick,blue,domain=-5:5,samples=101]{max(0,x)};
 	\end{axis}
 	\end{tikzpicture}
 \end{center}

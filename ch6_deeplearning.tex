@@ -6,7 +6,7 @@ In the last chapter we learned that deep neural networks are often much harder t
 
 The chapter is a long one. To help you navigate, let's take a tour. The sections are only loosely coupled, so provided you have some basic familiarity with neural nets, you can jump to whatever most interests you.
 
-The main part of the chapter is an introduction to one of the most widely used types of deep network: deep convolutional networks(\ref{subseq:cnn}). We'll work through a detailed example -- code and all -- of using convolutional nets to solve the problem of classifying handwritten digits from the MNIST data set:
+The main part of the chapter is an introduction to one of the most widely used types of deep network: \hyperref[subseq:cnn]{deep convolutional networks}. We'll work through a detailed example -- code and all -- of using convolutional nets to solve the problem of classifying handwritten digits from the MNIST data set:
 \begin{center}
 	\includegraphics[width=0.4\linewidth]{figures/ch1/digits}
 \end{center}
@@ -164,7 +164,6 @@ Let's train such a network, and see how it performs\footnote{I've continued to u
 		FullyConnectedLayer(n_in=20*12*12, n_out=100),
 		SoftmaxLayer(n_in=100, n_out=10)], mini_batch_size)
 >>> net.SGD(training_data, 60, mini_batch_size, 0.1, validation_data, test_data)   
-
 \end{lstlisting}
 That gets us to 98.78 percent accuracy, which is a considerable improvement over any of our previous results. Indeed, we've reduced our error rate by better than a third, which is a great improvement.
 
@@ -191,7 +190,6 @@ Let's try inserting a second convolutional-pooling layer. We'll make the inserti
 		FullyConnectedLayer(n_in=40*4*4, n_out=100),
 		SoftmaxLayer(n_in=100, n_out=10)], mini_batch_size)
 >>> net.SGD(training_data, 60, mini_batch_size, 0.1, validation_data, test_data)        
-
 \end{lstlisting}
 Once again, we get an improvement: we're now at 99.06 percent classification accuracy!
 
@@ -389,128 +387,124 @@ Okay, we've looked at all the layer classes. What about the \inline{Network} cla
 
 \begin{lstlisting}
 class Network(object):
+  def __init__(self, layers, mini_batch_size):
+    """Takes a list of `layers`, describing the network architecture, and
+    a value for the `mini_batch_size` to be used during training
+    by stochastic gradient descent.
 
-    def __init__(self, layers, mini_batch_size):
-        """Takes a list of `layers`, describing the network architecture, and
-        a value for the `mini_batch_size` to be used during training
-        by stochastic gradient descent.
-
-        """
-        self.layers = layers
-        self.mini_batch_size = mini_batch_size
-        self.params = [param for layer in self.layers for param in layer.params]
-        self.x = T.matrix("x")
-        self.y = T.ivector("y")
-        init_layer = self.layers[0]
-        init_layer.set_inpt(self.x, self.x, self.mini_batch_size)
-        for j in xrange(1, len(self.layers)):
-            prev_layer, layer  = self.layers[j-1], self.layers[j]
-            layer.set_inpt(
-                prev_layer.output, prev_layer.output_dropout, self.mini_batch_size)
-        self.output = self.layers[-1].output
-        self.output_dropout = self.layers[-1].output_dropout
+    """
+    self.layers = layers
+    self.mini_batch_size = mini_batch_size
+    self.params = [param for layer in self.layers for param in layer.params]
+    self.x = T.matrix("x")
+    self.y = T.ivector("y")
+    init_layer = self.layers[0]
+    init_layer.set_inpt(self.x, self.x, self.mini_batch_size)
+    for j in xrange(1, len(self.layers)):
+      prev_layer, layer  = self.layers[j-1], self.layers[j]
+      layer.set_inpt(
+        prev_layer.output, prev_layer.output_dropout, self.mini_batch_size)
+    self.output = self.layers[-1].output
+    self.output_dropout = self.layers[-1].output_dropout
 \end{lstlisting}
 Most of this is self-explanatory, or nearly so. The line \inline{self.params = [param for layer in ...]} bundles up the parameters for each layer into a single list. As anticipated above, the \inline{Network.SGD} method will use \inline{self.params} to figure out what variables in the Network can learn. The lines \inline{self.x = T.matrix("x")} and \inline{self.y = T.ivector("y")} define Theano symbolic variables named \inline{x} and \inline{y}. These will be used to represent the input and desired output from the network.
 
 Now, this isn't a Theano tutorial, and so we won't get too deeply into what it means that these are symbolic variables\footnote{The \href{http://deeplearning.net/software/theano/index.html}{Theano documentation} provides a good introduction to Theano. And if you get stuck, you may find it helpful to look at one of the other tutorials available online. For instance, \href{http://nbviewer.ipython.org/github/craffel/theano-tutorial/blob/master/Theano\%20Tutorial.ipynb}{this tutorial} covers many basics.}. But the rough idea is that these represent mathematical variables, not explicit values. We can do all the usual things one would do with such variables: add, subtract, and multiply them, apply functions, and so on. Indeed, Theano provides many ways of manipulating such symbolic variables, doing things like convolutions, max-pooling, and so on. But the big win is the ability to do fast symbolic differentiation, using a very general form of the backpropagation algorithm. This is extremely useful for applying stochastic gradient descent to a wide variety of network architectures. In particular, the next few lines of code define symbolic outputs from the network. We start by setting the input to the initial layer, with the line
 \begin{lstlisting}
-
 init_layer.set_inpt(self.x, self.x, self.mini_batch_size)
-
 \end{lstlisting}
 Note that the inputs are set one mini-batch at a time, which is why the mini-batch size is there. Note also that we pass the input \inline{self.x} in twice: this is because we may use the network in two different ways (with or without dropout). The for loop then propagates the symbolic variable self.x forward through the layers of the \inline{Network}. This allows us to define the final \inline{output} and \inline{output_dropout} attributes, which symbolically represent the output from the \inline{Network}.
 
 Now that we've understood how a \inline{Network} is initialized, let's look at how it is trained, using the \inline{SGD} method. The code looks lengthy, but its structure is actually rather simple. Explanatory comments after the code.
 \begin{lstlisting}
-    def SGD(self, training_data, epochs, mini_batch_size, eta, 
-            validation_data, test_data, lmbda=0.0):
-        """Train the network using mini-batch stochastic gradient descent."""
-        training_x, training_y = training_data
-        validation_x, validation_y = validation_data
-        test_x, test_y = test_data
+  def SGD(self, training_data, epochs, mini_batch_size, eta,
+      validation_data, test_data, lmbda=0.0):
+    """Train the network using mini-batch stochastic gradient descent."""
+    training_x, training_y = training_data
+    validation_x, validation_y = validation_data
+    test_x, test_y = test_data
 
-        # compute number of minibatches for training, validation and testing
-        num_training_batches = size(training_data)/mini_batch_size
-        num_validation_batches = size(validation_data)/mini_batch_size
-        num_test_batches = size(test_data)/mini_batch_size
+    # compute number of minibatches for training, validation and testing
+    num_training_batches = size(training_data)/mini_batch_size
+    num_validation_batches = size(validation_data)/mini_batch_size
+    num_test_batches = size(test_data)/mini_batch_size
 
-        # define the (regularized) cost function, symbolic gradients, and updates
-        l2_norm_squared = sum([(layer.w**2).sum() for layer in self.layers])
-        cost = self.layers[-1].cost(self)+\
-               0.5*lmbda*l2_norm_squared/num_training_batches
-        grads = T.grad(cost, self.params)
-        updates = [(param, param-eta*grad) 
-                   for param, grad in zip(self.params, grads)]
-
-        # define functions to train a mini-batch, and to compute the
-        # accuracy in validation and test mini-batches.
-        i = T.lscalar() # mini-batch index
-        train_mb = theano.function(
-            [i], cost, updates=updates,
-            givens={
-                self.x:
-                training_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size],
-                self.y: 
-                training_y[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
-            })
-        validate_mb_accuracy = theano.function(
-            [i], self.layers[-1].accuracy(self.y),
-            givens={
-                self.x: 
-                validation_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size],
-                self.y: 
-                validation_y[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
-            })
-        test_mb_accuracy = theano.function(
-            [i], self.layers[-1].accuracy(self.y),
-            givens={
-                self.x: 
-                test_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size],
-                self.y: 
-                test_y[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
-            })
-        self.test_mb_predictions = theano.function(
-            [i], self.layers[-1].y_out,
-            givens={
-                self.x: 
-                test_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
-            })
-        # Do the actual training
-        best_validation_accuracy = 0.0
-        for epoch in xrange(epochs):
-            for minibatch_index in xrange(num_training_batches):
-                iteration = num_training_batches*epoch+minibatch_index
-                if iteration 
-                    print("Training mini-batch number {0}".format(iteration))
-                cost_ij = train_mb(minibatch_index)
-                if (iteration+1) 
-                    validation_accuracy = np.mean(
-                        [validate_mb_accuracy(j) for j in xrange(num_validation_batches)])
-                    print("Epoch {0}: validation accuracy {1:.2
-                        epoch, validation_accuracy))
-                    if validation_accuracy >= best_validation_accuracy:
-                        print("This is the best validation accuracy to date.")
-                        best_validation_accuracy = validation_accuracy
-                        best_iteration = iteration
-                        if test_data:
-                            test_accuracy = np.mean(
-                                [test_mb_accuracy(j) for j in xrange(num_test_batches)])
-                            print('The corresponding test accuracy is {0:.2
-                                test_accuracy))
-        print("Finished training network.")
-        print("Best validation accuracy of {0:.2
-            best_validation_accuracy, best_iteration))
-        print("Corresponding test accuracy of {0:.2}".format(test_accuracy))
-\end{lstlisting}
-The first few lines are straightforward, separating the datasets into $x$ and $y$ components, and computing the number of mini-batches used in each dataset. The next few lines are more interesting, and show some of what makes Theano fun to work with. Let's explicitly excerpt the lines here:
-\begin{lstlisting}
     # define the (regularized) cost function, symbolic gradients, and updates
     l2_norm_squared = sum([(layer.w**2).sum() for layer in self.layers])
     cost = self.layers[-1].cost(self)+\
-           0.5*lmbda*l2_norm_squared/num_training_batches
+         0.5*lmbda*l2_norm_squared/num_training_batches
     grads = T.grad(cost, self.params)
-    updates = [(param, param-eta*grad) 
-               for param, grad in zip(self.params, grads)]
+    updates = [(param, param-eta*grad)
+           for param, grad in zip(self.params, grads)]
+
+    # define functions to train a mini-batch, and to compute the
+    # accuracy in validation and test mini-batches.
+    i = T.lscalar() # mini-batch index
+    train_mb = theano.function(
+      [i], cost, updates=updates,
+      givens={
+        self.x:
+        training_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size],
+        self.y:
+        training_y[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
+      })
+    validate_mb_accuracy = theano.function(
+      [i], self.layers[-1].accuracy(self.y),
+      givens={
+        self.x:
+        validation_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size],
+        self.y:
+        validation_y[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
+      })
+    test_mb_accuracy = theano.function(
+      [i], self.layers[-1].accuracy(self.y),
+      givens={
+        self.x:
+        test_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size],
+        self.y:
+        test_y[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
+      })
+    self.test_mb_predictions = theano.function(
+      [i], self.layers[-1].y_out,
+      givens={
+        self.x:
+        test_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
+      })
+    # Do the actual training
+    best_validation_accuracy = 0.0
+    for epoch in xrange(epochs):
+      for minibatch_index in xrange(num_training_batches):
+        iteration = num_training_batches*epoch+minibatch_index
+        if iteration % 1000 == 0:
+          print("Training mini-batch number {0}".format(iteration))
+        cost_ij = train_mb(minibatch_index)
+        if (iteration+1) % num_training_batches == 0:
+          validation_accuracy = np.mean(
+            [validate_mb_accuracy(j) for j in xrange(num_validation_batches)])
+          print("Epoch {0}: validation accuracy {1:.2%}".format(
+            epoch, validation_accuracy))
+          if validation_accuracy >= best_validation_accuracy:
+            print("This is the best validation accuracy to date.")
+            best_validation_accuracy = validation_accuracy
+            best_iteration = iteration
+            if test_data:
+              test_accuracy = np.mean(
+                [test_mb_accuracy(j) for j in xrange(num_test_batches)])
+              print('The corresponding test accuracy is {0:.2%}'.format(
+                test_accuracy))
+    print("Finished training network.")
+    print("Best validation accuracy of {0:.2%} obtained at iteration {1}".format(
+      best_validation_accuracy, best_iteration))
+    print("Corresponding test accuracy of {0:.2%}".format(test_accuracy))
+\end{lstlisting}
+The first few lines are straightforward, separating the datasets into $x$ and $y$ components, and computing the number of mini-batches used in each dataset. The next few lines are more interesting, and show some of what makes Theano fun to work with. Let's explicitly excerpt the lines here:
+\begin{lstlisting}
+  # define the (regularized) cost function, symbolic gradients, and updates
+  l2_norm_squared = sum([(layer.w**2).sum() for layer in self.layers])
+  cost = self.layers[-1].cost(self)+\
+       0.5*lmbda*l2_norm_squared/num_training_batches
+  grads = T.grad(cost, self.params)
+  updates = [(param, param-eta*grad) for param, grad in zip(self.params, grads)]
 \end{lstlisting}
 In these lines we symbolically set up the regularized log-likelihood cost function, compute the corresponding derivatives in the gradient function, as well as the corresponding parameter updates. Theano lets us achieve all of this in just these few lines. The only thing hidden is that computing the \inline{cost} involves a call to the \inline{cost} method for the output layer; that code is elsewhere in \inline{network3.py}. But that code is short and simple, anyway. With all these things defined, the stage is set to define the \inline{train_mb} function, a Theano symbolic function which uses the updates to update the Network parameters, given a mini-batch index. Similarly, \inline{validate_mb_accuracy} and \inline{test_mb_accuracy} compute the accuracy of the Network on any given mini-batch of validation or test data. By averaging over these functions, we will be able to compute accuracies on the entire validation and test data sets.
 
@@ -574,264 +568,265 @@ from theano.tensor import tanh
 #### Constants
 GPU = True
 if GPU:
-    print "Trying to run under a GPU.  If this is not desired, then modify "+\
-        "network3.py\nto set the GPU flag to False."
-    try: theano.config.device = 'gpu'
-    except: pass # it's already set
-    theano.config.floatX = 'float32'
+  print "Trying to run under a GPU.  If this is not desired, then modify "+\
+    "network3.py\nto set the GPU flag to False."
+  try: theano.config.device = 'gpu'
+  except: pass # it's already set
+  theano.config.floatX = 'float32'
 else:
-    print "Running with a CPU.  If this is not desired, then the modify "+\
-        "network3.py to set\nthe GPU flag to True."
+  print "Running with a CPU.  If this is not desired, then the modify "+\
+    "network3.py to set\nthe GPU flag to True."
 
 #### Load the MNIST data
 def load_data_shared(filename="../data/mnist.pkl.gz"):
-    f = gzip.open(filename, 'rb')
-    training_data, validation_data, test_data = cPickle.load(f)
-    f.close()
-    def shared(data):
-        """Place the data into shared variables.  This allows Theano to copy
-        the data to the GPU, if one is available.
+  f = gzip.open(filename, 'rb')
+  training_data, validation_data, test_data = cPickle.load(f)
+  f.close()
+  def shared(data):
+    """Place the data into shared variables.  This allows Theano to copy
+    the data to the GPU, if one is available.
 
-        """
-        shared_x = theano.shared(
-            np.asarray(data[0], dtype=theano.config.floatX), borrow=True)
-        shared_y = theano.shared(
-            np.asarray(data[1], dtype=theano.config.floatX), borrow=True)
-        return shared_x, T.cast(shared_y, "int32")
-    return [shared(training_data), shared(validation_data), shared(test_data)]
+    """
+    shared_x = theano.shared(
+      np.asarray(data[0], dtype=theano.config.floatX), borrow=True)
+    shared_y = theano.shared(
+      np.asarray(data[1], dtype=theano.config.floatX), borrow=True)
+    return shared_x, T.cast(shared_y, "int32")
+  return [shared(training_data), shared(validation_data), shared(test_data)]
 
 #### Main class used to construct and train networks
 class Network(object):
 
-    def __init__(self, layers, mini_batch_size):
-        """Takes a list of `layers`, describing the network architecture, and
-        a value for the `mini_batch_size` to be used during training
-        by stochastic gradient descent.
+  def __init__(self, layers, mini_batch_size):
+    """Takes a list of `layers`, describing the network architecture, and
+    a value for the `mini_batch_size` to be used during training
+    by stochastic gradient descent.
 
-        """
-        self.layers = layers
-        self.mini_batch_size = mini_batch_size
-        self.params = [param for layer in self.layers for param in layer.params]
-        self.x = T.matrix("x")
-        self.y = T.ivector("y")
-        init_layer = self.layers[0]
-        init_layer.set_inpt(self.x, self.x, self.mini_batch_size)
-        for j in xrange(1, len(self.layers)):
-            prev_layer, layer  = self.layers[j-1], self.layers[j]
-            layer.set_inpt(
-                prev_layer.output, prev_layer.output_dropout, self.mini_batch_size)
-        self.output = self.layers[-1].output
-        self.output_dropout = self.layers[-1].output_dropout
+    """
+    self.layers = layers
+    self.mini_batch_size = mini_batch_size
+    self.params = [param for layer in self.layers for param in layer.params]
+    self.x = T.matrix("x")
+    self.y = T.ivector("y")
+    init_layer = self.layers[0]
+    init_layer.set_inpt(self.x, self.x, self.mini_batch_size)
+    for j in xrange(1, len(self.layers)):
+      prev_layer, layer  = self.layers[j-1], self.layers[j]
+      layer.set_inpt(
+        prev_layer.output, prev_layer.output_dropout, self.mini_batch_size)
+    self.output = self.layers[-1].output
+    self.output_dropout = self.layers[-1].output_dropout
 
-    def SGD(self, training_data, epochs, mini_batch_size, eta,
-            validation_data, test_data, lmbda=0.0):
-        """Train the network using mini-batch stochastic gradient descent."""
-        training_x, training_y = training_data
-        validation_x, validation_y = validation_data
-        test_x, test_y = test_data
+  def SGD(self, training_data, epochs, mini_batch_size, eta,
+      validation_data, test_data, lmbda=0.0):
+    """Train the network using mini-batch stochastic gradient descent."""
+    training_x, training_y = training_data
+    validation_x, validation_y = validation_data
+    test_x, test_y = test_data
 
-        # compute number of minibatches for training, validation and testing
-        num_training_batches = size(training_data)/mini_batch_size
-        num_validation_batches = size(validation_data)/mini_batch_size
-        num_test_batches = size(test_data)/mini_batch_size
+    # compute number of minibatches for training, validation and testing
+    num_training_batches = size(training_data)/mini_batch_size
+    num_validation_batches = size(validation_data)/mini_batch_size
+    num_test_batches = size(test_data)/mini_batch_size
 
-        # define the (regularized) cost function, symbolic gradients, and updates
-        l2_norm_squared = sum([(layer.w**2).sum() for layer in self.layers])
-        cost = self.layers[-1].cost(self)+\
-               0.5*lmbda*l2_norm_squared/num_training_batches
-        grads = T.grad(cost, self.params)
-        updates = [(param, param-eta*grad)
-                   for param, grad in zip(self.params, grads)]
+    # define the (regularized) cost function, symbolic gradients, and updates
+    l2_norm_squared = sum([(layer.w**2).sum() for layer in self.layers])
+    cost = self.layers[-1].cost(self)+\
+         0.5*lmbda*l2_norm_squared/num_training_batches
+    grads = T.grad(cost, self.params)
+    updates = [(param, param-eta*grad)
+           for param, grad in zip(self.params, grads)]
 
-        # define functions to train a mini-batch, and to compute the
-        # accuracy in validation and test mini-batches.
-        i = T.lscalar() # mini-batch index
-        train_mb = theano.function(
-            [i], cost, updates=updates,
-            givens={
-                self.x:
-                training_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size],
-                self.y:
-                training_y[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
-            })
-        validate_mb_accuracy = theano.function(
-            [i], self.layers[-1].accuracy(self.y),
-            givens={
-                self.x:
-                validation_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size],
-                self.y:
-                validation_y[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
-            })
-        test_mb_accuracy = theano.function(
-            [i], self.layers[-1].accuracy(self.y),
-            givens={
-                self.x:
-                test_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size],
-                self.y:
-                test_y[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
-            })
-        self.test_mb_predictions = theano.function(
-            [i], self.layers[-1].y_out,
-            givens={
-                self.x:
-                test_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
-            })
-        # Do the actual training
-        best_validation_accuracy = 0.0
-        for epoch in xrange(epochs):
-            for minibatch_index in xrange(num_training_batches):
-                iteration = num_training_batches*epoch+minibatch_index
-                if iteration % 1000 == 0:
-                    print("Training mini-batch number {0}".format(iteration))
-                cost_ij = train_mb(minibatch_index)
-                if (iteration+1) % num_training_batches == 0:
-                    validation_accuracy = np.mean(
-                        [validate_mb_accuracy(j) for j in xrange(num_validation_batches)])
-                    print("Epoch {0}: validation accuracy {1:.2%}".format(
-                        epoch, validation_accuracy))
-                    if validation_accuracy >= best_validation_accuracy:
-                        print("This is the best validation accuracy to date.")
-                        best_validation_accuracy = validation_accuracy
-                        best_iteration = iteration
-                        if test_data:
-                            test_accuracy = np.mean(
-                                [test_mb_accuracy(j) for j in xrange(num_test_batches)])
-                            print('The corresponding test accuracy is {0:.2%}'.format(
-                                test_accuracy))
-        print("Finished training network.")
-        print("Best validation accuracy of {0:.2%} obtained at iteration {1}".format(
-            best_validation_accuracy, best_iteration))
-        print("Corresponding test accuracy of {0:.2%}".format(test_accuracy))
+    # define functions to train a mini-batch, and to compute the
+    # accuracy in validation and test mini-batches.
+    i = T.lscalar() # mini-batch index
+    train_mb = theano.function(
+      [i], cost, updates=updates,
+      givens={
+        self.x:
+        training_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size],
+        self.y:
+        training_y[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
+      })
+    validate_mb_accuracy = theano.function(
+      [i], self.layers[-1].accuracy(self.y),
+      givens={
+        self.x:
+        validation_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size],
+        self.y:
+        validation_y[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
+      })
+    test_mb_accuracy = theano.function(
+      [i], self.layers[-1].accuracy(self.y),
+      givens={
+        self.x:
+        test_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size],
+        self.y:
+        test_y[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
+      })
+    self.test_mb_predictions = theano.function(
+      [i], self.layers[-1].y_out,
+      givens={
+        self.x:
+        test_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
+      })
+    # Do the actual training
+    best_validation_accuracy = 0.0
+    for epoch in xrange(epochs):
+      for minibatch_index in xrange(num_training_batches):
+        iteration = num_training_batches*epoch+minibatch_index
+        if iteration % 1000 == 0:
+          print("Training mini-batch number {0}".format(iteration))
+        cost_ij = train_mb(minibatch_index)
+        if (iteration+1) % num_training_batches == 0:
+          validation_accuracy = np.mean(
+            [validate_mb_accuracy(j) for j in xrange(num_validation_batches)])
+          print("Epoch {0}: validation accuracy {1:.2%}".format(
+            epoch, validation_accuracy))
+          if validation_accuracy >= best_validation_accuracy:
+            print("This is the best validation accuracy to date.")
+            best_validation_accuracy = validation_accuracy
+            best_iteration = iteration
+            if test_data:
+              test_accuracy = np.mean(
+                [test_mb_accuracy(j) for j in xrange(num_test_batches)])
+              print('The corresponding test accuracy is {0:.2%}'.format(
+                test_accuracy))
+    print("Finished training network.")
+    print("Best validation accuracy of {0:.2%} obtained at iteration {1}".format(
+      best_validation_accuracy, best_iteration))
+    print("Corresponding test accuracy of {0:.2%}".format(test_accuracy))
 
 #### Define layer types
 
 class ConvPoolLayer(object):
-    """Used to create a combination of a convolutional and a max-pooling
-    layer.  A more sophisticated implementation would separate the
-    two, but for our purposes we'll always use them together, and it
-    simplifies the code, so it makes sense to combine them.
+  """Used to create a combination of a convolutional and a max-pooling
+  layer.  A more sophisticated implementation would separate the
+  two, but for our purposes we'll always use them together, and it
+  simplifies the code, so it makes sense to combine them.
+
+  """
+
+  def __init__(self, filter_shape, image_shape, poolsize=(2, 2),
+         activation_fn=sigmoid):
+    """`filter_shape` is a tuple of length 4, whose entries are the number
+    of filters, the number of input feature maps, the filter height, and the
+    filter width.
+
+    `image_shape` is a tuple of length 4, whose entries are the
+    mini-batch size, the number of input feature maps, the image
+    height, and the image width.
+
+    `poolsize` is a tuple of length 2, whose entries are the y and
+    x pooling sizes.
 
     """
+    self.filter_shape = filter_shape
+    self.image_shape = image_shape
+    self.poolsize = poolsize
+    self.activation_fn=activation_fn
+    # initialize weights and biases
+    n_out = (filter_shape[0]*np.prod(filter_shape[2:])/np.prod(poolsize))
+    self.w = theano.shared(
+      np.asarray(
+        np.random.normal(loc=0, scale=np.sqrt(1.0/n_out), size=filter_shape),
+        dtype=theano.config.floatX),
+      borrow=True)
+    self.b = theano.shared(
+      np.asarray(
+        np.random.normal(loc=0, scale=1.0, size=(filter_shape[0],)),
+        dtype=theano.config.floatX),
+      borrow=True)
+    self.params = [self.w, self.b]
 
-    def __init__(self, filter_shape, image_shape, poolsize=(2, 2),
-                 activation_fn=sigmoid):
-        """`filter_shape` is a tuple of length 4, whose entries are the number
-        of filters, the number of input feature maps, the filter height, and the
-        filter width.
-
-        `image_shape` is a tuple of length 4, whose entries are the
-        mini-batch size, the number of input feature maps, the image
-        height, and the image width.
-
-        `poolsize` is a tuple of length 2, whose entries are the y and
-        x pooling sizes.
-
-        """
-        self.filter_shape = filter_shape
-        self.image_shape = image_shape
-        self.poolsize = poolsize
-        self.activation_fn=activation_fn
-        # initialize weights and biases
-        n_out = (filter_shape[0]*np.prod(filter_shape[2:])/np.prod(poolsize))
-        self.w = theano.shared(
-            np.asarray(
-                np.random.normal(loc=0, scale=np.sqrt(1.0/n_out), size=filter_shape),
-                dtype=theano.config.floatX),
-            borrow=True)
-        self.b = theano.shared(
-            np.asarray(
-                np.random.normal(loc=0, scale=1.0, size=(filter_shape[0],)),
-                dtype=theano.config.floatX),
-            borrow=True)
-        self.params = [self.w, self.b]
-
-    def set_inpt(self, inpt, inpt_dropout, mini_batch_size):
-        self.inpt = inpt.reshape(self.image_shape)
-        conv_out = conv.conv2d(
-            input=self.inpt, filters=self.w, filter_shape=self.filter_shape,
-            image_shape=self.image_shape)
-        pooled_out = downsample.max_pool_2d(
-            input=conv_out, ds=self.poolsize, ignore_border=True)
-        self.output = self.activation_fn(
-            pooled_out + self.b.dimshuffle('x', 0, 'x', 'x'))
-        self.output_dropout = self.output # no dropout in the convolutional layers
+  def set_inpt(self, inpt, inpt_dropout, mini_batch_size):
+    self.inpt = inpt.reshape(self.image_shape)
+    conv_out = conv.conv2d(
+      input=self.inpt, filters=self.w, filter_shape=self.filter_shape,
+      image_shape=self.image_shape)
+    pooled_out = downsample.max_pool_2d(
+      input=conv_out, ds=self.poolsize, ignore_border=True)
+    self.output = self.activation_fn(
+      pooled_out + self.b.dimshuffle('x', 0, 'x', 'x'))
+    self.output_dropout = self.output # no dropout in the convolutional layers
 
 class FullyConnectedLayer(object):
 
-    def __init__(self, n_in, n_out, activation_fn=sigmoid, p_dropout=0.0):
-        self.n_in = n_in
-        self.n_out = n_out
-        self.activation_fn = activation_fn
-        self.p_dropout = p_dropout
-        # Initialize weights and biases
-        self.w = theano.shared(
-            np.asarray(
-                np.random.normal(
-                    loc=0.0, scale=np.sqrt(1.0/n_out), size=(n_in, n_out)),
-                dtype=theano.config.floatX),
-            name='w', borrow=True)
-        self.b = theano.shared(
-            np.asarray(np.random.normal(loc=0.0, scale=1.0, size=(n_out,)),
-                       dtype=theano.config.floatX),
-            name='b', borrow=True)
-        self.params = [self.w, self.b]
+  def __init__(self, n_in, n_out, activation_fn=sigmoid, p_dropout=0.0):
+    self.n_in = n_in
+    self.n_out = n_out
+    self.activation_fn = activation_fn
+    self.p_dropout = p_dropout
+    # Initialize weights and biases
+    self.w = theano.shared(
+      np.asarray(
+        np.random.normal(
+          loc=0.0, scale=np.sqrt(1.0/n_out), size=(n_in, n_out)),
+        dtype=theano.config.floatX),
+      name='w', borrow=True)
+    self.b = theano.shared(
+      np.asarray(np.random.normal(loc=0.0, scale=1.0, size=(n_out,)),
+             dtype=theano.config.floatX),
+      name='b', borrow=True)
+    self.params = [self.w, self.b]
 
-    def set_inpt(self, inpt, inpt_dropout, mini_batch_size):
-        self.inpt = inpt.reshape((mini_batch_size, self.n_in))
-        self.output = self.activation_fn(
-            (1-self.p_dropout)*T.dot(self.inpt, self.w) + self.b)
-        self.y_out = T.argmax(self.output, axis=1)
-        self.inpt_dropout = dropout_layer(
-            inpt_dropout.reshape((mini_batch_size, self.n_in)), self.p_dropout)
-        self.output_dropout = self.activation_fn(
-            T.dot(self.inpt_dropout, self.w) + self.b)
+  def set_inpt(self, inpt, inpt_dropout, mini_batch_size):
+    self.inpt = inpt.reshape((mini_batch_size, self.n_in))
+    self.output = self.activation_fn(
+      (1-self.p_dropout)*T.dot(self.inpt, self.w) + self.b)
+    self.y_out = T.argmax(self.output, axis=1)
+    self.inpt_dropout = dropout_layer(
+      inpt_dropout.reshape((mini_batch_size, self.n_in)), self.p_dropout)
+    self.output_dropout = self.activation_fn(
+      T.dot(self.inpt_dropout, self.w) + self.b)
 
-    def accuracy(self, y):
-        "Return the accuracy for the mini-batch."
-        return T.mean(T.eq(y, self.y_out))
+  def accuracy(self, y):
+    "Return the accuracy for the mini-batch."
+    return T.mean(T.eq(y, self.y_out))
 
 class SoftmaxLayer(object):
 
-    def __init__(self, n_in, n_out, p_dropout=0.0):
-        self.n_in = n_in
-        self.n_out = n_out
-        self.p_dropout = p_dropout
-        # Initialize weights and biases
-        self.w = theano.shared(
-            np.zeros((n_in, n_out), dtype=theano.config.floatX),
-            name='w', borrow=True)
-        self.b = theano.shared(
-            np.zeros((n_out,), dtype=theano.config.floatX),
-            name='b', borrow=True)
-        self.params = [self.w, self.b]
+  def __init__(self, n_in, n_out, p_dropout=0.0):
+    self.n_in = n_in
+    self.n_out = n_out
+    self.p_dropout = p_dropout
+    # Initialize weights and biases
+    self.w = theano.shared(
+      np.zeros((n_in, n_out), dtype=theano.config.floatX),
+      name='w', borrow=True)
+    self.b = theano.shared(
+      np.zeros((n_out,), dtype=theano.config.floatX),
+      name='b', borrow=True)
+    self.params = [self.w, self.b]
 
-    def set_inpt(self, inpt, inpt_dropout, mini_batch_size):
-        self.inpt = inpt.reshape((mini_batch_size, self.n_in))
-        self.output = softmax((1-self.p_dropout)*T.dot(self.inpt, self.w) + self.b)
-        self.y_out = T.argmax(self.output, axis=1)
-        self.inpt_dropout = dropout_layer(
-            inpt_dropout.reshape((mini_batch_size, self.n_in)), self.p_dropout)
-        self.output_dropout = softmax(T.dot(self.inpt_dropout, self.w) + self.b)
+  def set_inpt(self, inpt, inpt_dropout, mini_batch_size):
+    self.inpt = inpt.reshape((mini_batch_size, self.n_in))
+    self.output = softmax((1-self.p_dropout)*T.dot(self.inpt, self.w) + self.b)
+    self.y_out = T.argmax(self.output, axis=1)
+    self.inpt_dropout = dropout_layer(
+      inpt_dropout.reshape((mini_batch_size, self.n_in)), self.p_dropout)
+    self.output_dropout = softmax(T.dot(self.inpt_dropout, self.w) + self.b)
 
-    def cost(self, net):
-        "Return the log-likelihood cost."
-        return -T.mean(T.log(self.output_dropout)[T.arange(net.y.shape[0]), net.y])
+  def cost(self, net):
+    "Return the log-likelihood cost."
+    return -T.mean(T.log(self.output_dropout)[T.arange(net.y.shape[0]), net.y])
 
-    def accuracy(self, y):
-        "Return the accuracy for the mini-batch."
-        return T.mean(T.eq(y, self.y_out))
+  def accuracy(self, y):
+    "Return the accuracy for the mini-batch."
+    return T.mean(T.eq(y, self.y_out))
 
 
 #### Miscellanea
 def size(data):
-    "Return the size of the dataset `data`."
-    return data[0].get_value(borrow=True).shape[0]
+  "Return the size of the dataset `data`."
+  return data[0].get_value(borrow=True).shape[0]
 
 def dropout_layer(layer, p_dropout):
-    srng = shared_randomstreams.RandomStreams(
-        np.random.RandomState(0).randint(999999))
-    mask = srng.binomial(n=1, p=1-p_dropout, size=layer.shape)
-    return layer*T.cast(mask, theano.config.floatX)
+  srng = shared_randomstreams.RandomStreams(
+    np.random.RandomState(0).randint(999999))
+  mask = srng.binomial(n=1, p=1-p_dropout, size=layer.shape)
+  return layer*T.cast(mask, theano.config.floatX)
+
 \end{lstlisting}
 \begin{exercize}{Problems}
 \item At present, the SGD method requires the user to manually choose the number of epochs to train for. Earlier in the book we discussed an automated way of selecting the number of epochs to train for, known as early stopping. Modify \inline{network3.py} to implement early stopping.
@@ -883,7 +878,7 @@ The sixth and seventh hidden layers are fully-connected layers, with 4,096 neuro
 
 The output layer is a 1,000-unit softmax layer.
 
-The KSH network takes advantage of many techniques. Instead of using the sigmoid or tanh activation functions, KSH use rectified linear units, which sped up training significantly. KSH's network had roughly 60 million learned parameters, and was thus, even with the large training set, susceptible to overfitting. To overcome this, they expanded the training set using the random cropping strategy we discussed above. They also further addressed overfitting by using a variant of l2 regularization\ref{sec:3.2.1}, and dropout\ref{sec:3.6}. The network itself was trained using momentum-based\ref{sec:3.6.1} mini-batch stochastic gradient descent.
+The KSH network takes advantage of many techniques. Instead of using the sigmoid or tanh activation functions, KSH use rectified linear units, which sped up training significantly. KSH's network had roughly 60 million learned parameters, and was thus, even with the large training set, susceptible to overfitting. To overcome this, they expanded the training set using the random cropping strategy we discussed above. They also further addressed overfitting by using a variant of \hyperref[sec:3.2.1]{l2 regularization}, and \hyperref[sec:3.6]{dropout}. The network itself was trained using \hyperref[sec:3.6.1]{momentum-based} mini-batch stochastic gradient descent.
 
 That's an overview of many of the core ideas in the KSH paper. I've omitted some details, for which you should look at the paper. You can also look at Alex Krizhevsky's \href{https://code.google.com/p/cuda-convnet/}{cuda-convnet} (and successors), which contains code implementing many of the ideas. A Theano-based implementation has also been developed\footnote{\href{http://arxiv.org/abs/1412.2302}{Theano-based large-scale visual recognition with multiple GPUs}, by Weiguang Ding, Ruoyan Wang, Fei Mao, and Graham Taylor (2014).}, with the code available \href{https://github.com/uoguelph-mlrg/theano_alexnet}{here}. The code is recognizably along similar lines to that developed in this chapter, although the use of multiple GPUs complicates things somewhat. The Caffe neural nets framework also includes a version of the KSH network, see their \href{http://caffe.berkeleyvision.org/model_zoo.html}{Model Zoo} for details.
 

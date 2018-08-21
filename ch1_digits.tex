@@ -427,7 +427,7 @@ Note also that the biases and weights are stored as lists of Numpy matrices. So,
 	a' = \sigma(w a + b).
 	\label{eq:22}
 \end{equation}
-There's quite a bit going on in this equation, so let's unpack it piece by piece. $a$ is the vector of activations of the second layer of neurons. To obtain $a'$ we multiply $a$ by the weight matrix $w$, and add the vector $b$ of biases. We then apply the function $\sigma$ elementwise to every entry in the vector $wa+b$. (This is called \textit{vectorizing} the function $\sigma$.) It's easy to verify that Equation \ref{eq:22} gives the same result as our earlier rule, Equation \ref{eq:4}, for computing the output of a sigmoid neuron.
+There's quite a bit going on in this equation, so let's unpack it piece by piece. $a$ is the vector of activations of the second layer of neurons. To obtain $a'$ we multiply $a$ by the weight matrix $w$, and add the vector $b$ of biases. We then apply the function $\sigma$ elementwise to every entry in the vector $wa+b$\footnote{This is called \textit{vectorizing} the function $\sigma$.}. It's easy to verify that Equation \ref{eq:22} gives the same result as our earlier rule, Equation \ref{eq:4}, for computing the output of a sigmoid neuron.
 
 \begin{exercize}{Exercise}
 \item  Write out Equation \ref{eq:22} in component form, and verify that it gives the same result as the rule \ref{eq:4} for computing the output of a sigmoid neuron.
