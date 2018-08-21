@@ -11,7 +11,8 @@ This is an attempt to convert [online version](http://neuralnetworksanddeeplearn
 6. Chapter 6: done
 
 I observed some missed Python code in the online version of network3.py:
-```print('The corresponding test accuracy is {0:.2
+```
+   print('The corresponding test accuracy is {0:.2
    test_accuracy))
    ...
    print("Best validation accuracy of {0:.2
