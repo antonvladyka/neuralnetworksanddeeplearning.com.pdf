@@ -10,6 +10,17 @@ This is an attempt to convert [online version](http://neuralnetworksanddeeplearn
 5. Chapter 5: done
 6. Chapter 6: done
 
+I observed some missed Python code in the online version of network3.py:
+```print('The corresponding test accuracy is {0:.2
+   test_accuracy))
+   ...
+   print("Best validation accuracy of {0:.2
+      best_validation_accuracy, best_iteration))
+   ...
+   print("Corresponding test accuracy of {0:.2
+ ```
+So, these parts were replaced with the correct ones from the source code repo.
+
 Can be compiled into any desired format, using XeLaTeX — with any desired font.
 
 As a general design, I used my PhD thesis style: 17x24 cm paper, 9pt font, Charter/Mathdesign, own designed charper titles, chapter labels etc.
