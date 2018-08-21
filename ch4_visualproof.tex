@@ -276,11 +276,11 @@ Your challenge, then, is to design a neural network to approximate the goal func
 \begin{tikzpicture}[declare function = {step(\x,\s,\t)=0.5*(sign(\x-\s)-sign(\x-\t));}]
 	\begin{axis}[axis lines=middle,width=0.6\textwidth,height=0.65\textwidth,ymin=-2.05,ymax=2.25,scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-0.05,xmax=1.05, xtick={0,1}]
 		\addplot[blue,domain=0:1,samples=101]{4*(-0.3 + 0.4*x*x + 0.3*x*sin(15*deg(x)) + 0.05*cos(50*deg(x))) };
-		\addplot[red!50!black,domain=0:1.05,samples=201]{-1.1*step(x,0,0.2)};
-		\addplot[red!50!black,domain=0:1.05,samples=201]{-1.4*step(x,0.2,0.4)};
-		\addplot[red!50!black,domain=0:1.05,samples=201]{-0.3*step(x,0.4,0.6)};
-		\addplot[red!50!black,domain=0:1.05,samples=201]{-1*step(x,0.6,0.8)};
-		\addplot[red!50!black,domain=0:1.05,samples=201]{+1.2*step(x,0.8,1.0)};
+		\addplot[red!50!black,domain=-0.05:0.35,samples=100]{-1.1*step(x,0,0.2)};
+		\addplot[red!50!black,domain=0:0.6,samples=100]{-1.4*step(x,0.2,0.4)};
+		\addplot[red!50!black,domain=0.2:0.8,samples=100]{-0.3*step(x,0.4,0.6)};
+		\addplot[red!50!black,domain=0.4:1,samples=100]{-1*step(x,0.6,0.8)};
+		\addplot[red!50!black,domain=0.6:1.05,samples=100]{+1.2*step(x,0.8,1.0)};
 		\node[anchor=north,align=center] at (axis cs: 0.5,2) {Weighted output\\$\sigma = 0.38$};
 	\end{axis}
 \end{tikzpicture}

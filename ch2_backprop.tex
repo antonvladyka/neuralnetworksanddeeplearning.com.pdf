@@ -52,7 +52,7 @@ When using Equation \ref{eq:25} to compute $a^l$, we compute the intermediate qu
 \section{The two assumptions we need about the cost function}
 The goal of backpropagation is to compute the partial derivatives $\partial{}C/\partial{}w$ and $\partial{}C/\partial{}b$ of the cost function C with respect to any weight w or bias b in the network. For backpropagation to work we need to make two main assumptions about the form of the cost function. Before stating those assumptions, though, it's useful to have an example cost function in mind. We'll use the quadratic cost function from last chapter (c.f. Equation \ref{eq:6}). In the notation of the last section, the quadratic cost has the form
 \begin{equation}
-C = \frac{1}{2n} \sum_x \|y(x)-a^L(x)\|^2,
+C = \frac{1}{2n} \sum_x \left\|y(x)-a^L(x)\right\|^2,
 \label{eq:26}
 \end{equation}
 where: $n$ is the total number of training examples; the sum is over individual training examples, $x$; $y=y(x)$ is the corresponding desired output; $L$ denotes the number of layers in the network; and $a^L=a^L(x)$ is the vector of activations output from the network when $x$ is input.
@@ -92,9 +92,9 @@ To understand how the error is defined, imagine there is a demon in our neural n
 \begin{center}
 	\includegraphics[width=0.6\linewidth]{./figures/ch2/tikz19}
 \end{center}
-The demon sits at the $j$-th neuron in layer $l$. As the input to the neuron comes in, the demon messes with the neuron's operation. It adds a little change $\delta{}z^l_j$ to the neuron's weighted input, so that instead of outputting $\sigma(z^l_j)$, the neuron instead outputs $\sigma(z^l_j+\delta{}z^l_j)$. This change propagates through later layers in the network, finally causing the overall cost to change by an amount $\partial{}C\partial{}z^l_j\delta{}z^l_j$.
+The demon sits at the $j$-th neuron in layer $l$. As the input to the neuron comes in, the demon messes with the neuron's operation. It adds a little change $\Delta{}z^l_j$ to the neuron's weighted input, so that instead of outputting $\sigma(z^l_j)$, the neuron instead outputs $\sigma(z^l_j+\Delta{}z^l_j)$. This change propagates through later layers in the network, finally causing the overall cost to change by an amount $\frac{\partial{}C}{\partial{}z^l_j}\Delta{}z^l_j$.
 
-Now, this demon is a good demon, and is trying to help you improve the cost, i.e., they're trying to find a $\delta{}z^l_j$ which makes the cost smaller. Suppose $\partial{}C/\partial{}z^l_j$ has a large value (either positive or negative). Then the demon can lower the cost quite a bit by choosing $\delta{}z^l_j$ to have the opposite sign to $\partial{}C/\partial{}z^l_j$. By contrast, if $\partial{}C/\partial{}z^l_j$ is close to zero, then the demon can't improve the cost much at all by perturbing the weighted input $z^l_j$. So far as the demon can tell, the neuron is already pretty near optimal\footnote{This is only the case for small changes $\delta{}z^l_j$, of course. We'll assume that the demon is constrained to make such small changes.}. And so there's a heuristic sense in which $\partial{}C/\partial{}z^l_j$ is a measure of the error in the neuron.
+Now, this demon is a good demon, and is trying to help you improve the cost, i.e., they're trying to find a $\delta{}z^l_j$ which makes the cost smaller. Suppose $\partial{}C/\partial{}z^l_j$ has a large value (either positive or negative). Then the demon can lower the cost quite a bit by choosing $\Delta{}z^l_j$ to have the opposite sign to $\partial{}C/\partial{}z^l_j$. By contrast, if $\partial{}C/\partial{}z^l_j$ is close to zero, then the demon can't improve the cost much at all by perturbing the weighted input $z^l_j$. So far as the demon can tell, the neuron is already pretty near optimal\footnote{This is only the case for small changes $\Delta{}z^l_j$, of course. We'll assume that the demon is constrained to make such small changes.}. And so there's a heuristic sense in which $\partial{}C/\partial{}z^l_j$ is a measure of the error in the neuron.
 
 Motivated by this story, we define the error $\delta^l_j$ of neuron $j$ in layer $l$ by
 \begin{equation}
@@ -108,7 +108,7 @@ You might wonder why the demon is changing the weighted input $z^l_j$. Surely it
 
 Here's a preview of the ways we'll delve more deeply into the equations later in the chapter: I'll give a \hyperref[sec:2.5]{short proof of the equations}, which helps explain why they are true; we'll restate the equations in algorithmic form as \hyperref[sec:2.6]{pseudocode}, and see how the pseudocode can be implemented as real, \hyperref[sec:2.7]{running Python code}; and, in the final section of the chapter, we'll develop an intuitive picture of what the backpropagation equations mean, and how someone \hyperref[sec:2.9]{might discover them from scratch}. Along the way we'll return repeatedly to the four fundamental equations, and as you deepen your understanding those equations will come to seem comfortable and, perhaps, even beautiful and natural.
 
-An equation for the error in the output layer, $\delta^L$: The components of $\delta^L$ are given by
+\textbf{An equation for the error in the output layer,} $\delta^L$: The components of $\delta^L$ are given by
 \begin{equation}
 	\delta^L_j = \frac{\partial C}{\partial a^L_j} \sigma'(z^L_j).
 	\tag{BP1}
@@ -195,7 +195,7 @@ None of these observations is too greatly surprising. Still, they help improve o
 			\delta^L = \Sigma'(z^L) \nabla_a C,
 			\label{eq:33}
 		\end{equation}
-		where $\sigma'(z^L)$ is a square matrix whose diagonal entries are the values $\sigma(z^L_j)$, and whose off-diagonal entries are zero. Note that this matrix acts on $\nabla_a C$ by conventional matrix multiplication.
+		where $\Sigma'(z^L)$ is a square matrix whose diagonal entries are the values $\sigma'(z^L_j)$, and whose off-diagonal entries are zero. Note that this matrix acts on $\nabla_a C$ by conventional matrix multiplication.
 		\item[(2)] Show that (\ref{eq:BP2}) may be rewritten as
 		\begin{equation}
 			\delta^l = \Sigma'(z^l) (w^{l+1})^T \delta^{l+1}.
