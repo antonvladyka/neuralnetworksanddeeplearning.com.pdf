@@ -23,7 +23,7 @@ This result tells us that neural networks have a kind of \textit{universality}. 
 
 What's more, this universality theorem holds even if we restrict our networks to have just a single layer intermediate between the input and the output neurons -- a so-called single hidden layer. So even very simple network architectures can be extremely powerful.
 
-The universality theorem is well known by people who use neural networks. But why it's true is not so widely understood. Most of the explanations available are quite technical. For instance, one of the original papers proving the result\footnote{\href{http://www.dartmouth.edu/~gvc/Cybenko_MCSS.pdf}{Approximation by superpositions of a sigmoidal function}, by George Cybenko (1989). The result was very much in the air at the time, and several groups proved closely related results. Cybenko's paper contains a useful discussion of much of that work. Another important early paper is [link]Multilayer feedforward networks are universal approximators, by Kurt Hornik, Maxwell Stinchcombe, and Halbert White (1989). This paper uses the Stone-Weierstrass theorem to arrive at similar results.} did so using the Hahn-Banach theorem, the Riesz Representation theorem, and some Fourier analysis. If you're a mathematician the argument is not difficult to follow, but it's not so easy for most people. That's a pity, since the underlying reasons for universality are simple and beautiful.
+The universality theorem is well known by people who use neural networks. But why it's true is not so widely understood. Most of the explanations available are quite technical. For instance, one of the original papers proving the result\footnote{\href{http://www.dartmouth.edu/~gvc/Cybenko_MCSS.pdf}{Approximation by superpositions of a sigmoidal function}, by George Cybenko (1989). The result was very much in the air at the time, and several groups proved closely related results. Cybenko's paper contains a useful discussion of much of that work. Another important early paper is \href{http://www.sciencedirect.com/science/article/pii/0893608089900208}{Multilayer feedforward networks are universal approximators}, by Kurt Hornik, Maxwell Stinchcombe, and Halbert White (1989). This paper uses the Stone-Weierstrass theorem to arrive at similar results.} did so using the Hahn-Banach theorem, the Riesz Representation theorem, and some Fourier analysis. If you're a mathematician the argument is not difficult to follow, but it's not so easy for most people. That's a pity, since the underlying reasons for universality are simple and beautiful.
 
 In this chapter I give a simple and mostly visual explanation of the universality theorem. We'll go step by step through the underlying ideas. You'll understand why it's true that neural networks can compute any function. You'll understand some of the limitations of the result. And you'll understand how the result relates to deep neural networks.
 
@@ -140,7 +140,7 @@ In fact, the step is at position $s=-b/w$, as you can see by modifying the weigh
 		\end{axis}
 	\end{tikzpicture}
 \end{center}
-It will greatly simplify our lives to describe hidden neurons using just a single parameter, $s$, which is the step position, $s=-b/w$. Try modifying s in the following diagram, in order to get used to the new parameterization:
+It will greatly simplify our lives to describe hidden neurons using just a single parameter, $s$, which is the step position, $s=-b/w$. Try modifying $s$ in the following diagram, in order to get used to the new parameterization:
 \begin{center}
 	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz405}
 	\begin{tikzpicture}[declare function = {step(\x,\s)=0.5*(sign(\x-\s)+1);}]
@@ -168,7 +168,7 @@ Up to now we've been focusing on the output from just the top hidden neuron. Let
 %\end{lstlisting}
 What's being plotted on the right is the weighted output $w_1a_1+w_2a_2$ from the hidden layer. Here, $a_1$ and $a_2$ are the outputs from the top and bottom hidden neurons, respectively\footnote{Note, by the way, that the output from the whole network is $\sigma(w_1a_1+w_2a_2+b)$, where $b$ is the bias on the output neuron. Obviously, this isn't the same as the weighted output from the hidden layer, which is what we're plotting here. We're going to focus on the weighted output from the hidden layer right now, and only later will we think about how that relates to the output from the whole network.}. These outputs are denoted with as because they're often known as the neurons' activations.
 
-Try increasing and decreasing the step point s1 of the top hidden neuron. Get a feel for how this changes the weighted output from the hidden layer. It's particularly worth understanding what happens when $s_1$ goes past $s_2$. You'll see that the graph changes shape when this happens, since we have moved from a situation where the top hidden neuron is the first to be activated to a situation where the bottom hidden neuron is the first to be activated.
+Try increasing and decreasing the step point $s_1$ of the top hidden neuron. Get a feel for how this changes the weighted output from the hidden layer. It's particularly worth understanding what happens when $s_1$ goes past $s_2$. You'll see that the graph changes shape when this happens, since we have moved from a situation where the top hidden neuron is the first to be activated to a situation where the bottom hidden neuron is the first to be activated.
 
 Similarly, try manipulating the step point $s_2$ of the bottom hidden neuron, and get a feel for how this changes the combined output from the hidden neurons.
 
@@ -212,7 +212,7 @@ We can use our bump-making trick to get two bumps, by gluing two pairs of hidden
 	\end{axis}
 	\end{tikzpicture}
 \end{center}
-I've suppressed the weights here, simply writing the $h$ values for each pair of hidden neurons. Try increasing and decreasing both h values, and observe how it changes the graph. Move the bumps around by changing the step points.
+I've suppressed the weights here, simply writing the $h$ values for each pair of hidden neurons. Try increasing and decreasing both $h$ values, and observe how it changes the graph. Move the bumps around by changing the step points.
 
 More generally, we can use this idea to get as many peaks as we want, of any height. In particular, we can divide the interval [0,1] up into a large number, $N$, of subintervals, and use $N$ pairs of hidden neurons to set up peaks of any desired height. Let's see how this works for $N=5$. That's quite a few neurons, so I'm going to pack things in a bit. Apologies for the complexity of the diagram: I could hide the complexity by abstracting away further, but I think it's worth putting up with a little complexity, for the sake of getting a more concrete feel for how these networks work.
 \begin{center}
@@ -227,13 +227,13 @@ More generally, we can use this idea to get as many peaks as we want, of any hei
 	\end{axis}
 \end{tikzpicture}	
 \end{center}
-You can see that there are five pairs of hidden neurons. The step points for the respective pairs of neurons are 0,1/5, then 1/5,2/5, and so on, out to 4/5,5/5. These values are fixed -- they make it so we get five evenly spaced bumps on the graph.
+You can see that there are five pairs of hidden neurons. The step points for the respective pairs of neurons are $0,1/5$, then $1/5,2/5$, and so on, out to $4/5,5/5$. These values are fixed -- they make it so we get five evenly spaced bumps on the graph.
 
 Each pair of neurons has a value of $h$ associated to it. Remember, the connections output from the neurons have weights $h$ and $-h$ (not marked). Click on one of the $h$ values, and drag the mouse to the right or left to change the value. As you do so, watch the function change. By changing the output weights we're actually \textit{designing} the function!
 
 Contrariwise, try clicking on the graph, and dragging up or down to change the height of any of the bump functions. As you change the heights, you can see the corresponding change in $h$ values. And, although it's not shown, there is also a change in the corresponding output weights, which are $+h$ and $-h$.
 
-In other words, we can directly manipulate the function appearing in the graph on the right, and see that reflected in the h values on the left. A fun thing to do is to hold the mouse button down and drag the mouse from one side of the graph to the other. As you do this you draw out a function, and get to watch the parameters in the neural network adapt.
+In other words, we can directly manipulate the function appearing in the graph on the right, and see that reflected in the $h$ values on the left. A fun thing to do is to hold the mouse button down and drag the mouse from one side of the graph to the other. As you do this you draw out a function, and get to watch the parameters in the neural network adapt.
 
 Time for a challenge.
 
@@ -287,7 +287,7 @@ Your challenge, then, is to design a neural network to approximate the goal func
 \end{center}
 You've now figured out all the elements necessary for the network to approximately compute the function $f(x)$! It's only a coarse approximation, but we could easily do much better, merely by increasing the number of pairs of hidden neurons, allowing more bumps.
 
-In particular, it's easy to convert all the data we have found back into the standard parameterization used for neural networks. Let me just recap quickly how that works.
+In particular, it's easy to convert all the data we have found back into the standard parametrization used for neural networks. Let me just recap quickly how that works.
 
 The first layer of weights all have some large, constant value, say $w=1000$.
 
@@ -375,7 +375,7 @@ Let's redo the above using the position of the step as the parameter:
 %		\end{axis}
 %	\end{tikzpicture}
 \end{center}
-Here, we assume the weight on the $x$ input has some large value -- I've used $w_1=1000$ -- and the weight $w_2=0$. The number on the neuron is the step point, and the little $x$ above the number reminds us that the step is in the x direction. Of course, it's also possible to get a step function in the $y$ direction, by making the weight on the $y$ input very large (say, $w_2=1000$), and the weight on the $x$ equal to 0, i.e., $w_1=0$:
+Here, we assume the weight on the $x$ input has some large value -- I've used $w_1=1000$ -- and the weight $w_2=0$. The number on the neuron is the step point, and the little $x$ above the number reminds us that the step is in the $x$ direction. Of course, it's also possible to get a step function in the $y$ direction, by making the weight on the $y$ input very large (say, $w_2=1000$), and the weight on the $x$ equal to 0, i.e., $w_1=0$:
 \begin{center}
 %	\begin{tikzpicture}[scale=0.8]
 %		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s_y=0.25$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
@@ -449,7 +449,7 @@ We've figured out how to make a bump function in the $x$ direction. Of course, w
 %
 %x=1y=1Weighted output from hidden layer
 %
-This looks nearly identical to the earlier network! The only thing explicitly shown as changing is that there's now little $y$ markers on our hidden neurons. That reminds us that they're producing y step functions, not x step functions, and so the weight is very large on the y input, and zero on the x input, not vice versa. As before, I decided not to show this explicitly, in order to avoid clutter.
+This looks nearly identical to the earlier network! The only thing explicitly shown as changing is that there's now little $y$ markers on our hidden neurons. That reminds us that they're producing $y$ step functions, not $x$ step functions, and so the weight is very large on the $y$ input, and zero on the $x$ input, not vice versa. As before, I decided not to show this explicitly, in order to avoid clutter.
 %
 Let's consider what happens when we add up two bump functions, one in the $x$ direction, the other in the $y$ direction, both of height $h$:
 \begin{center}
@@ -466,9 +466,9 @@ Let's consider what happens when we add up two bump functions, one in the $x$ di
 	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpxy1}
 	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpxy2}
 \end{center}
-To simplify the diagram I've dropped the connections with zero weight. For now, I've left in the little x and y markers on the hidden neurons, to remind you in what directions the bump functions are being computed. We'll drop even those markers later, since they're implied by the input variable.
+To simplify the diagram I've dropped the connections with zero weight. For now, I've left in the little $x$ and $y$ markers on the hidden neurons, to remind you in what directions the bump functions are being computed. We'll drop even those markers later, since they're implied by the input variable.
 %
-Try varying the parameter $h$. As you can see, this causes the output weights to change, and also the heights of both the x and y bump functions.
+Try varying the parameter $h$. As you can see, this causes the output weights to change, and also the heights of both the $x$ and $y$ bump functions.
 %
 What we've built looks a little like a \textit{tower} function:
 \begin{center}
@@ -508,7 +508,7 @@ else:
 \end{lstlisting}
 If we choose the threshold appropriately --- say, a value of $3h/2$, which is sandwiched between the height of the plateau and the height of the central tower -- we could squash the plateau down to zero, and leave just the tower standing.
 
-Can you see how to do this? Try experimenting with the following network to figure it out. Note that we're now plotting the output from the entire network, not just the weighted output from the hidden layer. This means we add a bias term to the weighted output from the hidden layer, and apply the sigma function. Can you find values for h and b which produce a tower? This is a bit tricky, so if you think about this for a while and remain stuck, here's two hints: (1) To get the output neuron to show the right kind of \texttt{if-then-else} behaviour, we need the input weights (all $h$ or $-h$) to be large; and (2) the value of $b$ determines the scale of the \texttt{if-then-else} threshold.
+Can you see how to do this? Try experimenting with the following network to figure it out. Note that we're now plotting the output from the entire network, not just the weighted output from the hidden layer. This means we add a bias term to the weighted output from the hidden layer, and apply the sigma function. Can you find values for $h$ and $b$ which produce a tower? This is a bit tricky, so if you think about this for a while and remain stuck, here's two hints: (1)~To get the output neuron to show the right kind of \texttt{if-then-else} behaviour, we need the input weights (all $h$ or $-h$) to be large; and (2)~the value of $b$ determines the scale of the \texttt{if-then-else} threshold.
 \begin{center}
 	\includegraphics[width=0.24\linewidth]{./figures/ch4/tikz436}
 	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction1}
@@ -564,7 +564,7 @@ By gluing together many such networks we can get as many towers as we want, and 
 Okay, so we now know how to use neural networks to approximate a real-valued function of many variables. What about vector-valued functions $f(x_1,\ldots,x_m)\in R^n$? Of course, such a function can be regarded as just $n$ separate real-valued functions, $f^1(x_1,\ldots,x_m)$,$f^2(x_1,\ldots,x_m)$, and so on. So we create a network approximating $f^1$, another network for $f^2$, and so on. And then we simply glue all the networks together. So that's also easy to cope with.
 
 \begin{exercize}{Problem}
-\item We've seen how to use networks with two hidden layers to approximate an arbitrary function. Can you find a proof showing that it's possible with just a single hidden layer? As a hint, try working in the case of just two input variables, and showing that: (a) it's possible to get step functions not just in the x or y directions, but in an arbitrary direction; (b) by adding up many of the constructions from part (a) it's possible to approximate a tower function which is circular in shape, rather than rectangular; (c) using these circular towers, it's possible to approximate an arbitrary function. To do part (c) it may help to use ideas from a bit later in this chapter.
+\item We've seen how to use networks with two hidden layers to approximate an arbitrary function. Can you find a proof showing that it's possible with just a single hidden layer? As a hint, try working in the case of just two input variables, and showing that: (a)~it's possible to get step functions not just in the $x$ or $y$ directions, but in an arbitrary direction; (b)~by adding up many of the constructions from part (a) it's possible to approximate a tower function which is circular in shape, rather than rectangular; (c)~using these circular towers, it's possible to approximate an arbitrary function. To do part (c) it may help to use ideas from a bit later in this chapter.
 \end{exercize}
 \section{Extension beyond sigmoid neurons}
 We've proved that networks made up of sigmoid neurons can compute any function. Recall that in a sigmoid neuron the inputs $x_1,x_2,\ldots$ result in the output $\sigma$($\sum_jw_jx_j+b$), where $w_j$ are the weights, $b$ is the bias, and $\sigma$ is the sigmoid function:
@@ -620,7 +620,7 @@ We can use this activation function to get a step function, just as we did with 
 
 \noindent Just as with the sigmoid, this causes the activation function to contract, and ultimately it becomes a very good approximation to a step function. Try changing the bias, and you'll see that we can set the position of the step to be wherever we choose. And so we can use all the same tricks as before to compute any desired function.
 
-What properties does s(z) need to satisfy in order for this to work? We do need to assume that s(z) is well-defined as $z\to\infty$ and $z\to\infty$. These two limits are the two values taken on by our step function. We also need to assume that these limits are different from one another. If they weren't, there'd be no step, simply a flat graph! But provided the activation function s(z) satisfies these properties, neurons based on such an activation function are universal for computation.
+What properties does $s(z)$ need to satisfy in order for this to work? We do need to assume that $s(z)$ is well-defined as $z\to\infty$ and $z\to\infty$. These two limits are the two values taken on by our step function. We also need to assume that these limits are different from one another. If they weren't, there'd be no step, simply a flat graph! But provided the activation function $s(z)$ satisfies these properties, neurons based on such an activation function are universal for computation.
 
 \begin{exercize}{Problems}
 \item Earlier in the book we met another type of neuron known as a rectified linear unit. Explain why such neurons don't satisfy the conditions just given for universality. Find a proof of universality showing that rectified linear units are universal for computation.
@@ -639,7 +639,7 @@ Nonetheless, it'd be nice to have some way of addressing the problem.
 
 In fact, the problem turns out to be easy to fix. Let's look at the fix for neural networks computing functions with just one input and one output. The same ideas work also to address the problem when there are more inputs and outputs.
 
-In particular, suppose we want our network to compute some function, f. As before, we do this by trying to design our network so that the weighted output from our hidden layer of neurons is $\sigma^{-1}\circ f(x)$:
+In particular, suppose we want our network to compute some function, $f$. As before, we do this by trying to design our network so that the weighted output from our hidden layer of neurons is $\sigma^{-1}\circ f(x)$:
 \begin{center}
 	\includegraphics[width=0.6\linewidth]{figures/ch4/tikz454}
 \end{center}
@@ -668,7 +668,7 @@ Although the result isn't directly useful in constructing networks, it's importa
 
 The universality construction we've developed uses just two hidden layers to compute an arbitrary function. Furthermore, as we've discussed, it's possible to get the same result with just a single hidden layer. Given this, you might wonder why we would ever be interested in deep networks, i.e., networks with many hidden layers. Can't we simply replace those networks with shallow, single hidden layer networks?
 
-\footnotetext{Chapter acknowledgments: Thanks to Jen Dodd and Chris Olah for many discussions about universality in neural networks. My thanks, in particular, to Chris for suggesting the use of a lookup table to prove universality. The interactive visual form of the chapter is inspired by the work of people such as Mike Bostock, Amit Patel, Bret Victor, and Steven Wittens.}
+\footnotetext{Chapter acknowledgments: Thanks to \href{http://jendodd.com/}{Jen Dodd} and \href{http://colah.github.io/about.html}{Chris Olah} for many discussions about universality in neural networks. My thanks, in particular, to Chris for suggesting the use of a lookup table to prove universality. The interactive visual form of the chapter is inspired by the work of people such as \href{http://bost.ocks.org/mike/algorithms/}{Mike Bostock}, \href{http://www-cs-students.stanford.edu/~amitp/}{Amit Patel}, \href{http://worrydream.com/}{Bret Victor}, and \href{http://acko.net/}{Steven Wittens}.}
 
-While in principle that's possible, there are good practical reasons to use deep networks. As argued in Chapter 1, deep networks have a hierarchical structure which makes them particularly well adapted to learn the hierarchies of knowledge that seem to be useful in solving real-world problems. Put more concretely, when attacking problems such as image recognition, it helps to use a system that understands not just individual pixels, but also increasingly more complex concepts: from edges to simple geometric shapes, all the way up through complex, multi-object scenes. In later chapters, we'll see evidence suggesting that deep networks do a better job than shallow networks at learning such hierarchies of knowledge. To sum up: universality tells us that neural networks can compute any function; and empirical evidence suggests that deep networks are the networks best adapted to learn the functions useful in solving many real-world problems.
+While in principle that's possible, there are good practical reasons to use deep networks. As argued in \hyperref[sec:1.8]{Chapter 1}, deep networks have a hierarchical structure which makes them particularly well adapted to learn the hierarchies of knowledge that seem to be useful in solving real-world problems. Put more concretely, when attacking problems such as image recognition, it helps to use a system that understands not just individual pixels, but also increasingly more complex concepts: from edges to simple geometric shapes, all the way up through complex, multi-object scenes. In later chapters, we'll see evidence suggesting that deep networks do a better job than shallow networks at learning such hierarchies of knowledge. To sum up: universality tells us that neural networks can compute any function; and empirical evidence suggests that deep networks are the networks best adapted to learn the functions useful in solving many real-world problems.
 \end{document}

@@ -70,17 +70,17 @@ It's not obvious that the expression (\ref{eq:57}) fixes the learning slowdown p
 
 Two properties in particular make it reasonable to interpret the cross-entropy as a cost function. First, it's non-negative, that is, $C>0$. To see this, notice that: (a)~all the individual terms in the sum in (\ref{eq:57}) are negative, since both logarithms are of numbers in the range 0 to 1; and (b)~there is a minus sign out the front of the sum.
 
-Second, if the neuron's actual output is close to the desired output for all training inputs, x, then the cross-entropy will be close to zero\footnote{To prove this I will need to assume that the desired outputs y are all either 0 or 1. This is usually the case when solving classification problems, for example, or when computing Boolean functions. To understand what happens when we don't make this assumption, see the exercises at the end of this section.}. To see this, suppose for example that $y=0$ and $a\approx0$ for some input $x$. This is a case when the neuron is doing a good job on that input. We see that the first term in the expression (57) for the cost vanishes, since $y=0$, while the second term is just $-\ln(1-a)\approx0$. A similar analysis holds when $y=1$ and $a\approx1$. And so the contribution to the cost will be low provided the actual output is close to the desired output.
+Second, if the neuron's actual output is close to the desired output for all training inputs, x, then the cross-entropy will be close to zero\footnote{To prove this I will need to assume that the desired outputs $y$ are all either 0 or 1. This is usually the case when solving classification problems, for example, or when computing Boolean functions. To understand what happens when we don't make this assumption, see the exercises at the end of this section.}. To see this, suppose for example that $y=0$ and $a\approx0$ for some input $x$. This is a case when the neuron is doing a good job on that input. We see that the first term in the expression (57) for the cost vanishes, since $y=0$, while the second term is just $-\ln(1-a)\approx0$. A similar analysis holds when $y=1$ and $a\approx1$. And so the contribution to the cost will be low provided the actual output is close to the desired output.
 
 Summing up, the cross-entropy is positive, and tends toward zero as the neuron gets better at computing the desired output, $y$, for all training inputs, $x$. These are both properties we'd intuitively expect for a cost function. Indeed, both properties are also satisfied by the quadratic cost. So that's good news for the cross-entropy. But the cross-entropy cost function has the benefit that, unlike the quadratic cost, it avoids the problem of learning slowing down. To see this, let's compute the partial derivative of the cross-entropy cost with respect to the weights. We substitute $a=\sigma(z)$ into (\ref{eq:57}), and apply the chain rule twice, obtaining:
 %\partial{}C\partial{}wj==-1n∑x(y\sigma(z)-(1-y)1-\sigma(z))\partial{}\sigma\partial{}wj-1n∑x(y\sigma(z)-(1-y)1-\sigma(z))\sigma'(z)x_j.(58)(59)
 \begin{equation}
 	\frac{\partial C}{\partial w_j}  =  -\frac{1}{n} \sum_x \left(
-	\frac{y }{\sigma(z)} -\frac{(1-y)}{1-\sigma(z)} \right)
+	\frac{y }{\sigma(z)} -\frac{1-y}{1-\sigma(z)} \right)
 	\frac{\partial \sigma}{\partial w_j} = 
  -\frac{1}{n} \sum_x \left( 
 	\frac{y}{\sigma(z)} 
-	-\frac{(1-y)}{1-\sigma(z)} \right)\sigma'(z) x_j.
+	-\frac{1-y}{1-\sigma(z)} \right)\sigma'(z) x_j.
 	\label{eq:59}
 \end{equation}Putting everything over a common denominator and simplifying this becomes:
 \begin{equation}
@@ -254,37 +254,28 @@ The idea of softmax is to define a new type of output layer for our neural netwo
 where in the denominator we sum over all the output neurons.
 
 If you're not familiar with the softmax function, Equation (\ref{eq:78}) may look pretty opaque. It's certainly not obvious why we'd want to use this function. And it's also not obvious that this will help us address the learning slowdown problem. To better understand Equation (\ref{eq:78}), suppose we have a network with four output neurons, and four corresponding weighted inputs, which we'll denote $z^L_1,z^L_2,z^L_3,$ and $z^L_4$. Figure~\ref{fig:softmax} shows  a graph of the corresponding output activations for different inputs\footnote{This paragraph is an adaptation of an animation from online version of the book.}.
-%\begin{center}
-%\begin{tikzpicture}
-%\begin{axis}[xmin=-5,xmax=5,ymin=0,ymax=1,xlabel={$z_4$},ylabel={$a_j$},width=0.9\linewidth,height=0.4\linewidth,legend cell align={left}]
-%	\addplot[domain=-5:5,samples=101,blue!75] {exp(-1)/(exp(x)+exp(1)+exp(0)+exp(-1))};
-%	\addplot[domain=-5:5,samples=101,orange!75] {exp(0)/(exp(x)+exp(1)+exp(0)+exp(-1))};
-%	\addplot[domain=-5:5,samples=101,green!75!black] {exp(1)/(exp(x)+exp(1)+exp(0)+exp(-1))};
-%	\addplot[domain=-5:5,samples=101,red!75] {exp(x)/(exp(x)+exp(1)+exp(0)+exp(-1))};
-%	\addlegendentry{$a_1,z_1=-1$};
-%	\addlegendentry{$a_2,z_2=0$};
-%	\addlegendentry{$a_3,z_3=1$};
-%	\addlegendentry{$a_4$};	
-%\end{axis}
-%\end{tikzpicture}
-%%\begin{tikzpicture}
-%%\begin{axis}[xmin=-5,xmax=5,ymin=0,ymax=1,xlabel={$z_4$},ylabel={$a_j$},width=0.49\linewidth,height=0.35\linewidth,legend cell align={left}]
-%%	\addplot[domain=-5:5,samples=101,blue!75] {exp(-0.5)/(exp(x)+exp(1.5)+exp(0.5)+exp(-1.5))};
-%%	\addplot[domain=-5:5,samples=101,orange!75] {exp(0.5)/(exp(x)+exp(1.5)+exp(0.5)+exp(-1.5))};
-%%	\addplot[domain=-5:5,samples=101,green!75!black] {exp(1.5)/(exp(x)+exp(1.5)+exp(0.5)+exp(-1.5))};
-%%	\addplot[domain=-5:5,samples=101,red!75] {exp(x)/(exp(x)+exp(1.5)+exp(0.5)+exp(-1.5))};
-%%	\addlegendentry{$a_1,z_1=-0.5$};
-%%	\addlegendentry{$a_2,z_2=0.5$};
-%%	\addlegendentry{$a_3,z_3=1.5$};
-%%	\addlegendentry{$a_4$};	
-%%\end{axis}
-%%\end{tikzpicture}
-%\end{center}
 \begin{figure}
-\includegraphics[width=\linewidth]{./figures/ch3/animation_softmax}
+\centering
+\begin{tikzpicture}
+\begin{axis}[xmin=-5,xmax=5,ymin=0,ymax=1,xlabel={$z_4$},ylabel={$a_{j}, j\in (1\ldots4)$},width=0.8\linewidth,height=0.45\linewidth,legend cell align={left},legend style= {at={(0.025,0.975)},anchor=north west}, legend columns=2]
+	\addplot[thick,domain=-5:5,samples=101,blue!75] {exp(-1)/(exp(x)+exp(1)+exp(0)+exp(-1))};
+	\addplot[thick,domain=-5:5,samples=101,orange!75] {exp(0)/(exp(x)+exp(1)+exp(0)+exp(-1))};
+	\addplot[thick,domain=-5:5,samples=101,green!75!black] {exp(1)/(exp(x)+exp(1)+exp(0)+exp(-1))};
+	\addplot[thick,domain=-5:5,samples=101,red!75] {exp(x)/(exp(x)+exp(1)+exp(0)+exp(-1))};
+	\addlegendentry{$a_1 (z_1=-1)$};
+	\addlegendentry{$a_2 (z_2=0)$};
+	\addlegendentry{$a_3 (z_3=1)$};
+	\addlegendentry{$a_4 \vphantom{()}$};	
+\end{axis}
+\end{tikzpicture}
 \caption{Equation~\ref{eq:78} for different fixed values of $z^L_{1,2,3}$ and variable $z^L_4$. $L$ index avoided for clarity. }
 \label{fig:softmax}
 \end{figure}
+%\begin{figure}
+%\includegraphics[width=\linewidth]{./figures/ch3/animation_softmax}
+%\caption{Equation~\ref{eq:78} for different fixed values of $z^L_{1,2,3}$ and variable $z^L_4$. $L$ index avoided for clarity. }
+%\label{fig:softmax}
+%\end{figure}
 As you increase $z^L_4$, you'll see an increase in the corresponding output activation, $a^L_4$, and a decrease in the other output activations. Similarly, if you decrease $z^L_4$ then $a^L_4$ will decrease, and all the other output activations will increase. In fact, if you look closely, you'll see that in both cases the total change in the other activations exactly compensates for the change in $a^L_4$. The reason is that the output activations are guaranteed to always sum up to 1, as we can prove using Equation (\ref{eq:78}) and a little algebra:
 \begin{eqnarray}
 \sum_j a^L_j & = & \frac{\sum_j e^{z^L_j}}{\sum_k e^{z^L_k}} = 1.
@@ -777,9 +768,7 @@ def default_weight_initializer(self):
 	self.biases = [np.random.randn(y, 1) for y in self.sizes[1:]]
 	self.weights = [np.random.randn(y, x)/np.sqrt(x) for x, y in zip(self.sizes[:-1], self.sizes[1:])]
 \end{lstlisting}
-To understand the code, it may help to recall that \inline{np} is the Numpy library for doing linear algebra. We'll import Numpy at the beginning of our program. Also, notice that we don't initialize any biases for the first layer of neurons. We avoid doing this because the first layer is an input layer, and so any biases would not be used. We did exactly the same thing in \inline{network.py}.
-
-Complementing the \inline{default_weight_initializer} we'll also include a \texttt{large\_weight\_initializer} method. This method initializes the weights and biases using the old approach from Chapter 1, with both weights and biases initialized as Gaussian random variables with mean 0 and standard deviation 1. The code is, of course, only a tiny bit different from the \inline{default_weight_initializer}:
+To understand the code, it may help to recall that \inline{np} is the Numpy library for doing linear algebra. We'll import Numpy at the beginning of our program. Also, notice that we don't initialize any biases for the first layer of neurons. We avoid doing this because the first layer is an input layer, and so any biases would not be used. We did exactly the same thing in \inline{network.py}. Complementing the \inline{default_weight_initializer} we'll also include a \texttt{large\_weight\_initializer} method. This method initializes the weights and biases using the old approach from Chapter 1, with both weights and biases initialized as Gaussian random variables with mean 0 and standard deviation 1. The code is, of course, only a tiny bit different from the \inline{default_weight_initializer}:
 \begin{lstlisting}
 def large_weight_initializer(self):
 	self.biases = [np.random.randn(y, 1) for y in self.sizes[1:]]
