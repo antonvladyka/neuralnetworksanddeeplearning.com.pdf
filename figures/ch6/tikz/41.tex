@@ -1,0 +1,61 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\begin{document}
+\def\layersep{3.5cm}
+
+\begin{tikzpicture}[shorten >=0.25pt,-latex,draw=black!75, node distance=\layersep]
+    \tikzstyle{every pin edge}=[-latex,shorten <=0.5pt]
+    \tikzstyle{neuron}=[draw=black!85,circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+    \tikzstyle{input neuron}=[neuron, fill=green!15];
+    \tikzstyle{output neuron}=[neuron, fill=red!15];
+    \tikzstyle{hidden neuron}=[neuron, fill=blue!15];
+    \tikzstyle{annot} = [text width=8em, text centered]
+
+    % Draw the input layer nodes
+    \foreach \name / \y in {1,...,8}
+    % This is the same as writing \foreach \name / \y in {1/1,2/2,3/3,4/4}
+        \node[input neuron] (I-\name) at (0,-\y) {};
+
+    % Draw the hidden layer nodes
+    \foreach \name / \y in {1,...,9}
+        \path[yshift=0.5cm]
+            node[hidden neuron] (H1-\name) at (\layersep,-\y cm) {};
+		
+		\foreach \name / \y in {1,...,9}
+		        \path[yshift=0.5cm]
+		            node[hidden neuron] (H2-\name) at (2*\layersep,-\y cm) {};
+		
+		\foreach \name / \y in {1,...,9}
+				        \path[yshift=0.5cm]
+				            node[hidden neuron] (H3-\name) at (3*\layersep,-\y cm) {};
+		
+		\foreach \name / \y in {1,...,4}
+						        \path[yshift=-2cm]
+						            node[output neuron,pin=right:] (O-\name) at (4*\layersep,-\y cm) {};
+						            		                        
+       % Connect every node in the input layer with every node in the
+    % hidden layer.
+    \foreach \source in {1,...,8}
+        \foreach \dest in {1,...,9}
+            \path (I-\source) edge (H1-\dest);
+		\foreach \source in {1,...,9}
+		        \foreach \dest in {1,...,9}
+		            \path (H1-\source) edge (H2-\dest);
+		\foreach \source in {1,...,9}
+				        \foreach \dest in {1,...,9}
+				            \path (H2-\source) edge (H3-\dest); 
+	 \foreach \source in {1,...,9}
+	 		        \foreach \dest in {1,...,4}
+	 		            \path (H3-\source) edge (O-\dest);          
+    % Connect every node in the hidden layer with the output layer
+    % Annotate the layers
+    \node[annot,above of=H1-1, node distance=0.75cm] (hl) {hidden layer 1};
+    \node[annot,left of=hl] {input layer};
+    \node[annot,right of=hl] (h2) {hidden layer 2};
+    \node[annot,right of=h2] (h3) {hidden layer 3};
+    \node[annot,right of=h3] {output layer};
+            
+\end{tikzpicture}
+% End of code
+\end{document}

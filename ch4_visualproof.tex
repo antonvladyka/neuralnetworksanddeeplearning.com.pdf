@@ -299,7 +299,7 @@ Finally, the bias on the output neuron is 0.
 
 That's everything: we now have a complete description of a neural network which does a pretty good job computing our original goal function. And we understand how to improve the quality of the approximation by improving the number of hidden neurons.
 
-What's more, there was nothing special about our original goal function, $f(x)=0.2+0.4x^2+0.3\sin(15x)+0.05\cos(50x)$. We could have used this procedure for any continuous function from [0,1] to [0,1]. In essence, we're using our single-layer neural networks to build a lookup table for the function. And we'll be able to build on this idea to provide a general proof of universality.
+What's more, there was nothing special about our original goal function, $f(x)=0.2+0.4x^2+0.3\sin(15x)+0.05\cos(50x)$. We could have used this procedure for any continuous function from $[0,1]$ to $[0,1]$. In essence, we're using our single-layer neural networks to build a lookup table for the function. And we'll be able to build on this idea to provide a general proof of universality.
 
 \section{Many input variables}
 Let's extend our results to the case of many input variables. This sounds complicated, but all the ideas we need can be understood in the case of just two inputs. So let's address the two-input case.
