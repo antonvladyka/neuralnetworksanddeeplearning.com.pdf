@@ -63,9 +63,9 @@ And so on, building up the first hidden layer. Note that if we have a $28\times2
 I've shown the local receptive field being moved by one pixel at a time. In fact, sometimes a different stride length is used. For instance, we might move the local receptive field 2 pixels to the right (or down), in which case we'd say a stride length of 2 is used. In this chapter we'll mostly stick with stride length 1, but it's worth knowing that people sometimes experiment with different stride lengths\footnote{As was done in earlier chapters, if we're interested in trying different stride lengths then we can use validation data to pick out the stride length which gives the best performance. For more details, see the earlier discussion of how to choose hyper-parameters in a neural network. The same approach may also be used to choose the size of the local receptive field -- there is, of course, nothing special about using a $5\times5$ local receptive field. In general, larger local receptive fields tend to be helpful when the input images are significantly larger than the $28\times28$ pixel MNIST images.}.
 
 \textbf{Shared weights and biases:} I've said that each hidden neuron has a bias and $5\times5$ weights connected to its local receptive field. What I did not yet mention is that we're going to use the same weights and bias for each of the $24\times24$ hidden neurons. In other words, for the $j,k$-th hidden neuron, the output is:
-\begin{eqnarray} 
-\sigma\left(b + \sum_{l=0}^4 \sum_{m=0}^4  w_{l,m} a_{j+l, k+m} \right).\label{eq:125}
-\end{eqnarray}
+\begin{align} 
+\sigma\left(b + \sum_{l=0}^4 \sum_{m=0}^4  w_{l,m} a_{j+l, k+m} \right).\tag{125}\label{eq:125}
+\end{align}
 %σ(b+∑l=04∑m=04wl,maj+l,k+m).(125)
 Here, $\sigma$ is the neural activation function -- perhaps the sigmoid function we used in earlier chapters. $b$ is the shared value for the bias. $w_{l,m}$ is a $5\times5$ array of shared weights. And, finally, we use $a_{x,y}$ to denote the input activation at position $x,y$.
 
@@ -377,7 +377,7 @@ Much of the \inline{__init__} method is self-explanatory, but a few remarks may 
 
 The \inline{set_inpt} method is used to set the input to the layer, and to compute the corresponding output. I use the name \inline{inpt} rather than input because input is a built-in function in Python, and messing with built-ins tends to cause unpredictable behavior and difficult-to-diagnose bugs. Note that we actually set the input in two separate ways: as \inline{self.inpt} and \inline{self.inpt_dropout}. This is done because during training we may want to use dropout. If that's the case then we want to remove a fraction \inline{self.p_dropout} of the neurons. That's what the function \inline{dropout_layer} in the second-last line of the \inline{set_inpt} method is doing. So \inline{self.inpt_dropout} and \inline{self.output_dropout} are used during training, while self.inpt and self.output are used for all other purposes, e.g., evaluating accuracy on the validation and test data.
 
-The \inline{ConvPoolLayer} and \inline{SoftmaxLayer} class definitions are similar to \inline{FullyConnectedLayer}. Indeed, they're so close that I won't excerpt the code here. If you're interested you can look at the full listing for \inline{network3.py}, later in this section.
+The \texttt{ConvPoolLayer} and \texttt{SoftmaxLayer} class definitions are similar to \texttt{FullyConnectedLayer}. Indeed, they're so close that I won't excerpt the code here. If you're interested you can look at the full listing for \inline{network3.py}, later in this section.
 
 However, a couple of minor differences of detail are worth mentioning. Most obviously, in both \inline{ConvPoolLayer} and \inline{SoftmaxLayer} we compute the output activations in the way appropriate to that layer type. Fortunately, Theano makes that easy, providing built-in operations to compute convolutions, max-pooling, and the softmax function.
 

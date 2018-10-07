@@ -28,7 +28,7 @@ We use a similar notation for the network's biases and activations. Explicitly, 
 With these notations, the activation $a^l_j$ of the $j$-th neuron in the $l$-th layer is related to the activations in the $(l-1)$-th layer by the equation (compare Equation \ref{eq:4} and surrounding discussion in the last chapter)
 
 \begin{equation}
-	a^{l}_j = \sigma\left( \sum_k w^{l}_{jk} a^{l-1}_k + b^l_j \right),\label{eq:23}
+	a^{l}_j = \sigma\left( \sum_k w^{l}_{jk} a^{l-1}_k + b^l_j \right),\tag{23}\label{eq:23}
 \end{equation}
 where the sum is over all neurons $k$ in the $(l-1)$-th layer. To rewrite this expression in a matrix form we define a \textit{weight matrix} $w^l$ for each layer, $l$. The entries of the weight matrix $w^l$ are just the weights connecting to the $l$-th layer of neurons, that is, the entry in the $j$-th row and $k$-th column is $w^l_{jk}$. Similarly, for each layer $l$ we define a \textit{bias vector}, $b^l$. You can probably guess how this works -- the components of the bias vector are just the values $b^l_j$, one component for each neuron in the $l$-th layer. And finally, we define an activation vector al whose components are the activations $a^l_j$.
 The last ingredient we need to rewrite \ref{eq:23} in a matrix form is the idea of vectorizing a function such as $\sigma$. We met vectorization briefly in the last chapter, but to recap, the idea is that we want to apply a function such as $\sigma$ to every element in a vector $v$. We use the obvious notation $\sigma(v)$ to denote this kind of elementwise application of a function. That is, the components of $\sigma(v)$ are just $\sigma(v)_j = \sigma(v_j)$. As an example, if we have the function $f(x)=x^2$ then the vectorized form of $f$ has the effect
@@ -36,14 +36,14 @@ The last ingredient we need to rewrite \ref{eq:23} in a matrix form is the idea 
 f\left(\left[ \begin{array}{c} 2 \\ 3 \end{array} \right] \right)
 = \left[ \begin{array}{c} f(2) \\ f(3) \end{array} \right]
 = \left[ \begin{array}{c} 4 \\ 9 \end{array} \right],
-\label{eq:24}
+\tag{24}\label{eq:24}
 \end{equation}
 that is, the vectorized $f$ just squares every element of the vector.
 
 With these notations in mind, Equation \ref{eq:23} can be rewritten in the beautiful and compact vectorized form
 \begin{equation}
 a^{l} = \sigma(w^l a^{l-1}+b^l).
-\label{eq:25}
+\tag{25}\label{eq:25}
 \end{equation}
 This expression gives us a much more global way of thinking about how the activations in one layer relate to activations in the previous layer: we just apply the weight matrix to the activations, then add the bias vector, and finally apply the $\sigma$ function\footnote{By the way, it's this expression that motivates the quirk in the $w^l_{jk}$ notation mentioned earlier. If we used $j$ to index the input neuron, and $k$ to index the output neuron, then we'd need to replace the weight matrix in Equation \ref{eq:25} by the transpose of the weight matrix. That's a small change, but annoying, and we'd lose the easy simplicity of saying (and thinking) ``apply the weight matrix to the activations''.}. That global view is often easier and more succinct (and involves fewer indices!) than the neuron-by-neuron view we've taken to now. Think of it as a way of escaping index hell, while remaining precise about what's going on. The expression is also useful in practice, because most matrix libraries provide fast ways of implementing matrix multiplication, vector addition, and vectorization. Indeed, the code (see \ref{sec:1.7}) in the last chapter made implicit use of this expression to compute the behaviour of the network.
 
@@ -53,7 +53,7 @@ When using Equation \ref{eq:25} to compute $a^l$, we compute the intermediate qu
 The goal of backpropagation is to compute the partial derivatives $\partial{}C/\partial{}w$ and $\partial{}C/\partial{}b$ of the cost function C with respect to any weight w or bias b in the network. For backpropagation to work we need to make two main assumptions about the form of the cost function. Before stating those assumptions, though, it's useful to have an example cost function in mind. We'll use the quadratic cost function from last chapter (c.f. Equation \ref{eq:6}). In the notation of the last section, the quadratic cost has the form
 \begin{equation}
 C = \frac{1}{2n} \sum_x \left\|y(x)-a^L(x)\right\|^2,
-\label{eq:26}
+\tag{26}\label{eq:26}
 \end{equation}
 where: $n$ is the total number of training examples; the sum is over individual training examples, $x$; $y=y(x)$ is the corresponding desired output; $L$ denotes the number of layers in the network; and $a^L=a^L(x)$ is the vector of activations output from the network when $x$ is input.
 
@@ -69,7 +69,7 @@ The second assumption we make about the cost is that it can be written as a func
 For example, the quadratic cost function satisfies this requirement, since the quadratic cost for a single training example $x$ may be written as
 \begin{equation}
 C = \frac{1}{2} \|y-a^L\|^2 = \frac{1}{2} \sum_j (y_j-a^L_j)^2,
-\label{eq:27}
+\tag{27}\label{eq:27}
 \end{equation}
 and thus is a function of the output activations. Of course, this cost function also depends on the desired output $y$, and you may wonder why we're not regarding the cost also as a function of $y$. Remember, though, that the input training example $x$ is fixed, and so the output $y$ is also a fixed parameter. In particular, it's not something we can modify by changing the weights and biases in any way, i.e., it's not something which the neural network learns. And so it makes sense to regard $C$ as a function of the output activations $a^L$ alone, with $y$ merely a parameter that helps define that function.
 \section{The Hadamard product, $s\odot{}t$}
@@ -79,7 +79,7 @@ The backpropagation algorithm is based on common linear algebraic operations -- 
 	\odot \left[\begin{array}{c} 3 \\ 4\end{array} \right]
 	= \left[ \begin{array}{c} 1 * 3 \\ 2 * 4 \end{array} \right]
 	= \left[ \begin{array}{c} 3 \\ 8 \end{array} \right].
-	\label{eq:28}
+	\tag{28}\label{eq:28}
 \end{equation}
 This kind of elementwise multiplication is sometimes called the \textit{Hadamard product} or \textit{Schur product}. We'll refer to it as the Hadamard product. Good matrix libraries usually provide fast implementations of the Hadamard product, and that comes in handy when implementing backpropagation.
 
@@ -98,7 +98,7 @@ Now, this demon is a good demon, and is trying to help you improve the cost, i.e
 
 Motivated by this story, we define the error $\delta^l_j$ of neuron $j$ in layer $l$ by
 \begin{equation}
-	\delta^l_j\equiv\frac{\partial{}C}{\partial{}z^l_j}.\label{eq:29}
+	\delta^l_j\equiv\frac{\partial{}C}{\partial{}z^l_j}.\tag{29}\label{eq:29}
 \end{equation}
 As per our usual conventions, we use $\delta{}^l$ to denote the vector of errors associated with layer $l$. Backpropagation will give us a way of computing $\delta{}^l$ for every layer, and then relating those errors to the quantities of real interest, $\partial{}C/\partial{}w^l_{jk}$ and $\partial{}C/\partial{}b^l_j$.
 
@@ -111,8 +111,7 @@ Here's a preview of the ways we'll delve more deeply into the equations later in
 \textbf{An equation for the error in the output layer,} $\delta^L$: The components of $\delta^L$ are given by
 \begin{equation}
 	\delta^L_j = \frac{\partial C}{\partial a^L_j} \sigma'(z^L_j).
-	\tag{BP1}
-	\label{eq:BP1}
+	\tag{BP1}\label{eq:BP1}
 \end{equation}
 This is a very natural expression. The first term on the right, $\partial{}C/\partial{}a^L_j$, just measures how fast the cost is changing as a function of the $j$-th output activation. If, for example, $C$ doesn't depend much on a particular output neuron, $j$, then $\delta^L_j$ will be small, which is what we'd expect. The second term on the right, $\sigma'(z^L_j)$, measures how fast the activation function $\sigma$ is changing at $z^L_j$.
 
@@ -122,21 +121,19 @@ Equation \ref{eq:BP1} is a componentwise expression for $\delta^L$. It's a perfe
 %$\delta^l$=∇aC⊙$\sigma$′(zL).(BP1a)
 \begin{equation}
 \delta^L = \nabla_a C \odot \sigma'(z^L).
-\tag{BP1a}
-\label{eq:BP1a}
+\tag{BP1a}\label{eq:BP1a}
 \end{equation}
 Here, $\nabla_a C$ is defined to be a vector whose components are the partial derivatives $\partial{}C/\partial{}a^L_j$. You can think of $\nabla_a C$ as expressing the rate of change of $C$ with respect to the output activations. It's easy to see that Equations \ref{eq:BP1a} and \ref{eq:BP1} are equivalent, and for that reason from now on we'll use \ref{eq:BP1} interchangeably to refer to both equations. As an example, in the case of the quadratic cost we have $\nabla_a C =(a^L-y)$, and so the fully matrix-based form of \ref{eq:BP1} becomes
 \begin{equation}
 \delta^L = (a^L-y) \odot \sigma'(z^L).
-\label{eq:30}
+\tag{30}\label{eq:30}
 \end{equation}
 As you can see, everything in this expression has a nice vector form, and is easily computed using a library such as Numpy.
 
 \textbf{An equation for the error $\delta^l$ in terms of the error in the next layer}, $\delta^{l+1}$: In particular
 \begin{equation}
 	\delta^l = ((w^{l+1})^T \delta^{l+1}) \odot \sigma'(z^l),
-	\tag{BP2}
-	\label{eq:BP2}
+	\tag{BP2}\label{eq:BP2}
 \end{equation}
 %$\delta^l$=(($w^{l+1}$)T$\delta^{l+1}$)⊙$\sigma$′(zl),(\ref{eq:BP2})
 where $(w^{l+1})^T$ is the transpose of the weight matrix $w^{l+1}$ for the ($l$+1)-th layer. This equation appears complicated, but each element has a nice interpretation. Suppose we know the error $\delta^{l+1}$ at the ($l$+1)-th layer. When we apply the transpose weight matrix, $(w^{l+1})^T$, we can think intuitively of this as moving the error \textit{backward} through the network, giving us some sort of measure of the error at the output of the $l$-th layer. We then take the Hadamard product $\odot \sigma'(z^l)$. This moves the error backward through the activation function in layer $l$, giving us the error $\delta^l$ in the weighted input to layer $l$.
@@ -147,12 +144,11 @@ By combining (\ref{eq:BP2}) with (\ref{eq:BP1}) we can compute the error $\delta
 %\partial{}C\partial{}b^l_j=\delta^l_j.(\ref{eq:BP3})
 \begin{equation}
 \frac{\partial C}{\partial b^l_j} = \delta^l_j.
-\tag{BP3}
-\label{eq:BP3}
+\tag{BP3}\label{eq:BP3}
 \end{equation}
 That is, the error $\delta^l_j$ is \textit{exactly equal} to the rate of change $\partial{}C/\partial{}b^l_j$. This is great news, since (\ref{eq:BP1}) and (\ref{eq:BP2}) have already told us how to compute $\delta^l_j$. We can rewrite (\ref{eq:BP3}) in shorthand as
 \begin{equation}
-\frac{\partial C}{\partial b} = \delta,\label{eq:31}
+\frac{\partial C}{\partial b} = \delta,\tag{31}\label{eq:31}
 \end{equation}
 where it is understood that $\delta$ is being evaluated at the same neuron as the bias $b$.
 
@@ -160,14 +156,13 @@ where it is understood that $\delta$ is being evaluated at the same neuron as th
 %\partial{}C\partial{}w^l_{jk}=al-1k\delta^l_j.(\ref{eq:BP4})
 \begin{equation}
 \frac{\partial C}{\partial w^l_{jk}} = a^{l-1}_k \delta^l_j.
-\tag{BP4}
-\label{eq:BP4}
+\tag{BP4}\label{eq:BP4}
 \end{equation}
 This tells us how to compute the partial derivatives $\partial{}C/\partial{}w^l_{jk}$ in terms of the quantities $\delta^l$ and $a^{l-1}$, which we already know how to compute. The equation can be rewritten in a less index-heavy notation as
 %\partial{}C\partial{}w=ain\Delta{}out,(32)
 \begin{equation}
 \frac{\partial C}{\partial w} = a_{\rm in} \delta_{\rm out},
-\label{eq:32}
+\tag{32}\label{eq:32}
 \end{equation}
 where it's understood that $a_\mathrm{in}$ is the activation of the neuron input to the weight $w$, and $\delta_\mathrm{out}$ is the error of the neuron output from the weight $w$. Zooming in to look at just the weight $w$, and the two neurons connected by that weight, we can depict this as:
 
@@ -193,18 +188,18 @@ None of these observations is too greatly surprising. Still, they help improve o
 		\item[(1)]  Show that (\ref{eq:BP1}) may be rewritten as
 		\begin{equation}
 			\delta^L = \Sigma'(z^L) \nabla_a C,
-			\label{eq:33}
+			\tag{33}\label{eq:33}
 		\end{equation}
 		where $\Sigma'(z^L)$ is a square matrix whose diagonal entries are the values $\sigma'(z^L_j)$, and whose off-diagonal entries are zero. Note that this matrix acts on $\nabla_a C$ by conventional matrix multiplication.
 		\item[(2)] Show that (\ref{eq:BP2}) may be rewritten as
 		\begin{equation}
 			\delta^l = \Sigma'(z^l) (w^{l+1})^T \delta^{l+1}.
-			\label{eq:34}
+			\tag{34}\label{eq:34}
 		\end{equation}
 		\item[(3)] By combining observations (1) and (2) show that
 		\begin{equation}
 			\delta^l = \Sigma'(z^l) (w^{l+1})^T \ldots \Sigma'(z^{L-1}) (w^L)^T \Sigma'(z^L) \nabla_a C
-			\label{eq:35}
+			\tag{35}\label{eq:35}
 		\end{equation}
 		For readers comfortable with matrix multiplication this equation may be easier to understand than (\ref{eq:BP1}) and (\ref{eq:BP2}). The reason I've focused on (\ref{eq:BP1}) and (\ref{eq:BP2}) is because that approach turns out to be faster to implement numerically.
 	\end{enumerate}
@@ -217,48 +212,48 @@ Let's begin with Equation (\ref{eq:BP1}), which gives an expression for the outp
 %$\delta^l$j=\partial{}C\partial{}z^L_j.(36)
 \begin{equation}
 	\delta^L_j = \frac{\partial C}{\partial z^L_j}.
-	\label{eq:36}
+	\tag{36}\label{eq:36}
 \end{equation}
 Applying the chain rule, we can re-express the partial derivative above in terms of partial derivatives with respect to the output activations,
 \begin{equation}
 	\delta^L_j = \sum_k \frac{\partial C}{\partial a^L_k} \frac{\partial a^L_k}{\partial z^L_j},
-	\label{eq:37}
+	\tag{37}\label{eq:37}
 \end{equation}%$\delta^l$j=∑k\partial{}C\partial{}aLk\partial{}aLk\partial{}z^L_j,(37)
 where the sum is over all neurons $k$ in the output layer. Of course, the output activation $a^L_k$ of the $k$-th neuron depends only on the weighted input $z^L_j$ for the $j$-th neuron when $k=j$. And so $\partial{}a^L_k/\partial{}z^L_j$ vanishes when $k\ne{}j$. As a result we can simplify the previous equation to
 \begin{equation}
 	\delta^L_j = \frac{\partial C}{\partial a^L_j} \frac{\partial a^L_j}{\partial z^L_j}.
-	\label{eq:38}
+	\tag{38}\label{eq:38}
 \end{equation}%$\delta^l$j=\partial{}C\partial{}a^L_j\partial{}a^L_j\partial{}z^L_j.(38)
 Recalling that $a^L_j=\sigma(z^L_j)$ the second term on the right can be written as $\sigma'(z^L_j)$, and the equation becomes
 %$\delta^l$j=\partial{}C\partial{}a^L_j$\sigma$′(z^L_j),(39)
 \begin{equation}
 	\delta^L_j = \frac{\partial C}{\partial a^L_j} \sigma'(z^L_j),
-	\label{eq:39}
+	\tag{39}\label{eq:39}
 \end{equation}
 which is just (\ref{eq:BP1}), in component form.
 %
 Next, we'll prove (\ref{eq:BP2}), which gives an equation for the error $\delta^l$ in terms of the error in the next layer, $\delta^{l+1}$. To do this, we want to rewrite $\delta^l_j=\partial{}C/\partial{}z^l_j$ in terms of $\delta^{l+1}_k=\partial{}C/\partial{}z^{l+1}_k$. We can do this using the chain rule,
 \begin{equation}
 \delta^l_j =  \frac{\partial C}{\partial z^l_j} =  \sum_k \frac{\partial C}{\partial z^{l+1}_k} \frac{\partial z^{l+1}_k}{\partial z^l_j} = \sum_k \frac{\partial z^{l+1}_k}{\partial z^l_j} \delta^{l+1}_k,
-\label{eq:42}
+\tag{42}\label{eq:42}
 \end{equation}
 %\delta^l_j===\partial{}C\partial{}z^l_j∑k\partial{}C\partial{}zl+1k\partial{}zl+1k\partial{}z^l_j∑k\partial{}zl+1k\partial{}z^l_j$\delta^{l+1}$k,(40)(41)(42)
 where in the last line we have interchanged the two terms on the right-hand side, and substituted the definition of $\delta^{l+1}_k$. To evaluate the first term on the last line, note that
 %zl+1k=∑j$w^{l+1}$kjalj+bl+1k=∑j$w^{l+1}$kj$\sigma$(z^l_j)+bl+1k.(43)
 \begin{equation}
 	z^{l+1}_k = \sum_j w^{l+1}_{kj} a^l_j +b^{l+1}_k = \sum_j w^{l+1}_{kj} \sigma(z^l_j) +b^{l+1}_k.
-	\label{eq:43}
+	\tag{43}\label{eq:43}
 \end{equation}
 Differentiating, we obtain
 %\partial{}zl+1k\partial{}z^l_j=$w^{l+1}$kj$\sigma$′(z^l_j).(44)
 \begin{equation}
 	\frac{\partial z^{l+1}_k}{\partial z^l_j} = w^{l+1}_{kj} \sigma'(z^l_j).
-	\label{eq:44}
+	\tag{44}\label{eq:44}
 \end{equation}
 Substituting back into (\ref{eq:42}) we obtain
 \begin{equation}
 	\delta^l_j = \sum_k w^{l+1}_{kj}  \delta^{l+1}_k \sigma'(z^l_j).
-	\label{eq:45}
+	\tag{45}\label{eq:45}
 \end{equation}%\delta^l_j=∑k$w^{l+1}$kj$\delta^{l+1}$k$\sigma$′(z^l_j).(45)
 This is just (\ref{eq:BP2}) written in component form.
 
@@ -382,7 +377,7 @@ class Network(object):
 In what sense is backpropagation a fast algorithm? To answer this question, let's consider another approach to computing the gradient. Imagine it's the early days of neural networks research. Maybe it's the 1950s or 1960s, and you're the first person in the world to think of using gradient descent to learn! But to make the idea work you need a way of computing the gradient of the cost function. You think back to your knowledge of calculus, and decide to see if you can use the chain rule to compute the gradient. But after playing around a bit, the algebra looks complicated, and you get discouraged. So you try to find another approach. You decide to regard the cost as a function of the weights $C=C(w)$ alone (we'll get back to the biases in a moment). You number the weights $w_1,w_2,\ldots$, and want to compute $\partial{}C/\partial{}w_j$ for some particular weight $w_j$. An obvious way of doing that is to use the approximation
 \begin{equation}
 	\frac{\partial C}{\partial w_{j}} \approx \frac{C(w+\epsilon e_j)-C(w)}{\epsilon},
-	\label{eq:46}
+	\tag{46}\label{eq:46}
 \end{equation}
 %\partial{}C\partial{}wj≈C(w+\epsilon{}ej)-C(w)\epsilon{},(46)
 where $\epsilon>0$ is a small positive number, and $e_j$ is the unit vector in the $j$-th direction. In other words, we can estimate $\partial{}C/\partial{}w_j$ by computing the cost $C$ for two slightly different values of $w_j$, and then applying Equation~\ref{eq:46}. The same idea will let us compute the partial derivatives $\partial{}C/\partial{}b$ with respect to the biases.
@@ -418,7 +413,7 @@ Those changes will in turn cause changes in the next layer, and then the next, a
 The change $\Delta{}C$ in the cost is related to the change $\Delta{}w^l_{jk}$ in the weight by the equation
 \begin{equation}
 	\Delta C \approx \frac{\partial C}{\partial w^l_{jk}} \Delta w^l_{jk}.
-	\label{eq:47}
+	\tag{47}\label{eq:47}
 \end{equation}
 %\Delta{}C≈\partial{}C\partial{}w^l_{jk}\Delta{}w^l_{jk}.(47)
 This suggests that a possible approach to computing $\partial{}C/\partial{}w^l_{jk}$ is to carefully track how a small change in $w^l_{jk}$ propagates to cause a small change in $C$. If we can do that, being careful to express everything along the way in terms of easily computable quantities, then we should be able to compute $\partial{}C/\partial{}w^l_{jk}$.
@@ -427,7 +422,7 @@ Let's try to carry this out. The change $\Delta{}w^l_{jk}$ causes a small change
 %\Delta{}alj≈\partial{}alj\partial{}w^l_{jk}\Delta{}w^l_{jk}.(48)
 \begin{equation}
 	\Delta a^l_j \approx \frac{\partial a^l_j}{\partial w^l_{jk}} \Delta w^l_{jk}.
-	\label{eq:48}
+	\tag{48}\label{eq:48}
 \end{equation}
 The change in activation $\Delta{}a^l_j$ will cause changes in all the activations in the next layer, i.e., the ($l$+1)-th layer. We'll concentrate on the way just a single one of those activations is affected, say $a^{l+1}_q$,
 \begin{center}
@@ -436,13 +431,13 @@ The change in activation $\Delta{}a^l_j$ will cause changes in all the activatio
 In fact, it'll cause the following change:
 \begin{equation}
 	\Delta a^{l+1}_q \approx \frac{\partial a^{l+1}_q}{\partial a^l_j} \Delta a^l_j.
-	\label{eq:49}
+	\tag{49}\label{eq:49}
 \end{equation}%\Delta{}al+1q≈\partial{}al+1q\partial{}alj\Delta{}alj.(49)
 Substituting in the expression from Equation~\ref{eq:48}, we get:
 %\Delta{}al+1q≈\partial{}al+1q\partial{}alj\partial{}alj\partial{}w^l_{jk}\Delta{}w^l_{jk}.(50)
 \begin{equation}
 	\Delta a^{l+1}_q \approx \frac{\partial a^{l+1}_q}{\partial a^l_j} \frac{\partial a^l_j}{\partial w^l_{jk}} \Delta w^l_{jk}.
-	\label{eq:50}
+	\tag{50}\label{eq:50}
 \end{equation}
 Of course, the change $\Delta{}a^{l+1}_q$ will, in turn, cause changes in the activations in the next layer. In fact, we can imagine a path all the way through the network from $w^l_{jk}$ to $C$, with each change in activation causing a change in the next activation, and, finally, a change in the cost at the output. If the path goes through activations $a^l_j,a^{l+1}_q,\cdots,a^{L-1}_n,a^L_m$ then the resulting expression is
 \begin{equation}
@@ -451,7 +446,7 @@ Of course, the change $\Delta{}a^{l+1}_q$ will, in turn, cause changes in the ac
 	\frac{\partial a^{L-1}_n}{\partial a^{L-2}_p} \ldots
 	\frac{\partial a^{l+1}_q}{\partial a^l_j}
 	\frac{\partial a^l_j}{\partial w^l_{jk}} \Delta w^l_{jk},
-	\label{eq:51}
+	\tag{51}\label{eq:51}
 \end{equation}
 %\Delta{}C≈\partial{}C\partial{}aLm\partial{}aLm\partial{}aL-1n\partial{}aL-1n\partial{}aL-2p…\partial{}al+1q\partial{}alj\partial{}alj\partial{}w^l_{jk}\Delta{}w^l_{jk},(51)
 that is, we've picked up a $\partial{}a/\partial{}a$ type term for each additional neuron we've passed through, as well as the $\partial{}C/\partial{}a^L_m$ term at the end. This represents the change in $C$ due to changes in the activations along this particular path through the network. Of course, there's many paths by which a change in $w^l_{jk}$ can propagate to affect the cost, and we've been considering just a single path. To compute the total change in $C$ it is plausible that we should sum over all the possible paths between the weight and the final cost, i.e.,
@@ -461,7 +456,7 @@ that is, we've picked up a $\partial{}a/\partial{}a$ type term for each addition
 	\frac{\partial a^{L-1}_n}{\partial a^{L-2}_p} \ldots
 	\frac{\partial a^{l+1}_q}{\partial a^l_j} 
 	\frac{\partial a^l_j}{\partial w^l_{jk}} \Delta w^l_{jk},
-	\label{eq:52}
+	\tag{52}\label{eq:52}
 \end{equation}
 %\Delta{}C≈∑mnp…q\partial{}C\partial{}aLm\partial{}aLm\partial{}aL-1n\partial{}aL-1n\partial{}aL-2p…\partial{}al+1q\partial{}alj\partial{}alj\partial{}w^l_{jk}\Delta{}w^l_{jk},(52)
 where we've summed over all possible choices for the intermediate neurons along the path. Comparing with (\ref{eq:47}) we see that
@@ -472,7 +467,7 @@ where we've summed over all possible choices for the intermediate neurons along 
 	\frac{\partial a^{L-1}_n}{\partial a^{L-2}_p} \ldots
 	\frac{\partial a^{l+1}_q}{\partial a^l_j} 
 	\frac{\partial a^l_j}{\partial w^l_{jk}}.
-	\label{eq:53}
+	\tag{53}\label{eq:53}
 \end{equation}
 Now, Equation~\ref{eq:53} looks complicated. However, it has a nice intuitive interpretation. We're computing the rate of change of $C$ with respect to a weight in the network. What the equation tells us is that every edge between two neurons in the network is associated with a rate factor which is just the partial derivative of one neuron's activation with respect to the other neuron's activation. The edge from the first weight to the first neuron has a rate factor $\partial{}a^l_j/\partial{}w^l_{jk}$. The rate factor for a path is just the product of the rate factors along the path. And the total rate of change $\partial{}C/\partial{}w^l_{jk}$ is just the sum of the rate factors of all paths from the initial weight to the final cost. This procedure is illustrated here, for a single path:
 \begin{center}

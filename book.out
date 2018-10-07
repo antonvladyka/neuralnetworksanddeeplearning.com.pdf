@@ -1,0 +1,54 @@
+\BOOKMARK [0][-]{chapter*.2}{What this book is about}{}% 1
+\BOOKMARK [0][-]{chapter*.3}{On the exercises and problems}{}% 2
+\BOOKMARK [0][-]{chapter.1}{Using neural nets to recognize handwritten digits}{}% 3
+\BOOKMARK [1][-]{section.1.1}{Perceptrons}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.2}{Sigmoid neurons}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.3}{The architecture of neural networks}{chapter.1}% 6
+\BOOKMARK [1][-]{section.1.4}{A simple network to classify handwritten digits}{chapter.1}% 7
+\BOOKMARK [1][-]{section.1.5}{Learning with gradient descent}{chapter.1}% 8
+\BOOKMARK [1][-]{section.1.6}{Implementing our network to classify digits}{chapter.1}% 9
+\BOOKMARK [1][-]{section.1.7}{Toward deep learning}{chapter.1}% 10
+\BOOKMARK [0][-]{chapter.2}{How the backpropagation algorithm works}{}% 11
+\BOOKMARK [1][-]{section.2.1}{Warm up: a fast matrix-based approach to computing the output from a neural network}{chapter.2}% 12
+\BOOKMARK [1][-]{section.2.2}{The two assumptions we need about the cost function}{chapter.2}% 13
+\BOOKMARK [1][-]{section.2.3}{The Hadamard product, st}{chapter.2}% 14
+\BOOKMARK [1][-]{section.2.4}{The four fundamental equations behind backpropagation}{chapter.2}% 15
+\BOOKMARK [1][-]{section.2.5}{Proof of the four fundamental equations \(optional\)}{chapter.2}% 16
+\BOOKMARK [1][-]{section.2.6}{The backpropagation algorithm}{chapter.2}% 17
+\BOOKMARK [1][-]{section.2.7}{The code for backpropagation}{chapter.2}% 18
+\BOOKMARK [1][-]{section.2.8}{In what sense is backpropagation a fast algorithm?}{chapter.2}% 19
+\BOOKMARK [1][-]{section.2.9}{Backpropagation: the big picture}{chapter.2}% 20
+\BOOKMARK [0][-]{chapter.3}{Improving the way neural networks learn}{}% 21
+\BOOKMARK [1][-]{section.3.1}{The cross-entropy cost function}{chapter.3}% 22
+\BOOKMARK [2][-]{subsection.3.1.1}{Introducing the cross-entropy cost function}{section.3.1}% 23
+\BOOKMARK [2][-]{subsection.3.1.2}{Using the cross-entropy to classify MNIST digits}{section.3.1}% 24
+\BOOKMARK [2][-]{subsection.3.1.3}{What does the cross-entropy mean? Where does it come from?}{section.3.1}% 25
+\BOOKMARK [2][-]{subsection.3.1.4}{Softmax}{section.3.1}% 26
+\BOOKMARK [1][-]{section.3.2}{Overfitting and regularization}{chapter.3}% 27
+\BOOKMARK [2][-]{subsection.3.2.1}{Regularization}{section.3.2}% 28
+\BOOKMARK [2][-]{subsection.3.2.2}{Why does regularization help reduce overfitting?}{section.3.2}% 29
+\BOOKMARK [2][-]{subsection.3.2.3}{Other techniques for regularization}{section.3.2}% 30
+\BOOKMARK [1][-]{section.3.3}{Weight initialization}{chapter.3}% 31
+\BOOKMARK [1][-]{section.3.4}{Handwriting recognition revisited: the code}{chapter.3}% 32
+\BOOKMARK [1][-]{section.3.5}{How to choose a neural network's hyper-parameters?}{chapter.3}% 33
+\BOOKMARK [1][-]{section.3.6}{Other techniques}{chapter.3}% 34
+\BOOKMARK [2][-]{subsection.3.6.1}{Variations on stochastic gradient descent}{section.3.6}% 35
+\BOOKMARK [0][-]{chapter.4}{A visual proof that neural nets can compute any function}{}% 36
+\BOOKMARK [1][-]{section.4.1}{Two caveats}{chapter.4}% 37
+\BOOKMARK [1][-]{section.4.2}{Universality with one input and one output}{chapter.4}% 38
+\BOOKMARK [1][-]{section.4.3}{Many input variables}{chapter.4}% 39
+\BOOKMARK [1][-]{section.4.4}{Extension beyond sigmoid neurons}{chapter.4}% 40
+\BOOKMARK [1][-]{section.4.5}{Fixing up the step functions}{chapter.4}% 41
+\BOOKMARK [0][-]{chapter.5}{Why are deep neural networks hard to train?}{}% 42
+\BOOKMARK [1][-]{section.5.1}{The vanishing gradient problem}{chapter.5}% 43
+\BOOKMARK [1][-]{section.5.2}{What's causing the vanishing gradient problem? Unstable gradients in deep neural nets}{chapter.5}% 44
+\BOOKMARK [1][-]{section.5.3}{Unstable gradients in more complex networks}{chapter.5}% 45
+\BOOKMARK [1][-]{section.5.4}{Other obstacles to deep learning}{chapter.5}% 46
+\BOOKMARK [0][-]{chapter.6}{Deep learning}{}% 47
+\BOOKMARK [1][-]{section.6.1}{Introducing convolutional networks}{chapter.6}% 48
+\BOOKMARK [1][-]{section.6.2}{Convolutional neural networks in practice}{chapter.6}% 49
+\BOOKMARK [1][-]{section.6.3}{The code for our convolutional networks}{chapter.6}% 50
+\BOOKMARK [1][-]{section.6.4}{Recent progress in image recognition}{chapter.6}% 51
+\BOOKMARK [1][-]{section.6.5}{Other approaches to deep neural nets}{chapter.6}% 52
+\BOOKMARK [1][-]{section.6.6}{On the future of neural networks}{chapter.6}% 53
+\BOOKMARK [0][-]{appendix.A}{Is there a simple algorithm for intelligence?}{}% 54

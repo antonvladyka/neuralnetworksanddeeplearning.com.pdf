@@ -1,11 +1,11 @@
 \documentclass{standalone}
-
+\usepackage[garamond]{mathdesign}
 \usepackage{tikz}
 \begin{document}
 \def\layersep{3.5cm}
 
 \begin{tikzpicture}[shorten >=0.25pt,-latex,draw=black!75, node distance=\layersep]
-    \tikzstyle{every pin edge}=[-latex,shorten <=0.5pt]
+    \tikzstyle{every pin edge}=[-latex,shorten <=1.5pt]
     \tikzstyle{neuron}=[draw=black!85,circle,fill=black!25,minimum size=20pt,inner sep=0pt]
     \tikzstyle{input neuron}=[neuron, fill=green!15];
     \tikzstyle{output neuron}=[neuron, fill=red!15];

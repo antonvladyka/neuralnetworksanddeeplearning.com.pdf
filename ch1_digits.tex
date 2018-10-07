@@ -35,7 +35,7 @@ In the example shown the perceptron has three inputs, $x_1$, $x_2$, $x_3$. In ge
 \begin{equation}
 \textrm{output} = \begin{cases}
 0 \quad \textrm{if}\quad \sum_j w_jx_j \le \mathrm{threshold} \\
-1 \quad \textrm{if}\quad \sum_j w_jx_j > \mathrm{threshold}
+1 \quad \textrm{if}\quad \sum_j w_jx_j > \mathrm{threshold}\tag{1}
 \end{cases}
 \end{equation}
 That's all there is to how a perceptron works!
@@ -64,7 +64,7 @@ Let's simplify the way we describe perceptrons. The condition $\sum_j w_jx_j>$th
 \begin{equation}
 \textrm{output} = \begin{cases}
 0 \quad \textrm{if}\quad w\cdot x + b  \le 0 \\
-1 \quad \textrm{if}\quad w\cdot x + b  > 0
+1 \quad \textrm{if}\quad w\cdot x + b  > 0 \tag{2}
 \end{cases}
 \end{equation}
 You can think of the bias as a measure of how easy it is to get the perceptron to output a 1. Or to put it in more biological terms, the bias is a measure of how easy it is to get the perceptron to \textit{fire}. For a perceptron with a really big bias, it's extremely easy for the perceptron to output a 1. But if the bias is very negative, then it's difficult for the perceptron to output a 1. Obviously, introducing the bias is only a small change in how we describe perceptrons, but we'll see later that it leads to further notational simplifications. Because of this, in the remainder of the book we won't use the threshold, we'll always use the bias.
@@ -123,12 +123,12 @@ Just like a perceptron, the sigmoid neuron has inputs, $x_1, x_2, \ldots$. But i
 
 \begin{equation}
 \sigma(z) \equiv \frac1{1+e^{-z}}.
-\label{eq:sigma}
+\tag{3}\label{eq:sigma}
 \end{equation}
 To put it all a little more explicitly, the output of a sigmoid neuron with inputs $x_1$,$x_2$,$\ldots$, weights $w_1,w_2,\ldots$, and bias $b$ is
 \begin{equation}
 \frac1{1+\exp\left(-\sum_jw_jx_j-b\right)}
-\label{eq:4}.
+\tag{4}\label{eq:4}.
 \end{equation}
 At first sight, sigmoid neurons appear very different to perceptrons. The algebraic form of the sigmoid function may seem opaque and forbidding if you're not already familiar with it. In fact, there are many similarities between perceptrons and sigmoid neurons, and the algebraic form of the sigmoid function turns out to be more of a technical detail than a true barrier to understanding.
 
@@ -153,7 +153,7 @@ This shape is a smoothed out version of a step function:
 If $\sigma$ had in fact been a step function, then the sigmoid neuron would be a perceptron, since the output would be 1 or 0 depending on whether $w\cdot x + b$ was positive or negative\footnote{Actually, when $w\cdot x+b = 0$ the perceptron outputs 0, while the step function outputs 1. So, strictly speaking, we'd need to modify the step function at that one point. But you get the idea.}. By using the actual $\sigma$ function we get, as already implied above, a smoothed out perceptron. Indeed, it's the smoothness of the $\sigma$ function that is the crucial fact, not its detailed form. The smoothness of $\sigma$ means that small changes $\Delta{}w_j$ in the weights and $\Delta{}b$ in the bias will produce a small change $\Delta\textrm{output}$ in the output from the neuron. In fact, calculus tells us that $\Delta\textrm{output}$ is well approximated by
 \begin{equation}
 \Delta\textrm{output}\approx \sum_j\frac{\partial\textrm{output}}{\partial w_j}\Delta w_j + \frac{\partial\textrm{output}}{\partial b}\Delta b
-\label{eq:doutput}
+\tag{5}\label{eq:doutput}
 \end{equation}		
 where the sum is over all the weights, $w_j$, and $\partial\textrm{output}/\partial w_j$ and $\partial\textrm{output}/\partial b$ denote partial derivatives of the output with respect to $w_j$ and $b$, respectively. Don't panic if you're not comfortable with partial derivatives! While the expression above looks complicated, with all the partial derivatives, it's actually saying something very simple (and which is very good news): $\Delta\textrm{output}$ is a linear function of the changes $\Delta w_j$ and $\Delta b$ in the weights and bias. This linearity makes it easy to choose small changes in the weights and biases to achieve any desired small change in the output. So while sigmoid neurons have much of the same qualitative behavior as perceptrons, they make it much easier to figure out how changing the weights and biases will change the output.
 
@@ -261,7 +261,7 @@ We'll use the notation $x$ to denote a training input. It'll be convenient to re
 What we'd like is an algorithm which lets us find weights and biases so that the output from the network approximates $y(x)$ for all training inputs $x$. To quantify how well we're achieving this goal we define a cost function\footnote{Sometimes referred to as a loss or objective function. We use the term cost function throughout this book, but you should note the other terminology, since it's often used in research papers and other discussions of neural networks.}:
 \begin{equation}
 	C(w,b) \equiv\frac1{2n}\sum_x\|y(x)-a\|^2
-	\label{eq:6}
+	\tag{6}\label{eq:6}
 \end{equation}
 Here, $w$ denotes the collection of all weights in the network, $b$ all the biases, $n$ is the total number of training inputs, $a$ is the vector of outputs from the network when $x$ is input, and the sum is over all training inputs, $x$. Of course, the output $a$ depends on $x$, $w$ and $b$, but to keep the notation simple I haven't explicitly indicated this dependence. The notation $\|v\|$ just denotes the usual length function for a vector $v$. We'll call $C$ the \textit{quadratic} cost function; it's also sometimes known as the \textit{mean squared error} or just MSE. Inspecting the form of the quadratic cost function, we see that $C(w,b)$ is non-negative, since every term in the sum is non-negative. Furthermore, the cost $C(w,b)$ becomes small, i.e., $C(w,b)\approx0$, precisely when $y(x)$ is approximately equal to the output, $a$, for all training inputs, $x$. So our training algorithm has done a good job if it can find weights and biases so that $C(w,b)\approx0$. By contrast, it's not doing so well when $C(w,b)$ is large -- that would mean that $y(x)$ is not close to the output a for a large number of inputs. So the aim of our training algorithm will be to minimize the cost $C(w,b)$ as a function of the weights and biases. In other words, we want to find a set of weights and biases which make the cost as small as possible. We'll do that using an algorithm known as \textit{gradient descent}.
 
@@ -271,7 +271,7 @@ Even given that we want to use a smooth cost function, you may still wonder why 
 
 Recapping, our goal in training a neural network is to find weights and biases which minimize the quadratic cost function $C(w,b)$. This is a well-posed problem, but it's got a lot of distracting structure as currently posed -- the interpretation of $w$ and $b$ as weights and biases, the $\sigma$ function lurking in the background, the choice of network architecture, MNIST, and so on. It turns out that we can understand a tremendous amount by ignoring most of that structure, and just concentrating on the minimization aspect. So for now we're going to forget all about the specific form of the cost function, the connection to neural networks, and so on. Instead, we're going to imagine that we've simply been given a function of many variables and we want to minimize that function. We're going to develop a technique called gradient descent which can be used to solve such minimization problems. Then we'll come back to the specific function we want to minimize for neural networks.
 
-Okay, let's suppose we're trying to minimize some function, $C(v)$. This could be any real-valued function of many variables, $v=v1,v2,\ldots$. Note that I've replaced the $w$ and $b$ notation by $v$ to emphasize that this could be any function -- we're not specifically thinking in the neural networks context any more. To minimize $C(v)$ it helps to imagine $C$ as a function of just two variables, which we'll call $v_1$ and $v_2$:
+Okay, let's suppose we're trying to minimize some function, $C(v)$. This could be any real-valued function of many variables, $v=v_1,v_2,\ldots$. Note that I've replaced the $w$ and $b$ notation by $v$ to emphasize that this could be any function -- we're not specifically thinking in the neural networks context any more. To minimize $C(v)$ it helps to imagine $C$ as a function of just two variables, which we'll call $v_1$ and $v_2$:
 \begin{center}
 	\includegraphics[width=0.5\linewidth]{./figures/ch1/valley}
 \end{center}
@@ -289,29 +289,29 @@ Based on what I've just written, you might suppose that we'll be trying to write
 To make this question more precise, let's think about what happens when we move the ball a small amount $\Delta v_1$ in the $v_1$ direction, and a small amount $\Delta v_2$ in the $v_2$ direction. Calculus tells us that $C$ changes as follows:
 \begin{equation}
 	\Delta C \approx \frac{\partial C}{\partial v_1} \Delta v_1 + \frac{\partial C}{\partial v_2} \Delta v_2.
-	\label{eq:7}
+	\tag{7}\label{eq:7}
 \end{equation}
 We're going to find a way of choosing $\Delta v_1$ and $\Delta v_2$ so as to make $\Delta C$ negative; i.e., we'll choose them so the ball is rolling down into the valley. To figure out how to make such a choice it helps to define $\Delta v$ to be the vector of changes in $v$, $\Delta v \equiv (\Delta v_1, \Delta v_2)^T$, where $T$ is again the transpose operation, turning row vectors into column vectors. We'll also define the \textit{gradient} of $C$ to be the vector of partial derivatives, $\left(\frac{\partial
 	C}{\partial v_1}, \frac{\partial C}{\partial v_2}\right)^T$. We denote the gradient vector by $\nabla C$, i.e.:
 \begin{equation}
 \nabla C \equiv \left( \frac{\partial C}{\partial v_1}, \frac{\partial C}{\partial v_2} \right)^T.
-\label{eq:8}
+\tag{8}\label{eq:8}
 \end{equation}
 In a moment we'll rewrite the change $\Delta C$ in terms of $\Delta{}v$ and the gradient, $\nabla C$. Before getting to that, though, I want to clarify something that sometimes gets people hung up on the gradient. When meeting the $\nabla C$ notation for the first time, people sometimes wonder how they should think about the $\nabla$ symbol. What, exactly, does $\nabla C$ mean? In fact, it's perfectly fine to think of $\nabla C$ as a single mathematical object -- the vector defined above -- which happens to be written using two symbols. In this point of view, $\nabla C$ is just a piece of notational flag-waving, telling you ``hey, $\nabla C$ is a gradient vector''. There are more advanced points of view where $\nabla C$ can be viewed as an independent mathematical entity in its own right (for example, as a differential operator), but we won't need such points of view.
 
 With these definitions, the expression \ref{eq:7} for $\Delta C$ can be rewritten as
 \begin{equation}
 	\Delta C \approx \nabla C \cdot \Delta v
-	\label{eq:9}
+	\tag{9}\label{eq:9}
 \end{equation}
 This equation helps explain why $\nabla C$ is called the gradient vector: $\nabla C$ relates changes in $v$ to changes in $C$, just as we'd expect something called a gradient to do. But what's really exciting about the equation is that it lets us see how to choose $\Delta v$ so as to make $\Delta C$ negative. In particular, suppose we choose
 \begin{equation}
 	 \Delta v = -\eta \nabla C,
-	 \label{eq:10}
+	 \tag{10}\label{eq:10}
 \end{equation}
 where $\eta$ is a small, positive parameter (known as the \textit{learning rate}). Then Equation \ref{eq:9} tells us that $ \Delta C \approx -\eta \nabla C \cdot \nabla C = -\eta \|\nabla C\|^2$. Because $\| \nabla C\|^2 \geq 0$, this guarantees that $\Delta C \leq 0$, i.e., $C$ will always decrease, never increase, if we change $v$ according to the prescription in \ref{eq:10}. (Within, of course, the limits of the approximation in Equation \ref{eq:9}). This is exactly the property we wanted! And so we'll take Equation \ref{eq:10} to define the ``law of motion'' for the ball in our gradient descent algorithm. That is, we'll use Equation \ref{eq:10} to compute a value for $\Delta v$, then move the ball's position $v$ by that amount:
 \begin{equation}
-v \to v' = v -\eta \nabla C. \label{eq:11}
+v \to v' = v -\eta \nabla C. \tag{11}\label{eq:11}
 \end{equation}
 Then we'll use this update rule again, to make another move. If we keep doing this, over and over, we'll keep decreasing $C$ until -- we hope -- we reach a global minimum.
 
@@ -326,21 +326,21 @@ To make gradient descent work correctly, we need to choose the learning rate $\e
 I've explained gradient descent when $C$ is a function of just two variables. But, in fact, everything works just as well even when $C$ is a function of many more variables. Suppose in particular that $C$ is a function of $m$ variables, $v_1, \ldots,v_m$. Then the change $\Delta C$ in $C$ produced by a small change $\Delta v = (\Delta v_1, \ldots, \Delta v_m)^T$ is
 \begin{equation}
 	\Delta C \approx \nabla C \cdot \Delta v,
-	\label{eq:12}
+	\tag{12}\label{eq:12}
 \end{equation}
 where the gradient $\nabla C$ is the vector
 \begin{equation}
 \nabla C \equiv \left(\frac{\partial C}{\partial v_1}, \ldots, \frac{\partial C}{\partial v_m}\right)^T.
-\label{eq:13}
+\tag{13}\label{eq:13}
 \end{equation}
 Just as for the two variable case, we can choose
 \begin{equation}
-\Delta v = -\eta \nabla C, \label{eq:14}
+\Delta v = -\eta \nabla C, \tag{14}\label{eq:14}
 \end{equation}
 and we're guaranteed that our (approximate) expression \ref{eq:12} for $\Delta C$ will be negative. This gives us a way of following the gradient to a minimum, even when $C$ is a function of many variables, by repeatedly applying the update rule
 \begin{equation}
 v \rightarrow v' = v-\eta \nabla C.
-\label{eq:15}
+\tag{15}\label{eq:15}
 \end{equation}
 You can think of this update rule as \textit{defining} the gradient descent algorithm. It gives us a way of repeatedly changing the position v in order to find a minimum of the function $C$. The rule doesn't always work -- several things can go wrong and prevent gradient descent from finding the global minimum of $C$, a point we'll return to explore in later chapters. But, in practice gradient descent often works extremely well, and in neural networks we'll find that it's a powerful way of minimizing the cost function, and so helping the net learn.
 
@@ -354,10 +354,10 @@ Indeed, there's even a sense in which gradient descent is the optimal strategy f
 People have investigated many variations of gradient descent, including variations that more closely mimic a real physical ball. These ball-mimicking variations have some advantages, but also have a major disadvantage: it turns out to be necessary to compute second partial derivatives of $C$, and this can be quite costly. To see why it's costly, suppose we want to compute all the second partial derivatives $\partial^2 C/ \partial v_j \partial v_k$. If there are a million such $v_j$ variables then we'd need to compute something like a trillion (i.e., a million squared) second partial derivatives\footnote{Actually, more like half a trillion, since $\partial^2 C/ \partial v_j \partial v_k = \partial^2 C/ \partial v_k \partial v_j$. Still, you get the point.}! That's going to be computationally costly. With that said, there are tricks for avoiding this kind of problem, and finding alternatives to gradient descent is an active area of investigation. But in this book we'll use gradient descent (and variations) as our main approach to learning in neural networks.
 
 How can we apply gradient descent to learn in a neural network? The idea is to use gradient descent to find the weights $w_k$ and biases $b_l$ which minimize the cost in Equation \ref{eq:6}. To see how this works, let's restate the gradient descent update rule, with the weights and biases replacing the variables $v_j$. In other words, our ``position'' now has components $w_k$ and $b_l$, and the gradient vector $\nabla C$ has corresponding components $\partial C/\partial w_k$ and $\partial C / \partial b_l$. Writing out the gradient descent update rule in terms of components, we have
-\begin{eqnarray}
-w_k & \to & w_k' = w_k-\eta \frac{\partial C}{\partial w_k}\\
-b_l & \to & b_l' = b_l-\eta \frac{\partial C}{\partial b_l}.
-\end{eqnarray}
+\begin{align}
+w_k & \to w_k' = w_k-\eta \frac{\partial C}{\partial w_k} \tag{16}\label{eq:16}\\
+b_l & \to b_l' = b_l-\eta \frac{\partial C}{\partial b_l}.\tag{17}\label{eq:17}
+\end{align}
 By repeatedly applying this update rule we can ``roll down the hill'', and hopefully find a minimum of the cost function. In other words, this is a rule which can be used to learn in a neural network.
 
 There are a number of challenges in applying the gradient descent rule. We'll look into those in depth in later chapters. But for now I just want to mention one problem. To understand what the problem is, let's look back at the quadratic cost in Equation \ref{eq:6}. Notice that this cost function has the form $C = \frac{1}{n} \sum_x C_x$, that is, it's an average over costs $C_x \equiv \frac{\|y(x)-a\|^2}{2}$ for individual training examples. In practice, to compute the gradient $\nabla C$ we need to  compute the gradients $\nabla C_x$ separately for each training input, x, and then average them, $\nabla C = \frac{1}{n}\sum_x \nabla C_x$. Unfortunately, when the number of training inputs is very large this can take a long time, and learning thus occurs slowly.
@@ -367,20 +367,20 @@ An idea called \textit{stochastic gradient descent} can be used to speed up lear
 To make these ideas more precise, stochastic gradient descent works by randomly picking out a small number $m$ of randomly chosen training inputs. We'll label those random training inputs $X_1,X_2,\ldots,X_m$, and refer to them as a mini-batch. Provided the sample size $m$ is large enough we expect that the average value of the $\nabla C_{X_j}$ will be roughly equal to the average over all $\nabla C_x$, that is,
 \begin{equation}
 	\frac{\sum_{j=1}^m \nabla C_{X_{j}}}{m} \approx \frac{\sum_x \nabla C_x}{n} = \nabla C,
-	\label{eq:18}
+	\tag{18}\label{eq:18}
 \end{equation}
 where the second sum is over the entire set of training data. Swapping sides we get
 \begin{equation}
 \nabla C \approx \frac{1}{m} \sum_{j=1}^m \nabla C_{X_{j}},
-	\label{eq:19}
+	\tag{19}\label{eq:19}
 \end{equation}
 confirming that we can estimate the overall gradient by computing gradients just for the randomly chosen mini-batch.
 
 To connect this explicitly to learning in neural networks, suppose wk and bl denote the weights and biases in our neural network. Then stochastic gradient descent works by picking out a randomly chosen mini-batch of training inputs, and training with those,
-\begin{eqnarray} 
-w_k & \rightarrow & w_k' = w_k-\frac{\eta}{m} \sum_j \frac{\partial C_{X_j}}{\partial w_k}\label{eq:20}\\
-b_l & \rightarrow & b_l' = b_l-\frac{\eta}{m} \sum_j \frac{\partial C_{X_j}}{\partial b_l}\label{eq:21},
-\end{eqnarray}
+\begin{align} 
+w_k & \rightarrow w_k' = w_k-\frac{\eta}{m} \sum_j \frac{\partial C_{X_j}}{\partial w_k}\tag{20}\label{eq:20}\\
+b_l & \rightarrow b_l' = b_l-\frac{\eta}{m} \sum_j \frac{\partial C_{X_j}}{\partial b_l}\tag{21}\label{eq:21},
+\end{align}
 where the sums are over all the training examples $X_j$ in the current mini-batch. Then we pick out another randomly chosen mini-batch and train with those. And so on, until we've exhausted the training inputs, which is said to complete an \textit{epoch} of training. At that point we start over with a new training epoch.
 
 Incidentally, it's worth noting that conventions vary about scaling of the cost function and of mini-batch updates to the weights and biases. In Equation \ref{eq:6} we scaled the overall cost function by a factor $\frac1n$. People sometimes omit the $\frac1n$, summing over the costs of individual training examples instead of averaging. This is particularly useful when the total number of training examples isn't known in advance. This can occur if more training data is being generated in real time, for instance. And, in a similar way, the mini-batch update rules \ref{eq:20} and \ref{eq:21} sometimes omit the $\frac1m$ term out the front of the sums. Conceptually this makes little difference, since it's equivalent to rescaling the learning rate $\eta$. But when doing detailed comparisons of different work it's worth watching out for.
@@ -425,7 +425,7 @@ The biases and weights in the \inline{Network} object are all initialized random
 Note also that the biases and weights are stored as lists of Numpy matrices. So, for example \inline{net.weights[1]} is a Numpy matrix storing the weights connecting the second and third layers of neurons. (It's not the first and second layers, since Python's list indexing starts at 0.) Since \inline{net.weights[1]} is rather verbose, let's just denote that matrix $w$. It's a matrix such that $w_{jk}$ is the weight for the connection between the $k$-th neuron in the second layer, and the $j$-th neuron in the third layer. This ordering of the $j$ and $k$ indices may seem strange -- surely it'd make more sense to swap the $j$ and $k$ indices around? The big advantage of using this ordering is that it means that the vector of activations of the third layer of neurons is:
 \begin{equation}
 	a' = \sigma(w a + b).
-	\label{eq:22}
+	\tag{22}\label{eq:22}
 \end{equation}
 There's quite a bit going on in this equation, so let's unpack it piece by piece. $a$ is the vector of activations of the second layer of neurons. To obtain $a'$ we multiply $a$ by the weight matrix $w$, and add the vector $b$ of biases. We then apply the function $\sigma$ elementwise to every entry in the vector $wa+b$\footnote{This is called \textit{vectorizing} the function $\sigma$.}. It's easy to verify that Equation \ref{eq:22} gives the same result as our earlier rule, Equation \ref{eq:4}, for computing the output of a sigmoid neuron.
 
