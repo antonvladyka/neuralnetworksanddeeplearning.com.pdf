@@ -33,7 +33,7 @@ Although this example uses the same learning rate ($\eta=0.15$), we can see that
 
 This behavior is strange when contrasted to human learning. As I said at the beginning of this section, we often learn fastest when we're badly wrong about something. But we've just seen that our artificial neuron has a lot of difficulty learning when it's badly wrong -- far more difficulty than when it's just a little wrong. What's more, it turns out that this behavior occurs not just in this toy model, but in more general networks. Why is learning so slow? And can we find a way of avoiding this slowdown?
 
-To understand the origin of the problem, consider that our neuron learns by changing the weight and bias at a rate determined by the partial derivatives of the cost function, $\partial{}C/\partial{}w$ and $\partial{}C/\partial{}b$. So saying ``learning is slow'' is really the same as saying that those partial derivatives are small. The challenge is to understand why they are small. To understand that, let's compute the partial derivatives. Recall that we're using the quadratic cost function, which, from Equation \ref{eq:6}, is given by
+To understand the origin of the problem, consider that our neuron learns by changing the weight and bias at a rate determined by the partial derivatives of the cost function, $\partial{}C/\partial{}w$ and $\partial{}C/\partial{}b$. So saying ``learning is slow'' is really the same as saying that those partial derivatives are small. The challenge is to understand why they are small. To understand that, let's compute the partial derivatives. Recall that we're using the quadratic cost function, which, from Equation~(\ref{eq:6}), is given by
 \begin{equation}
 C = \frac{(y-a)^2}2,\tag{54}\label{eq:54}
 \end{equation}
@@ -51,7 +51,7 @@ where I have substituted $x=1$ and $y=0$. To understand the behavior of these ex
 \end{axis}
 \end{tikzpicture}
 \end{center}
-We can see from this graph that when the neuron's output is close to 1, the curve gets very flat, and so $\sigma{}'(z)$ gets very small. Equations \ref{eq:55} and \ref{eq:56} then tell us that $\partial{}C/\partial{}w$ and $\partial{}C/\partial{}b$ get very small. This is the origin of the learning slowdown. What's more, as we shall see a little later, the learning slowdown occurs for essentially the same reason in more general neural networks, not just the toy example we've been playing with.
+We can see from this graph that when the neuron's output is close to 1, the curve gets very flat, and so $\sigma{}'(z)$ gets very small. Equations (\ref{eq:55}) and (\ref{eq:56}) then tell us that $\partial{}C/\partial{}w$ and $\partial{}C/\partial{}b$ get very small. This is the origin of the learning slowdown. What's more, as we shall see a little later, the learning slowdown occurs for essentially the same reason in more general neural networks, not just the toy example we've been playing with.
 
 \subsection{Introducing the cross-entropy cost function}
 How can we address the learning slowdown? It turns out that we can solve the problem by replacing the quadratic cost with a different cost function, known as the cross-entropy. To understand the cross-entropy, let's move a little away from our super-simple toy model. We'll suppose instead that we're trying to train a neuron with several input variables, $x_1,x_2,\ldots$, corresponding weights $w_1,w_2,\ldots$, and a bias, $b$:
@@ -70,7 +70,7 @@ It's not obvious that the expression (\ref{eq:57}) fixes the learning slowdown p
 
 Two properties in particular make it reasonable to interpret the cross-entropy as a cost function. First, it's non-negative, that is, $C>0$. To see this, notice that: (a)~all the individual terms in the sum in (\ref{eq:57}) are negative, since both logarithms are of numbers in the range 0 to 1; and (b)~there is a minus sign out the front of the sum.
 
-Second, if the neuron's actual output is close to the desired output for all training inputs, x, then the cross-entropy will be close to zero\footnote{To prove this I will need to assume that the desired outputs $y$ are all either 0 or 1. This is usually the case when solving classification problems, for example, or when computing Boolean functions. To understand what happens when we don't make this assumption, see the exercises at the end of this section.}. To see this, suppose for example that $y=0$ and $a\approx0$ for some input $x$. This is a case when the neuron is doing a good job on that input. We see that the first term in the expression (57) for the cost vanishes, since $y=0$, while the second term is just $-\ln(1-a)\approx0$. A similar analysis holds when $y=1$ and $a\approx1$. And so the contribution to the cost will be low provided the actual output is close to the desired output.
+Second, if the neuron's actual output is close to the desired output for all training inputs, x, then the cross-entropy will be close to zero\footnote{To prove this I will need to assume that the desired outputs $y$ are all either 0 or 1. This is usually the case when solving classification problems, for example, or when computing Boolean functions. To understand what happens when we don't make this assumption, see the exercises at the end of this section.}. To see this, suppose for example that $y=0$ and $a\approx0$ for some input $x$. This is a case when the neuron is doing a good job on that input. We see that the first term in the expression (\ref{eq:57}) for the cost vanishes, since $y=0$, while the second term is just $-\ln(1-a)\approx0$. A similar analysis holds when $y=1$ and $a\approx1$. And so the contribution to the cost will be low provided the actual output is close to the desired output.
 
 Summing up, the cross-entropy is positive, and tends toward zero as the neuron gets better at computing the desired output, $y$, for all training inputs, $x$. These are both properties we'd intuitively expect for a cost function. Indeed, both properties are also satisfied by the quadratic cost. So that's good news for the cross-entropy. But the cross-entropy cost function has the benefit that, unlike the quadratic cost, it avoids the problem of learning slowing down. To see this, let's compute the partial derivative of the cross-entropy cost with respect to the weights. We substitute $a=\sigma(z)$ into (\ref{eq:57}), and apply the chain rule twice, obtaining:
 %\partial{}C\partial{}wj==-1n∑x(y\sigma(z)-(1-y)1-\sigma(z))\partial{}\sigma\partial{}wj-1n∑x(y\sigma(z)-(1-y)1-\sigma(z))\sigma'(z)x_j.(58)(59)
@@ -96,7 +96,7 @@ Using the definition of the sigmoid function, $\sigma(z)=1/(1+e^{-z})$, and a li
 	\frac{\partial C}{\partial w_j} =  \frac{1}{n} \sum_x x_j(\sigma(z)-y).
 	\tag{61}\label{eq:61}
 \end{equation}
-This is a beautiful expression. It tells us that the rate at which the weight learns is controlled by $\sigma(z)-y$, i.e., by the error in the output. The larger the error, the faster the neuron will learn. This is just what we'd intuitively expect. In particular, it avoids the learning slowdown caused by the $\sigma'(z)$ term in the analogous equation for the quadratic cost, Equation(\ref{eq:55}). When we use the cross-entropy, the $\sigma'(z)$ term gets canceled out, and we no longer need worry about it being small. This cancellation is the special miracle ensured by the cross-entropy cost function. Actually, it's not really a miracle. As we'll see later, the cross-entropy was specially chosen to have just this property.
+This is a beautiful expression. It tells us that the rate at which the weight learns is controlled by $\sigma(z)-y$, i.e., by the error in the output. The larger the error, the faster the neuron will learn. This is just what we'd intuitively expect. In particular, it avoids the learning slowdown caused by the $\sigma'(z)$ term in the analogous equation for the quadratic cost, Equation~(\ref{eq:55}). When we use the cross-entropy, the $\sigma'(z)$ term gets cancelled out, and we no longer need worry about it being small. This cancellation is the special miracle ensured by the cross-entropy cost function. Actually, it's not really a miracle. As we'll see later, the cross-entropy was specially chosen to have just this property.
 
 In a similar way, we can compute the partial derivative for the bias. I won't go through all the details again, but you can easily verify that
 \begin{equation}
@@ -104,7 +104,7 @@ In a similar way, we can compute the partial derivative for the bias. I won't go
 	\tag{62}\label{eq:62}
 \end{equation}
 %\partial{}C\partial{}b=1n∑x(\sigma(z)-y).(62)
-Again, this avoids the learning slowdown caused by the $\sigma'(z)$ term in the analogous equation for the quadratic cost, Equation (\ref{eq:56}).
+Again, this avoids the learning slowdown caused by the $\sigma'(z)$ term in the analogous equation for the quadratic cost, Equation~(\ref{eq:56}).
 
 \begin{exercize}{Exercise}
 	\item Verify that $\sigma'(z) = \sigma(z)(1-\sigma(z))$
@@ -129,7 +129,7 @@ We've been studying the cross-entropy for a single neuron. However, it's easy to
 	\sum_j \left[y_j \ln a^L_j + (1-y_j) \ln (1-a^L_j) \right].
 	\tag{63}\label{eq:63}
 \end{equation}
-This is the same as our earlier expression, Equation (\ref{eq:57}), except now we've got the $\sum_j$ summing over all the output neurons. I won't explicitly work through a derivation, but it should be plausible that using the expression (\ref{eq:63}) avoids a learning slowdown in many-neuron networks. If you're interested, you can work through the derivation in the problem below.
+This is the same as our earlier expression, Equation~(\ref{eq:57}), except now we've got the $\sum_j$ summing over all the output neurons. I won't explicitly work through a derivation, but it should be plausible that using the expression (\ref{eq:63}) avoids a learning slowdown in many-neuron networks. If you're interested, you can work through the derivation in the problem below.
 
 Incidentally, I'm using the term ``cross-entropy'' in a way that has confused some early readers, since it superficially appears to conflict with other sources. In particular, it's common to define the cross-entropy for two probability distributions, $p_j$ and $q_j$, as $\sum_jp_j\ln{}q_j$. This definition may be connected to (\ref{eq:57}), if we treat a single sigmoid neuron as outputting a probability distribution consisting of the neuron's activation $a$ and its complement $1-a$.
 
@@ -205,8 +205,8 @@ Our discussion of the cross-entropy has focused on algebraic analysis and practi
 
 Let's begin with the last of these questions: what could have motivated us to think up the cross-entropy in the first place? Suppose we'd discovered the learning slowdown described earlier, and understood that the origin was the $\sigma'(z)$ terms in Equations (\ref{eq:55}) and (\ref{eq:56}). After staring at those equations for a bit, we might wonder if it's possible to choose a cost function so that the $\sigma'(z)$ term disappeared. In that case, the cost $C=C_x$ for a single training example $x$ would satisfy
 \begin{align} 
-\frac{\partial C}{\partial w_j} & = & x_j(a-y) \tag{71}\label{eq:71}\\
-\frac{\partial C}{\partial b } & = & (a-y). \tag{72}\label{eq:72}\end{align}
+\frac{\partial C}{\partial w_j} & = x_j(a-y) \tag{71}\label{eq:71}\\
+\frac{\partial C}{\partial b } & = (a-y). \tag{72}\label{eq:72}\end{align}
 %\partial{}C\partial{}wj\partial{}C\partial{}b==x_j(a-y)(a-y).(71)(72)
 If we could choose the cost function to make these equations true, then they would capture in a simple way the intuition that the greater the initial error, the faster the neuron learns. They'd also eliminate the problem of a learning slowdown. In fact, starting from these equations we'll now show that it's possible to derive the form of the cross-entropy, simply by following our mathematical noses. To see this, note that from the chain rule we have
 \begin{equation}
@@ -220,7 +220,7 @@ Using $\sigma'(z)=\sigma(z)(1-\sigma(z))=a(1-a)$ the last equation becomes
 a(1-a).
 \tag{74}\label{eq:74}\end{align}
 %\partial{}C\partial{}b=\partial{}C\partial{}aa(1-a).(74)
-Comparing to Equation~\ref{eq:72} we obtain
+Comparing to Equation~(\ref{eq:72}) we obtain
 \begin{align}
 \frac{\partial C}{\partial a} = \frac{a-y}{a(1-a)}. \tag{75}\label{eq:75}\end{align}
 Integrating this expression with respect to $a$ gives
@@ -238,7 +238,7 @@ What about the intuitive meaning of the cross-entropy? How should we think about
 
 
 \begin{exercize}{Problem}
-	\item We've discussed at length the learning slowdown that can occur when output neurons saturate, in networks using the quadratic cost to train. Another factor that may inhibit learning is the presence of the $x_j$ term in Equation (\ref{eq:61}). Because of this term, when an input $x_j$ is near to zero, the corresponding weight $w_j$ will learn slowly. Explain why it is not possible to eliminate the $x_j$ term through a clever choice of cost function.
+	\item We've discussed at length the learning slowdown that can occur when output neurons saturate, in networks using the quadratic cost to train. Another factor that may inhibit learning is the presence of the $x_j$ term in Equation~(\ref{eq:61}). Because of this term, when an input $x_j$ is near to zero, the corresponding weight $w_j$ will learn slowly. Explain why it is not possible to eliminate the $x_j$ term through a clever choice of cost function.
 \end{exercize}
 
 \subsection{Softmax}
@@ -252,7 +252,7 @@ The idea of softmax is to define a new type of output layer for our neural netwo
 %a^L_j=ez^L_j∑kezLk,(78)
 where in the denominator we sum over all the output neurons.
 
-If you're not familiar with the softmax function, Equation (\ref{eq:78}) may look pretty opaque. It's certainly not obvious why we'd want to use this function. And it's also not obvious that this will help us address the learning slowdown problem. To better understand Equation (\ref{eq:78}), suppose we have a network with four output neurons, and four corresponding weighted inputs, which we'll denote $z^L_1,z^L_2,z^L_3,$ and $z^L_4$. Figure~\ref{fig:softmax} shows  a graph of the corresponding output activations for different inputs\footnote{This paragraph is an adaptation of an animation from online version of the book.}.
+If you're not familiar with the softmax function, Equation~(\ref{eq:78}) may look pretty opaque. It's certainly not obvious why we'd want to use this function. And it's also not obvious that this will help us address the learning slowdown problem. To better understand Equation~(\ref{eq:78}), suppose we have a network with four output neurons, and four corresponding weighted inputs, which we'll denote $z^L_1,z^L_2,z^L_3,$ and $z^L_4$. Figure~\ref{fig:softmax} shows  a graph of the corresponding output activations for different inputs\footnote{This paragraph is an adaptation of an animation from online version of the book.}.
 \begin{figure}
 \centering
 \begin{tikzpicture}
@@ -267,22 +267,22 @@ If you're not familiar with the softmax function, Equation (\ref{eq:78}) may loo
 	\addlegendentry{$a_4 \vphantom{()}$};	
 \end{axis}
 \end{tikzpicture}
-\caption{Equation~\ref{eq:78} for different fixed values of $z^L_{1,2,3}$ and variable $z^L_4$. $L$ index avoided for clarity. }
+\caption{Equation~(\ref{eq:78}) for different fixed values of $z^L_{1,2,3}$ and variable $z^L_4$. $L$ index avoided for clarity. }
 \label{fig:softmax}
 \end{figure}
 %\begin{figure}
 %\includegraphics[width=\linewidth]{./figures/ch3/animation_softmax}
-%\caption{Equation~\ref{eq:78} for different fixed values of $z^L_{1,2,3}$ and variable $z^L_4$. $L$ index avoided for clarity. }
+%\caption{Equation~(\ref{eq:78}) for different fixed values of $z^L_{1,2,3}$ and variable $z^L_4$. $L$ index avoided for clarity. }
 %\label{fig:softmax}
 %\end{figure}
-As you increase $z^L_4$, you'll see an increase in the corresponding output activation, $a^L_4$, and a decrease in the other output activations. Similarly, if you decrease $z^L_4$ then $a^L_4$ will decrease, and all the other output activations will increase. In fact, if you look closely, you'll see that in both cases the total change in the other activations exactly compensates for the change in $a^L_4$. The reason is that the output activations are guaranteed to always sum up to 1, as we can prove using Equation (\ref{eq:78}) and a little algebra:
+As you increase $z^L_4$, you'll see an increase in the corresponding output activation, $a^L_4$, and a decrease in the other output activations. Similarly, if you decrease $z^L_4$ then $a^L_4$ will decrease, and all the other output activations will increase. In fact, if you look closely, you'll see that in both cases the total change in the other activations exactly compensates for the change in $a^L_4$. The reason is that the output activations are guaranteed to always sum up to 1, as we can prove using Equation~(\ref{eq:78}) and a little algebra:
 \begin{align}
 \sum_j a^L_j & = & \frac{\sum_j e^{z^L_j}}{\sum_k e^{z^L_k}} = 1.
 \tag{79}\label{eq:79}\end{align}
 %∑ja^L_j=∑jez^L_j∑kezLk=1.(79)
 As a result, if $a^L_4$ increases, then the other output activations must decrease by the same total amount, to ensure the sum over all activations remains 1. And, of course, similar statements hold for all the other activations.
 
-Equation (\ref{eq:78}) also implies that the output activations are all positive, since the exponential function is positive. Combining this with the observation in the last paragraph, we see that the output from the softmax layer is a set of positive numbers which sum up to 1. In other words, the output from the softmax layer can be thought of as a probability distribution.
+Equation~(\ref{eq:78}) also implies that the output activations are all positive, since the exponential function is positive. Combining this with the observation in the last paragraph, we see that the output from the softmax layer is a set of positive numbers which sum up to 1. In other words, the output from the softmax layer can be thought of as a probability distribution.
 
 The fact that a softmax layer outputs a probability distribution is rather pleasing. In many problems it's convenient to be able to interpret the output activation $a^L_j$ as the network's estimate of the probability that the correct output is $j$. So, for instance, in the MNIST classification problem, we can interpret $a^L_j$ as the network's estimated probability that the correct digit classification is $j$.
 
@@ -291,7 +291,7 @@ By contrast, if the output layer was a sigmoid layer, then we certainly couldn't
 \begin{exercize}{Exercise}
 	\item Construct an example showing explicitly that in a network with a sigmoid output layer, the output activations $a^L_j$ won't always sum to 1.
 \end{exercize}
-We're starting to build up some feel for the softmax function and the way softmax layers behave. Just to review where we're at: the exponentials in Equation (\ref{eq:78}) ensure that all the output activations are positive. And the sum in the denominator of Equation (\ref{eq:78}) ensures that the softmax outputs sum to 1. So that particular form no longer appears so mysterious: rather, it is a natural way to ensure that the output activations form a probability distribution. You can think of softmax as a way of rescaling the $z^L_j$, and then squishing them together to form a probability distribution.
+We're starting to build up some feel for the softmax function and the way softmax layers behave. Just to review where we're at: the exponentials in Equation~(\ref{eq:78}) ensure that all the output activations are positive. And the sum in the denominator of Equation~(\ref{eq:78}) ensures that the softmax outputs sum to 1. So that particular form no longer appears so mysterious: rather, it is a natural way to ensure that the output activations form a probability distribution. You can think of softmax as a way of rescaling the $z^L_j$, and then squishing them together to form a probability distribution.
 
 
 \begin{exercize}{Exercises}
@@ -316,7 +316,7 @@ What about the learning slowdown problem? To analyze that, recall that the key t
 \frac{\partial C}{\partial b^L_j} & =  a^L_j-y_j  \tag{81}\label{eq:81}\\
 \frac{\partial C}{\partial w^L_{jk}} & =  a^{L-1}_k (a^L_j-y_j)\tag{82}\label{eq:82}
 \end{align}
-These equations are the same as the analogous expressions obtained in our earlier analysis of the cross-entropy. Compare, for example, Equation (\ref{eq:82}) to Equation (\ref{eq:67}). It's the same equation, albeit in the latter I've averaged over training instances. And, just as in the earlier analysis, these expressions ensure that we will not encounter a learning slowdown. In fact, it's useful to think of a softmax output layer with log-likelihood cost as being quite similar to a sigmoid output layer with cross-entropy cost.
+These equations are the same as the analogous expressions obtained in our earlier analysis of the cross-entropy. Compare, for example, Equation~(\ref{eq:82}) to Equation~(\ref{eq:67}). It's the same equation, albeit in the latter I've averaged over training instances. And, just as in the earlier analysis, these expressions ensure that we will not encounter a learning slowdown. In fact, it's useful to think of a softmax output layer with log-likelihood cost as being quite similar to a sigmoid output layer with cross-entropy cost.
 
 Given this similarity, should you use a sigmoid output layer and cross-entropy, or a softmax output layer and log-likelihood? In fact, in many situations both approaches work well. Through the remainder of this chapter we'll use a sigmoid output layer, with the cross-entropy cost. Later, in Chapter 6, we'll sometimes use a softmax output layer, with log-likelihood cost. The reason for the switch is to make some of our later networks more similar to networks found in certain influential academic papers. As a more general point of principle, softmax plus log-likelihood is worth using whenever you want to interpret the output activations as probabilities. That's not always a concern, but can be useful with classification problems (like MNIST) involving disjoint classes.
 
@@ -430,7 +430,7 @@ Intuitively, the effect of regularization is to make it so the network prefers t
 
 Now, it's really not at all obvious why making this kind of compromise should help reduce overfitting! But it turns out that it does. We'll address the question of why it helps in the next section. But first, let's work through an example showing that regularization really does reduce overfitting.
 
-To construct such an example, we first need to figure out how to apply our stochastic gradient descent learning algorithm in a regularized neural network. In particular, we need to know how to compute the partial derivatives $\partial{}C/\partial{}w$ and $\partial{}C/\partial{}b$ for all the weights and biases in the network. Taking the partial derivatives of Equation (\ref{eq:87}) gives
+To construct such an example, we first need to figure out how to apply our stochastic gradient descent learning algorithm in a regularized neural network. In particular, we need to know how to compute the partial derivatives $\partial{}C/\partial{}w$ and $\partial{}C/\partial{}b$ for all the weights and biases in the network. Taking the partial derivatives of Equation~(\ref{eq:87}) gives
 \begin{align} 
 \frac{\partial C}{\partial w} &= \frac{\partial C_0}{\partial w} + \frac{\lambda}{n} w \tag{88}\label{eq:88}\\ 
 \frac{\partial C}{\partial b} &= \frac{\partial C_0}{\partial b}. \tag{89}\label{eq:89}\end{align}
@@ -448,13 +448,13 @@ w &\rightarrow w-\eta \frac{\partial C_0}{\partial w}-\frac{\eta \lambda}{n} w  
 %w→=w-\eta\partial{}C0\partial{}w-\eta\lambda nw(1-\eta\lambda n)w-\eta\partial{}C0\partial{}w.(91)(92)
 This is exactly the same as the usual gradient descent learning rule, except we first rescale the weight $w$ by a factor $1-\eta\frac{\lambda}{n}$. This rescaling is sometimes referred to as \textit{weight decay}, since it makes the weights smaller. At first glance it looks as though this means the weights are being driven unstoppably toward zero. But that's not right, since the other term may lead the weights to increase, if so doing causes a decrease in the unregularized cost function.
 
-Okay, that's how gradient descent works. What about stochastic gradient descent? Well, just as in unregularized stochastic gradient descent, we can estimate $\partial{}C_0/\partial{}w$ by averaging over a mini-batch of $m$ training examples. Thus the regularized learning rule for stochastic gradient descent becomes (c.f. Equation (\ref{eq:20}))
+Okay, that's how gradient descent works. What about stochastic gradient descent? Well, just as in unregularized stochastic gradient descent, we can estimate $\partial{}C_0/\partial{}w$ by averaging over a mini-batch of $m$ training examples. Thus the regularized learning rule for stochastic gradient descent becomes (c.f. Equation~(\ref{eq:20}))
 \begin{align} 
 w \rightarrow \left(1-\frac{\eta \lambda}{n}\right) w -\frac{\eta}{m} \sum_x \frac{\partial C_x}{\partial w}, 
 \tag{93}\label{eq:93}
 \end{align}
 %w→(1-\eta\lambda n)w-\etam∑x\partial{}Cx\partial{}w,(93)
-where the sum is over training examples $x$ in the mini-batch, and $C_x$ is the (unregularized) cost for each training example. This is exactly the same as the usual rule for stochastic gradient descent, except for the $1-\eta\lambda/n$ weight decay factor. Finally, and for completeness, let me state the regularized learning rule for the biases. This is, of course, exactly the same as in the unregularized case (c.f. Equation \ref{eq:21}),
+where the sum is over training examples $x$ in the mini-batch, and $C_x$ is the (unregularized) cost for each training example. This is exactly the same as the usual rule for stochastic gradient descent, except for the $1-\eta\lambda/n$ weight decay factor. Finally, and for completeness, let me state the regularized learning rule for the biases. This is, of course, exactly the same as in the unregularized case (c.f. Equation~(\ref{eq:21})),
 \begin{align}
 	b \to b - \frac{\eta}{m} \sum_x \frac{\partial C_x}{\partial b},
 	\tag{94}\label{eq:94}
@@ -599,7 +599,7 @@ To do that, we'll look at the partial derivatives of the cost function. Differen
 where ${\rm sgn}(w)$ is the sign of $w$, that is, $+1$ if $w$ is positive, and $-1$ if $w$ is negative. Using this expression, we can easily modify backpropagation to do stochastic gradient descent using L1 regularization. The resulting update rule for an L1 regularized network is
 \begin{align}  w \to w' = w-\frac{\eta \lambda}{n} \mbox{sgn}(w) - \eta \frac{\partial C_0}{\partial w}, \tag{97}\label{eq:97}\end{align}
 %w→w′=w-\eta\lambdansgn(w)-\eta\partial{}C0\partial{}w,(97)
-where, as per usual, we can estimate $\partial{}C_0/\partial{}w$ using a mini-batch average, if we wish. Compare that to the update rule for L2 regularization (c.f. Equation (\ref{eq:93})),
+where, as per usual, we can estimate $\partial{}C_0/\partial{}w$ using a mini-batch average, if we wish. Compare that to the update rule for L2 regularization (c.f. Equation~(\ref{eq:93})),
 \begin{align}
 w \to w' = w\left(1 - \frac{\eta \lambda}{n} \right) - \eta \frac{\partial C_0}{\partial w}.
 \tag{98}\label{eq:98}\end{align}
@@ -773,7 +773,6 @@ def large_weight_initializer(self):
 	self.biases = [np.random.randn(y, 1) for y in self.sizes[1:]]
 	self.weights = [np.random.randn(y, x) for x, y in zip(self.sizes[:-1], self.sizes[1:])]
 \end{lstlisting}
-	
 I've included the \inline{large_weight_initializer} method mostly as a convenience to make it easier to compare the results in this chapter to those in Chapter 1. I can't think of many practical situations where I would recommend using it!
 
 The second new thing in \inline{Network}'s \inline{__init__} method is that we now initialize a cost attribute. To understand how that works, let's look at the class we use to represent the cross-entropy cost\footnote{If you're not familiar with Python's static methods you can ignore the \inline{@staticmethod} decorators, and just treat \inline{fn} and \inline{delta} as ordinary methods. If you're curious about details, all \inline{@staticmethod} does is tell the Python interpreter that the method which follows doesn't depend on the object in any way. That's why self isn't passed as a parameter to the \inline{fn} and \inline{delta} methods.}:
@@ -786,7 +785,7 @@ class CrossEntropyCost(object):
 	def delta(z, a, y):
 		return (a-y)
 \end{lstlisting}
-Let's break this down. The first thing to observe is that even though the cross-entropy is, mathematically speaking, a function, we've implemented it as a Python class, not a Python function. Why have I made that choice? The reason is that the cost plays two different roles in our network. The obvious role is that it's a measure of how well an output activation, \inline{a}, matches the desired output, \inline{y}. This role is captured by the \inline{CrossEntropyCost.fn} method. (Note, by the way, that the \inline{np.nan_to_num} call inside \inline{CrossEntropyCost.fn} ensures that Numpy deals correctly with the log of numbers very close to zero.) But there's also a second way the cost function enters our network. Recall from Chapter 2 that when running the backpropagation algorithm we need to compute the network's output error, $\delta^L$. The form of the output error depends on the choice of cost function: different cost function, different form for the output error. For the cross-entropy the output error is, as we saw in Equation (\ref{eq:66}),
+Let's break this down. The first thing to observe is that even though the cross-entropy is, mathematically speaking, a function, we've implemented it as a Python class, not a Python function. Why have I made that choice? The reason is that the cost plays two different roles in our network. The obvious role is that it's a measure of how well an output activation, \inline{a}, matches the desired output, \inline{y}. This role is captured by the \inline{CrossEntropyCost.fn} method. (Note, by the way, that the \inline{np.nan_to_num} call inside \inline{CrossEntropyCost.fn} ensures that Numpy deals correctly with the log of numbers very close to zero.) But there's also a second way the cost function enters our network. Recall from Chapter 2 that when running the backpropagation algorithm we need to compute the network's output error, $\delta^L$. The form of the output error depends on the choice of cost function: different cost function, different form for the output error. For the cross-entropy the output error is, as we saw in Equation~(\ref{eq:66}),
 \begin{equation}
 	\delta^L=a^L-y.\tag{99}\label{eq:99}
 \end{equation}
@@ -1139,7 +1138,6 @@ Here, we're setting the \inline{evaluation_data} to be the \inline{validation_da
 \begin{lstlisting}
 >>> evaluation_cost, evaluation_accuracy,  training_cost, training_accuracy = net.SGD(training_data, 30, 10, 0.5,  lmbda = 5.0, evaluation_data=validation_data, monitor_evaluation_accuracy=True, monitor_evaluation_cost=True, monitor_training_accuracy=True, monitor_training_cost=True)
 \end{lstlisting}
-
 So, for example, \inline{evaluation_cost} will be a 30-element list containing the cost on the evaluation data at the end of each epoch. This sort of information is extremely useful in understanding a network's behaviour. It can, for example, be used to draw graphs showing how the network learns over time. Indeed, that's exactly how I constructed all the graphs earlier in the chapter. Note, however, that if any of the monitoring flags are not set, then the corresponding element in the tuple will be the empty list.
 
 Other additions to the code include a \inline{Network.save} method, to save \inline{Network} objects to disk, and a function to load them back in again later. Note that the saving and loading is done using JSON, not Python's pickle or cPickle modules, which are the usual way we save and load objects to and from disk in Python. Using JSON requires more code than pickle or cPickle would. To understand why I've used JSON, imagine that at some time in the future we decided to change our \inline{Network} class to allow neurons other than sigmoid neurons. To implement that change we'd most likely change the attributes defined in the \inline{Network.__init__} method. If we've simply pickled the objects that would cause our load function to fail. Using JSON to do the serialization explicitly makes it easy to ensure that old Networks will still load.
@@ -1363,7 +1361,7 @@ Of course, as you've no doubt realized, I haven't done this optimization in our 
 
 \textbf{Summing up:} Following the rules-of-thumb I've described won't give you the absolute best possible results from your neural network. But it will likely give you a good start and a basis for further improvements. In particular, I've discussed the hyper-parameters largely independently. In practice, there are relationships between the hyper-parameters. You may experiment with $\eta$, feel that you've got it just right, then start to optimize for $\lambda$, only to find that it's messing up your optimization for $\eta$. In practice, it helps to bounce backward and forward, gradually closing in good values. Above all, keep in mind that the heuristics I've described are rules of thumb, not rules cast in stone. You should be on the lookout for signs that things aren't working, and be willing to experiment. In particular, this means carefully monitoring your network's behaviour, especially the validation accuracy.
 
-The difficulty of choosing hyper-parameters is exacerbated by the fact that the lore about how to choose hyper-parameters is widely spread, across many research papers and software programs, and often is only available inside the heads of individual practitioners. There are many, many papers setting out (sometimes contradictory) recommendations for how to proceed. However, there are a few particularly useful papers that synthesize and distill out much of this lore. Yoshua Bengio has a 2012 paper\footnote{\href{http://arxiv.org/abs/1206.5533}{Practical recommendations for gradient-based training of deep architectures}, by Yoshua Bengio (2012).} that gives some practical recommendations for using backpropagation and gradient descent to train neural networks, including deep neural nets. Bengio discusses many issues in much more detail than I have, including how to do more systematic hyper-parameter searches. Another good paper is a 1998 paper\footnote{\href{http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf}{Efficient BackProp}, by Yann LeCun, Léon Bottou, Genevieve Orr and Klaus-Robert M\"{u}ller (1998)} by Yann LeCun, L\'{e}on Bottou, Genevieve Orr and Klaus-Robert M\"{u}ller. Both these papers appear in an extremely useful 2012 book that collects many tricks commonly used in neural nets\footnote{\href{http://www.springer.com/computer/theoretical+computer+science/book/978-3-642-35288-1}{Neural Networks: Tricks of the Trade}, edited by Gr\'egoire Montavon, Genevi\`eve Orr, and Klaus-Robert M\"{u}ller.}. The book is expensive, but many of the articles have been placed online by their respective authors with, one presumes, the blessing of the publisher, and may be located using a search engine.
+The difficulty of choosing hyper-parameters is exacerbated by the fact that the lore about how to choose hyper-parameters is widely spread, across many research papers and software programs, and often is only available inside the heads of individual practitioners. There are many, many papers setting out (sometimes contradictory) recommendations for how to proceed. However, there are a few particularly useful papers that synthesize and distill out much of this lore. Yoshua Bengio has a 2012 paper\footnote{\href{http://arxiv.org/abs/1206.5533}{Practical recommendations for gradient-based training of deep architectures}, by Yoshua Bengio (2012).} that gives some practical recommendations for using backpropagation and gradient descent to train neural networks, including deep neural nets. Bengio discusses many issues in much more detail than I have, including how to do more systematic hyper-parameter searches. Another good paper is a 1998 paper\footnote{\href{http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf}{Efficient BackProp}, by Yann LeCun, L\'{e}on Bottou, Genevieve Orr and Klaus-Robert M\"{u}ller (1998)} by Yann LeCun, L\'{e}on Bottou, Genevieve Orr and Klaus-Robert M\"{u}ller. Both these papers appear in an extremely useful 2012 book that collects many tricks commonly used in neural nets\footnote{\href{http://www.springer.com/computer/theoretical+computer+science/book/978-3-642-35288-1}{Neural Networks: Tricks of the Trade}, edited by Gr\'egoire Montavon, Genevi\`eve Orr, and Klaus-Robert M\"{u}ller.}. The book is expensive, but many of the articles have been placed online by their respective authors with, one presumes, the blessing of the publisher, and may be located using a search engine.
 
 One thing that becomes clear as you read these articles and, especially, as you engage in your own experiments, is that hyper-parameter optimization is not a problem that is ever completely solved. There's always another trick you can try to improve performance. There is a saying common among writers that books are never finished, only abandoned. The same is also true of neural network optimization: the space of hyper-parameters is so large that one never really finishes optimizing, one only abandons the network to posterity. So your goal should be to develop a workflow that enables you to quickly do a pretty good job on the optimization, while leaving you the flexibility to try more detailed optimizations, if that's important.
 
@@ -1475,7 +1473,7 @@ One difference between tanh neurons and sigmoid neurons is that the output from 
 Similar to sigmoid neurons, a network of tanh neurons can, in principle, compute any function\footnote{There are some technical caveats to this statement for both tanh and sigmoid neurons, as well as for the rectified linear neurons discussed below. However, informally it's usually fine to think of neural networks as being able to approximate any function to arbitrary accuracy.} mapping inputs to the range $-1$ to 1. Furthermore, ideas such as backpropagation and stochastic gradient descent are as easily applied to a network of tanh neurons as to a network of sigmoid neurons.
 
 \begin{exercize}{Exercise}
-	\item Prove the identity in Equation (\ref{eq:111}).
+	\item Prove the identity in Equation~(\ref{eq:111}).
 \end{exercize}
 Which type of neuron should you use in your networks, the tanh or sigmoid? A priori the answer is not obvious, to put it mildly! However, there are theoretical arguments and some empirical evidence to suggest that the tanh sometimes performs better\footnote{See, for example, \href{http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf}{Efficient BackProp}, by Yann LeCun, L\'eon Bottou, Genevieve Orr and Klaus-Robert M\"uller (1998), and \href{http://jmlr.org/proceedings/papers/v9/glorot10a/glorot10a.pdf}{Understanding the difficulty of training deep feedforward networks}, by Xavier Glorot and Yoshua Bengio (2010).}. Let me briefly give you the flavor of one of the theoretical arguments for tanh neurons. Suppose we're using sigmoid neurons, so all activations in our network are positive. Let's consider the weights $w^{l+1}_{jk}$ input to the $j$-th neuron in the $(l+1)$-th layer. The rules for backpropagation  tell us that the associated gradient will be $a^l_k\delta^{l+1}_{j}$. Because the activations are positive the sign of this gradient will be the same as the sign of $\delta^{l+1}_{j}$. What this means is that if $\delta^{l+1}_{j}$ is positive then all the weights $w^{l+1}_{jk}$ will decrease during gradient descent, while if $\delta^{l+1}_{j}$ is negative then all the weights $w^{l+1}_{jk}$ will increase during gradient descent. In other words, all weights to the same neuron must either increase together or decrease together. That's a problem, since some of the weights may need to increase while others need to decrease. That can only happen if some of the input activations have different signs. That suggests replacing the sigmoid by an activation function, such as tanh, which allows both positive and negative activations. Indeed, because tanh is symmetric about zero, $\tanh(-z)=-\tanh(z)$, we might even expect that, roughly speaking, the activations in hidden layers would be equally balanced between positive and negative. That would help ensure that there is no systematic bias for the weight updates to be one way or the other.
 

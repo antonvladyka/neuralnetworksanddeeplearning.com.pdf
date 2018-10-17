@@ -255,7 +255,7 @@ That's obviously not a trivial function.
 
 You're going to figure out how to compute it using a neural network.
 
-In our networks above we've been analyzing the weighted combination $\sum_jw_ja_j$ output from the hidden neurons. We now know how to get a lot of control over this quantity. But, as I noted earlier, this quantity is not what's output from the network. What's output from the network is $\sigma(\sum_jw_ja_j+b)$ where $b$ is the bias on the output neuron. Is there some way we can achieve control over the actual output from the network?
+In our networks above we've been analyzing the weighted combination $\sum_jw_ja_j$ output from the hidden neurons. We now know how to get a lot of control over this quantity. But, as I noted earlier, this quantity is not what's output from the network. What's output from the network is $\sigma\left(\sum_jw_ja_j+b\right)$ where $b$ is the bias on the output neuron. Is there some way we can achieve control over the actual output from the network?
 
 The solution is to design a neural network whose hidden layer has a weighted output given by $\sigma^{-1} \circ f(x)$, where $\sigma^{-1}$ is just the inverse of the $\sigma$ function. That is, we want the weighted output from the hidden layer to be:
 \begin{center} 
