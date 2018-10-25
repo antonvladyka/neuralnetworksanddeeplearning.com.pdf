@@ -30,5 +30,5 @@ Typography adjusted (- → –, "" → “ ”)
 
 Bibliography — maybe to collect all cited research papers?
 
-### Update 07.08.2018
+### Update 07.10.2018
 Equation numbering is updated to sequential as in the original online book. Please note that some numbers are missing (e.g. 40-41), since some equations in the online book are multiline with a label on every line. I use the same tags/numbers as in the book.
