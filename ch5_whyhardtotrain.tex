@@ -43,7 +43,7 @@ This all sounds like bad news. But by delving into these difficulties, we can be
 \section{The vanishing gradient problem}
 So, what goes wrong when we try to train a deep network?
 
-To answer that question, let's first revisit the case of a network with just a single hidden layer. As per usual, we'll use the MNIST digit classification problem as our playground for learning and experimentation\footnote{I introduced the MNIST problem and data here\ref{sec:1.5} and here\ref{sec:1.7}.}.
+To answer that question, let's first revisit the case of a network with just a single hidden layer. As per usual, we'll use the MNIST digit classification problem as our playground for learning and experimentation\footnote{I introduced the MNIST problem and data here~\ref{sec:1.5} and here~\ref{sec:1.7}.}.
 
 If you wish, you can follow along by training networks on your computer. It is also, of course, fine to just read along. If you do wish to follow live, then you'll need Python 2.7, Numpy, and a copy of the code, which you can get by cloning the relevant repository from the command line:
 
@@ -96,7 +96,7 @@ That doesn't help at all. In fact, the result drops back down to 96.57 percent, 
 \end{lstlisting}
 The classification accuracy drops again, to 96.53 percent. That's probably not a statistically significant drop, but it's not encouraging, either.
 
-This behaviour seems strange. Intuitively, extra hidden layers ought to make the network able to learn more complex classification functions, and thus do a better job classifying. Certainly, things shouldn't get worse, since the extra layers can, in the worst case, simply do nothing\footnote{See this later problem\ref{sec:5.2.1} to understand how to build a hidden layer that does nothing.}. But that's not what's going on.
+This behaviour seems strange. Intuitively, extra hidden layers ought to make the network able to learn more complex classification functions, and thus do a better job classifying. Certainly, things shouldn't get worse, since the extra layers can, in the worst case, simply do nothing\footnote{See this later problem~\ref{sec:5.2.1} to understand how to build a hidden layer that does nothing.}. But that's not what's going on.
 
 So what is going on? Let's assume that the extra hidden layers really could help in principle, and the problem is that our learning algorithm isn't finding the right weights and biases. We'd like to figure out what's going wrong in our learning algorithm, and how to do better.
 
