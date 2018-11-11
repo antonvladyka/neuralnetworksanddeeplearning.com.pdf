@@ -68,7 +68,7 @@ The second assumption we make about the cost is that it can be written as a func
 \end{center}
 For example, the quadratic cost function satisfies this requirement, since the quadratic cost for a single training example $x$ may be written as
 \begin{equation}
-C = \frac{1}{2} \|y-a^L\|^2 = \frac{1}{2} \sum_j (y_j-a^L_j)^2,
+C = \frac{1}{2} \left\|y-a^L\right\|^2 = \frac{1}{2} \sum_j \left(y_j-a^L_j\right)^2,
 \tag{27}\label{eq:27}
 \end{equation}
 and thus is a function of the output activations. Of course, this cost function also depends on the desired output $y$, and you may wonder why we're not regarding the cost also as a function of $y$. Remember, though, that the input training example $x$ is fixed, and so the output $y$ is also a fixed parameter. In particular, it's not something we can modify by changing the weights and biases in any way, i.e., it's not something which the neural network learns. And so it makes sense to regard $C$ as a function of the output activations $a^L$ alone, with $y$ merely a parameter that helps define that function.
