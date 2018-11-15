@@ -197,7 +197,7 @@ Having defined neural networks, let's return to handwriting recognition. We can 
 \end{center}
 into six separate images,
 \begin{center}
-	\includegraphics[scale=0.4]{./figures/ch1/digits_separate}
+	\includegraphics[scale=0.35]{./figures/ch1/digits_separate}
 \end{center}
 We humans solve this \textit{segmentation problem} with ease, but it's challenging for a computer program to correctly break up the image. Once the image has been segmented, the program then needs to classify each individual digit. So, for instance, we'd like our program to recognize that the first digit above,
 \begin{center}
@@ -217,7 +217,7 @@ The second layer of the network is a hidden layer. We denote the number of neuro
 
 The output layer of the network contains 10 neurons. If the first neuron fires, i.e., has an output $\approx 1$, then that will indicate that the network thinks the digit is a 0. If the second neuron fires then that will indicate that the network thinks the digit is a 1. And so on. A little more precisely, we number the output neurons from 0 through 9, and figure out which neuron has the highest activation value. If that neuron is, say, neuron number 6, then our network will guess that the input digit was a 6. And so on for the other output neurons.
 
-You might wonder why we use 10 output neurons. After all, the goal of the network is to tell us which digit (0,1,2,$\ldots$,9) corresponds to the input image. A seemingly natural way of doing that is to use just 4 output neurons, treating each neuron as taking on a binary value, depending on whether the neuron's output is closer to 0 or to 1. Four neurons are enough to encode the answer, since $2^4=16$ is more than the 10 possible values for the input digit. Why should our network use 10 neurons instead? Isn't that inefficient? The ultimate justification is empirical: we can try out both network designs, and it turns out that, for this particular problem, the network with 10 output neurons learns to recognize digits better than the network with 4 output neurons. But that leaves us wondering why using 10 output neurons works better. Is there some heuristic that would tell us in advance that we should use the 10-output encoding instead of the 4-output encoding?
+You might wonder why we use 10 output neurons. After all, the goal of the network is to tell us which digit (0, 1, 2,$\ldots$, 9) corresponds to the input image. A seemingly natural way of doing that is to use just 4 output neurons, treating each neuron as taking on a binary value, depending on whether the neuron's output is closer to 0 or to 1. Four neurons are enough to encode the answer, since $2^4=16$ is more than the 10 possible values for the input digit. Why should our network use 10 neurons instead? Isn't that inefficient? The ultimate justification is empirical: we can try out both network designs, and it turns out that, for this particular problem, the network with 10 output neurons learns to recognize digits better than the network with 4 output neurons. But that leaves us wondering why using 10 output neurons works better. Is there some heuristic that would tell us in advance that we should use the 10-output encoding instead of the 4-output encoding?
 
 To understand why we do this, it helps to think about what the neural network is doing from first principles. Consider first the case where we use 10 output neurons. Let's concentrate on the first output neuron, the one that's trying to decide whether or not the digit is a 0. It does this by weighing up evidence from the hidden layer of neurons. What are those hidden neurons doing? Well, just suppose for the sake of argument that the first neuron in the hidden layer detects whether or not an image like the following is present:
 \begin{center}
@@ -661,7 +661,7 @@ Let's rerun the above experiment, changing the number of hidden neurons to 100. 
 >>> net = network.Network([784, 100, 10])
 >>> net.SGD(training_data, 30, 10, 3.0, test_data=test_data)
 \end{lstlisting}
-Sure enough, this improves the results to 96.59 percent. At least in this case, using more hidden neurons helps us get better results\footnote{Reader feedback indicates quite some variation in results for this experiment, and some training runs give results quite a bit worse. Using the techniques introduced in chapter 3 will greatly reduce the variation in performance across different training runs for our networks.}
+Sure enough, this improves the results to 96.59 percent. At least in this case, using more hidden neurons helps us get better results\footnote{Reader feedback indicates quite some variation in results for this experiment, and some training runs give results quite a bit worse. Using the techniques introduced in chapter 3 will greatly reduce the variation in performance across different training runs for our networks.}.
 
 Of course, to obtain these accuracies I had to make specific choices for the number of epochs of training, the mini-batch size, and the learning rate, $\eta$. As I mentioned above, these are known as hyper-parameters for our neural network, in order to distinguish them from the parameters (weights and biases) learnt by our learning algorithm. If we choose our hyper-parameters poorly, we can get bad results. Suppose, for example, that we'd chosen the learning rate to be $\eta=0.001$,
 \begin{lstlisting}
@@ -790,7 +790,7 @@ What about a less trivial baseline? Let's try an extremely simple idea: we'll lo
 \begin{center}
 	\includegraphics[scale=0.18]{./figures/ch1/mnist_2_and_1}
 \end{center}
-This suggests using the training data to compute average darknesses for each digit, 0,1,2,$\ldots$,9. When presented with a new image, we compute how dark the image is, and then guess that it's whichever digit has the closest average darkness. This is a simple procedure, and is easy to code up, so I won't explicitly write out the code -- if you're interested it's in the \href{https://github.com/mnielsen/neural-networks-and-deep-learning/blob/master/src/mnist_average_darkness.py}{GitHub repository}. But it's a big improvement over random guessing, getting 2,225 of the 10,000 test images correct, i.e., 22.25 percent accuracy.
+This suggests using the training data to compute average darknesses for each digit, 0, 1, 2,$\ldots$, 9. When presented with a new image, we compute how dark the image is, and then guess that it's whichever digit has the closest average darkness. This is a simple procedure, and is easy to code up, so I won't explicitly write out the code -- if you're interested it's in the \href{https://github.com/mnielsen/neural-networks-and-deep-learning/blob/master/src/mnist_average_darkness.py}{GitHub repository}. But it's a big improvement over random guessing, getting 2,225 of the 10,000 test images correct, i.e., 22.25 percent accuracy.
 
 
 It's not difficult to find other ideas which achieve accuracies in the 20 to 50 percent range. If you work a bit harder you can get up over 50 percent. But to get much higher accuracies it helps to use established machine learning algorithms. Let's try using one of the best known algorithms, the \textit{support vector machine} or \textit{SVM}. If you're not familiar with SVMs, not to worry, we're not going to need to understand the details of how SVMs work. Instead, we'll use a Python library called \href{http://scikit-learn.org/stable/}{scikit-learn}, which provides a simple Python interface to a fast C-based library for SVMs known as \href{http://www.csie.ntu.edu.tw/~cjlin/libsvm/}{LIBSVM}.
@@ -834,7 +834,7 @@ Of course, this is just a rough heuristic, and it suffers from many deficiencies
 \begin{center}
 	\includegraphics[width=\linewidth]{./figures/ch1/tikz14}
 \end{center}
-It's also plausible that the sub-networks can be decomposed. Suppose we're considering the question: ``Is there an eye in the top left?'' This can be decomposed into questions such as: ``Is there an eyebrow?''; ``Are there eyelashes?''; ``Is there an iris?''; and so on. Of course, these questions should really include positional information, as well--``Is the eyebrow in the top left, and above the iris?'', that kind of thing -- but let's keep it simple. The network to answer the question ``Is there an eye in the top left?'' can now be decomposed:
+It's also plausible that the sub-networks can be decomposed. Suppose we're considering the question: ``Is there an eye in the top left?'' This can be decomposed into questions such as: ``Is there an eyebrow?''; ``Are there eyelashes?''; ``Is there an iris?''; and so on. Of course, these questions should really include positional information, as well -- ``Is the eyebrow in the top left, and above the iris?'', that kind of thing -- but let's keep it simple. The network to answer the question ``Is there an eye in the top left?'' can now be decomposed:
 
 \begin{center}
 	\includegraphics[scale=0.5]{./figures/ch1/tikz15}
