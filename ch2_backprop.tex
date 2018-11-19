@@ -94,7 +94,7 @@ To understand how the error is defined, imagine there is a demon in our neural n
 \end{center}
 The demon sits at the $j$-th neuron in layer $l$. As the input to the neuron comes in, the demon messes with the neuron's operation. It adds a little change $\Delta{}z^l_j$ to the neuron's weighted input, so that instead of outputting $\sigma(z^l_j)$, the neuron instead outputs $\sigma(z^l_j+\Delta{}z^l_j)$. This change propagates through later layers in the network, finally causing the overall cost to change by an amount $\frac{\partial{}C}{\partial{}z^l_j}\Delta{}z^l_j$.
 
-Now, this demon is a good demon, and is trying to help you improve the cost, i.e., they're trying to find a $\delta{}z^l_j$ which makes the cost smaller. Suppose $\partial{}C/\partial{}z^l_j$ has a large value (either positive or negative). Then the demon can lower the cost quite a bit by choosing $\Delta{}z^l_j$ to have the opposite sign to $\partial{}C/\partial{}z^l_j$. By contrast, if $\partial{}C/\partial{}z^l_j$ is close to zero, then the demon can't improve the cost much at all by perturbing the weighted input $z^l_j$. So far as the demon can tell, the neuron is already pretty near optimal\footnote{This is only the case for small changes $\Delta{}z^l_j$, of course. We'll assume that the demon is constrained to make such small changes.}. And so there's a heuristic sense in which $\partial{}C/\partial{}z^l_j$ is a measure of the error in the neuron.
+Now, this demon is a good demon, and is trying to help you improve the cost, i.e., they're trying to find a $\Delta{}z^l_j$ which makes the cost smaller. Suppose $\partial{}C/\partial{}z^l_j$ has a large value (either positive or negative). Then the demon can lower the cost quite a bit by choosing $\Delta{}z^l_j$ to have the opposite sign to $\partial{}C/\partial{}z^l_j$. By contrast, if $\partial{}C/\partial{}z^l_j$ is close to zero, then the demon can't improve the cost much at all by perturbing the weighted input $z^l_j$. So far as the demon can tell, the neuron is already pretty near optimal\footnote{This is only the case for small changes $\Delta{}z^l_j$, of course. We'll assume that the demon is constrained to make such small changes.}. And so there's a heuristic sense in which $\partial{}C/\partial{}z^l_j$ is a measure of the error in the neuron.
 
 Motivated by this story, we define the error $\delta^l_j$ of neuron $j$ in layer $l$ by
 \begin{equation}
@@ -132,7 +132,7 @@ As you can see, everything in this expression has a nice vector form, and is eas
 
 \textbf{An equation for the error $\delta^l$ in terms of the error in the next layer}, $\delta^{l+1}$: In particular
 \begin{equation}
-	\delta^l = ((w^{l+1})^T \delta^{l+1}) \odot \sigma'(z^l),
+	\delta^l = \left((w^{l+1})^T \delta^{l+1}\right) \odot \sigma'(z^l),
 	\tag{BP2}\label{eq:BP2}
 \end{equation}
 %$\delta^l$=(($w^{l+1}$)T$\delta^{l+1}$)⊙$\sigma$′(zl),(\ref{eq:BP2})
