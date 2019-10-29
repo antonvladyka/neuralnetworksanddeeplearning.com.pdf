@@ -15,7 +15,7 @@ Most of us find it unpleasant to be wrong. Soon after beginning to learn the pia
 Ideally, we hope and expect that our neural networks will learn fast from their errors. Is this what happens in practice? To answer this question, let's look at a toy example. The example involves a neuron with just one input:
 
 \begin{center}
-	\includegraphics[width=0.5\linewidth]{figures/ch3/tikz28}
+	\includegraphics[width=0.5\linewidth]{figures/ch3/tikz28.png}
 \end{center}
 We'll train this neuron to do something ridiculously easy: take the input 1 to the output 0. Of course, this is such a trivial task that we could easily figure out an appropriate weight and bias by hand, without using a learning algorithm. However, it turns out to be illuminating to use gradient descent to attempt to learn a weight and bias. So let's take a look at how the neuron learns.
 
@@ -23,11 +23,11 @@ To make things definite, I'll pick the initial weight to be 0.6 and the initial 
 %Click on ``Run'' in the bottom right corner below to see how the neuron learns an output much closer to 0.0. Note that this isn't a pre-recorded animation, your browser is actually computing the gradient, then using the gradient to update the weight and bias, and displaying the result.
 The learning rate is $\eta=0.15$, which turns out to be slow enough that we can follow what's happening, but fast enough that we can get substantial learning in just a few seconds. The cost is the quadratic cost function, $C$, introduced back in Chapter 1. I'll remind you of the exact form of the cost function shortly, so there's no need to go and dig up the definition. %Note that you can run the animation multiple times by clicking on ``Run'' again.
 \begin{center}%
-	\includegraphics[width=0.75\linewidth]{./figures/ch3/animation_31}
+	\includegraphics[width=0.75\linewidth]{./figures/ch3/animation_31.png}
 \end{center}
 As you can see, the neuron rapidly learns a weight and bias that drives down the cost, and gives an output from the neuron of about 0.09. That's not quite the desired output, 0.0, but it is pretty good. Suppose, however, that we instead choose both the starting weight and the starting bias to be 2.0. In this case the initial output is 0.98, which is very badly wrong. Let's look at how the neuron learns to output 0 in this case. %Click on ``Run'' again:
 \begin{center}%
-	\includegraphics[width=0.75\linewidth]{./figures/ch3/animation_32}
+	\includegraphics[width=0.75\linewidth]{./figures/ch3/animation_32.png}
 \end{center}
 Although this example uses the same learning rate ($\eta=0.15$), we can see that learning starts out much more slowly. Indeed, for the first 150 or so learning epochs, the weights and biases don't change much at all. Then the learning kicks in and, much as in our first example, the neuron's output rapidly moves closer to 0.0.
 
@@ -56,7 +56,7 @@ We can see from this graph that when the neuron's output is close to 1, the curv
 \subsection{Introducing the cross-entropy cost function}
 How can we address the learning slowdown? It turns out that we can solve the problem by replacing the quadratic cost with a different cost function, known as the cross-entropy. To understand the cross-entropy, let's move a little away from our super-simple toy model. We'll suppose instead that we're trying to train a neuron with several input variables, $x_1,x_2,\ldots$, corresponding weights $w_1,w_2,\ldots$, and a bias, $b$:
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch3/tikz29}
+	\includegraphics[scale=0.5]{./figures/ch3/tikz29.png}
 \end{center}
 The output from the neuron is, of course, $a=\sigma(z)$, where $z=\sum_jw_jb_j+b$ is the weighted sum of the inputs. We define the cross-entropy cost function for this neuron by
 %C=-1n∑x[ylna+(1-y)ln(1-a)],(57)
@@ -70,7 +70,7 @@ It's not obvious that the expression (\ref{eq:57}) fixes the learning slowdown p
 
 Two properties in particular make it reasonable to interpret the cross-entropy as a cost function. First, it's non-negative, that is, $C>0$. To see this, notice that: (a)~all the individual terms in the sum in (\ref{eq:57}) are negative, since both logarithms are of numbers in the range 0 to 1; and (b)~there is a minus sign out the front of the sum.
 
-Second, if the neuron's actual output is close to the desired output for all training inputs, x, then the cross-entropy will be close to zero\footnote{To prove this I will need to assume that the desired outputs $y$ are all either 0 or 1. This is usually the case when solving classification problems, for example, or when computing Boolean functions. To understand what happens when we don't make this assumption, see the exercises at the end of this section.}. To see this, suppose for example that $y=0$ and $a\approx0$ for some input $x$. This is a case when the neuron is doing a good job on that input. We see that the first term in the expression (\ref{eq:57}) for the cost vanishes, since $y=0$, while the second term is just $-\ln(1-a)\approx0$. A similar analysis holds when $y=1$ and $a\approx1$. And so the contribution to the cost will be low provided the actual output is close to the desired output.
+Second, if the neuron's actual output is close to the desired output for all training inputs, $x$, then the cross-entropy will be close to zero\footnote{To prove this I will need to assume that the desired outputs $y$ are all either 0 or 1. This is usually the case when solving classification problems, for example, or when computing Boolean functions. To understand what happens when we don't make this assumption, see the exercises at the end of this section.}. To see this, suppose for example that $y=0$ and $a\approx0$ for some input $x$. This is a case when the neuron is doing a good job on that input. We see that the first term in the expression (\ref{eq:57}) for the cost vanishes, since $y=0$, while the second term is just $-\ln(1-a)\approx0$. A similar analysis holds when $y=1$ and $a\approx1$. And so the contribution to the cost will be low provided the actual output is close to the desired output.
 
 Summing up, the cross-entropy is positive, and tends toward zero as the neuron gets better at computing the desired output, $y$, for all training inputs, $x$. These are both properties we'd intuitively expect for a cost function. Indeed, both properties are also satisfied by the quadratic cost. So that's good news for the cross-entropy. But the cross-entropy cost function has the benefit that, unlike the quadratic cost, it avoids the problem of learning slowing down. To see this, let's compute the partial derivative of the cross-entropy cost with respect to the weights. We substitute $a=\sigma(z)$ into (\ref{eq:57}), and apply the chain rule twice, obtaining:
 %\partial{}C\partial{}wj==-1n∑x(y\sigma(z)-(1-y)1-\sigma(z))\partial{}\sigma\partial{}wj-1n∑x(y\sigma(z)-(1-y)1-\sigma(z))\sigma'(z)x_j.(58)(59)
@@ -111,11 +111,11 @@ Again, this avoids the learning slowdown caused by the $\sigma'(z)$ term in the 
 \end{exercize}
 Let's return to the toy example we played with earlier, and explore what happens when we use the cross-entropy instead of the quadratic cost. To re-orient ourselves, we'll begin with the case where the quadratic cost did just fine, with starting weight 0.6 and starting bias 0.9:
 \begin{center}%
-	\includegraphics[width=0.8\linewidth]{./figures/ch3/animation_33}
+	\includegraphics[width=0.8\linewidth]{./figures/ch3/animation_33.png}
 \end{center}
 Unsurprisingly, the neuron learns perfectly well in this instance, just as it did earlier. And now let's look at the case where our neuron got stuck before, with the weight and bias both starting at 2.0:
 \begin{center}%
-	\includegraphics[width=0.8\linewidth]{./figures/ch3/animation_34}
+	\includegraphics[width=0.8\linewidth]{./figures/ch3/animation_34.png}
 \end{center}
 Success! This time the neuron learned quickly, just as we hoped. If you observe closely you can see that the slope of the cost curve was much steeper initially than the initial flat region on the corresponding curve for the quadratic cost. It's that steepness which the cross-entropy buys us, preventing us from getting stuck just when we'd expect our neuron to learn fastest, i.e., when the neuron starts out badly wrong.
 
@@ -271,7 +271,7 @@ If you're not familiar with the softmax function, Equation~(\ref{eq:78}) may loo
 \label{fig:softmax}
 \end{figure}
 %\begin{figure}
-%\includegraphics[width=\linewidth]{./figures/ch3/animation_softmax}
+%\includegraphics[width=\linewidth]{./figures/ch3/animation_softmax.png}
 %\caption{Equation~(\ref{eq:78}) for different fixed values of $z^L_{1,2,3}$ and variable $z^L_4$. $L$ index avoided for clarity. }
 %\label{fig:softmax}
 %\end{figure}
@@ -359,25 +359,25 @@ Let's sharpen this problem up by constructing a situation where our network does
 Using the results we can plot the way the cost changes as the network learns\footnote{This and the next four graphs were generated by the program \href{https://github.com/mnielsen/neural-networks-and-deep-learning/blob/master/fig/overfitting.py}{overfitting.py}.} :
 
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting1}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting1.png}
 \end{center}
 This looks encouraging, showing a smooth decrease in the cost, just as we expect. Note that I've only shown training epochs 200 through 399. This gives us a nice up-close view of the later stages of learning, which, as we'll see, turns out to be where the interesting action is.
 
 Let's now look at how the classification accuracy on the test data changes over time:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting2}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting2.png}
 \end{center}
 Again, I've zoomed in quite a bit. In the first 200 epochs (not shown) the accuracy rises to just under 82 percent. The learning then gradually slows down. Finally, at around epoch 280 the classification accuracy pretty much stops improving. Later epochs merely see small stochastic fluctuations near the value of the accuracy at epoch 280. Contrast this with the earlier graph, where the cost associated to the training data continues to smoothly drop. If we just look at that cost, it appears that our model is still getting ``better''. But the test accuracy results show the improvement is an illusion. Just like the model that Fermi disliked, what our network learns after epoch 280 no longer generalizes to the test data. And so it's not useful learning. We say the network is \textit{overfitting} or \textit{overtraining} beyond epoch 280.
 
 You might wonder if the problem here is that I'm looking at the cost on the training data, as opposed to the \textit{classification accuracy} on the test data. In other words, maybe the problem is that we're making an apples and oranges comparison. What would happen if we compared the cost on the training data with the cost on the test data, so we're comparing similar measures? Or perhaps we could compare the classification accuracy on both the training data and the test data? In fact, essentially the same phenomenon shows up no matter how we do the comparison. The details do change, however. For instance, let's look at the cost on the test data:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting3}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting3.png}
 \end{center}
 We can see that the cost on the test data improves until around epoch 15, but after that it actually starts to get worse, even though the cost on the training data is continuing to get better. This is another sign that our model is overfitting. It poses a puzzle, though, which is whether we should regard epoch 15 or epoch 280 as the point at which overfitting is coming to dominate learning? From a practical point of view, what we really care about is improving classification accuracy on the test data, while the cost on the test data is no more than a proxy for classification accuracy. And so it makes most sense to regard epoch 280 as the point beyond which overfitting is dominating learning in our neural network.
 
 Another sign of overfitting may be seen in the classification accuracy on the training data:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting4}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting4.png}
 \end{center}
 The accuracy rises all the way up to 100 percent. That is, our network correctly classifies all 1,000 training images! Meanwhile, our test accuracy tops out at just 82.27 percent. So our network really is learning about peculiarities of the training set, not just recognizing digits in general. It's almost as though our network is merely memorizing the training set, without understanding digits well enough to generalize to the test set.
 
@@ -400,7 +400,7 @@ Now, in practice, even after evaluating performance on the \inline{test_data} we
 
 We've been looking so far at overfitting when we're just using 1,000 training images. What happens when we use the full training set of 50,000 images? We'll keep all the other parameters the same (30 hidden neurons, learning rate 0.5, mini-batch size of 10), but train using all 50,000 images for 30 epochs. Here's a graph showing the results for the classification accuracy on both the training data and the test data. Note that I've used the test data here, rather than the validation data, in order to make the results more directly comparable with the earlier graphs.
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting_full}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/overfitting_full.png}
 \end{center}
 As you can see, the accuracy on the test and training data remain much closer together than when we were using 1,000 training examples. In particular, the best classification accuracy of 97.86 percent on the training data is only 2.53 percent higher than the 95.33 percent on the test data. That's compared to the 17.73 percent gap we had earlier! Overfitting is still going on, but it's been greatly reduced. Our network is generalizing much better from the training data to the test data. In general, one of the best ways of reducing overfitting is to increase the size of the training data. With enough training data it is difficult for even a very large network to overfit. Unfortunately, training data can be expensive or difficult to acquire, so this is not always a practical option.
 
@@ -417,7 +417,7 @@ C = -\frac{1}{n} \sum_{xj} \left[ y_j \ln a^L_j+(1-y_j) \ln (1-a^L_j)\right] + \
 The first term is just the usual expression for the cross-entropy. But we've added a second term, namely the sum of the squares of all the weights in the network. This is scaled by a factor $\lambda/2n$, where $\lambda>0$ is known as the \textit{regularization parameter}, and $n$ is, as usual, the size of our training set. I'll discuss later how $\lambda$ is chosen. It's also worth noting that the regularization term doesn't include the biases. I'll also come back to that below.
 
 Of course, it's possible to regularize other cost functions, such as the quadratic cost. This can be done in a similar way:
-\begin{align} C = \frac{1}{2n} \sum_x \|y-a^L\|^2 + \frac{\lambda}{2n} \sum_w w^2.
+\begin{align} C = \frac{1}{2n} \sum_x \left\|y-a^L\right\|^2 + \frac{\lambda}{2n} \sum_w w^2.
 \tag{86}\label{eq:86}\end{align}
 %C=12n∑x∥y-aL∥2+\lambda 2n∑ww2.(86)
 In both cases we can write the regularized cost function as
@@ -476,11 +476,11 @@ Let's see how regularization changes the performance of our neural network. We'l
 \end{lstlisting}
 The cost on the training data decreases over the whole time, much as it did in the earlier, unregularized case\footnote{This and the next two graphs were produced with the program \inline{overfitting.py.}}:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/regularized1}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/regularized1.png}
 \end{center}
 But this time the accuracy on the \inline{test_data} continues to increase for the entire 400 epochs:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/regularized2}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/regularized2.png}
 \end{center}
 Clearly, the use of regularization has suppressed overfitting. What's more, the accuracy is considerably higher, with a peak classification accuracy of 87.1 percent, compared to the peak of 82.27 percent obtained in the unregularized case. Indeed, we could almost certainly get considerably better results by continuing to train past 400 epochs. It seems that, empirically, regularization is causing our network to generalize better, and considerably reducing the effects of overfitting.
 
@@ -495,7 +495,7 @@ Okay, let's train our network, stopping first to re-initialize the weights:
 \end{lstlisting}
 We obtain the results:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/regularized_full}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/regularized_full.png}
 \end{center}
 There's lots of good news here. First, our classification accuracy on the test data is up, from 95.49 percent when running unregularized, to 96.49 percent. That's a big improvement. Second, we can see that the gap between results on the training and test data is much narrower than before, running at under a percent. That's still a significant gap, but we've obviously made substantial progress reducing overfitting.
 
@@ -527,7 +527,7 @@ We've seen empirically that regularization helps reduce overfitting. That's enco
 \end{tikzpicture}
 \end{center}
 %\begin{center}
-%	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting1}
+%	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting1.png}
 %\end{center}
 Implicitly, we're studying some real-world phenomenon here, with $x$ and $y$ representing real-world data. Our goal is to build a model which lets us predict $y$ as a function of $x$. We could try using neural networks to build such a model, but I'm going to do something even simpler: I'll try to model $y$ as a polynomial in $x$. I'm doing this instead of using neural nets because using polynomials will make things particularly transparent. Once we've understood the polynomial case, we'll translate to neural networks. Now, there are ten points in the graph above, which means we can find a unique 9-th-order polynomial $y=a_0x^9+a_1x^8+\ldots+a_9$ which fits the data exactly. Here's the graph of that polynomial\footnote{I won't show the coefficients explicitly, although they are easy to find using a routine such as Numpy's \inline{polyfit}.You can view the exact form of the polynomial in the \href{http://neuralnetworksanddeeplearning.com/js/polynomial_model.js}{source code for the graph} if you're curious. It's the function $p(x)$ defined starting on line 14 of the program which produces the graph.} :
 \begin{center}
@@ -540,7 +540,7 @@ Implicitly, we're studying some real-world phenomenon here, with $x$ and $y$ rep
 \end{tikzpicture}
 \end{center}
 %\begin{center}
-%	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting2}
+%	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting2.png}
 %	\end{center}
 That provides an exact fit. But we can also get a good fit using the linear model $y=2x$:
 \begin{center}
@@ -552,7 +552,7 @@ That provides an exact fit. But we can also get a good fit using the linear mode
 \end{tikzpicture}
 \end{center}
 %\begin{center}
-%	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting3}
+%	\includegraphics[width=0.7\linewidth]{figures/ch3/animation_overfitting3.png}
 %\end{center}
 Which of these is the better model? Which is more likely to be true? And which model is more likely to generalize well to other examples of the same underlying real-world phenomenon?
 
@@ -613,11 +613,11 @@ I've glossed over an issue in the above discussion, which is that the partial de
 
 Suppose we're trying to train a network:
 \begin{center}
-	\includegraphics[width=0.45\linewidth]{figures/ch3/tikz30}
+	\includegraphics[width=0.45\linewidth]{figures/ch3/tikz30.png}
 \end{center}
 In particular, suppose we have a training input $x$ and corresponding desired output $y$. Ordinarily, we'd train by forward-propagating $x$ through the network, and then backpropagating to determine the contribution to the gradient. With dropout, this process is modified. We start by randomly (and temporarily) deleting half the hidden neurons in the network, while leaving the input and output neurons untouched. After doing this, we'll end up with a network along the following lines. Note that the dropout neurons, i.e., the neurons which have been temporarily deleted, are still ghosted in:
 \begin{center}
-	\includegraphics[width=0.45\linewidth]{figures/ch3/tikz31}
+	\includegraphics[width=0.45\linewidth]{figures/ch3/tikz31.png}
 \end{center}
 We forward-propagate the input $x$ through the modified network, and then backpropagate the result, also through the modified network. After doing this over a mini-batch of examples, we update the appropriate weights and biases. We then repeat the process, first restoring the dropout neurons, then choosing a new random subset of hidden neurons to delete, estimating the gradient for a different mini-batch, and updating the weights and biases in the network.
 
@@ -634,21 +634,21 @@ Of course, the true measure of dropout is that it has been very successful in im
 
 \textbf{Artificially expanding the training data:} We saw earlier that our MNIST classification accuracy dropped down to percentages in the mid-80s when we used only 1,000 training images. It's not surprising that this is the case, since less training data means our network will be exposed to fewer variations in the way human beings write digits. Let's try training our 30 hidden neuron network with a variety of different training data set sizes, to see how performance varies. We train using a mini-batch size of 10, a learning rate $\eta=0.5$, a regularization parameter $\lambda=5.0$, and the cross-entropy cost function. We will train for 30 epochs when the full training data set is used, and scale up the number of epochs proportionally when smaller training sets are used. To ensure the weight decay factor remains the same across training sets, we will use a regularization parameter of $\lambda=5.0$ when the full training data set is used, and scale down $\lambda$ proportionally when smaller training sets are used\footnote{This and the next two graph are produced with the program \inline{more_data.py}.}.
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/more_data}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/more_data.png}
 \end{center}
 As you can see, the classification accuracies improve considerably as we use more training data. Presumably this improvement would continue still further if more data was available. Of course, looking at the graph above it does appear that we're getting near saturation. Suppose, however, that we redo the graph with the training set size plotted logarithmically:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/more_data_log}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/more_data_log.png}
 \end{center}
 It seems clear that the graph is still going up toward the end. This suggests that if we used vastly more training data -- say, millions or even billions of handwriting samples, instead of just 50,000 -- then we'd likely get considerably better performance, even from this very small network.
 
 Obtaining more training data is a great idea. Unfortunately, it can be expensive, and so is not always possible in practice. However, there's another idea which can work nearly as well, and that's to artificially expand the training data. Suppose, for example, that we take an MNIST training image of a five,
 \begin{center}
-	\includegraphics[width=0.15\linewidth]{figures/ch3/more_data_5}
+	\includegraphics[width=0.15\linewidth]{figures/ch3/more_data_5.png}
 \end{center}
 and rotate it by a small amount, let's say 15 degrees:
 \begin{center}
-	\includegraphics[width=0.15\linewidth]{figures/ch3/more_data_rotated_5}
+	\includegraphics[width=0.15\linewidth]{figures/ch3/more_data_rotated_5.png}
 \end{center}
 It's still recognizably the same digit. And yet at the pixel level it's quite different to any image currently in the MNIST training data. It's conceivable that adding this image to the training data might help our network learn more about how to classify digits. What's more, obviously we're not limited to adding just this one image. We can expand our training data by making \textit{many} small rotations of \textit{all} the MNIST training images, and then using the expanded training data to improve our network's performance.
 
@@ -662,11 +662,11 @@ Variations on this idea can be used to improve performance on many learning task
 \end{exercize}
 \textbf{An aside on big data and what it means to compare classification accuracies:} Let's look again at how our neural network's accuracy varies with training set size:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/more_data_log}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/more_data_log.png}
 \end{center}
 Suppose that instead of using a neural network we use some other machine learning technique to classify digits. For instance, let's try using the support vector machines (SVM) which we met briefly back in Chapter 1. As was the case in Chapter 1, don't worry if you're not familiar with SVMs, we don't need to understand their details. Instead, we'll use the SVM supplied by the scikit-learn library. Here's how SVM performance varies as a function of training set size. I've plotted the neural net results as well, to make comparison easy\footnote{This graph was produced with the program \inline{more_data.py} (as were the last few graphs).}:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/more_data_comparison}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/more_data_comparison.png}
 \end{center}
 Probably the first thing that strikes you about this graph is that our neural network outperforms the SVM for every training set size. That's nice, although you shouldn't read too much into it, since I just used the out-of-the-box settings from scikit-learn's SVM, while we've done a fair bit of work improving our neural network. A more subtle but more interesting fact about the graph is that if we train our SVM using 50,000 images then it actually has better performance (94.48 percent accuracy) than our neural network does when trained using 5,000 images (93.24 percent accuracy). In other words, more training data can sometimes compensate for differences in the machine learning algorithm used.
 
@@ -686,7 +686,7 @@ When we create our neural networks, we have to make choices for the initial weig
 
 It turns out that we can do quite a bit better than initializing with normalized Gaussians. To see why, suppose we're working with a network with a large number -- say 1,000 -- of input neurons. And let's suppose we've used normalized Gaussians to initialize the weights connecting to the first hidden layer. For now I'm going to concentrate specifically on the weights connecting the input neurons to the first neuron in the hidden layer, and ignore the rest of the network:
 \begin{center}
-	\includegraphics[width=0.35\linewidth]{figures/ch3/tikz32}
+	\includegraphics[width=0.35\linewidth]{figures/ch3/tikz32.png}
 \end{center}
 We'll suppose for simplicity that we're trying to train using a training input $x$ in which half the input neurons are on, i.e., set to 1, and half the input neurons are off, i.e., set to 0. The argument which follows applies more generally, but you'll get the gist from this special case. Let's consider the weighted sum $z=\sum_jw_jx_j+b$ of inputs to our hidden neuron. 500 terms in this sum vanish, because the corresponding input $x_j$ is zero. And so $z$ is a sum over a total of 501 normalized Gaussian random variables, accounting for the 500 weight terms and the 1 extra bias term. Thus $z$ is itself distributed as a Gaussian with mean zero and standard deviation $\sqrt{501}\approx 22.4$. That is, $z$ has a very broad Gaussian distribution, not sharply peaked at all:
 \begin{center}
@@ -733,11 +733,11 @@ We can also train using the new approach to weight initialization. This is actua
 \end{lstlisting}
 Plotting the results\footnote{The program used to generate this and the next graph is \inline{weight_initialization.py}.}, we obtain:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/weight_initialization_30}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/weight_initialization_30.png}
 \end{center}
 In both cases, we end up with a classification accuracy somewhat over 96 percent. The final classification accuracy is almost exactly the same in the two cases. But the new initialization technique brings us there much, much faster. At the end of the first epoch of training the old approach to weight initialization has a classification accuracy under 87 percent, while the new approach is already almost 93 percent. What appears to be going on is that our new approach to weight initialization starts us off in a much better regime, which lets us get good results much more quickly. The same phenomenon is also seen if we plot results with 100 hidden neurons:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch3/weight_initialization_100}
+	\includegraphics[width=0.6\linewidth]{figures/ch3/weight_initialization_100.png}
 \end{center}
 In this case, the two curves don't quite meet. However, my experiments suggest that with just a few more epochs of training (not shown) the accuracies become almost exactly the same. So on the basis of these experiments it looks as though the improved weight initialization only speeds up learning, it doesn't change the final performance of our networks. However, in Chapter 4 we'll see examples of neural networks where the long-run behaviour is significantly better with the $1/\sqrt{n_{\rm in}}$ weight initialization. Thus it's not only the speed of learning which is improved, it's sometimes also the final performance.
 
@@ -1283,11 +1283,11 @@ Okay, that's the broad strategy. Let's now look at some specific recommendations
 
 Learning rate: Suppose we run three MNIST networks with three different learning rates, $\eta=0.025$, $\eta=0.25$ and $\eta=2.5$, respectively. We'll set the other hyper-parameters as for the experiments in earlier sections, running over 30 epochs, with a mini-batch size of 10, and with $\lambda=5.0$. We'll also return to using the full 50,000 training images. Here's a graph showing the behaviour of the training cost as we train\footnote{The graph was generated by \inline{multiple_eta.py}.}:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch3/multiple_eta}
+	\includegraphics[width=0.7\linewidth]{figures/ch3/multiple_eta.png}
 \end{center}
 With $\eta=0.025$ the cost decreases smoothly until the final epoch. With $\eta=0.25$ the cost initially decreases, but after about 20 epochs it is near saturation, and thereafter most of the changes are merely small and apparently random oscillations. Finally, with $\eta=2.5$ the cost makes large oscillations right from the start. To understand the reason for the oscillations, recall that stochastic gradient descent is supposed to step us gradually down into a valley of the cost function,
 \begin{center}
-	\includegraphics[width=0.5\linewidth]{figures/ch3/tikz33}
+	\includegraphics[width=0.5\linewidth]{figures/ch3/tikz33.png}
 \end{center}
 However, if $\eta$ is too large then the steps will be so large that they may actually overshoot the minimum, causing the algorithm to climb up out of the valley instead. That's likely\footnote{This picture is helpful, but it's intended as an intuition-building illustration of what may go on, not as a complete, exhaustive explanation. Briefly, a more complete explanation is as follows: gradient descent uses a first-order approximation to the cost function as a guide to how to decrease the cost. For large $\eta$, higher-order terms in the cost function become more important, and may dominate the behaviour, causing gradient descent to break down. This is especially likely as we approach minima and quasi-minima of the cost function, since near such points the gradient becomes small, making it easier for higher-order terms to dominate behaviour.} what's causing the cost to oscillate when $\eta=2.5$. When we choose $\eta=0.25$ the initial steps do take us toward a minimum of the cost function, and it's only once we get near that minimum that we start to suffer from the overshooting problem. And when we choose $\eta=0.025$ we don't suffer from this problem at all during the first 30 epochs. Of course, choosing $\eta$ so small creates another problem, namely, that it slows down stochastic gradient descent. An even better approach would be to start with $\eta=0.25$, train for 20 epochs, and then switch to $\eta=0.025$. We'll discuss such variable learning rate schedules later. For now, though, let's stick to figuring out how to find a single good value for the learning rate, $\eta$.
 
@@ -1424,7 +1424,7 @@ w  \to  w' &=  w  + v'.\tag{108}\label{eq:108}
 \end{align}
 In these equations, $\mu$ is a hyper-parameter which controls the amount of damping or friction in the system. To understand the meaning of the equations it's helpful to first consider the case where $\mu=1$, which corresponds to no friction. When that's the case, inspection of the equations shows that the ``force'' $\nabla C$ is now modifying the velocity, $v$, and the velocity is controlling the rate of change of $w$. Intuitively, we build up the velocity by repeatedly adding gradient terms to it. That means that if the gradient is in (roughly) the same direction through several rounds of learning, we can build up quite a bit of steam moving in that direction. Think, for example, of what happens if we're moving straight down a slope:
 \begin{center}
-	\includegraphics[width=0.55\linewidth]{figures/ch3/tikz34}
+	\includegraphics[width=0.55\linewidth]{figures/ch3/tikz34.png}
 \end{center}
 With each step the velocity gets larger down the slope, so we move more and more quickly to the bottom of the valley. This can enable the momentum technique to work much faster than standard gradient descent. Of course, a problem is that once we reach the bottom of the valley we will overshoot. Or, if the gradient should change rapidly, then we could find ourselves moving in the wrong direction. That's the reason for the $\mu$ hyper-parameter in (\ref{eq:107}). I said earlier that $\mu$ controls the amount of friction in the system; to be a little more precise, you should think of $1-\mu$ as the amount of friction in the system. When $\mu=1$, as we've seen, there is no friction, and the velocity is completely driven by the gradient $\nabla C$. By contrast, when $\mu=0$ there's a lot of friction, the velocity can't build up, and Equations (\ref{eq:107}) and (\ref{eq:108}) reduce to the usual equation for gradient descent, $w \to w'=w-\eta \nabla C$. In practice, using a value of $\mu$ intermediate between 0 and 1 can give us much of the benefit of being able to build up speed, but without causing overshooting. We can choose such a value for $\mu$ using the held-out validation data, in much the same way as we select $\eta$ and $\lambda$.
 

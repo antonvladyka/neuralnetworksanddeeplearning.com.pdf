@@ -14,7 +14,7 @@ The difficulty of visual pattern recognition becomes apparent if you attempt to 
 
 Neural networks approach the problem in a different way. The idea is to take a large number of handwritten digits, known as training examples,
 \begin{center}
-	\includegraphics[width=0.5\textwidth]{./figures/ch1/mnist_100_digits}
+	\includegraphics[width=0.5\textwidth]{./figures/ch1/mnist_100_digits.png}
 \end{center}
 and then develop a system which can learn from those training examples. In other words, the neural network uses the examples to automatically infer rules for recognizing handwritten digits. Furthermore, by increasing the number of training examples, the network can learn more about handwriting, and so improve its accuracy. So while I've shown just 100 training digits above, perhaps we could build a better handwriting recognizer by using thousands or even millions or billions of training examples.
 
@@ -29,7 +29,7 @@ What is a neural network? To get started, I'll explain a type of artificial neur
 
 So how do perceptrons work? A perceptron takes several binary inputs, $x_1, x_2, \ldots$,  and produces a single binary output:
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz0}
+	\includegraphics[scale=0.5]{./figures/ch1/tikz0.png}
 \end{center}
 In the example shown the perceptron has three inputs, $x_1$, $x_2$, $x_3$. In general it could have more or fewer inputs. Rosenblatt proposed a simple rule to compute the output. He introduced \textit{weights}, $w_1$,$w_2$, $\ldots$, real numbers expressing the importance of the respective inputs to the output. The neuron's output, 0 or 1, is determined by whether the weighted sum  $\sum_j w_jx_j$ is less than or greater than some \textit{threshold value}. Just like the weights, the threshold is a real number which is a parameter of the neuron. To put it in more precise algebraic terms:
 \begin{equation}
@@ -54,7 +54,7 @@ By varying the weights and the threshold, we can get different models of decisio
 
 Obviously, the perceptron isn't a complete model of human decision-making! But what the example illustrates is how a perceptron can weigh up different kinds of evidence in order to make decisions. And it should seem plausible that a complex network of perceptrons could make quite subtle decisions:
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz1}
+	\includegraphics[scale=0.5]{./figures/ch1/tikz1.png}
 \end{center}	
 In this network, the first column of perceptrons -- what we'll call the first \textit{layer} of perceptrons -- is making three very simple decisions, by weighing the input evidence. What about the perceptrons in the second layer? Each of those perceptrons is making a decision by weighing up the results from the first layer of decision-making. In this way a perceptron in the second layer can make a decision at a more complex and more abstract level than perceptrons in the first layer. And even more complex decisions can be made by the perceptron in the third layer. In this way, a many-layer network of perceptrons can engage in sophisticated decision making.
 
@@ -71,29 +71,29 @@ You can think of the bias as a measure of how easy it is to get the perceptron t
 
 I've described perceptrons as a method for weighing evidence to make decisions. Another way perceptrons can be used is to compute the elementary logical functions we usually think of as underlying computation, functions such as AND, OR, and NAND. For example, suppose we have a perceptron with two inputs, each with weight --2, and an overall bias of 3. Here's our perceptron:
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz2}
+	\includegraphics[scale=0.5]{./figures/ch1/tikz2.png}
 \end{center}
 Then we see that input 00 produces output 1, since $(-2)\ast0+(-2)\ast0+3=3$ is positive. Here, I've introduced the $\ast$ symbol to make the multiplications explicit. Similar calculations show that the inputs 01 and 10 produce output 1. But the input 11 produces output 0, since $(-2)\ast1+(-2)\ast1+3=-1$ is negative. And so our perceptron implements a NAND gate!
 
 The NAND example shows that we can use perceptrons to compute simple logical functions. In fact, we can use networks of perceptrons to compute \textit{any} logical function at all. The reason is that the NAND gate is universal for computation, that is, we can build any computation up out of NAND gates. For example, we can use NAND gates to build a circuit which adds two bits, $x_1$ and $x_2$. This requires computing the bitwise sum, $x_1\bigoplus x_2$, as well as a carry bit which is set to 1 when both $x_1$ and $x_2$ are 1, i.e., the carry bit is just the bitwise product $x_1x_2$:
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz3}
+	\includegraphics[scale=0.5]{./figures/ch1/tikz3.png}
 \end{center}	
 To get an equivalent network of perceptrons we replace all the NAND gates by perceptrons with two inputs, each with weight --2, and an overall bias of 3. Here's the resulting network. Note that I've moved the perceptron corresponding to the bottom right NAND gate a little, just to make it easier to draw the arrows on the diagram:
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz4}
+	\includegraphics[scale=0.5]{./figures/ch1/tikz4.png}
 \end{center}	
 One notable aspect of this network of perceptrons is that the output from the leftmost perceptron is used twice as input to the bottommost perceptron. When I defined the perceptron model I didn't say whether this kind of double-output-to-the-same-place was allowed. Actually, it doesn't much matter. If we don't want to allow this kind of thing, then it's possible to simply merge the two lines, into a single connection with a weight of --4 instead of two connections with --2 weights. (If you don't find this obvious, you should stop and prove to yourself that this is equivalent.) With that change, the network looks as follows, with all unmarked weights equal to --2, all biases equal to 3, and a single weight of --4, as marked:
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz5}
+	\includegraphics[scale=0.5]{./figures/ch1/tikz5.png}
 \end{center}		
 Up to now I've been drawing inputs like $x_1$ and $x_2$ as variables floating to the left of the network of perceptrons. In fact, it's conventional to draw an extra layer of perceptrons -- the input layer -- to encode the inputs:
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz6}
+	\includegraphics[scale=0.5]{./figures/ch1/tikz6.png}
 \end{center}		
 This notation for input perceptrons, in which we have an output, but no inputs,
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz7}
+	\includegraphics[scale=0.5]{./figures/ch1/tikz7.png}
 \end{center}	
 is a shorthand. It doesn't actually mean a perceptron with no inputs. To see this, suppose we did have a perceptron with no inputs. Then the weighted sum $\sum_jw_jx_j$ would always be zero, and so the perceptron would output 1 if $b>0$, and 0 if $b\le0$. That is, the perceptron would simply output a fixed value, not the desired value ($x_1$, in the example above). It's better to think of the input perceptrons as not really being perceptrons at all, but rather special units which are simply defined to output the desired values, $x_1,x_2,\ldots$ .
 
@@ -107,7 +107,7 @@ However, the situation is better than this view suggests. It turns out that we c
 Learning algorithms sound terrific. But how can we devise such algorithms for a neural network? Suppose we have a network of perceptrons that we'd like to use to learn to solve some problem. For example, the inputs to the network might be the raw pixel data from a scanned, handwritten image of a digit. And we'd like the network to learn weights and biases so that the output from the network correctly classifies the digit. To see how learning might work, suppose we make a small change in some weight (or bias) in the network. What we'd like is for this small change in weight to cause only a small corresponding change in the output from the network. As we'll see in a moment, this property will make learning possible. Schematically, here's what we want (obviously this network is too simple to do handwriting recognition!):
 
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz8}
+	\includegraphics[scale=0.5]{./figures/ch1/tikz8.png}
 \end{center}
 If it were true that a small change in a weight (or bias) causes only a small change in output, then we could use this fact to modify the weights and biases to get our network to behave more in the manner we want. For example, suppose the network was mistakenly classifying an image as an ``8'' when it should be a ``9''. We could figure out how to make a small change in the weights and biases so the network gets a little closer to classifying the image as a ``9''. And then we'd repeat this, changing the weights and biases over and over to produce better and better output. The network would be learning.
 
@@ -117,18 +117,16 @@ We can overcome this problem by introducing a new type of artificial neuron call
 
 Okay, let me describe the sigmoid neuron. We'll depict sigmoid neurons in the same way we depicted perceptrons:
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz9}
+	\includegraphics[scale=0.5]{./figures/ch1/tikz9.png}
 \end{center}	
 Just like a perceptron, the sigmoid neuron has inputs, $x_1, x_2, \ldots$. But instead of being just 0 or 1, these inputs can also take on any values between 0 and 1. So, for instance, $0.638\ldots$ is a valid input for a sigmoid neuron. Also just like a perceptron, the sigmoid neuron has weights for each input, $w_1,w_2,\ldots$, and an overall bias, $b$. But the output is not 0 or 1. Instead, it's $\sigma(w⋅x+b)$, where $\sigma$ is called the sigmoid function\footnote{Incidentally, $\sigma$ is sometimes called the logistic function, and this new class of neurons called logistic neurons. It's useful to remember this terminology, since these terms are used by many people working with neural nets. However, we'll stick with the sigmoid terminology.}, and is defined by:
 
 \begin{equation}
-\sigma(z) \equiv \frac1{1+e^{-z}}.
-\tag{3}\label{eq:sigma}
+\sigma(z) \equiv \frac1{1+e^{-z}}.\tag{3}\label{eq:sigma}
 \end{equation}
 To put it all a little more explicitly, the output of a sigmoid neuron with inputs $x_1$,$x_2$,$\ldots$, weights $w_1,w_2,\ldots$, and bias $b$ is
 \begin{equation}
-\frac1{1+\exp\left(-\sum_jw_jx_j-b\right)}
-\tag{4}\label{eq:4}.
+\frac1{1+\exp\left(-\sum_jw_jx_j-b\right)}.\tag{4}\label{eq:4}
 \end{equation}
 At first sight, sigmoid neurons appear very different to perceptrons. The algebraic form of the sigmoid function may seem opaque and forbidding if you're not already familiar with it. In fact, there are many similarities between perceptrons and sigmoid neurons, and the algebraic form of the sigmoid function turns out to be more of a technical detail than a true barrier to understanding.
 
@@ -152,8 +150,7 @@ This shape is a smoothed out version of a step function:
 \end{center}
 If $\sigma$ had in fact been a step function, then the sigmoid neuron would be a perceptron, since the output would be 1 or 0 depending on whether $w\cdot x + b$ was positive or negative\footnote{Actually, when $w\cdot x+b = 0$ the perceptron outputs 0, while the step function outputs 1. So, strictly speaking, we'd need to modify the step function at that one point. But you get the idea.}. By using the actual $\sigma$ function we get, as already implied above, a smoothed out perceptron. Indeed, it's the smoothness of the $\sigma$ function that is the crucial fact, not its detailed form. The smoothness of $\sigma$ means that small changes $\Delta{}w_j$ in the weights and $\Delta{}b$ in the bias will produce a small change $\Delta\textrm{output}$ in the output from the neuron. In fact, calculus tells us that $\Delta\textrm{output}$ is well approximated by
 \begin{equation}
-\Delta\textrm{output}\approx \sum_j\frac{\partial\textrm{output}}{\partial w_j}\Delta w_j + \frac{\partial\textrm{output}}{\partial b}\Delta b
-\tag{5}\label{eq:doutput}
+\Delta\textrm{output}\approx \sum_j\frac{\partial\textrm{output}}{\partial w_j}\Delta w_j + \frac{\partial\textrm{output}}{\partial b}\Delta b \tag{5}\label{eq:doutput}
 \end{equation}		
 where the sum is over all the weights, $w_j$, and $\partial\textrm{output}/\partial w_j$ and $\partial\textrm{output}/\partial b$ denote partial derivatives of the output with respect to $w_j$ and $b$, respectively. Don't panic if you're not comfortable with partial derivatives! While the expression above looks complicated, with all the partial derivatives, it's actually saying something very simple (and which is very good news): $\Delta\textrm{output}$ is a linear function of the changes $\Delta w_j$ and $\Delta b$ in the weights and bias. This linearity makes it easy to choose small changes in the weights and biases to achieve any desired small change in the output. So while sigmoid neurons have much of the same qualitative behavior as perceptrons, they make it much easier to figure out how changing the weights and biases will change the output.
 
@@ -171,12 +168,12 @@ How should we interpret the output from a sigmoid neuron? Obviously, one big dif
 In the next section I'll introduce a neural network that can do a pretty good job classifying handwritten digits. In preparation for that, it helps to explain some terminology that lets us name different parts of a network. Suppose we have the network:
 
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz10}
+	\includegraphics[scale=0.5]{./figures/ch1/tikz10.png}
 \end{center}
 As mentioned earlier, the leftmost layer in this network is called the input layer, and the neurons within the layer are called \textit{input neurons}. The rightmost or \textit{output} layer contains the \textit{output neurons}, or, as in this case, a single output neuron. The middle layer is called a \textit{hidden layer}, since the neurons in this layer are neither inputs nor outputs. The term ``hidden'' perhaps sounds a little mysterious -- the first time I heard the term I thought it must have some deep philosophical or mathematical significance -- but it really means nothing more than ``not an input or an output''. The network above has just a single hidden layer, but some networks have multiple hidden layers. For example, the following four-layer network has two hidden layers:
 
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz11}
+	\includegraphics[scale=0.5]{./figures/ch1/tikz11.png}
 \end{center}
 Somewhat confusingly, and for historical reasons, such multiple layer networks are sometimes called \textit{multilayer perceptrons} or \textit{MLPs}, despite being made up of sigmoid neurons, not perceptrons. I'm not going to use the MLP terminology in this book, since I think it's confusing, but wanted to warn you of its existence.
 
@@ -193,15 +190,15 @@ Recurrent neural nets have been less influential than feedforward networks, in p
 \section{A simple network to classify handwritten digits}
 Having defined neural networks, let's return to handwriting recognition. We can split the problem of recognizing handwritten digits into two sub-problems. First, we'd like a way of breaking an image containing many digits into a sequence of separate images, each containing a single digit. For example, we'd like to break the image
 \begin{center}
-	\includegraphics[scale=0.25]{./figures/ch1/digits}
+	\includegraphics[scale=0.25]{./figures/ch1/digits.png}
 \end{center}
 into six separate images,
 \begin{center}
-	\includegraphics[scale=0.35]{./figures/ch1/digits_separate}
+	\includegraphics[scale=0.35]{./figures/ch1/digits_separate.png}
 \end{center}
 We humans solve this \textit{segmentation problem} with ease, but it's challenging for a computer program to correctly break up the image. Once the image has been segmented, the program then needs to classify each individual digit. So, for instance, we'd like our program to recognize that the first digit above,
 \begin{center}
-	\includegraphics[scale=0.65]{./figures/ch1/mnist_first_digit}
+	\includegraphics[scale=0.65]{./figures/ch1/mnist_first_digit.png}
 \end{center}
 is a 5.
 
@@ -209,7 +206,7 @@ We'll focus on writing a program to solve the second problem, that is, classifyi
 
 To recognize individual digits we will use a three-layer neural network:
 \begin{center}
-	\includegraphics[width=\linewidth]{./figures/ch1/tikz12}
+	\includegraphics[width=\linewidth]{./figures/ch1/tikz12.png}
 \end{center}
 The input layer of the network contains neurons encoding the values of the input pixels. As discussed in the next section, our training data for the network will consist of many 28 by 28 pixel images of scanned handwritten digits, and so the input layer contains $784=28\times28$ neurons. For simplicity I've omitted most of the 784 input neurons in the diagram above. The input pixels are greyscale, with a value of 0.0 representing white, a value of 1.0 representing black, and in between values representing gradually darkening shades of grey.
 
@@ -221,15 +218,15 @@ You might wonder why we use 10 output neurons. After all, the goal of the networ
 
 To understand why we do this, it helps to think about what the neural network is doing from first principles. Consider first the case where we use 10 output neurons. Let's concentrate on the first output neuron, the one that's trying to decide whether or not the digit is a 0. It does this by weighing up evidence from the hidden layer of neurons. What are those hidden neurons doing? Well, just suppose for the sake of argument that the first neuron in the hidden layer detects whether or not an image like the following is present:
 \begin{center}
-	\includegraphics[height=0.1\linewidth]{./figures/ch1/mnist_top_left_feature}
+	\includegraphics[height=0.1\linewidth]{./figures/ch1/mnist_top_left_feature.png}
 \end{center}
 It can do this by heavily weighting input pixels which overlap with the image, and only lightly weighting the other inputs. In a similar way, let's suppose for the sake of argument that the second, third, and fourth neurons in the hidden layer detect whether or not the following images are present:
 \begin{center}
-	\includegraphics[height=0.1\linewidth]{./figures/ch1/mnist_other_features}
+	\includegraphics[height=0.1\linewidth]{./figures/ch1/mnist_other_features.png}
 \end{center}
 As you may have guessed, these four images together make up the 0 image that we saw in the line of digits shown earlier:
 \begin{center}
-	\includegraphics[height=0.1\linewidth]{./figures/ch1/mnist_complete_zero}
+	\includegraphics[height=0.1\linewidth]{./figures/ch1/mnist_complete_zero.png}
 \end{center}
 So if all four of these hidden neurons are firing then we can conclude that the digit is a 0. Of course, that's not the only sort of evidence we can use to conclude that the image was a 0 -- we could legitimately get a 0 in many other ways (say, through translations of the above images, or slight distortions). But it seems safe to say that at least in this case we'd conclude that the input was a 0.
 
@@ -241,7 +238,7 @@ Now, with all that said, this is all just a heuristic. Nothing says that the thr
 \begin{exercize}{Exercise}
 	\item There is a way of determining the bitwise representation of a digit by adding an extra layer to the three-layer network above. The extra layer converts the output from the previous layer into a binary representation, as illustrated in the figure below. Find a set of weights and biases for the new output layer. Assume that the first 3 layers of neurons are such that the correct output in the third layer (i.e., the old output layer) has activation at least 0.99, and incorrect outputs have activation less than 0.01.
 	\begin{center}
-		\includegraphics[width=\linewidth]{./figures/ch1/tikz13}
+		\includegraphics[width=\linewidth]{./figures/ch1/tikz13.png}
 	\end{center}
 \end{exercize}
 
@@ -250,7 +247,7 @@ Now, with all that said, this is all just a heuristic. Nothing says that the thr
 \label{sec:1.5}
 Now that we have a design for our neural network, how can it learn to recognize digits? The first thing we'll need is a data set to learn from -- a so-called training data set. We'll use the \href{http://yann.lecun.com/exdb/mnist/}{MNIST data set}, which contains tens of thousands of scanned images of handwritten digits, together with their correct classifications. MNIST's name comes from the fact that it is a modified subset of two data sets collected by NIST, the United States' National Institute of Standards and Technology. Here's a few images from MNIST:
 \begin{center}
-	\includegraphics[scale=0.4]{./figures/ch1/digits_separate}
+	\includegraphics[scale=0.4]{./figures/ch1/digits_separate.png}
 \end{center}
 As you can see, these digits are, in fact, the same as those shown at the beginning of this chapter as a challenge to recognize. Of course, when testing our network we'll ask it to recognize images which aren't in the training set!
 
@@ -273,7 +270,7 @@ Recapping, our goal in training a neural network is to find weights and biases w
 
 Okay, let's suppose we're trying to minimize some function, $C(v)$. This could be any real-valued function of many variables, $v=v_1,v_2,\ldots$. Note that I've replaced the $w$ and $b$ notation by $v$ to emphasize that this could be any function -- we're not specifically thinking in the neural networks context any more. To minimize $C(v)$ it helps to imagine $C$ as a function of just two variables, which we'll call $v_1$ and $v_2$:
 \begin{center}
-	\includegraphics[width=0.5\linewidth]{./figures/ch1/valley}
+	\includegraphics[width=0.5\linewidth]{./figures/ch1/valley.png}
 \end{center}
 What we'd like is to find where $C$ achieves its global minimum. Now, of course, for the function plotted above, we can eyeball the graph and find the minimum. In that sense, I've perhaps shown slightly too simple a function! A general function, $C$, may be a complicated function of many variables, and it won't usually be possible to just eyeball the graph to find the minimum.
 
@@ -317,7 +314,7 @@ Then we'll use this update rule again, to make another move. If we keep doing th
 
 Summing up, the way the gradient descent algorithm works is to repeatedly compute the gradient $\nabla C$, and then to move in the opposite direction, ``falling down'' the slope of the valley. We can visualize it like this:
 \begin{center}
-	\includegraphics[width=0.55\linewidth]{./figures/ch1/valley_with_ball}
+	\includegraphics[width=0.55\linewidth]{./figures/ch1/valley_with_ball.png}
 \end{center}
 Notice that with this rule gradient descent doesn't reproduce real physical motion. In real life a ball has momentum, and that momentum may allow it to roll across the slope, or even (momentarily) roll uphill. It's only after the effects of friction set in that the ball is guaranteed to roll down into the valley. By contrast, our rule for choosing $\Delta v$ just says ``go down, right now''. That's still a pretty good rule for finding the minimum!
 
@@ -788,7 +785,7 @@ I said above that our program gets pretty good results. What does that mean? Goo
 What about a less trivial baseline? Let's try an extremely simple idea: we'll look at how dark an image is. For instance, an image of a 2 will typically be quite a bit darker than an image of a 1, just because more pixels are blackened out, as the following examples illustrate:
 
 \begin{center}
-	\includegraphics[scale=0.18]{./figures/ch1/mnist_2_and_1}
+	\includegraphics[scale=0.18]{./figures/ch1/mnist_2_and_1.png}
 \end{center}
 This suggests using the training data to compute average darknesses for each digit, 0, 1, 2,$\ldots$, 9. When presented with a new image, we compute how dark the image is, and then guess that it's whichever digit has the closest average darkness. This is a simple procedure, and is easy to code up, so I won't explicitly write out the code -- if you're interested it's in the \href{https://github.com/mnielsen/neural-networks-and-deep-learning/blob/master/src/mnist_average_darkness.py}{GitHub repository}. But it's a big improvement over random guessing, getting 2,225 of the 10,000 test images correct, i.e., 22.25 percent accuracy.
 
@@ -801,7 +798,7 @@ That's not the end of the story, however. The 9,435 of 10,000 result is for scik
 
 In fact, they can. At present, well-designed neural networks outperform every other technique for solving MNIST, including SVMs. The current (2013) record is classifying 9,979 of 10,000 images correctly. This was done by Li Wan, Matthew Zeiler, Sixin Zhang, Yann LeCun, and Rob Fergus. We'll see most of the techniques they used later in the book. At that level the performance is close to human-equivalent, and is arguably better, since quite a few of the MNIST images are difficult even for humans to recognize with confidence, for example:
 \begin{center}
-	\includegraphics[scale=0.35]{./figures/ch1/mnist_really_bad_images}
+	\includegraphics[scale=0.35]{./figures/ch1/mnist_really_bad_images.png}
 \end{center}
 I trust you'll agree that those are tough to classify! With images like these in the MNIST data set it's remarkable that neural networks can accurately classify all but 21 of the 10,000 test images. Usually, when programming we believe that solving a complicated problem like recognizing the MNIST digits requires a sophisticated algorithm. But even the neural networks in the Wan et al paper just mentioned involve quite simple algorithms, variations on the algorithm we've seen in this chapter. All the complexity is learned, automatically, from the training data. In some sense, the moral of both our results and those in more sophisticated papers, is that for some problems:
 \begin{center}
@@ -817,9 +814,9 @@ To address these questions, let's think back to the interpretation of artificial
 
 \begin{figure}
 	\resizebox{\linewidth}{!}{
-		\includegraphics[height=3cm]{./figures/ch1/File_Kangaroo_ST_03}
-		\includegraphics[height=3cm]{./figures/ch1/Einstein_crop}
-		\includegraphics[height=3cm]{./figures/ch1/hubble}
+		\includegraphics[height=3cm]{./figures/ch1/File_Kangaroo_ST_03.jpg}
+		\includegraphics[height=3cm]{./figures/ch1/Einstein_crop.jpg}
+		\includegraphics[height=3cm]{./figures/ch1/hubble.jpg}
 	}
 	\caption{Credits: 1. Ester Inbar. 2. Unknown. 3. NASA, ESA, G. Illingworth, D. Magee, and P. Oesch (University of California, Santa Cruz), R. Bouwens (Leiden University), and the HUDF09 Team.}
 \end{figure}
@@ -832,12 +829,12 @@ If the answers to several of these questions are ``yes'', or even just ``probabl
 Of course, this is just a rough heuristic, and it suffers from many deficiencies. Maybe the person is bald, so they have no hair. Maybe we can only see part of the face, or the face is at an angle, so some of the facial features are obscured. Still, the heuristic suggests that if we can solve the sub-problems using neural networks, then perhaps we can build a neural network for face-detection, by combining the networks for the sub-problems. Here's a possible architecture, with rectangles denoting the sub-networks. Note that this isn't intended as a realistic approach to solving the face-detection problem; rather, it's to help us build intuition about how networks function. Here's the architecture:
 
 \begin{center}
-	\includegraphics[width=\linewidth]{./figures/ch1/tikz14}
+	\includegraphics[width=\linewidth]{./figures/ch1/tikz14.png}
 \end{center}
 It's also plausible that the sub-networks can be decomposed. Suppose we're considering the question: ``Is there an eye in the top left?'' This can be decomposed into questions such as: ``Is there an eyebrow?''; ``Are there eyelashes?''; ``Is there an iris?''; and so on. Of course, these questions should really include positional information, as well -- ``Is the eyebrow in the top left, and above the iris?'', that kind of thing -- but let's keep it simple. The network to answer the question ``Is there an eye in the top left?'' can now be decomposed:
 
 \begin{center}
-	\includegraphics[scale=0.5]{./figures/ch1/tikz15}
+	\includegraphics[scale=0.5]{./figures/ch1/tikz15.png}
 \end{center}
 Those questions too can be broken down, further and further through multiple layers. Ultimately, we'll be working with sub-networks that answer questions so simple they can easily be answered at the level of single pixels. Those questions might, for example, be about the presence or absence of very simple shapes at particular points in the image. Such questions can be answered by single neurons connected to the raw pixels in the image.
 

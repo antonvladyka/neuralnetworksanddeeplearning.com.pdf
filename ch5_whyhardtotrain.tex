@@ -4,7 +4,7 @@
 \chapter{Why are deep neural networks hard to train?}
 Imagine you're an engineer who has been asked to design a computer from scratch. One day you're working away in your office, designing logical circuits, setting out \inline{AND} gates, \inline{OR} gates, and so on, when your boss walks in with bad news. The customer has just added a surprising design requirement: the circuit for the entire computer must be just two layers deep:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch5/shallow_circuit}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/shallow_circuit.png}
 \end{center}
 You're dumbfounded, and tell your boss: ``The customer is crazy!''
 
@@ -16,7 +16,7 @@ But just because something is possible doesn't make it a good idea. In practice,
 
 For instance, suppose we're designing a logical circuit to multiply two numbers. Chances are we want to build it up out of sub-circuits doing operations like adding two numbers. The sub-circuits for adding two numbers will, in turn, be built up out of sub-sub-circuits for adding two bits. Very roughly speaking our circuit will look like:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch5/circuit_multiplication}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/circuit_multiplication.png}
 \end{center}
 That is, our final circuit contains at least three layers of circuit elements. In fact, it'll probably contain more than three layers, as we break the sub-tasks down into smaller units than I've described. But you get the general idea.
 
@@ -24,11 +24,11 @@ So deep circuits make the process of design easier. But they're not just helpful
 
 Up to now, this book has approached neural networks like the crazy customer. Almost all the networks we've worked with have just a single hidden layer of neurons (plus the input and output layers):
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch5/tikz35}
+	\includegraphics[width=0.6\linewidth]{figures/ch5/tikz35.png}
 \end{center}
 These simple networks have been remarkably useful: in earlier chapters we used networks like this to classify handwritten digits with better than 98 percent accuracy! Nonetheless, intuitively we'd expect networks with many more hidden layers to be more powerful:
 \begin{center}
-	\includegraphics[width=\linewidth]{figures/ch5/tikz36}
+	\includegraphics[width=\linewidth]{figures/ch5/tikz36.png}
 \end{center}
 Such networks could use the intermediate layers to build up multiple layers of abstraction, just as we do in Boolean circuits. For instance, if we're doing visual pattern recognition, then the neurons in the first layer might learn to recognize edges, the neurons in the second layer could learn to recognize more complex shapes, say triangle or rectangles, built up from edges. The third layer would then recognize still more complex shapes. And so on. These multiple layers of abstraction seem likely to give deep networks a compelling advantage in learning to solve complex pattern recognition problems. Moreover, just as in the case of circuits, there are theoretical results suggesting that deep networks are intrinsically more powerful than shallow networks\footnote{For certain problems and network architectures this is proved in \href{http://arxiv.org/pdf/1312.6098.pdf}{On the number of response regions of deep feed forward networks with piece-wise linear activations}, by Razvan Pascanu, Guido Mont\'ufar, and Yoshua Bengio (2014). See also the more informal discussion in section 2 of \href{http://www.iro.umontreal.ca/~bengioy/papers/ftml_book.pdf}{Learning deep architectures for AI}, by Yoshua Bengio (2009).}.
 
@@ -104,7 +104,7 @@ To get some insight into what's going wrong, let's visualize how the network lea
 
 To keep the diagram simple, I've shown just the top six neurons in the two hidden layers. I've omitted the input neurons, since they've got no weights or biases to learn. I've also omitted the output neurons, since we're doing layer-wise comparisons, and it makes most sense to compare layers with the same number of neurons. The results are plotted at the very beginning of training, i.e., immediately after the network is initialized. Here they are\footnote{The data plotted is generated using the program \inline{generate_gradient.py}. The same program is also used to generate the results quoted later in this section.}:
 \begin{center}
-	\includegraphics[width=0.45\linewidth]{figures/ch5/tikz500}
+	\includegraphics[width=0.45\linewidth]{figures/ch5/tikz500.png}
 \end{center}
 The network was initialized randomly, and so it's not surprising that there's a lot of variation in how rapidly the neurons learn. Still, one thing that jumps out is that the bars in the second hidden layer are mostly much larger than the bars in the first hidden layer. As a result, the neurons in the second hidden layer will learn quite a bit faster than the neurons in the first hidden layer. Is this merely a coincidence, or are the neurons in the second hidden layer likely to learn faster than neurons in the first hidden layer in general?
 
@@ -116,7 +116,7 @@ What happens if we add more hidden layers? If we have three hidden layers, in a 
 
 We've been looking at the speed of learning at the start of training, that is, just after the networks are initialized. How does the speed of learning change as we train our networks? Let's return to look at the network with just two hidden layers. The speed of learning changes as follows:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch5/training_speed_2_layers}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/training_speed_2_layers.png}
 \end{center}
 To generate these results, I used batch gradient descent with just 1,000 training images, trained over 500 epochs. This is a bit different than the way we usually train -- I've used no mini-batches, and just 1,000 training images, rather than the full 50,000 image training set. I'm not trying to do anything sneaky, or pull the wool over your eyes, but it turns out that using mini-batch stochastic gradient descent gives much noisier (albeit very similar, when you average away the noise) results. Using the parameters I've chosen is an easy way of smoothing the results out, so we can see what's going on.
 
@@ -124,11 +124,11 @@ In any case, as you can see the two layers start out learning at very different 
 
 What about more complex networks? Here's the results of a similar experiment, but this time with three hidden layers (a [784,30,30,30,10] network):
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch5/training_speed_3_layers}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/training_speed_3_layers.png}
 \end{center}
 Again, early hidden layers learn much more slowly than later hidden layers. Finally, let's add a fourth hidden layer (a [784,30,30,30,30,10] network), and see what happens when we train:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch5/training_speed_4_layers}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/training_speed_4_layers.png}
 \end{center}
 Again, early hidden layers learn much more slowly than later hidden layers. In this case, the first hidden layer is learning roughly 100 times slower than the final hidden layer. No wonder we were having trouble training these networks earlier!
 
@@ -143,7 +143,7 @@ Of course, this isn't the case. Recall that we randomly initialized the weight a
 \section{What's causing the vanishing gradient problem? Unstable gradients in deep neural nets}
 To get insight into why the vanishing gradient problem occurs, let's consider the simplest deep neural network: one with just a single neuron in each layer. Here's a network with three hidden layers:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz37}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz37.png}
 \end{center}
 Here, $w_1,w_2,\ldots$ are the weights, $b_1,b_2,\ldots$ are the biases, and $C$ is some cost function. Just to remind you how this works, the output $a_j$ from the $j$-th neuron is $\sigma(z_j)$, where $\sigma$ is the usual sigmoid activation function, and $z_j=w_ja_{j-1}+b_j$ is the weighted input to the neuron. I've drawn the cost $C$ at the end to emphasize that the cost is a function of the network's output, $a_4$: if the actual output from the network is close to the desired output, then the cost will be low, while if it's far away, the cost will be high.
 
@@ -151,7 +151,7 @@ We're going to study the gradient $\partial C/\partial b_1$ associated to the fi
 
 I'll start by simply showing you the expression for $\partial C/\partial b_1$. It looks forbidding, but it's actually got a simple structure, which I'll describe in a moment. Here's the expression (ignore the network, for now, and note that $\sigma'$ is just the derivative of the $\sigma$ function):
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz38}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz38.png}
 \end{center}
 The structure in the expression is as follows: there is a $\sigma'(z_j)$ term in the product for each neuron in the network; a weight $w_j$ term for each weight in the network; and a final $\partial C/\partial a_4$ term, corresponding to the cost function at the end. Notice that I've placed each term in the expression above the corresponding part of the network. So the network itself is a mnemonic for the expression.
 
@@ -208,7 +208,7 @@ The derivative reaches a maximum at $\sigma'(0)=1/4$. Now, if we use our standar
 
 To make this all a bit more explicit, let's compare the expression for $\partial C/\partial b_1$ to an expression for the gradient with respect to a later bias, say $\partial C/\partial b_3$. Of course, we haven't explicitly worked out an expression for $\partial C/\partial b_3$, but it follows the same pattern described above for $\partial C/\partial b_1$. Here's the comparison of the two expressions:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz39}
+	\includegraphics[width=0.7\linewidth]{figures/ch5/tikz39.png}
 \end{center}
 The two expressions share many terms. But the gradient $\partial C/\partial b_1$ includes two extra terms each of the form $w_j\sigma'(z_j)$. As we've seen, such terms are typically less than 1/4 in magnitude. And so the gradient $\partial C/\partial b_1$ will usually be a factor of 16 (or more) smaller than $\partial C/\partial b_3$. This is the essential origin of the vanishing gradient problem.
 
@@ -237,7 +237,7 @@ There are two steps to getting an exploding gradient. First, we choose all the w
 \section{Unstable gradients in more complex networks}
 We've been studying toy networks, with just one neuron in each hidden layer. What about more complex deep networks, with many neurons in each hidden layer?
 \begin{center}
-	\includegraphics[width=\linewidth]{figures/ch5/tikz40}
+	\includegraphics[width=\linewidth]{figures/ch5/tikz40.png}
 \end{center}
 In fact, much the same behaviour occurs in such networks. In the earlier chapter on backpropagation we saw that the gradient in the $l$-th layer of an L layer network is given by:
 

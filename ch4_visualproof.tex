@@ -13,11 +13,11 @@ One of the most striking facts about neural networks is that they can compute an
 \label{basic_network_precursor}%
 No matter what the function, there is guaranteed to be a neural network so that for every possible input, $x$, the value $f(x)$ (or some close approximation) is output from the network, e.g.:
 \begin{center}
-	\includegraphics[width=0.43\linewidth]{figures/ch4/tikz400}
+	\includegraphics[width=0.43\linewidth]{figures/ch4/tikz400.png}
 \end{center}
 This result holds even if the function has many inputs, $f=f(x_1,\ldots,x_m)$, and many outputs. For instance, here's a network computing a function with $m=3$ inputs and $n=2$ outputs:
 \begin{center}
-	\includegraphics[width=0.45\linewidth]{figures/ch4/tikz401}
+	\includegraphics[width=0.45\linewidth]{figures/ch4/tikz401.png}
 \end{center}
 This result tells us that neural networks have a kind of \textit{universality}. No matter what function we want to compute, we know that there is a neural network which can do the job.
 
@@ -39,7 +39,7 @@ Before explaining why the universality theorem is true, I want to mention two ca
 
 First, this doesn't mean that a network can be used to \textit{exactly} compute any function. Rather, we can get an \textit{approximation} that is as good as we want. By increasing the number of hidden neurons we can improve the approximation. For instance, earlier (see \ref{basic_network_precursor}) I illustrated a network computing some function $f(x)$ using three hidden neurons. For most functions only a low-quality approximation will be possible using three hidden neurons. By increasing the number of hidden neurons (say, to five) we can typically get a better approximation:
 \begin{center}
-	\includegraphics[width=0.43\linewidth]{figures/ch4/tikz402}
+	\includegraphics[width=0.43\linewidth]{figures/ch4/tikz402.png}
 \end{center}
 And we can do still better by further increasing the number of hidden neurons.
 
@@ -62,7 +62,7 @@ It turns out that this is the core of the problem of universality. Once we've un
 
 To build insight into how to construct a network to compute $f$, let's start with a network containing just a single hidden layer, with two hidden neurons, and an output layer containing a single output neuron:
 \begin{center}
-	\includegraphics[width=0.45\linewidth]{figures/ch4/tikz403x}
+	\includegraphics[width=0.45\linewidth]{figures/ch4/tikz403x.png}
 \end{center}
 To get a feel for how components in the network work, let's focus on the top hidden neuron. In the diagram below, click on the weight, $w$, and drag the mouse a little ways to the right to increase $w$. You can immediately see how the function computed by the top hidden neuron changes:
 \begin{center}
@@ -115,10 +115,10 @@ As we learnt earlier in the book, what's being computed by the hidden neuron is 
 %\end{lstlisting}
 We can simplify our analysis quite a bit by increasing the weight so much that the output really is a step function, to a very good approximation. Below I've plotted the output from the top hidden neuron when the weight is $w=999$. %Note that this plot is static, and you can't change parameters such as the weight.
 %\begin{center}
-%	\includegraphics[width=0.7\linewidth]{figures/ch4/high_weight_function}
+%	\includegraphics[width=0.7\linewidth]{figures/ch4/high_weight_function.png}
 %\end{center}
 \begin{center}
-	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz403y}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz403y.png}
 	\begin{tikzpicture}[declare function = {sigma(\x,\w,\b) = 1/(1+exp(-\w*\x-\b));}]
 		\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Output from top hidden neuron},axis x line=middle,axis y line=middle,xtick={0,1},ytick={0,1},xmax=1.15,ymax=1.15,ymin=-0.15,xlabel={$x$}]
 		\addplot[blue!90!red,domain=0:1,samples=201]{sigma(x,999,-400)};
@@ -133,7 +133,7 @@ To answer this question, try modifying the weight and bias in the diagram above 
 
 In fact, the step is at position $s=-b/w$, as you can see by modifying the weight and bias in the following diagram:
 \begin{center}
-	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz404x}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz404x.png}
 	\begin{tikzpicture}[declare function = {sigma(\x,\w,\b) = 1/(1+exp(-\w*\x-\b));}]
 		\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Output from top hidden neuron},axis x line=middle,axis y line=middle,xtick={0,0.4,1},xticklabels={0,$-b/w=0.4$,1},ytick={0,1},xmax=1.15,ymax=1.15,ymin=-0.15,xlabel={$x$}]
 		\addplot[blue!90!red,domain=0:1,samples=201]{sigma(x,100,-40)};
@@ -142,7 +142,7 @@ In fact, the step is at position $s=-b/w$, as you can see by modifying the weigh
 \end{center}
 It will greatly simplify our lives to describe hidden neurons using just a single parameter, $s$, which is the step position, $s=-b/w$. Try modifying $s$ in the following diagram, in order to get used to the new parameterization:
 \begin{center}
-	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz405}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz405.png}
 	\begin{tikzpicture}[declare function = {step(\x,\s)=0.5*(sign(\x-\s)+1);}]
 		\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Output from top hidden neuron},axis x line=middle,axis y line=middle,xtick={0,0.4,1},xticklabels={0,$s$,1},ytick={0,1},xmax=1.15,ymax=1.15,ymin=-0.15,xlabel={$x$}]
 		\addplot[blue!90!red,domain=0:1,samples=201]{step(x,0.4)};
@@ -156,7 +156,7 @@ As noted above, we've implicitly set the weight $w$ on the input to be some larg
 
 Up to now we've been focusing on the output from just the top hidden neuron. Let's take a look at the behavior of the entire network. In particular, we'll suppose the hidden neurons are computing step functions parameterized by step points $s_1$ (top neuron) and $s_2$ (bottom neuron). And they'll have respective output weights $w_1$ and $w_2$. Here's the network:
 \begin{center}
-	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz407}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz407.png}
 	\begin{tikzpicture}[declare function = {step(\x,\s,\h)=0.5*\h*(sign(\x-\s)+1);}]
 		\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Weighted output from hidden layer},axis x line=middle,axis y line=middle,xtick={0,0.4,0.6,1},xticklabels={0,$s_1$,$s_2$,1},ytick={0,0.6,1,1.8},yticklabels={0,$w_1$,1,$w_1+w_2$},xmax=1.15,ymax=2.15,ymin=-0.15,xlabel={$x$}]
 		\addplot[blue!90!red,domain=0:1,samples=201]{step(x,0.4,0.6)+step(x,0.6,1.2)};
@@ -176,7 +176,7 @@ Try increasing and decreasing each of the output weights. Notice how this rescal
 
 Finally, try setting $w_1$ to be 0.8 and $w_2$ to be -0.8. You get a ``bump'' function, which starts at point $s_1$, ends at point $s_2$, and has height 0.8. For instance, the weighted output might look like this:
 \begin{center}
-	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz408}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz408.png}
 	\begin{tikzpicture}[declare function = {step(\x,\s,\h)=0.5*\h*(sign(\x-\s)+1);}]
 		\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Weighted output from hidden layer},axis x line=middle,axis y line=middle,xtick={0,0.4,0.6,1},xticklabels={0,$s_1$,$s_2$,1},ytick={0,0.8,1},yticklabels={0,$w_1=-w_2$,1},xmax=1.15,ymax=2.15,ymin=-0.15,xlabel={$x$}]
 		\addplot[blue!90!red,domain=0:1,samples=201]{step(x,0.4,0.8)+step(x,0.6,-0.8)};
@@ -185,7 +185,7 @@ Finally, try setting $w_1$ to be 0.8 and $w_2$ to be -0.8. You get a ``bump'' fu
 \end{center}
 Of course, we can rescale the bump to have any height at all. Let's use a single parameter, $h$, to denote the height. To reduce clutter I'll also remove the ``$s_1=\ldots$'' and ``$w_1=\ldots$'' notations.
 \begin{center}
-	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz406}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz406.png}
 	\begin{tikzpicture}[declare function = {bump(\x,\s,\t,\h)=0.5*\h*(sign(\x-\s)-sign(\x-\t));}]
 	\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Weighted output from hidden layer},axis x line=middle,axis y line=middle,xtick={0,0.4,0.6,1},xticklabels={0,$s_1$,$s_2$,1},ytick={-1,0,0.6,1},yticklabels={$-1$,0,$h$,1},xmax=1.25,ymax=1.25,ymin=-1.25,xlabel={$x$}]
 	\addplot[blue!90!red,domain=0:1,samples=201]{bump(x,0.4,0.6,0.6};
@@ -205,7 +205,7 @@ For the most part I'm going to stick with the graphical point of view. But in wh
 
 We can use our bump-making trick to get two bumps, by gluing two pairs of hidden neurons together into the same network:
 \begin{center}
-	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz421}
+	\includegraphics[width=0.35\linewidth]{figures/ch4/tikz421.png}
 	\begin{tikzpicture}[declare function = {step(\x,\s,\t)=0.5*(sign(\x-\s)-sign(\x-\t));twobumps(\x,\s,\t,\h,\ss,\tt,\hh) = \h*step(\x,\s,\t)+\hh*step(\x,\ss,\tt); }]
 	\begin{axis}[width=0.4\linewidth,height=0.4\linewidth,align=center,title={Weighted output from hidden layer},axis x line=bottom,axis y line=left,xtick={0,0.4,0.6,0.7,0.9,1},xticklabels={0,$s_1^1$,$s_2^1$,$s_1^2$,$s_2^2$,1},ytick={-1.2,-1,0,0.3,1},yticklabels={$h_1$,$-1$,0,$h_2$,1},xmax=1.15,ymax=1.25,ymin=-1.25]
 	\addplot[blue!90!red,domain=0:1,samples=201]{twobumps(x,0.4,0.6,-1.2,0.7,0.9,0.3};
@@ -216,7 +216,7 @@ I've suppressed the weights here, simply writing the $h$ values for each pair of
 
 More generally, we can use this idea to get as many peaks as we want, of any height. In particular, we can divide the interval [0,1] up into a large number, $N$, of subintervals, and use $N$ pairs of hidden neurons to set up peaks of any desired height. Let's see how this works for $N=5$. That's quite a few neurons, so I'm going to pack things in a bit. Apologies for the complexity of the diagram: I could hide the complexity by abstracting away further, but I think it's worth putting up with a little complexity, for the sake of getting a more concrete feel for how these networks work.
 \begin{center}
-\includegraphics[height=0.65\linewidth]{./figures/ch4/tikz438}
+\includegraphics[height=0.65\linewidth]{./figures/ch4/tikz438.png}
 \begin{tikzpicture}[declare function = {step(\x,\s,\t)=0.5*(sign(\x-\s)-sign(\x-\t));}]
 \begin{axis}[width=0.42\linewidth,height=0.65\linewidth,align=center,title={Weighted output},axis x line=middle,axis y line=left,xtick={0,1},ytick={-1,0,1},xmax=1.15,ymax=2.2,ymin=-1.5]
 	\addplot[blue!90!red,domain=0:1.05,samples=201]{step(x,0,0.2)};
@@ -272,7 +272,7 @@ Your challenge, then, is to design a neural network to approximate the goal func
 
 %Once you've done that, click on ``Reset'' to randomly re-initialize the bumps. The second time you solve the problem, resist the urge to click on the graph. Instead, modify the h values on the left-hand side, and again attempt to drive the average deviation to 0.40 or below.
 \begin{center} 
-\includegraphics[height=0.65\textwidth]{./figures/ch4/tikz439}
+\includegraphics[height=0.65\textwidth]{./figures/ch4/tikz439.png}
 \begin{tikzpicture}[declare function = {step(\x,\s,\t)=0.5*(sign(\x-\s)-sign(\x-\t));}]
 	\begin{axis}[axis lines=middle,width=0.6\textwidth,height=0.65\textwidth,ymin=-2.05,ymax=2.25,scaled y ticks = false,y tick label style={/pgf/number format/fixed},xmin=-0.05,xmax=1.05, xtick={0,1}]
 		\addplot[blue,domain=0:1,samples=101]{4*(-0.3 + 0.4*x*x + 0.3*x*sin(15*deg(x)) + 0.05*cos(50*deg(x))) };
@@ -306,7 +306,7 @@ Let's extend our results to the case of many input variables. This sounds compli
 
 We'll start by considering what happens when we have two inputs to a neuron:
 \begin{center}
-	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz411}
+	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz411.png}
 \end{center}
 Here, we have inputs $x$ and $y$, with corresponding weights $w_1$ and $w_2$, and a bias $b$ on the neuron. Let's set the weight $w_2$ to 0, and then play around with the first weight, $w_1$, and the bias, $b$, to see how they affect the output from the neuron:
 \begin{center}
@@ -356,9 +356,9 @@ Just as in our earlier discussion, as the input weight gets larger the output ap
 
 Let's redo the above using the position of the step as the parameter:
 \begin{center}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepx1}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepx2}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepx3}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepx1.pdf}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepx2.pdf}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepx3.pdf}
 %	\begin{tikzpicture}[scale=0.8]
 %		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s_x=0.25$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
 %			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(x-0.25)))};
@@ -392,9 +392,9 @@ Here, we assume the weight on the $x$ input has some large value -- I've used $w
 %			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-1000*(y-0.7)))};
 %		\end{axis}
 %	\end{tikzpicture}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepy1}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepy2}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepy3}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepy1.pdf}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepy2.pdf}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/stepy3.pdf}
 \end{center}
 The number on the neuron is again the step point, and in this case the little $y$ above the number reminds us that the step is in the $y$ direction. I could have explicitly marked the weights on the $x$ and $y$ inputs, but decided not to, since it would make the diagram rather cluttered. But do keep in mind that the little $y$ marker implicitly tells us that the $y$ weight is large, and the $x$ weight is 0.
 
@@ -414,9 +414,9 @@ We can use the step functions we've just constructed to compute a three-dimensio
 %			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-100*(x-0.5)))-1/(1+exp(-100*(x-0.75)))};
 %		\end{axis}
 %	\end{tikzpicture}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpx1}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpx2}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpx3}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpx1.pdf}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpx2.pdf}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpx3.pdf}
 \end{center}
 %
 %x=1y=1Weighted output from hidden layer
@@ -427,9 +427,9 @@ Also, try changing the step point 0.30 associated to the top hidden neuron. Witn
 
 We've figured out how to make a bump function in the $x$ direction. Of course, we can easily make a bump function in the $y$ direction, by using two step functions in the $y$ direction. Recall that we do this by making the weight large on the $y$ input, and the weight 0 on the $x$ input. Here's the result:
 \begin{center}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpy1}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpy2}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpy3}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpy1.pdf}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpy2.pdf}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpy3.pdf}
 %	\begin{tikzpicture}[scale=0.8]
 %		\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={$s^1_y=0.25,s^2_y=0.75, h=1$},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
 %			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{1/(1+exp(-100*(y-0.25)))-1/(1+exp(-100*(y-0.75)))};
@@ -463,8 +463,8 @@ Let's consider what happens when we add up two bump functions, one in the $x$ di
 %			\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.25/(1+exp(-100*(y-0.3)))-0.25/(1+exp(-100*(y-0.7)))+0.25/(1+exp(-100*(x-0.4)))-0.25/(1+exp(-100*(x-0.6)))};
 %		\end{axis}
 %	\end{tikzpicture}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpxy1}
-	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpxy2}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpxy1.pdf}
+	\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/bumpxy2.pdf}
 \end{center}
 To simplify the diagram I've dropped the connections with zero weight. For now, I've left in the little $x$ and $y$ markers on the hidden neurons, to remind you in what directions the bump functions are being computed. We'll drop even those markers later, since they're implied by the input variable.
 %
@@ -472,7 +472,7 @@ Try varying the parameter $h$. As you can see, this causes the output weights to
 %
 What we've built looks a little like a \textit{tower} function:
 \begin{center}
-\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/towerfunction}%	\begin{tikzpicture}[scale=0.8]
+\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/towerfunction.pdf}%	\begin{tikzpicture}[scale=0.8]
 %			\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={Tower function},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
 %				\addplot3[surf, domain=0:1,samples=26,shader=faceted]{(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.6))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.6))))};
 %				\end{axis}
@@ -482,7 +482,7 @@ What we've built looks a little like a \textit{tower} function:
 %x=1y=1Tower function
 If we could build such tower functions, then we could use them to approximate arbitrary functions, just by adding up many towers of different heights, and in different locations:
 \begin{center}
-\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/manytowers}
+\includegraphics[width=0.32\linewidth]{./figures/ch4/3d/manytowers.pdf}
 %	\begin{tikzpicture}[scale=0.8]
 %			\begin{axis}[colormap={justred}{rgb255=(255,127,127);rgb255=(127,31,31)},grid=major,width=5cm,height=0.45\linewidth,view={-15}{10},xlabel={$x$},ylabel={$y$},zlabel={Output},title={Many towers},zmin=0,zmax=1,xtick={0,1},ytick={0,1},zmajorticks=false]
 %				\addplot3[surf, domain=0:1,samples=26,shader=faceted]{0.2*(1/(1+exp(-100*(y-0.1)))-1/(1+exp(-100*(y-0.4))))*(1/(1+exp(-100*(x-0.1)))-1/(1+exp(-100*(x-0.4))))+0.4*(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.7))))*(1/(1+exp(-100*(x-0.1)))-1/(1+exp(-100*(x-0.4))))+0.6*(1/(1+exp(-100*(y-0.1)))-1/(1+exp(-100*(y-0.4))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.7))))+0.8*(1/(1+exp(-100*(y-0.4)))-1/(1+exp(-100*(y-0.7))))*(1/(1+exp(-100*(x-0.4)))-1/(1+exp(-100*(x-0.7))))};
@@ -510,28 +510,28 @@ If we choose the threshold appropriately --- say, a value of $3h/2$, which is sa
 
 Can you see how to do this? Try experimenting with the following network to figure it out. Note that we're now plotting the output from the entire network, not just the weighted output from the hidden layer. This means we add a bias term to the weighted output from the hidden layer, and apply the sigma function. Can you find values for $h$ and $b$ which produce a tower? This is a bit tricky, so if you think about this for a while and remain stuck, here's two hints: (1)~To get the output neuron to show the right kind of \texttt{if-then-else} behaviour, we need the input weights (all $h$ or $-h$) to be large; and (2)~the value of $b$ determines the scale of the \texttt{if-then-else} threshold.
 \begin{center}
-	\includegraphics[width=0.24\linewidth]{./figures/ch4/tikz436}
-	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction1}
-	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction2}
-	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction3}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/tikz436.png}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction1.pdf}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction2.pdf}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction3.pdf}
 \end{center}
 With our initial parameters, the output looks like a flattened version of the earlier diagram, with its tower and plateau. To get the desired behaviour, we increase the parameter $h$ until it becomes large. That gives the if-then-else thresholding behaviour. Second, to get the threshold right, we'll choose $b\approx-3h/2$. Try it, and see how it works!
 
 Here's what it looks like, when we use $h=10$:
 \begin{center}
-	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction4}
-	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction5}
-	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction6}
-	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction7}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction4.pdf}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction5.pdf}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction6.pdf}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/towerconstruction7.pdf}
 \end{center}
 Even for this relatively modest value of $h$, we get a pretty good tower function. And, of course, we can make it as good as we want by increasing $h$ still further, and keeping the bias as $b=-3h/2$.
 
 Let's try gluing two such networks together, in order to compute two different tower functions. To make the respective roles of the two sub-networks clear I've put them in separate boxes, below: each box computes a tower function, using the technique described above. The graph on the right shows the weighted output from the second hidden layer, that is, it's a weighted combination of tower functions.
 \begin{center}
-	\includegraphics[width=0.24\linewidth]{./figures/ch4/tikz437}
-	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/twotowers1}
-	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/twotowers2}
-	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/twotowers3}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/tikz437.png}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/twotowers1.pdf}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/twotowers2.pdf}
+	\includegraphics[width=0.24\linewidth]{./figures/ch4/3d/twotowers3.pdf}
 \end{center}
 %
 %x=1y=1Weighted output
@@ -540,7 +540,7 @@ In particular, you can see that by modifying the weights in the final layer you 
 
 The same idea can be used to compute as many towers as we like. We can also make them as thin as we like, and whatever height we like. As a result, we can ensure that the weighted output from the second hidden layer approximates any desired function of two variables:
 \begin{center}
-\includegraphics[width=0.32\linewidth]{figures/ch4/3d/manytowers2}
+\includegraphics[width=0.32\linewidth]{figures/ch4/3d/manytowers2.pdf}
 \end{center}
 %\begin{lstlisting}
 %ANIMATION
@@ -553,7 +553,7 @@ What about functions of more than two variables?
 
 Let's try three variables $x_1,x_2,x_3$. The following network can be used to compute a tower function in four dimensions:
 \begin{center}
-\includegraphics[width=0.35\linewidth]{figures/ch4/tikz441}
+\includegraphics[width=0.35\linewidth]{figures/ch4/tikz441.png}
 \end{center}
 Here, the $x_1,x_2,x_3$ denote inputs to the network. The $s_1,t_1$ and so on are step points for neurons -- that is, all the weights in the first layer are large, and the biases are set to give the step points $s_1,t_1,s_2,\ldots$. The weights in the second layer alternate $+h$,$-h$, where $h$ is some very large number. And the output bias is $-5h/2$.
 
@@ -569,11 +569,11 @@ Okay, so we now know how to use neural networks to approximate a real-valued fun
 \section{Extension beyond sigmoid neurons}
 We've proved that networks made up of sigmoid neurons can compute any function. Recall that in a sigmoid neuron the inputs $x_1,x_2,\ldots$ result in the output $\sigma$($\sum_jw_jx_j+b$), where $w_j$ are the weights, $b$ is the bias, and $\sigma$ is the sigmoid function:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch4/tikz451}
+	\includegraphics[width=0.7\linewidth]{figures/ch4/tikz451.png}
 \end{center}
 What if we consider a different type of neuron, one using some other activation function, $s(z)$:
 \begin{center}
-	\includegraphics[width=0.7\linewidth]{figures/ch4/tikz452}
+	\includegraphics[width=0.7\linewidth]{figures/ch4/tikz452.png}
 \end{center}
 That is, we'll assume that if our neurons have inputs $x_1,x_2,\ldots$, weights $w_1,w_2,\ldots$ and bias $b$, then the output is $s(\sum_jw_jx_j+b)$.
 
@@ -629,7 +629,7 @@ What properties does $s(z)$ need to satisfy in order for this to work? We do nee
 \section{Fixing up the step functions}
 Up to now, we've been assuming that our neurons can produce step functions exactly. That's a pretty good approximation, but it is only an approximation. In fact, there will be a narrow window of failure, illustrated in the following graph, in which the function behaves very differently from a step function:
 \begin{center}
-	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz453}
+	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz453.png}
 \end{center}
 In these windows of failure the explanation I've given for universality will fail.
 
@@ -641,21 +641,21 @@ In fact, the problem turns out to be easy to fix. Let's look at the fix for neur
 
 In particular, suppose we want our network to compute some function, $f$. As before, we do this by trying to design our network so that the weighted output from our hidden layer of neurons is $\sigma^{-1}\circ f(x)$:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{figures/ch4/tikz454}
+	\includegraphics[width=0.6\linewidth]{figures/ch4/tikz454.png}
 \end{center}
 If we were to do this using the technique described earlier, we'd use the hidden neurons to produce a sequence of bump functions:
 \begin{center}
-	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz455}
+	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz455.png}
 \end{center}
 Again, I've exaggerated the size of the windows of failure, in order to make them easier to see. It should be pretty clear that if we add all these bump functions up we'll end up with a reasonable approximation to $\sigma^{-1}\circ f(x)$, except within the windows of failure.
 
 Suppose that instead of using the approximation just described, we use a set of hidden neurons to compute an approximation to half our original goal function, i.e., to $\sigma^{-1}\circ f(x)/2$. Of course, this looks just like a scaled down version of the last graph:
 \begin{center}
-	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz456}
+	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz456.png}
 \end{center}
 And suppose we use another set of hidden neurons to compute an approximation to $\sigma^{-1}\circ f(x)/2$, but with the bases of the bumps \textit{shifted} by half the width of a bump:
 \begin{center}
-	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz457}
+	\includegraphics[width=0.4\linewidth]{figures/ch4/tikz457.png}
 \end{center}
 Now we have two different approximations to $\sigma^{-1}\circ f(x)/2$. If we add up the two approximations we'll get an overall approximation to $\sigma^{-1}\circ f(x)$. That overall approximation will still have failures in small windows. But the problem will be much less than before. The reason is that points in a failure window for one approximation won't be in a failure window for the other. And so the approximation will be a factor roughly 2 better in those windows.
 
