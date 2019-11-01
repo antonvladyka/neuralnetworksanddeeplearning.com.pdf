@@ -351,10 +351,12 @@ Indeed, there's even a sense in which gradient descent is the optimal strategy f
 People have investigated many variations of gradient descent, including variations that more closely mimic a real physical ball. These ball-mimicking variations have some advantages, but also have a major disadvantage: it turns out to be necessary to compute second partial derivatives of $C$, and this can be quite costly. To see why it's costly, suppose we want to compute all the second partial derivatives $\partial^2 C/ \partial v_j \partial v_k$. If there are a million such $v_j$ variables then we'd need to compute something like a trillion (i.e., a million squared) second partial derivatives\footnote{Actually, more like half a trillion, since $\partial^2 C/ \partial v_j \partial v_k = \partial^2 C/ \partial v_k \partial v_j$. Still, you get the point.}! That's going to be computationally costly. With that said, there are tricks for avoiding this kind of problem, and finding alternatives to gradient descent is an active area of investigation. But in this book we'll use gradient descent (and variations) as our main approach to learning in neural networks.
 
 How can we apply gradient descent to learn in a neural network? The idea is to use gradient descent to find the weights $w_k$ and biases $b_l$ which minimize the cost in Equation~(\ref{eq:6}). To see how this works, let's restate the gradient descent update rule, with the weights and biases replacing the variables $v_j$. In other words, our ``position'' now has components $w_k$ and $b_l$, and the gradient vector $\nabla C$ has corresponding components $\partial C/\partial w_k$ and $\partial C / \partial b_l$. Writing out the gradient descent update rule in terms of components, we have
-\begin{align}
-w_k & \to w_k' = w_k-\eta \frac{\partial C}{\partial w_k} \tag{16}\label{eq:16}\\
-b_l & \to b_l' = b_l-\eta \frac{\partial C}{\partial b_l}.\tag{17}\label{eq:17}
-\end{align}
+\begin{equation}
+w_k  \to w_k' = w_k-\eta \frac{\partial C}{\partial w_k} \tag{16}\label{eq:16}
+\end{equation}
+\begin{equation}
+b_l  \to b_l' = b_l-\eta \frac{\partial C}{\partial b_l}.\tag{17}\label{eq:17}
+\end{equation}
 By repeatedly applying this update rule we can ``roll down the hill'', and hopefully find a minimum of the cost function. In other words, this is a rule which can be used to learn in a neural network.
 
 There are a number of challenges in applying the gradient descent rule. We'll look into those in depth in later chapters. But for now I just want to mention one problem. To understand what the problem is, let's look back at the quadratic cost in Equation~(\ref{eq:6}). Notice that this cost function has the form $C = \frac{1}{n} \sum_x C_x$, that is, it's an average over costs $C_x \equiv \frac{\|y(x)-a\|^2}{2}$ for individual training examples. In practice, to compute the gradient $\nabla C$ we need to  compute the gradients $\nabla C_x$ separately for each training input, $x$, and then average them, $\nabla C = \frac{1}{n}\sum_x \nabla C_x$. Unfortunately, when the number of training inputs is very large this can take a long time, and learning thus occurs slowly.
@@ -374,10 +376,12 @@ where the second sum is over the entire set of training data. Swapping sides we 
 confirming that we can estimate the overall gradient by computing gradients just for the randomly chosen mini-batch.
 
 To connect this explicitly to learning in neural networks, suppose $w_k$ and $b_l$ denote the weights and biases in our neural network. Then stochastic gradient descent works by picking out a randomly chosen mini-batch of training inputs, and training with those,
-\begin{align} 
-w_k & \rightarrow w_k' = w_k-\frac{\eta}{m} \sum_j \frac{\partial C_{X_j}}{\partial w_k}\tag{20}\label{eq:20}\\
-b_l & \rightarrow b_l' = b_l-\frac{\eta}{m} \sum_j \frac{\partial C_{X_j}}{\partial b_l}\tag{21}\label{eq:21},
-\end{align}
+\begin{equation} 
+w_k  \rightarrow w_k' = w_k-\frac{\eta}{m} \sum_j \frac{\partial C_{X_j}}{\partial w_k}\tag{20}\label{eq:20}
+\end{equation}
+\begin{equation}
+b_l  \rightarrow b_l' = b_l-\frac{\eta}{m} \sum_j \frac{\partial C_{X_j}}{\partial b_l}\tag{21}\label{eq:21},
+\end{equation}
 where the sums are over all the training examples $X_j$ in the current mini-batch. Then we pick out another randomly chosen mini-batch and train with those. And so on, until we've exhausted the training inputs, which is said to complete an \textit{epoch} of training. At that point we start over with a new training epoch.
 
 Incidentally, it's worth noting that conventions vary about scaling of the cost function and of mini-batch updates to the weights and biases. In Equation~(\ref{eq:6}) we scaled the overall cost function by a factor $\frac1n$. People sometimes omit the $\frac1n$, summing over the costs of individual training examples instead of averaging. This is particularly useful when the total number of training examples isn't known in advance. This can occur if more training data is being generated in real time, for instance. And, in a similar way, the mini-batch update rules (\ref{eq:20}) and (\ref{eq:21}) sometimes omit the $\frac1m$ term out the front of the sums. Conceptually this makes little difference, since it's equivalent to rescaling the learning rate $\eta$. But when doing detailed comparisons of different work it's worth watching out for.

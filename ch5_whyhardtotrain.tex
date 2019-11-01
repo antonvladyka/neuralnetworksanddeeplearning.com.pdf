@@ -159,42 +159,42 @@ You're welcome to take this expression for granted, and skip to the discussion o
 
 Imagine we make a small change $\Delta b_1$ in the bias $b_1$. That will set off a cascading series of changes in the rest of the network. First, it causes a change $\Delta a_1$ in the output from the first hidden neuron. That, in turn, will cause a change $\Delta z_2$ in the weighted input to the second hidden neuron. Then a change $\Delta a_2$ in the output from the second hidden neuron. And so on, all the way through to a change $\Delta C$ in the cost at the output. We have
 %$\partial C\partial b1≈\deltaC\delta b_1.(114)
-\begin{align}
+\begin{equation}
 \frac{\partial C}{\partial b_1} \approx \frac{\Delta C}{\Delta b_1}.\tag{114}\label{eq:114}
-\end{align}
+\end{equation}
 This suggests that we can figure out an expression for the gradient $\partial C/\partial b_1$ by carefully tracking the effect of each step in this cascade.
 
 To do this, let's think about how $\Delta b_1$ causes the output $a_1$ from the first hidden neuron to change. We have $a_1=\sigma(z_1)=\sigma(w_1a_0+b_1)$, so
 %\delta a_1≈=\partial \sigma(w1a0+b1)\partial b1\delta b_1\sigma'(z1)\delta b_1.(115)(116)
-\begin{align}
+\begin{equation}
 \Delta a_1 \approx \frac{\partial \sigma(w_1 a_0+b_1)}{\partial b_1} \Delta b_1 = \sigma'(z_1) \Delta b_1. \tag{116}\label{eq:116}
-\end{align}
+\end{equation}
 That $\sigma'(z_1)$ term should look familiar: it's the first term in our claimed expression for the gradient $\partial C/\partial b_1$. Intuitively, this term converts a change $\Delta b_1$ in the bias into a change $\Delta a_1$ in the output activation. That change $\Delta a_1$ in turn causes a change in the weighted input $z_2=w_2a_1+b_2$ to the second hidden neuron:
-\begin{align}
+\begin{equation}
 \Delta z_2  \approx \frac{\partial z_2}{\partial a_1} \Delta a_1 =  w_2 \Delta a_1. \tag{118}\label{eq:118}
-\end{align}
+\end{equation}
 Combining our expressions for $\Delta z_2$ and $\Delta a_1$, we see how the change in the bias $b_1$ propagates along the network to affect $z_2$:
-\begin{align}
+\begin{equation}
 \Delta z_2 \approx \sigma'(z_1) w_2 \Delta b_1.\tag{119}\label{eq:119}
-\end{align}
+\end{equation}
 %\delta z_2≈\sigma'(z1)w2\delta b_1.(119)
 Again, that should look familiar: we've now got the first two terms in our claimed expression for the gradient $\partial C/\partial b_1$.
 
 We can keep going in this fashion, tracking the way changes propagate through the rest of the network. At each neuron we pick up a $\sigma'(z_j)$ term, and through each weight we pick up a $w_j$ term. The end result is an expression relating the final change $\Delta C$ in cost to the initial change $\Delta b_1$ in the bias:
-\begin{align}
+\begin{equation}
 \Delta C  \approx  \sigma'(z_1) w_2 \sigma'(z_2) \ldots \sigma'(z_4) \frac{\partial C}{\partial a_4} \Delta b_1. \tag{120}\label{eq:120}
-\end{align}
+\end{equation}
 %\deltaC≈\sigma'(z1)w2\sigma'(z2)…\sigma'(z4)\partial C\partial a4\delta b_1.(120)
 Dividing by $\Delta b_1$ we do indeed get the desired expression for the gradient:
 %\partial C\partial b1=\sigma'(z1)w2\sigma'(z2)…\sigma'(z4)\partial C\partial a4.(121)
-\begin{align}
+\begin{equation}
 \frac{\partial C}{\partial b_1} = \sigma'(z_1) w_2 \sigma'(z_2) \ldots \sigma'(z_4) \frac{\partial C}{\partial a_4}. \tag{121}\label{eq:121}
-\end{align}
+\end{equation}
 
 \textbf{Why the vanishing gradient problem occurs:} To understand why the vanishing gradient problem occurs, let's explicitly write out the entire expression for the gradient:
-\begin{align}
+\begin{equation}
 \frac{\partial C}{\partial b_1} = \sigma'(z_1) \, w_2 \sigma'(z_2) \,w_3 \sigma'(z_3) \, w_4 \sigma'(z_4) \, \frac{\partial C}{\partial a_4}.\tag{122}\label{eq:122}
-\end{align}
+\end{equation}
 Excepting the very last term, this expression is a product of terms of the form $w_j\sigma'(z_j)$. To understand how each of those terms behave, let's look at a plot of the function $\sigma'$:
 \begin{center} 
 \begin{tikzpicture}
@@ -242,10 +242,9 @@ We've been studying toy networks, with just one neuron in each hidden layer. Wha
 In fact, much the same behaviour occurs in such networks. In the earlier chapter on backpropagation we saw that the gradient in the $l$-th layer of an L layer network is given by:
 
 %\deltal=\sigma'(zl)(wl+1)T\sigma'(zl+1)(wl+2)T…\sigma'(zL)∇aC(124)
-\begin{align}
-\delta^l = \Sigma'(z^l) (w^{l+1})^T \Sigma'(z^{l+1}) (w^{l+2})^T \ldots\Sigma'(z^L) \nabla_a C
-\tag{124}\label{eq:124}
-\end{align}
+\begin{equation}
+\delta^l = \Sigma'(z^l) (w^{l+1})^T \Sigma'(z^{l+1}) (w^{l+2})^T \ldots\Sigma'(z^L) \nabla_a C\tag{124}\label{eq:124}
+\end{equation}
 Here, $\Sigma'(z^l)$ is a diagonal matrix whose entries are the $\sigma'(z)$ values for the weighted inputs to the $l$-th layer. The $w^l$ are the weight matrices for the different layers. And $\nabla_aC$ is the vector of partial derivatives of $C$ with respect to the output activations.
 
 This is a much more complicated expression than in the single-neuron case. Still, if you look closely, the essential form is very similar, with lots of pairs of the form $(w^j)^T\Sigma'(z^j)$. What's more, the matrices $\Sigma'(z^j)$ have small entries on the diagonal, none larger than 1/4. Provided the weight matrices $w^j$ aren't too large, each additional term $(w^j)^T\Sigma'(z^l)$ tends to make the gradient vector smaller, leading to a vanishing gradient. More generally, the large number of terms in the product tends to lead to an unstable gradient, just as in our earlier example. In practice, empirically it is typically found in sigmoid networks that gradients vanish exponentially quickly in earlier layers. As a result, learning slows down in those layers. This slowdown isn't merely an accident or an inconvenience: it's a fundamental consequence of the approach we're taking to learning.

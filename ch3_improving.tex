@@ -38,11 +38,12 @@ To understand the origin of the problem, consider that our neuron learns by chan
 C = \frac{(y-a)^2}2,\tag{54}\label{eq:54}
 \end{equation}
 where $a$ is the neuron's output when the training input $x=1$ is used, and $y=0$ is the corresponding desired output. To write this more explicitly in terms of the weight and bias, recall that $a=\sigma{}(z)$, where $z=wx+b$. Using the chain rule to differentiate with respect to the weight and bias we get
-\begin{align} 
-\frac{\partial C}{\partial w} & = (a-y)\sigma'(z) x = a \sigma'(z) \tag{55}\label{eq:55}\\
-\frac{\partial C}{\partial b} & = (a-y)\sigma'(z) = a \sigma'(z),
-\tag{56}\label{eq:56}
-\end{align}
+\begin{equation} 
+\frac{\partial C}{\partial w}  = (a-y)\sigma'(z) x = a \sigma'(z) \tag{55}\label{eq:55}\\
+\end{equation}
+\begin{equation}
+\frac{\partial C}{\partial b}  = (a-y)\sigma'(z) = a \sigma'(z), \tag{56}\label{eq:56}
+\end{equation}
 where I have substituted $x=1$ and $y=0$. To understand the behavior of these expressions, let's look more closely at the $\sigma{}'(z)$ term on the right-hand side. Recall the shape of the $\sigma{}$ function:
 \begin{center}
 \begin{tikzpicture}[scale=0.75]
@@ -172,11 +173,12 @@ When should we use the cross-entropy instead of the quadratic cost? In fact, the
 		\tag{68}\label{eq:68}
 	\end{equation}%δL=aL-y.(68)
 	Similarly to the previous problem, use this expression to show that the partial derivatives with respect to the weights and biases in the output layer are given by
-	\begin{align}
-	\frac{\partial C}{\partial w^L_{jk}} &=  \frac{1}{n} \sum_x a^{L-1}_k  (a^L_j-y_j)\tag{69}\label{eq:69}\\
-	\frac{\partial C}{\partial b^L_{j}} &=  \frac{1}{n} \sum_x (a^L_j-y_j).
-	\tag{70}\label{eq:70}
-	\end{align}
+	\begin{equation}
+	\frac{\partial C}{\partial w^L_{jk}} =  \frac{1}{n} \sum_x a^{L-1}_k  (a^L_j-y_j)\tag{69}\label{eq:69}
+	\end{equation}
+	\begin{equation}
+	\frac{\partial C}{\partial b^L_{j}} =  \frac{1}{n} \sum_x (a^L_j-y_j). \tag{70}\label{eq:70}
+	\end{equation}
 	%\partial{}C\partial{}w^L_{jk}\partial{}C\partial{}b^L_j==1n∑xaL-1k(a^L_j-yj)1n∑x(a^L_j-yj).(69)(70)
 	This shows that if the output neurons are linear neurons then the quadratic cost will not give rise to any problems with a learning slowdown. In this case the quadratic cost is, in fact, an appropriate cost function to use.
 \end{exercize}
@@ -204,9 +206,12 @@ By now, we've discussed the cross-entropy at great length. Why go to so much eff
 Our discussion of the cross-entropy has focused on algebraic analysis and practical implementation. That's useful, but it leaves unanswered broader conceptual questions, like: what does the cross-entropy mean? Is there some intuitive way of thinking about the cross-entropy? And how could we have dreamed up the cross-entropy in the first place?
 
 Let's begin with the last of these questions: what could have motivated us to think up the cross-entropy in the first place? Suppose we'd discovered the learning slowdown described earlier, and understood that the origin was the $\sigma'(z)$ terms in Equations (\ref{eq:55}) and (\ref{eq:56}). After staring at those equations for a bit, we might wonder if it's possible to choose a cost function so that the $\sigma'(z)$ term disappeared. In that case, the cost $C=C_x$ for a single training example $x$ would satisfy
-\begin{align} 
-\frac{\partial C}{\partial w_j} & = x_j(a-y) \tag{71}\label{eq:71}\\
-\frac{\partial C}{\partial b } & = (a-y). \tag{72}\label{eq:72}\end{align}
+\begin{equation} 
+\frac{\partial C}{\partial w_j}  = x_j(a-y) \tag{71}\label{eq:71}
+\end{equation}
+\begin{equation}
+\frac{\partial C}{\partial b }  = (a-y). \tag{72}\label{eq:72}
+\end{equation}
 %\partial{}C\partial{}wj\partial{}C\partial{}b==x_j(a-y)(a-y).(71)(72)
 If we could choose the cost function to make these equations true, then they would capture in a simple way the intuition that the greater the initial error, the faster the neuron learns. They'd also eliminate the problem of a learning slowdown. In fact, starting from these equations we'll now show that it's possible to derive the form of the cross-entropy, simply by following our mathematical noses. To see this, note that from the chain rule we have
 \begin{equation}
@@ -215,23 +220,20 @@ If we could choose the cost function to make these equations true, then they wou
 \end{equation}
 %\partial{}C\partial{}b=\partial{}C\partial{}a\sigma'(z).(73)
 Using $\sigma'(z)=\sigma(z)(1-\sigma(z))=a(1-a)$ the last equation becomes
-\begin{align}
-\frac{\partial C}{\partial b} = \frac{\partial C}{\partial a} 
-a(1-a).
-\tag{74}\label{eq:74}\end{align}
+\begin{equation}
+\frac{\partial C}{\partial b} = \frac{\partial C}{\partial a}  a(1-a).\tag{74}\label{eq:74}
+\end{equation}
 %\partial{}C\partial{}b=\partial{}C\partial{}aa(1-a).(74)
 Comparing to Equation~(\ref{eq:72}) we obtain
-\begin{align}
-\frac{\partial C}{\partial a} = \frac{a-y}{a(1-a)}. \tag{75}\label{eq:75}\end{align}
+\begin{equation}
+\frac{\partial C}{\partial a} = \frac{a-y}{a(1-a)}. \tag{75}\label{eq:75}\end{equation}
 Integrating this expression with respect to $a$ gives
-\begin{align}
-C = -[y \ln a + (1-y) \ln (1-a)]+ {\rm constant},
-\tag{76}\label{eq:76}\end{align}
+\begin{equation}
+C = -[y \ln a + (1-y) \ln (1-a)]+ {\rm constant}, \tag{76}\label{eq:76}\end{equation}
 %C=-[ylna+(1-y)ln(1-a)]+constant,(76)
 for some constant of integration. This is the contribution to the cost from a single training example, $x$. To get the full cost function we must average over training examples, obtaining
-\begin{align}
-C = -\frac{1}{n} \sum_x [y \ln a +(1-y) \ln(1-a)] + {\rm constant},
-\tag{77}\label{eq:77}\end{align}
+\begin{equation}
+C = -\frac{1}{n} \sum_x [y \ln a +(1-y) \ln(1-a)] + {\rm constant},\tag{77}\label{eq:77}\end{equation}
 where the constant here is the average of the individual constants for each training example. And so we see that Equations (\ref{eq:71}) and (\ref{eq:72}) uniquely determine the form of the cross-entropy, up to an overall constant term. The cross-entropy isn't something that was miraculously pulled out of thin air. Rather, it's something that we could have discovered in a simple and natural way.
 
 What about the intuitive meaning of the cross-entropy? How should we think about it? Explaining this in depth would take us further afield than I want to go. However, it is worth mentioning that there is a standard way of interpreting the cross-entropy that comes from the field of information theory. Roughly speaking, the idea is that the cross-entropy is a measure of surprise. In particular, our neuron is trying to compute the function $x\to y=y(x)$. But instead it computes the function $x \to a=a(x)$. Suppose we think of a as our neuron's estimated probability that $y$ is 1, and $1-a$ is the estimated probability that the right value for $y$ is 0. Then the cross-entropy measures how ``surprised'' we are, on average, when we learn the true value for $y$. We get low surprise if the output is what we expect, and high surprise if the output is unexpected. Of course, I haven't said exactly what ``surprise'' means, and so this perhaps seems like empty verbiage. But in fact there is a precise information-theoretic way of saying what is meant by surprise. Unfortunately, I don't know of a good, short, self-contained discussion of this subject that's available online. But if you want to dig deeper, then Wikipedia contains a \href{http://en.wikipedia.org/wiki/Cross_entropy#Motivation}{brief summary} that will get you started down the right track. And the details can be filled in by working through the materials about the Kraft inequality in chapter 5 of the book about information theory by \href{http://books.google.ca/books?id=VWq5GG6ycxMC}{Cover and Thomas}.
@@ -276,10 +278,9 @@ If you're not familiar with the softmax function, Equation~(\ref{eq:78}) may loo
 %\label{fig:softmax}
 %\end{figure}
 As you increase $z^L_4$, you'll see an increase in the corresponding output activation, $a^L_4$, and a decrease in the other output activations. Similarly, if you decrease $z^L_4$ then $a^L_4$ will decrease, and all the other output activations will increase. In fact, if you look closely, you'll see that in both cases the total change in the other activations exactly compensates for the change in $a^L_4$. The reason is that the output activations are guaranteed to always sum up to 1, as we can prove using Equation~(\ref{eq:78}) and a little algebra:
-\begin{align}
-\sum_j a^L_j & = \frac{\sum_j e^{z^L_j}}{\sum_k e^{z^L_k}} = 1.
-\tag{79}\label{eq:79}
-\end{align}
+\begin{equation}
+\sum_j a^L_j  = \frac{\sum_j e^{z^L_j}}{\sum_k e^{z^L_k}} = 1.\tag{79}\label{eq:79}
+\end{equation}
 %∑ja^L_j=∑jez^L_j∑kezLk=1.(79)
 As a result, if $a^L_4$ increases, then the other output activations must decrease by the same total amount, to ensure the sum over all activations remains 1. And, of course, similar statements hold for all the other activations.
 
@@ -313,10 +314,12 @@ So, for instance, if we're training with MNIST images, and input an image of a 7
 
 What about the learning slowdown problem? To analyze that, recall that the key to the learning slowdown is the behaviour of the quantities $\partial C/\partial w^L_{jk}$ and $\partial C/\partial b^L_j$. I won't go through the derivation explicitly -- I'll ask you to do in the problems, below -- but with a little algebra you can show that\footnote{Note that I'm abusing notation here, using $y$ in a slightly different way to last paragraph. In the last paragraph we used $y$ to denote the desired output from the network -- e.g., output a ``7'' if an image of a 7 was input. But in the equations which follow I'm using $y$ to denote the vector of output activations which corresponds to 7, that is, a vector which is all 0s, except for a 1 in the 7th location.}
 %\partial C\partial b^L_j\partial C\partial w^L_{jk}==a^L_j-yjaL-1k(a^L_j-yj)(81)(82)
-\begin{align}
-\frac{\partial C}{\partial b^L_j} & =  a^L_j-y_j  \tag{81}\label{eq:81}\\
-\frac{\partial C}{\partial w^L_{jk}} & =  a^{L-1}_k (a^L_j-y_j)\tag{82}\label{eq:82}
-\end{align}
+\begin{equation}
+\frac{\partial C}{\partial b^L_j}  =  a^L_j-y_j  \tag{81}\label{eq:81}\\
+\end{equation}
+\begin{equation}
+\frac{\partial C}{\partial w^L_{jk}}  =  a^{L-1}_k (a^L_j-y_j)\tag{82}\label{eq:82}
+\end{equation}
 These equations are the same as the analogous expressions obtained in our earlier analysis of the cross-entropy. Compare, for example, Equation~(\ref{eq:82}) to Equation~(\ref{eq:67}). It's the same equation, albeit in the latter I've averaged over training instances. And, just as in the earlier analysis, these expressions ensure that we will not encounter a learning slowdown. In fact, it's useful to think of a softmax output layer with log-likelihood cost as being quite similar to a sigmoid output layer with cross-entropy cost.
 
 Given this similarity, should you use a sigmoid output layer and cross-entropy, or a softmax output layer and log-likelihood? In fact, in many situations both approaches work well. Through the remainder of this chapter we'll use a sigmoid output layer, with the cross-entropy cost. Later, in Chapter 6, we'll sometimes use a softmax output layer, with log-likelihood cost. The reason for the switch is to make some of our later networks more similar to networks found in certain influential academic papers. As a more general point of principle, softmax plus log-likelihood is worth using whenever you want to interpret the output activations as probabilities. That's not always a concern, but can be useful with classification problems (like MNIST) involving disjoint classes.
@@ -409,22 +412,22 @@ As you can see, the accuracy on the test and training data remain much closer to
 Increasing the amount of training data is one way of reducing overfitting. Are there other ways we can reduce the extent to which overfitting occurs? One possible approach is to reduce the size of our network. However, large networks have the potential to be more powerful than small networks, and so this is an option we'd only adopt reluctantly.
 
 Fortunately, there are other techniques which can reduce overfitting, even when we have a fixed network and fixed training data. These are known as \textit{regularization} techniques. In this section I describe one of the most commonly used regularization techniques, a technique sometimes known as \textit{weight decay} or \textit{L2 regularization}. The idea of L2 regularization is to add an extra term to the cost function, a term called the \textit{regularization term}. Here's the regularized cross-entropy:
-\begin{align}
-C = -\frac{1}{n} \sum_{xj} \left[ y_j \ln a^L_j+(1-y_j) \ln (1-a^L_j)\right] + \frac{\lambda}{2n} \sum_w w^2.
-\tag{85}\label{eq:85}
-\end{align}
+\begin{equation}
+C = -\frac{1}{n} \sum_{xj} \left[ y_j \ln a^L_j+(1-y_j) \ln (1-a^L_j)\right] + \frac{\lambda}{2n} \sum_w w^2. \tag{85}\label{eq:85}
+\end{equation}
 %C=-1n∑xj[yjlnaLj+(1-yj)ln(1-aLj)]+\lambda 2n∑ww2.(85)
 The first term is just the usual expression for the cross-entropy. But we've added a second term, namely the sum of the squares of all the weights in the network. This is scaled by a factor $\lambda/2n$, where $\lambda>0$ is known as the \textit{regularization parameter}, and $n$ is, as usual, the size of our training set. I'll discuss later how $\lambda$ is chosen. It's also worth noting that the regularization term doesn't include the biases. I'll also come back to that below.
 
 Of course, it's possible to regularize other cost functions, such as the quadratic cost. This can be done in a similar way:
-\begin{align} C = \frac{1}{2n} \sum_x \left\|y-a^L\right\|^2 + \frac{\lambda}{2n} \sum_w w^2.
-\tag{86}\label{eq:86}\end{align}
+\begin{equation} C = \frac{1}{2n} \sum_x \left\|y-a^L\right\|^2 + \frac{\lambda}{2n} \sum_w w^2.
+\tag{86}\label{eq:86}
+\end{equation}
 %C=12n∑x∥y-aL∥2+\lambda 2n∑ww2.(86)
 In both cases we can write the regularized cost function as
 %C=C0+\lambda 2n∑ww2,(87)
-\begin{align}  C = C_0 + \frac{\lambda}{2n}\sum_w w^2,
-\tag{87}\label{eq:87}
-\end{align}
+\begin{equation}
+C = C_0 + \frac{\lambda}{2n}\sum_w w^2,\tag{87}\label{eq:87}
+\end{equation}
 where $C_0$ is the original, unregularized cost function.
 
 Intuitively, the effect of regularization is to make it so the network prefers to learn small weights, all other things being equal. Large weights will only be allowed if they considerably improve the first part of the cost function. Put another way, regularization can be viewed as a way of compromising between finding small weights and minimizing the original cost function. The relative importance of the two elements of the compromise depends on the value of $\lambda$: when $\lambda$  is small we prefer to minimize the original cost function, but when $\lambda$ is large we prefer small weights.
@@ -432,9 +435,12 @@ Intuitively, the effect of regularization is to make it so the network prefers t
 Now, it's really not at all obvious why making this kind of compromise should help reduce overfitting! But it turns out that it does. We'll address the question of why it helps in the next section. But first, let's work through an example showing that regularization really does reduce overfitting.
 
 To construct such an example, we first need to figure out how to apply our stochastic gradient descent learning algorithm in a regularized neural network. In particular, we need to know how to compute the partial derivatives $\partial{}C/\partial{}w$ and $\partial{}C/\partial{}b$ for all the weights and biases in the network. Taking the partial derivatives of Equation~(\ref{eq:87}) gives
-\begin{align} 
-\frac{\partial C}{\partial w} &= \frac{\partial C_0}{\partial w} + \frac{\lambda}{n} w \tag{88}\label{eq:88}\\ 
-\frac{\partial C}{\partial b} &= \frac{\partial C_0}{\partial b}. \tag{89}\label{eq:89}\end{align}
+\begin{equation} 
+\frac{\partial C}{\partial w} = \frac{\partial C_0}{\partial w} + \frac{\lambda}{n} w \tag{88}\label{eq:88}
+\end{equation}
+\begin{equation}
+\frac{\partial C}{\partial b} = \frac{\partial C_0}{\partial b}. \tag{89}\label{eq:89}
+\end{equation}
 %\partial{}C\partial{}w\partial{}C\partial{}b==\partial{}C0\partial{}w+\lambda nw\partial{}C0\partial{}b.(88)(89)
 The $\partial{}C_0/\partial{}w$ and $\partial{}C_0/\partial{}b$ terms can be computed using backpropagation, as described in the last chapter. And so we see that it's easy to compute the gradient of the regularized cost function: just use backpropagation, as usual, and then add $\frac{\lambda}{n}w$ to the partial derivative of all the weight terms. The partial derivatives with respect to the biases are unchanged, and so the gradient descent learning rule for the biases doesn't change from the usual rule:
 \begin{equation}
@@ -442,24 +448,21 @@ b\to b-\eta\frac{\partial{}C_0}{\partial{}b}.
 \tag{90}\label{eq:90}
 \end{equation}
 The learning rule for the weights becomes:
-\begin{align} 
-w &\rightarrow w-\eta \frac{\partial C_0}{\partial w}-\frac{\eta \lambda}{n} w  = \left(1-\frac{\eta \lambda}{n}\right) w -\eta \frac{\partial	C_0}{\partial w}. 
-\tag{92}\label{eq:92}
-\end{align}
+\begin{equation} 
+w \rightarrow w-\eta \frac{\partial C_0}{\partial w}-\frac{\eta \lambda}{n} w  = \left(1-\frac{\eta \lambda}{n}\right) w -\eta \frac{\partial	C_0}{\partial w}. \tag{92}\label{eq:92}
+\end{equation}
 %w→=w-\eta\partial{}C0\partial{}w-\eta\lambda nw(1-\eta\lambda n)w-\eta\partial{}C0\partial{}w.(91)(92)
 This is exactly the same as the usual gradient descent learning rule, except we first rescale the weight $w$ by a factor $1-\eta\frac{\lambda}{n}$. This rescaling is sometimes referred to as \textit{weight decay}, since it makes the weights smaller. At first glance it looks as though this means the weights are being driven unstoppably toward zero. But that's not right, since the other term may lead the weights to increase, if so doing causes a decrease in the unregularized cost function.
 
 Okay, that's how gradient descent works. What about stochastic gradient descent? Well, just as in unregularized stochastic gradient descent, we can estimate $\partial{}C_0/\partial{}w$ by averaging over a mini-batch of $m$ training examples. Thus the regularized learning rule for stochastic gradient descent becomes (c.f. Equation~(\ref{eq:20}))
-\begin{align} 
-w \rightarrow \left(1-\frac{\eta \lambda}{n}\right) w -\frac{\eta}{m} \sum_x \frac{\partial C_x}{\partial w}, 
-\tag{93}\label{eq:93}
-\end{align}
+\begin{equation} 
+w \rightarrow \left(1-\frac{\eta \lambda}{n}\right) w -\frac{\eta}{m} \sum_x \frac{\partial C_x}{\partial w}, \tag{93}\label{eq:93}
+\end{equation}
 %w→(1-\eta\lambda n)w-\etam∑x\partial{}Cx\partial{}w,(93)
 where the sum is over training examples $x$ in the mini-batch, and $C_x$ is the (unregularized) cost for each training example. This is exactly the same as the usual rule for stochastic gradient descent, except for the $1-\eta\lambda/n$ weight decay factor. Finally, and for completeness, let me state the regularized learning rule for the biases. This is, of course, exactly the same as in the unregularized case (c.f. Equation~(\ref{eq:21})),
-\begin{align}
-	b \to b - \frac{\eta}{m} \sum_x \frac{\partial C_x}{\partial b},
-	\tag{94}\label{eq:94}
-\end{align}
+\begin{equation}
+	b \to b - \frac{\eta}{m} \sum_x \frac{\partial C_x}{\partial b}, \tag{94}\label{eq:94}
+\end{equation}
 %b→b-\etam∑x\partial{}Cx\partial{}b,(94)
 where the sum is over training examples $x$ in the mini-batch.
 
@@ -587,23 +590,26 @@ Let me conclude this section by returning to a detail which I left unexplained e
 There are many regularization techniques other than L2 regularization. In fact, so many techniques have been developed that I can't possibly summarize them all. In this section I briefly describe three other approaches to reducing overfitting: L1 regularization, dropout, and artificially increasing the training set size. We won't go into nearly as much depth studying these techniques as we did earlier. Instead, the purpose is to get familiar with the main ideas, and to appreciate something of the diversity of regularization techniques available.
 
 \textbf{L1 regularization:} In this approach we modify the unregularized cost function by adding the sum of the absolute values of the weights:
-\begin{align}  C = C_0 + \frac{\lambda}{n} \sum_w |w|.\tag{95}\label{eq:95}
-\end{align}
+\begin{equation}
+C = C_0 + \frac{\lambda}{n} \sum_w |w|.\tag{95}\label{eq:95}
+\end{equation}
 %C=C0+\lambdan∑w|w|.(95)
 Intuitively, this is similar to L2 regularization, penalizing large weights, and tending to make the network prefer small weights. Of course, the L1 regularization term isn't the same as the L2 regularization term, and so we shouldn't expect to get exactly the same behaviour. Let's try to understand how the behaviour of a network trained using L1 regularization differs from a network trained using L2 regularization.
 
 To do that, we'll look at the partial derivatives of the cost function. Differentiating (95) we obtain:
-\begin{align}
+\begin{equation}
 \frac{\partial C}{\partial w} = \frac{\partial C_0}{\partial w} + \frac{\lambda}{n} \, {\rm sgn}(w),\tag{96}\label{eq:96}
-\end{align}
+\end{equation}
 %\partial{}C\partial{}w=\partial{}C0\partial{}w+\lambdansgn(w),(96)
 where ${\rm sgn}(w)$ is the sign of $w$, that is, $+1$ if $w$ is positive, and $-1$ if $w$ is negative. Using this expression, we can easily modify backpropagation to do stochastic gradient descent using L1 regularization. The resulting update rule for an L1 regularized network is
-\begin{align}  w \to w' = w-\frac{\eta \lambda}{n} \mbox{sgn}(w) - \eta \frac{\partial C_0}{\partial w}, \tag{97}\label{eq:97}\end{align}
+\begin{equation}
+w \to w' = w-\frac{\eta \lambda}{n} \mbox{sgn}(w) - \eta \frac{\partial C_0}{\partial w}, \tag{97}\label{eq:97}
+\end{equation}
 %w→w′=w-\eta\lambdansgn(w)-\eta\partial{}C0\partial{}w,(97)
 where, as per usual, we can estimate $\partial{}C_0/\partial{}w$ using a mini-batch average, if we wish. Compare that to the update rule for L2 regularization (c.f. Equation~(\ref{eq:93})),
-\begin{align}
-w \to w' = w\left(1 - \frac{\eta \lambda}{n} \right) - \eta \frac{\partial C_0}{\partial w}.
-\tag{98}\label{eq:98}\end{align}
+\begin{equation}
+w \to w' = w\left(1 - \frac{\eta \lambda}{n} \right) - \eta \frac{\partial C_0}{\partial w}. \tag{98}\label{eq:98}
+\end{equation}
 %w→w′=w(1-\eta\lambdan)-\eta\partial{}C0\partial{}w.(98)
 In both expressions the effect of regularization is to shrink the weights. This accords with our intuition that both kinds of regularization penalize large weights. But the way the weights shrink is different. In L1 regularization, the weights shrink by a constant amount toward 0. In L2 regularization, the weights shrink by an amount which is proportional to $w$. And so when a particular weight has a large magnitude, $|w|$, L1 regularization shrinks the weight much less than L2 regularization does. By contrast, when $|w|$ is small, L1 regularization shrinks the weight much more than L2 regularization. The net result is that L1 regularization tends to concentrate the weight of the network in a relatively small number of high-importance connections, while the other weights are driven toward zero.
 
@@ -1339,19 +1345,19 @@ Based on this argument, it sounds as though we should use online learning. In fa
 
 Now, at first it seems as though this doesn't help us that much. With our mini-batch of size 100 the learning rule for the weights looks like:
 %w→w′=w-\eta1100∑x∇Cx,(100)
-\begin{align}
-w \to w' = w-\eta \frac{1}{100} \sum_x \nabla C_x,
-\tag{100}\label{eq:100}\end{align}
+\begin{equation}
+w \to w' = w-\eta \frac{1}{100} \sum_x \nabla C_x, \tag{100}\label{eq:100}
+\end{equation}
 where the sum is over training examples in the mini-batch. This is versus
-\begin{align}
-w \to w' = w-\eta \nabla C_x
-\tag{101}\label{eq:101}\end{align}
+\begin{equation}
+w \to w' = w-\eta \nabla C_x \tag{101}\label{eq:101}
+\end{equation}
 %w→w′=w-\eta∇Cx(101)
 for online learning. Even if it only takes 50 times as long to do the mini-batch update, it still seems likely to be better to do online learning, because we'd be updating so much more frequently. Suppose, however, that in the mini-batch case we increase the learning rate by a factor 100, so the update rule becomes
 %w→w′=w-\eta∑x∇Cx.(102)
-\begin{align}
-w \rightarrow w' = w-\eta \sum_x \nabla C_x.
-\tag{102}\label{eq:102}\end{align}
+\begin{equation}
+w \rightarrow w' = w-\eta \sum_x \nabla C_x.\tag{102}\label{eq:102}
+\end{equation}
 That's a lot like doing 100 separate instances of online learning with a learning rate of $\eta$. But it only takes 50 times as long as doing a single instance of online learning. Of course, it's not truly the same as 100 instances of online learning, since in the mini-batch the $\nabla C_x$'s are all evaluated for the same set of weights, as opposed to the cumulative learning that occurs in the online case. Still, it seems distinctly possible that using the larger mini-batch would speed things up.
 
 With these factors in mind, choosing the best mini-batch size is a compromise. Too small, and you don't get to take full advantage of the benefits of good matrix libraries optimized for fast hardware. Too large and you're simply not updating your weights often enough. What you need is to choose a compromise value which maximizes the speed of learning. Fortunately, the choice of mini-batch size at which the speed is maximized is relatively independent of the other hyper-parameters (apart from the overall architecture), so you don't need to have optimized those hyper-parameters in order to find a good mini-batch size. The way to go is therefore to use some acceptable (but not necessarily optimal) values for the other hyper-parameters, and then trial a number of different mini-batch sizes, scaling $\eta$ as above. Plot the validation accuracy versus time (as in, real elapsed time, not epoch!), and choose whichever mini-batch size gives you the most rapid improvement in performance. With the mini-batch size chosen you can then proceed to optimize the other hyper-parameters.
@@ -1377,28 +1383,24 @@ Each technique developed in this chapter is valuable to know in its own right, b
 Stochastic gradient descent by backpropagation has served us well in attacking the MNIST digit classification problem. However, there are many other approaches to optimizing the cost function, and sometimes those other approaches offer performance superior to mini-batch stochastic gradient descent. In this section I sketch two such approaches, the Hessian and momentum techniques.
 
 \textbf{Hessian technique:} To begin our discussion it helps to put neural networks aside for a bit. Instead, we're just going to consider the abstract problem of minimizing a cost function $C$ which is a function of many variables, $w=w_1,w_2,\ldots$, so $C=C(w)$. By Taylor's theorem, the cost function can be approximated near a point $w$ by
-\begin{align}
-C(w+\Delta w)  =  C(w) + \sum_j \frac{\partial C}{\partial w_j} \Delta w_j + \frac{1}{2} \sum_{jk} \Delta w_j \frac{\partial^2 C}{\partial w_j \partial w_k} \Delta w_k + \ldots
-\tag{103}\label{eq:103}
-\end{align}
+\begin{equation}
+C(w+\Delta w)  =  C(w) + \sum_j \frac{\partial C}{\partial w_j} \Delta w_j + \frac{1}{2} \sum_{jk} \Delta w_j \frac{\partial^2 C}{\partial w_j \partial w_k} \Delta w_k + \ldots \tag{103}\label{eq:103}
+\end{equation}
 %C(w+Δw)=C(w)+∑j∂C∂wjΔwj+12∑jkΔwj∂2C∂wj∂wkΔwk+…(103)
 We can rewrite this more compactly as
 %C(w+Δw)=C(w)+∇C⋅Δw+12ΔwTHΔw+…,(104)
-\begin{align}
-C(w+\Delta w) = C(w) + \nabla C \cdot \Delta w + \frac{1}{2} \Delta w^T H \Delta w + \ldots,
-\tag{104}\label{eq:104}
-\end{align}
+\begin{equation}
+C(w+\Delta w) = C(w) + \nabla C \cdot \Delta w + \frac{1}{2} \Delta w^T H \Delta w + \ldots, \tag{104}\label{eq:104}
+\end{equation}
 where $\nabla C$ is the usual gradient vector, and $H$ is a matrix known as the \textit{Hessian matrix}, whose $jk$-th entry is $\partial^2C / \partial w_j \partial w_k$. Suppose we approximate $C$ by discarding the higher-order terms represented by $\ldots$ above,
 %C(w+Δw)≈C(w)+∇C⋅Δw+12ΔwTHΔw.(105)
-\begin{align} 
-C(w+\Delta w) \approx C(w) + \nabla C \cdot \Delta w + \frac{1}{2} \Delta w^T H \Delta w.
-\tag{105}\label{eq:105}
-\end{align}
+\begin{equation} 
+C(w+\Delta w) \approx C(w) + \nabla C \cdot \Delta w + \frac{1}{2} \Delta w^T H \Delta w. \tag{105}\label{eq:105}
+\end{equation}
 Using calculus we can show that the expression on the right-hand side can be minimized\footnote{Strictly speaking, for this to be a minimum, and not merely an extremum, we need to assume that the Hessian matrix is positive definite. Intuitively, this means that the function $C$ looks like a valley locally, not a mountain or a saddle.} by choosing
-\begin{align}
-\Delta w = -H^{-1} \nabla C.
-\tag{106}\label{eq:106}
-\end{align}
+\begin{equation}
+\Delta w = -H^{-1} \nabla C.\tag{106}\label{eq:106}
+\end{equation}
 %Δw=-H-1∇C.(106)
 Provided (\ref{eq:105}) is a good approximate expression for the cost function, then we'd expect that moving from the point $w$ to $w+\Delta w = w-H^{-1} \nabla C$ should significantly decrease the cost function. That suggests a possible algorithm for minimizing the cost:
 \begin{itemize}
@@ -1418,10 +1420,12 @@ If Hessian optimization is so great, why aren't we using it in our neural networ
 
 Let's give a more precise mathematical description. We introduce velocity variables $v=v_1,v_2,\ldots$, one for each corresponding $w_j$ variable\footnote{In a neural net the $w_j$ variables would, of course, include all weights and biases.}. Then we replace the gradient descent update rule $w \to w'= w-\eta \nabla C$ by
 %vw→→v′=\muv-\eta∇Cw′=w+v′.(107)(108)
-\begin{align} 
-v  \to   v' &=  \mu v - \eta \nabla C \tag{107}\label{eq:107}\\
-w  \to  w' &=  w  + v'.\tag{108}\label{eq:108}
-\end{align}
+\begin{equation} 
+v  \to   v' =  \mu v - \eta \nabla C \tag{107}\label{eq:107}
+\end{equation}
+\begin{equation}
+w  \to  w' =  w  + v'.\tag{108}\label{eq:108}
+\end{equation}
 In these equations, $\mu$ is a hyper-parameter which controls the amount of damping or friction in the system. To understand the meaning of the equations it's helpful to first consider the case where $\mu=1$, which corresponds to no friction. When that's the case, inspection of the equations shows that the ``force'' $\nabla C$ is now modifying the velocity, $v$, and the velocity is controlling the rate of change of $w$. Intuitively, we build up the velocity by repeatedly adding gradient terms to it. That means that if the gradient is in (roughly) the same direction through several rounds of learning, we can build up quite a bit of steam moving in that direction. Think, for example, of what happens if we're moving straight down a slope:
 \begin{center}
 	\includegraphics[width=0.55\linewidth]{figures/ch3/tikz34.png}
@@ -1446,20 +1450,19 @@ Other approaches to minimizing the cost function: Many other approaches to minim
 Up to now we've built our neural networks using sigmoid neurons. In principle, a network built from sigmoid neurons can compute any function. In practice, however, networks built using other model neurons sometimes outperform sigmoid networks. Depending on the application, networks based on such alternate models may learn faster, generalize better to test data, or perhaps do both. Let me mention a couple of alternate model neurons, to give you the flavor of some variations in common use.
 
 Perhaps the simplest variation is the tanh (pronounced ``tanch'') neuron, which replaces the sigmoid function by the hyperbolic tangent function. The output of a tanh neuron with input $x$, weight vector $w$, and bias $b$ is given by
-\begin{align}
-\tanh(w \cdot x+b), 
-\tag{109}\label{eq:109}\end{align}
+\begin{equation}
+\tanh(w \cdot x+b), \tag{109}\label{eq:109}
+\end{equation}
 %tanh(w⋅x+b),(109)
 where $\tanh$ is, of course, the hyperbolic tangent function. It turns out that this is very closely related to the sigmoid neuron. To see this, recall that the tanh function is defined by
-\begin{align}
-\tanh(z) \equiv \frac{e^z-e^{-z}}{e^z+e^{-z}}.
-\tag{110}\label{eq:110}
-\end{align}
+\begin{equation}
+\tanh(z) \equiv \frac{e^z-e^{-z}}{e^z+e^{-z}}. \tag{110}\label{eq:110}
+\end{equation}
 %tanh(z)≡ez-e-zez+e-z.(110)
 With a little algebra it can easily be verified that
-\begin{align} 
+\begin{equation} 
 \sigma(z) = \frac{1+\tanh(z/2)}{2},\tag{111}\label{eq:111}
-\end{align}
+\end{equation}
 %σ(z)=1+tanh(z/2)2,(111)
 that is, tanh is just a rescaled version of the sigmoid function. We can also see graphically that the tanh function has the same shape as the sigmoid function,
 \begin{center} 
@@ -1481,10 +1484,9 @@ Which type of neuron should you use in your networks, the tanh or sigmoid? A pri
 How seriously should we take this argument? While the argument is suggestive, it's a heuristic, not a rigorous proof that tanh neurons outperform sigmoid neurons. Perhaps there are other properties of the sigmoid neuron which compensate for this problem? Indeed, for many tasks the tanh is found empirically to provide only a small or no improvement in performance over sigmoid neurons. Unfortunately, we don't yet have hard-and-fast rules to know which neuron types will learn fastest, or give the best generalization performance, for any particular application.
 
 Another variation on the sigmoid neuron is the \textit{rectified linear neuron} or \textit{rectified linear} unit. The output of a rectified linear unit with input $x$, weight vector $w$, and bias $b$ is given by
-\begin{align}
-\max(0, w \cdot x+b).
-\tag{112}\label{eq:112}
-\end{align}
+\begin{equation}
+\max(0, w \cdot x+b). \tag{112}\label{eq:112}
+\end{equation}
 %max(0,w⋅x+b).(112)
 Graphically, the rectifying function $\max(0,z)$ looks like this:
 \begin{center} 
