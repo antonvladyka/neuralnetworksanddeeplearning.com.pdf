@@ -33,9 +33,11 @@ Bibliography — maybe to collect all cited research papers?
 ### Update 07.10.2018
 Equation numbering is updated to sequential as in the original online book. Please note that some numbers are missing (e.g. 40-41), since some equations in the online book are multiline with a label on every line. I use the same tags/numbers as in the book.
 
-### Epub 01.11.2019#
+### Epub 01.11.2019
 Epub version added.
 ```
 pandoc -s --mathml book.tex -o book.epub
 ```
 converts source latex files into epub with formulas redneder by MathML. MathML works correctly in Calibre.
+
+Please note: pandoc does not produce images from tikzpicture, therefore chapter 4 in epub is corrupted with missing images. It in much better to check Chapter 4 online anyway, since it contains interactive elements.
